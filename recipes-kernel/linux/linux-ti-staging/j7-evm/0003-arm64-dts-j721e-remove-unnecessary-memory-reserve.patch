@@ -1,0 +1,35 @@
+From 9a56f6b6a57cf762710825607f4e1067f6914b11 Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Mon, 25 Mar 2019 17:45:54 +0530
+Subject: [PATCH 3/5] arm64: dts: j721e: remove unnecessary memory reserve
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso b/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso
+index de4aaac..79bffe7 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso
++++ b/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso
+@@ -8,17 +8,6 @@
+ /dts-v1/;
+ /plugin/;
+ 
+-&reserved_memory {
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	tiovx_shared_memory_region: tiovx-shared-memory@a9000000 {
+-	        reg = <0x00 0xa9000000 0x00 0x01000000>;
+-	        alignment = <0x1000>;
+-	        no-map;
+-	};
+-};
+-
+ &dss {
+ 	status = "ok";
+ 
+-- 
+2.7.4
+

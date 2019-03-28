@@ -1,0 +1,56 @@
+From 4718f0ee5af5420e8860236b3fe6e3861debbdfa Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Wed, 27 Mar 2019 00:07:13 +0530
+Subject: [PATCH 4/5] arm64: dts: j721e: jailhouse: Aligned display split for
+ firmware / VMs
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721e-jailhouse.dtso | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-jailhouse.dtso b/arch/arm64/boot/dts/ti/k3-j721e-jailhouse.dtso
+index 88c650b..63a4798 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-jailhouse.dtso
++++ b/arch/arm64/boot/dts/ti/k3-j721e-jailhouse.dtso
+@@ -40,19 +40,19 @@
+ 		/*vidl1*/
+ 		plane@1 {
+ 			reg = <1>;
+-			managed = <1>;
++			managed = <0>;
+ 		};
+ 
+ 		/*vid2*/
+ 		plane@2 {
+ 			reg = <2>;
+-			managed = <0>;
++			managed = <1>;
+ 		};
+ 
+ 		/*vidl2*/
+ 		plane@3 {
+ 			reg = <3>;
+-			managed = <0>;
++			managed = <1>;
+ 		};
+ 	};
+ 
+@@ -62,12 +62,12 @@
+ 
+ 		vp@0 {
+ 			reg = <0>;
+-			managed = <1>;
++			managed = <0>;
+ 		};
+ 
+ 		vp@1 {
+ 			reg = <1>;
+-			managed = <0>;
++			managed = <1>;
+ 		};
+ 
+ 		vp@2 {
+-- 
+2.7.4
+
