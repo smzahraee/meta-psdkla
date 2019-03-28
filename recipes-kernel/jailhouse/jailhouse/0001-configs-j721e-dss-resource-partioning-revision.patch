@@ -1,0 +1,118 @@
+From ef677bd513fee321bbe1c576a7767bc081bc2c96 Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Wed, 27 Mar 2019 00:24:46 +0530
+Subject: [PATCH 1/2] configs: j721e: dss resource partioning revision
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ configs/arm64/dts/inmate-k3-j721e.dts | 12 ++++++------
+ configs/arm64/k3-j721e-linux-demo.c   | 28 ++++++++++++++--------------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/configs/arm64/dts/inmate-k3-j721e.dts b/configs/arm64/dts/inmate-k3-j721e.dts
+index a174186..877bc3a 100644
+--- a/configs/arm64/dts/inmate-k3-j721e.dts
++++ b/configs/arm64/dts/inmate-k3-j721e.dts
+@@ -112,13 +112,13 @@
+ 		/*vidl1*/
+ 		plane@1 {
+ 			reg = <1>;
+-			managed = <0>;
++			managed = <1>;
+ 		};
+ 
+ 		/*vid2*/
+ 		plane@2 {
+ 			reg = <2>;
+-			managed = <1>;
++			managed = <0>;
+ 		};
+ 
+ 		/*vidl2*/
+@@ -134,12 +134,12 @@
+ 
+ 		vp@0 {
+ 			reg = <0>;
+-			managed = <0>;
++			managed = <1>;
+ 		};
+ 
+ 		vp@1 {
+ 			reg = <1>;
+-			managed = <1>;
++			managed = <0>;
+ 		};
+ 
+ 		vp@2 {
+@@ -156,6 +156,6 @@
+ 	dss_commons: dss_commons {
+ 		#address-cells = <0>;
+ 		#size-cells = <0>;
+-		interrupt-handling-common = <1>;
++		interrupt-handling-common = <2>;
+ 	};
+-};
+\ No newline at end of file
++};
+diff --git a/configs/arm64/k3-j721e-linux-demo.c b/configs/arm64/k3-j721e-linux-demo.c
+index d5dede3..65cbe33 100644
+--- a/configs/arm64/k3-j721e-linux-demo.c
++++ b/configs/arm64/k3-j721e-linux-demo.c
+@@ -70,30 +70,30 @@ struct {
+ 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
+ 				JAILHOUSE_MEM_IO,
+ 		},
+-		/* dss.common_s0 */ {
+-			.phys_start = 0x4A10000,
+-			.virt_start = 0x4A10000,
++		/* dss.common_s1 */ {
++			.phys_start = 0x4B00000,
++			.virt_start = 0x4B00000,
+ 			.size = 0x00010000,
+ 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
+ 				JAILHOUSE_MEM_IO,
+ 		},
+-		/* dss.vid2 */ {
+-			.phys_start = 0x4A60000,
+-			.virt_start = 0x4A60000,
++		/* dss.vidl1 */ {
++			.phys_start = 0x4A20000,
++			.virt_start = 0x4A20000,
+ 			.size = 0x00010000,
+ 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
+ 				JAILHOUSE_MEM_IO,
+ 		},
+-		/* dss.ovr2 */ {
+-			.phys_start = 0x4A90000,
+-			.virt_start = 0x4A90000,
++		/* dss.ovr1 */ {
++			.phys_start = 0x4A70000,
++			.virt_start = 0x4A70000,
+ 			.size = 0x00010000,
+ 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
+ 				JAILHOUSE_MEM_IO,
+ 		},
+-		/* dss.vp2 */ {
+-			.phys_start = 0x4AA0000,
+-			.virt_start = 0x4AA0000,
++		/* dss.vp1 */ {
++			.phys_start = 0x4A80000,
++			.virt_start = 0x4A80000,
+ 			.size = 0x00010000,
+ 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
+ 				JAILHOUSE_MEM_IO,
+@@ -176,9 +176,9 @@ struct {
+ 			.pin_base = 544,
+ 			.pin_bitmap = {
+ 			/*
+-			 * DSS.common_s0 (SPI_603)
++			 * DSS.common_s1 (SPI_604)
+ 			 */
+-			0x0, 0x0, 0x08000000, 0,
++			0x0, 0x0, 0x10000000, 0,
+ 			},
+ 		},
+ 	}
+-- 
+2.7.4
+

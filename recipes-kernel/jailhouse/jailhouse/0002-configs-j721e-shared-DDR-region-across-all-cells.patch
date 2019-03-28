@@ -1,0 +1,76 @@
+From d841abf336cb019a44971046cb5b9c17616d9fb6 Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Wed, 27 Mar 2019 17:12:16 +0530
+Subject: [PATCH 2/2] configs: j721e: shared DDR region across all cells
+
+---
+ configs/arm64/dts/inmate-k3-j721e.dts | 22 ++++++++++++++++++++--
+ configs/arm64/k3-j721e-linux-demo.c   |  2 +-
+ configs/arm64/k3-j721e.c              |  2 +-
+ 3 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/configs/arm64/dts/inmate-k3-j721e.dts b/configs/arm64/dts/inmate-k3-j721e.dts
+index 877bc3a..a4491d7 100644
+--- a/configs/arm64/dts/inmate-k3-j721e.dts
++++ b/configs/arm64/dts/inmate-k3-j721e.dts
+@@ -71,11 +71,29 @@
+ 		bootargs = "earlycon=ns16550a,mmio32,0x02810000";
+ 	};
+ 
+-	memory@d0000000 {
++	memory@cfb00000 {
+ 		device_type = "memory";
+-		reg = <0x0 0xd0000000 0x0 0x1fff0000>;
++		reg = <0x0 0xcfb00000 0x0 0x204f0000>;
+ 
+ 	};
++
++	reserved_memory: reserved-memory {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		shared_ddr: shared-ddr@cfb00000 {
++			reg = <0x00 0xcfb00000 0x00 0x00100000>; /* shared across all cells */
++			alignment = <0x1000>;
++			no-map;
++		};
++		hyp_mem: hyp-mem@cfc00000 {
++			reg = <0x00 0xcfc00000 0x00 0x00400000>; /* hypervisor memory */
++			alignment = <0x1000>;
++			no-map;
++		};
++	};
++
+ };
+ 
+ &dmsc {
+diff --git a/configs/arm64/k3-j721e-linux-demo.c b/configs/arm64/k3-j721e-linux-demo.c
+index 65cbe33..2009b37 100644
+--- a/configs/arm64/k3-j721e-linux-demo.c
++++ b/configs/arm64/k3-j721e-linux-demo.c
+@@ -139,7 +139,7 @@ struct {
+ 			.phys_start = 0xcfb00000,
+ 			.virt_start = 0xcfb00000,
+ 			.size = 0x100000,
+-			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE,
++			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE | JAILHOUSE_MEM_ROOTSHARED,
+ 		},
+ 		/* communication region */ {
+ 			.virt_start = 0x80000000,
+diff --git a/configs/arm64/k3-j721e.c b/configs/arm64/k3-j721e.c
+index 32148ec..88dda28 100644
+--- a/configs/arm64/k3-j721e.c
++++ b/configs/arm64/k3-j721e.c
+@@ -199,7 +199,7 @@ struct {
+ 			.phys_start = 0xcfb00000,
+ 			.virt_start = 0xcfb00000,
+ 			.size = 0x100000,
+-			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE,
++			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE | JAILHOUSE_MEM_ROOTSHARED,
+ 		},
+ 		/* RAM. Reserved for inmates */ {
+ 			.phys_start = 0xd0000000,
+-- 
+2.7.4
+

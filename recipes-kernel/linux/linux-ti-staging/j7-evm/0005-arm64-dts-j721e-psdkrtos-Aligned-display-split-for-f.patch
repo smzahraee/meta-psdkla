@@ -1,0 +1,36 @@
+From 89bc4c2e7485a7e4f2b6100e76512c0522ede8fc Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Mon, 25 Mar 2019 17:46:52 +0530
+Subject: [PATCH 5/5] arm64: dts: j721e: psdkrtos: Aligned display split for
+ firmware / VMs
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso b/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso
+index 79bffe7..690a3f31 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso
++++ b/arch/arm64/boot/dts/ti/k3-j721e-vlab-psdkrtos-remotedev.dtso
+@@ -24,7 +24,7 @@
+ 		/*vidl1*/
+ 		plane@1 {
+ 			reg = <1>;
+-			managed = <1>;
++			managed = <0>;
+ 		};
+ 
+ 		/*vid2*/
+@@ -46,7 +46,7 @@
+ 
+ 		vp@0 {
+ 			reg = <0>;
+-			managed = <1>;
++			managed = <0>;
+ 		};
+ 
+ 		vp@1 {
+-- 
+2.7.4
+
