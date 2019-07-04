@@ -1,0 +1,217 @@
+From b5dbaa8332febaa60dbe1dbe0dfc8059770ffced Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Tue, 2 Jul 2019 16:31:19 +0530
+Subject: [PATCH 4/6] arm64: dts: ti: add auto common dt overlay
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ arch/arm64/boot/dts/ti/Makefile                  |   3 +-
+ arch/arm64/boot/dts/ti/k3-j721e-auto-common.dtso | 182 +++++++++++++++++++++++
+ 2 files changed, 184 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-auto-common.dtso
+
+diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
+index fe53bfb..1fa4e68 100644
+--- a/arch/arm64/boot/dts/ti/Makefile
++++ b/arch/arm64/boot/dts/ti/Makefile
+@@ -24,7 +24,8 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
+ 				   k3-j721e-common-proc-board-infotainment.dtbo \
+ 				   k3-j721e-common-proc-board-infotainment-display-sharing.dtbo \
+ 				   k3-j721e-common-proc-board-jailhouse.dtbo \
+-				   k3-j721e-dp0.dtbo
++				   k3-j721e-dp0.dtbo \
++				   k3-j721e-auto-common.dtbo
+ 
+ $(obj)/%.dtbo: $(src)/%.dtso FORCE
+ 	$(call if_changed_dep,dtc)
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-auto-common.dtso b/arch/arm64/boot/dts/ti/k3-j721e-auto-common.dtso
+new file mode 100644
+index 0000000..dc0c835
+--- /dev/null
++++ b/arch/arm64/boot/dts/ti/k3-j721e-auto-common.dtso
+@@ -0,0 +1,182 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Auto-Processors: common device-tree overlay
++ *
++ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++/dts-v1/;
++/plugin/;
++
++/ {
++	fragment@101 {
++		target = <&mcu_r5fss0_core0_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa0000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@102 {
++		target = <&mcu_r5fss0_core0_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa0100000 0x00 0x00f00000>;
++		};
++	};
++
++	fragment@103 {
++		target = <&mcu_r5fss0_core1_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa1000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@104 {
++		target = <&mcu_r5fss0_core1_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa1100000 0x00 0x00f00000>;
++		};
++	};
++
++	fragment@105 {
++		target = <&main_r5fss0_core0_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa2000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@106 {
++		target = <&main_r5fss0_core0_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa2100000 0x00 0x01f00000>;
++		};
++	};
++
++	fragment@107 {
++		target = <&main_r5fss0_core1_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa4000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@108 {
++		target = <&main_r5fss0_core1_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa4100000 0x00 0x03f00000>;
++		};
++	};
++
++	fragment@109 {
++		target = <&main_r5fss1_core0_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa8000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@110 {
++		target = <&main_r5fss1_core0_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa8100000 0x00 0x00f00000>;
++		};
++	};
++
++	fragment@111 {
++		target = <&main_r5fss1_core1_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa9000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@112 {
++		target = <&main_r5fss1_core1_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xa9100000 0x00 0x00f00000>;
++		};
++	};
++
++	fragment@113 {
++		target = <&c66_1_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xaa000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@114 {
++		target = <&c66_0_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xaa100000 0x00 0x03f00000>;
++		};
++	};
++
++	fragment@115 {
++		target = <&c66_0_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xae000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@116 {
++		target = <&c66_1_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xae100000 0x00 0x01f00000>;
++		};
++	};
++
++	fragment@117 {
++		target = <&c71_0_dma_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xb0000000 0x00 0x00100000>;
++		};
++	};
++
++	fragment@118 {
++		target = <&c71_0_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xb0100000 0x00 0x07f00000>;
++		};
++	};
++
++	fragment@119 {
++		target = <&rtos_ipc_memory_region>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		__overlay__ {
++			reg = <0x00 0xba000000 0x00 0x02000000>;
++		};
++	};
++};
+-- 
+2.7.4
+
