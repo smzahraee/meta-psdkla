@@ -1,0 +1,264 @@
+From aedf00dc34b7d08364ea59a9490479017c5c9447 Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Tue, 2 Jul 2019 16:32:22 +0530
+Subject: [PATCH 5/6] arm64: dts: ti: add vision-apps dt overlay
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ arch/arm64/boot/dts/ti/Makefile                  |   3 +-
+ arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso | 182 +++++++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c             |  28 ++++
+ 3 files changed, 212 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
+
+diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
+index 1fa4e68..c47e1d6 100644
+--- a/arch/arm64/boot/dts/ti/Makefile
++++ b/arch/arm64/boot/dts/ti/Makefile
+@@ -25,7 +25,8 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
+ 				   k3-j721e-common-proc-board-infotainment-display-sharing.dtbo \
+ 				   k3-j721e-common-proc-board-jailhouse.dtbo \
+ 				   k3-j721e-dp0.dtbo \
+-				   k3-j721e-auto-common.dtbo
++				   k3-j721e-auto-common.dtbo \
++				   k3-j721e-vision-apps.dtbo
+ 
+ $(obj)/%.dtbo: $(src)/%.dtso FORCE
+ 	$(call if_changed_dep,dtc)
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
+new file mode 100644
+index 0000000..ba55779
+--- /dev/null
++++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
+@@ -0,0 +1,182 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Vision-apps: device-tree overlay
++ *
++ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++#include <dt-bindings/soc/ti,sci_pm_domain.h>
++
++/dts-v1/;
++/plugin/;
++
++/ {
++	fragment@101 {
++		target-path = "/";
++
++		__overlay__ {
++
++			dummy-panel {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "ti,vx-app-dummy";
++
++				port@0 {
++					reg = <0>;
++
++					dummy_in: endpoint {
++						remote-endpoint = <&dpi_out3>;
++					};
++				};
++
++			};
++
++			cmem {
++				compatible = "ti,cmem";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "okay";
++				cmem_block_0: cmem_block@0 {
++					reg = <0>;
++					memory-region = <&cmem_shared_region>;
++				};
++			};
++		};
++	};
++
++	fragment@102 {
++		target-path = "/chosen";
++
++		__overlay__ {
++			gl-use-nulldrmws;
++		};
++	};
++};
++
++&reserved_memory {
++	#address-cells = <2>;
++	#size-cells = <2>;
++
++	vision_apps_memory_region: vision_apps-dma-memory@b8000000 {
++		compatible = "shared-dma-pool";
++		reg = <0x00 0xb8000000 0x00 0x02000000>;
++		no-map;
++	};
++
++	cmem_shared_region: cmem-memories@bc000000 {
++		compatible = "shared-dma-pool";
++		reg = <0x00 0xbc000000 0x00 0x24000000>;
++		no-map;
++	};
++};
++
++&main_i2c6 {
++	status = "disabled";
++};
++
++&dss {
++	status = "ok";
++
++	pinctrl-names = "none"; /* pinmux configured by RTOS */
++	power-domains = <&k3_pds 152 TI_SCI_PD_SHARED>; /* share IP among VMs and RTOS */
++
++	/* No changes to parents or rates for VP clocks
++	 * if the VP is not owned by us
++	 */
++	assigned-clocks = <&k3_clks 152 13>;
++
++	assigned-clock-parents = <&k3_clks 152 18>;	/* PLL23_HSDIV0 */
++
++	/* partition information */
++	dss_planes: dss-planes {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		/* vid1, marshalled to us by RTOS */
++		plane@0 {
++			reg = <0>;
++			managed = <0>;
++		};
++
++		/* vidl1, Reserved for jailhouse inmate */
++		plane@1 {
++			reg = <1>;
++			managed = <0>;
++		};
++
++		/* vid2, owned by RTOS */
++		plane@2 {
++			reg = <2>;
++			managed = <0>;
++		};
++
++		/* vidl2, marshalled to us by RTOS */
++		plane@3 {
++			reg = <3>;
++			managed = <1>;
++		};
++	};
++
++	dss_vps: dss-vps {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		/* Owned by jailhouse inmate */
++		vp@0 {
++			reg = <0>;
++			managed = <0>;
++		};
++
++		/* Owned by RTOS */
++		vp@1 {
++			reg = <1>;
++			managed = <0>;
++		};
++
++		/* The 2 below are not owned by anyone
++		 * else, so keeping here
++		 */
++		vp@2 {
++			reg = <2>;
++			managed = <0>;
++		};
++
++		vp@3 {
++			reg = <3>;
++			managed = <1>;
++		};
++	};
++
++	dss_commons: dss-commons {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		interrupt-common {
++			reg = <1>;
++		};
++
++		config-common {
++			status = "disabled";
++			reg = <0>;
++		};
++	};
++};
++
++&dss_ports {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	port@3 {
++		reg = <3>;
++
++		dpi_out3: endpoint {
++			remote-endpoint = <&dummy_in>;
++		};
++	};
++};
++
++&main_i2c1 {
++	status = "disabled";
++};
++
++
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index a3d5a08..5f6a017 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2403,6 +2403,31 @@ static const struct panel_desc winstar_wf35ltiacd = {
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+ };
+ 
++static const struct drm_display_mode vx_app_dummy_mode = {
++	.clock = 150660,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 172,
++	.hsync_end = 1920 + 172 + 80,
++	.htotal = 1920 + 172 + 80 + 60,
++	.vdisplay = 1080,
++	.vsync_start = 1080 + 25,
++	.vsync_end = 1080 + 25 + 10,
++	.vtotal = 1080 + 25 + 10 + 10,
++	.vrefresh = 60,
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
++};
++
++static const struct panel_desc vx_app_dummy = {
++	.modes = &vx_app_dummy_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 70,
++		.height = 53,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++};
++
+ static const struct of_device_id platform_of_match[] = {
+ 	{
+ 		.compatible = "ampire,am-480272h3tmqw-t01h",
+@@ -2663,6 +2688,9 @@ static const struct of_device_id platform_of_match[] = {
+ 		.compatible = "winstar,wf35ltiacd",
+ 		.data = &winstar_wf35ltiacd,
+ 	}, {
++		.compatible = "ti,vx-app-dummy",
++		.data = &vx_app_dummy,
++	}, {
+ 		/* sentinel */
+ 	}
+ };
+-- 
+2.7.4
+
