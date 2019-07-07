@@ -1,0 +1,24 @@
+From 221e49be79357754564494f463a9439d2e93a7bf Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Thu, 11 Jul 2019 10:19:54 +0530
+Subject: [PATCH] f
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ runWeston | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/runWeston b/runWeston
+index aed5d5f..b040116 100644
+--- a/runWeston
++++ b/runWeston
+@@ -36,4 +36,5 @@ cat << EOF
+ 
+ EOF
+ 
+-weston --idle-time=0 >> /var/log/weston.log 2>&1
++drm_card=`readlink /dev/dri/by-path/platform-4a00000.dss-card | cut -c 4-`
++weston --idle-time=0 --drm-device=${drm_card} >> /var/log/weston.log 2>&1
+-- 
+2.7.4
+
