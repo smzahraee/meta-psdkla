@@ -1,0 +1,24 @@
+From 23a01bced5b27ff278330da5048b2b992a4889f7 Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Sun, 7 Jul 2019 16:52:31 +0530
+Subject: [PATCH 6/6] added uio
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ ti_config_fragments/v8_baseport.cfg | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ti_config_fragments/v8_baseport.cfg b/ti_config_fragments/v8_baseport.cfg
+index 86d897a..79e3c42 100644
+--- a/ti_config_fragments/v8_baseport.cfg
++++ b/ti_config_fragments/v8_baseport.cfg
+@@ -150,3 +150,6 @@ CONFIG_MFD_PALMAS=y
+ CONFIG_REGULATOR=y
+ CONFIG_REGULATOR_PALMAS=y
+ CONFIG_REGULATOR_FIXED_VOLTAGE=y
++
++CONFIG_UIO=y
++CONFIG_OF_OVERLAY=y
+-- 
+2.7.4
+
