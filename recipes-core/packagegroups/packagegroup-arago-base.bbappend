@@ -8,6 +8,8 @@ RDEPENDS_${PN}_append = " \
 	cluster \
 	ti-heartbeat-cluster-vm \
 	ti-heartbeat-ivi-vm \
+	libdrm-dev \
+	ti-img-rogue-umlibs-dev \
 "
 
 PR_append = "_psdkla"
