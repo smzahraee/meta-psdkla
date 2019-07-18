@@ -1,0 +1,52 @@
+From fd4a6641ec9ec3e00535c1c94e028ab753925c20 Mon Sep 17 00:00:00 2001
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
+Date: Wed, 17 Jul 2019 18:32:02 +0530
+Subject: [PATCH] arm64: dts: ti: Add psdkla-apps overlay for j721e
+
+Add a new overlay to describe all the PSDKLA specific
+device tree customizations.
+
+Disabled main_uart2 for now.
+
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ arch/arm64/boot/dts/ti/Makefile                  |  1 +
+ arch/arm64/boot/dts/ti/k3-j721e-psdkla-apps.dtso | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-psdkla-apps.dtso
+
+diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
+index c47e1d6..4fa0cdb 100644
+--- a/arch/arm64/boot/dts/ti/Makefile
++++ b/arch/arm64/boot/dts/ti/Makefile
+@@ -26,6 +26,7 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
+ 				   k3-j721e-common-proc-board-jailhouse.dtbo \
+ 				   k3-j721e-dp0.dtbo \
+ 				   k3-j721e-auto-common.dtbo \
++				   k3-j721e-psdkla-apps.dtbo \
+ 				   k3-j721e-vision-apps.dtbo
+ 
+ $(obj)/%.dtbo: $(src)/%.dtso FORCE
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-psdkla-apps.dtso b/arch/arm64/boot/dts/ti/k3-j721e-psdkla-apps.dtso
+new file mode 100644
+index 0000000..2779582
+--- /dev/null
++++ b/arch/arm64/boot/dts/ti/k3-j721e-psdkla-apps.dtso
+@@ -0,0 +1,14 @@
++// SPDX-License-Identifier: GPL-2.0
++/**
++ * PSDKLA specific DT customizations
++ *
++ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++/dts-v1/;
++/plugin/;
++
++&main_uart2 {
++	status = "disabled";
++};
++
+-- 
+1.9.1
+
