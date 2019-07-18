@@ -10,6 +10,7 @@ RDEPENDS_${PN}_append = " \
 	ti-heartbeat-ivi-vm \
 	libdrm-dev \
 	ti-img-rogue-umlibs-dev \
+	glsdk-util-scripts \
 "
 
 PR_append = "_psdkla"
