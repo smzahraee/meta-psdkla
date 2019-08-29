@@ -1,0 +1,32 @@
+From 067f5a6172f4559cef9e41810eed5243ffea8f14 Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Thu, 4 Jul 2019 10:45:46 +0530
+Subject: [PATCH] enable debug trace
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ soc/j721e/evm/board-cfg.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/soc/j721e/evm/board-cfg.c b/soc/j721e/evm/board-cfg.c
+index 74ceee7..b4b2cb1 100644
+--- a/soc/j721e/evm/board-cfg.c
++++ b/soc/j721e/evm/board-cfg.c
+@@ -78,5 +78,14 @@ const struct boardcfg j721e_boardcfg_data = {
+ 			.magic = BOARDCFG_DBG_CFG_MAGIC_NUM,
+ 			.size = sizeof(struct boardcfg_dbg_cfg),
+ 		},
++		.trace_dst_enables = BOARDCFG_TRACE_DST_UART0 |
++			BOARDCFG_TRACE_DST_ITM |
++			BOARDCFG_TRACE_DST_MEM,
++		.trace_src_enables = BOARDCFG_TRACE_SRC_PM |
++			BOARDCFG_TRACE_SRC_RM |
++			BOARDCFG_TRACE_SRC_SEC |
++			BOARDCFG_TRACE_SRC_BASE |
++			BOARDCFG_TRACE_SRC_USER |
++			BOARDCFG_TRACE_SRC_SUPR,
+ 	},
+ };
+-- 
+2.7.4
+
