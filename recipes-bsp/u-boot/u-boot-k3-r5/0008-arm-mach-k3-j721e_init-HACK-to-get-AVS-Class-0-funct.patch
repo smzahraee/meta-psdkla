@@ -1,0 +1,195 @@
+From 4ddeb26eda239ab9b9f388934866b3b70b9f12c4 Mon Sep 17 00:00:00 2001
+From: Keerthy <j-keerthy@ti.com>
+Date: Thu, 5 Sep 2019 13:50:31 +0530
+Subject: [PATCH 8/8] arm: mach-k3: j721e_init: HACK to get AVS Class 0
+ functional on pm1 SoM
+
+Avoiding dynamic detection for R5 SPL DTB. So TPS65917
+is only needed to AVS class 0 hence hack up DT dynamically
+based on the board version to get the right phandle for avs
+supply regulator. At present both PMIC nodes are present
+and once the support will be deprecated this hack needs to
+be removed.
+
+Signed-off-by: Keerthy <j-keerthy@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ arch/arm/dts/k3-j721e-r5-common-proc-board.dts | 115 +++++++++++++++++++++++++
+ arch/arm/mach-k3/j721e_init.c                  |  16 ++++
+ 2 files changed, 131 insertions(+)
+
+diff --git a/arch/arm/dts/k3-j721e-r5-common-proc-board.dts b/arch/arm/dts/k3-j721e-r5-common-proc-board.dts
+index 95d6ff5..9343a54 100644
+--- a/arch/arm/dts/k3-j721e-r5-common-proc-board.dts
++++ b/arch/arm/dts/k3-j721e-r5-common-proc-board.dts
+@@ -275,6 +275,7 @@
+ 
+ &wkup_vtm0 {
+ 	vdd-supply-2 = <&buck12_reg>;
++	som1-supply-2 = <&smps12_reg>;
+ 	u-boot,dm-spl;
+ };
+ 
+@@ -338,4 +339,118 @@
+ 	};
+ };
+ 
++&wkup_i2c0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&wkup_i2c0_pins_default>;
++	clock-frequency = <400000>;
++	u-boot,dm-spl;
++
++	tps65917: tps65917@58 {
++		reg = <0x58>;
++		compatible = "ti,tps65917";
++		interrupt-controller;
++		#interrupt-cells = <2>;
++		u-boot,dm-spl;
++
++		ti,system-power-controller;
++
++		tps65917_pmic {
++			compatible = "ti,tps65917-pmic";
++			u-boot,dm-spl;
++
++			tps65917_regulators: regulators {
++				u-boot,dm-spl;
++				smps12_reg: smps12 {
++					/* VDD_CPU_AVS_REG */
++					regulator-name = "smps1";
++					regulator-min-microvolt = <800000>;
++					regulator-max-microvolt = <1250000>;
++					regulator-always-on;
++					regulator-boot-on;
++					u-boot,dm-spl;
++				};
++
++				smps3_reg: smps3 {
++					/* V917_SMPS3_1V1 */
++					regulator-name = "smps3";
++					regulator-min-microvolt = <1100000>;
++					regulator-max-microvolt = <1100000>;
++					regulator-boot-on;
++					regulator-always-on;
++					u-boot,dm-spl;
++				};
++
++				smps4_reg: smps4 {
++					/* VDD_CORE_RAM_0V85_REG */
++					regulator-name = "smps4";
++					regulator-min-microvolt = <850000>;
++					regulator-max-microvolt = <850000>;
++					regulator-always-on;
++					regulator-boot-on;
++					u-boot,dm-spl;
++				};
++
++				smps5_reg: smps5 {
++					/* VDD_CPU_RAM_0V85_REG */
++					regulator-name = "smps5";
++					regulator-min-microvolt = <850000>;
++					regulator-max-microvolt = <850000>;
++					regulator-boot-on;
++					regulator-always-on;
++					u-boot,dm-spl;
++				};
++
++				ldo1_reg: ldo1 {
++					/* LDO1_OUT --> VDD_SD_DV_REG  */
++					regulator-name = "ldo1";
++					regulator-min-microvolt = <1800000>;
++					regulator-max-microvolt = <3300000>;
++					regulator-always-on;
++					regulator-boot-on;
++					regulator-allow-bypass;
++					u-boot,dm-spl;
++				};
++
++				ldo2_reg: ldo2 {
++					/* VDA_USB_3V3_REG */
++					regulator-name = "ldo2";
++					regulator-min-microvolt = <3300000>;
++					regulator-max-microvolt = <3300000>;
++					regulator-allow-bypass;
++					u-boot,dm-spl;
++				};
++
++				ldo3_reg: ldo3 {
++					/* VDA_PLL_1V8_REG */
++					regulator-name = "ldo3";
++					regulator-min-microvolt = <1800000>;
++					regulator-max-microvolt = <1800000>;
++					regulator-boot-on;
++					regulator-always-on;
++					u-boot,dm-spl;
++				};
++
++				ldo4_reg: ldo4 {
++					/* V917_LDO4_1V8 */
++					regulator-name = "ldo4";
++					regulator-min-microvolt = <1800000>;
++					regulator-max-microvolt = <1800000>;
++					regulator-boot-on;
++					u-boot,dm-spl;
++				};
++
++				ldo5_reg: ldo5 {
++					/* VPP_EFUSE_1V8 */
++					regulator-name = "ldo5";
++					regulator-min-microvolt = <1800000>;
++					regulator-max-microvolt = <1800000>;
++					regulator-always-on;
++					regulator-boot-on;
++					u-boot,dm-spl;
++				};
++			};
++		};
++	};
++};
++
+ #include "k3-j721e-common-proc-board-u-boot.dtsi"
+diff --git a/arch/arm/mach-k3/j721e_init.c b/arch/arm/mach-k3/j721e_init.c
+index 8877ebe..3275c4b 100644
+--- a/arch/arm/mach-k3/j721e_init.c
++++ b/arch/arm/mach-k3/j721e_init.c
+@@ -20,6 +20,7 @@
+ #include <dm/pinctrl.h>
+ #include <clk.h>
+ #include <remoteproc.h>
++#include "../../../board/ti/common/board_detect.h"
+ 
+ extern void reinit_mmc_device(int dev);
+ 
+@@ -209,6 +210,10 @@ static void j721e_setup_drive_strength(void)
+ 
+ void board_init_f(ulong dummy)
+ {
++#if defined(CONFIG_CPU_V7R) && defined(CONFIG_K3_AVS0)
++	int offset;
++	u32 val, dflt = 0;
++#endif
+ #if defined(CONFIG_K3_J721E_DDRSS) || defined(CONFIG_K3_LOAD_SYSFW)
+ 	struct udevice *dev;
+ 	int ret;
+@@ -287,6 +292,17 @@ void board_init_f(ulong dummy)
+ 	do_board_detect();
+ 
+ #if defined(CONFIG_CPU_V7R) && defined(CONFIG_K3_AVS0)
++	if (board_ti_k3_is("J721EX-PM1-SOM")) {
++		offset = fdt_node_offset_by_compatible(gd->fdt_blob, -1,
++						       "ti,am654-vtm");
++		val = fdt_getprop_u32_default_node(gd->fdt_blob, offset, 0,
++						   "som1-supply-2", dflt);
++		do_fixup_by_compat_u32((void *)gd->fdt_blob, "ti,am654-vtm",
++				       "vdd-supply-2", val, 0);
++		val = fdt_getprop_u32_default_node(gd->fdt_blob, offset, 0,
++						   "vdd-supply-2", dflt);
++	}
++
+ 	ret = uclass_get_device(UCLASS_AVS, 0, &dev);
+ 	if (ret)
+ 		printf("AVS init failed: %d\n", ret);
+-- 
+2.7.4
+

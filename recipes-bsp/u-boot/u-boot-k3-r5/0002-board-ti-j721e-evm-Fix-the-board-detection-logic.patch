@@ -1,0 +1,35 @@
+From 0e69bf300b357d7977dfcf4b9370f89fd4d29922 Mon Sep 17 00:00:00 2001
+From: Keerthy <j-keerthy@ti.com>
+Date: Thu, 5 Sep 2019 13:50:25 +0530
+Subject: [PATCH 2/8] board: ti: j721e: evm: Fix the board detection logic
+
+Fix the board detection logic by calling the k3 specific
+board_ti_k3_is function that uses the k3 specific eeprom
+structures for detection.
+
+Fixes: 24053caedec9 ("board: ti: j721e_evm: Use EEPROM-based board detection")
+Signed-off-by: Keerthy <j-keerthy@ti.com>
+Reviewed-by: Andreas Dannenberg <dannenberg@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ board/ti/j721e/evm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/board/ti/j721e/evm.c b/board/ti/j721e/evm.c
+index 58b5817..2dd4d24 100644
+--- a/board/ti/j721e/evm.c
++++ b/board/ti/j721e/evm.c
+@@ -20,8 +20,8 @@
+ 
+ #include "../common/board_detect.h"
+ 
+-#define board_is_j721e_som()	(board_ti_is("J721EX-PM1-SOM") || \
+-				 board_ti_is("J721EX-PM2-SOM"))
++#define board_is_j721e_som()	(board_ti_k3_is("J721EX-PM1-SOM") || \
++				 board_ti_k3_is("J721EX-PM2-SOM"))
+ 
+ /* Max number of MAC addresses that are parsed/processed per daughter card */
+ #define DAUGHTER_CARD_NO_OF_MAC_ADDR	8
+-- 
+2.7.4
+
