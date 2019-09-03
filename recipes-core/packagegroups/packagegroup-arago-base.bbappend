@@ -11,6 +11,8 @@ RDEPENDS_${PN}_append = " \
         libdrm-dev \
         ti-img-rogue-umlibs-dev \
         glsdk-util-scripts \
+        libion \
+        libion-dev \
 "
 
 PR_append = "_psdkla"
