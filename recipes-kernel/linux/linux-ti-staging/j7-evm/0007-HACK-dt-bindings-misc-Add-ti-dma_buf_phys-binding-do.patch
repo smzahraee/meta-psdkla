@@ -1,10 +1,11 @@
-From 702256a366443cb8077814f739de1a664c0aa71e Mon Sep 17 00:00:00 2001
+From 91b0dcd58fdfe27571e7c352b082a28c9b9df321 Mon Sep 17 00:00:00 2001
 From: "Andrew F. Davis" <afd@ti.com>
 Date: Thu, 22 Aug 2019 00:12:00 +0000
-Subject: [PATCH 07/10] HACK: dt-bindings: misc: Add ti, dma_buf_phys binding
+Subject: [PATCH 07/11] HACK: dt-bindings: misc: Add ti, dma_buf_phys binding
  doc
 
 Signed-off-by: Andrew F. Davis <afd@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
  .../devicetree/bindings/misc/ti,dma_buf_phys.txt        | 17 +++++++++++++++++
  1 file changed, 17 insertions(+)
@@ -34,5 +35,5 @@ index 00000000..d0529c4
 +	dma-coherent;
 +};
 -- 
-1.9.1
+2.7.4
 

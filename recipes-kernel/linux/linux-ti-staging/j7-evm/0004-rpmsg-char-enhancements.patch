@@ -1,7 +1,7 @@
-From e9e4ed5c59dfa06f54f5cedffd472c2dffca9cee Mon Sep 17 00:00:00 2001
+From 832659cfbc78be222bb4fc598c692591c0d9d3ba Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Tue, 5 Mar 2019 10:13:32 +0530
-Subject: [PATCH 4/6] rpmsg-char: enhancements
+Subject: [PATCH 04/11] rpmsg-char: enhancements
 
 To be specific, 3 enhancements:
 1. use a id.table  in rpmsg-char driver. That way, it

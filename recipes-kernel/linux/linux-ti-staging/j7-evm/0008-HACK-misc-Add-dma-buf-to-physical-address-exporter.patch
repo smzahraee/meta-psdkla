@@ -1,7 +1,7 @@
-From db5404dcf4479b07d2080a5a4e3bfec76d324aec Mon Sep 17 00:00:00 2001
+From 831d853ccb9dabc1ff86903b88acb5f0dc633d52 Mon Sep 17 00:00:00 2001
 From: "Andrew F. Davis" <afd@ti.com>
 Date: Thu, 22 Aug 2019 00:12:01 +0000
-Subject: [PATCH 08/10] HACK: misc: Add dma-buf to physical address exporter
+Subject: [PATCH 08/11] HACK: misc: Add dma-buf to physical address exporter
 
 This is driver allows user-space to attach a DMA-BUF and
 receive back its CPU physical address. This is a temporary
@@ -10,6 +10,7 @@ buffers. This is a hack and this will be removed when proper
 solutions are implemented.
 
 Signed-off-by: Andrew F. Davis <afd@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
  drivers/misc/Kconfig              |   5 +
  drivers/misc/Makefile             |   1 +
@@ -309,5 +310,5 @@ index 00000000..0bb3549
 +
 +#endif /* DMA_BUF_PHYS_H */
 -- 
-1.9.1
+2.7.4
 

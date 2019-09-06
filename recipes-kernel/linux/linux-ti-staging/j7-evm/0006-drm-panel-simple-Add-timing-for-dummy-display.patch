@@ -1,7 +1,7 @@
-From b2804a0e743399d494465e6b96924c037450b7e1 Mon Sep 17 00:00:00 2001
+From 382da447b23e2033a9b4b1d97d5cd3ab8c51d5fb Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Thu, 29 Aug 2019 18:00:39 +0530
-Subject: [PATCH 6/6] drm/panel: simple: Add timing for dummy display
+Subject: [PATCH 06/11] drm/panel: simple: Add timing for dummy display
 
 Add timing for dummy display so as to work with display
 sharing use case.

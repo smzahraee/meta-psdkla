@@ -1,7 +1,7 @@
-From 1c5659e13a7cca29ac73c5c22c08615359d05c02 Mon Sep 17 00:00:00 2001
+From 724e89abc02bf4d9986c0118ba785a1610c0cff9 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Sun, 7 Jul 2019 16:52:31 +0530
-Subject: [PATCH 2/6] ti_config_fragments: v8_baseport: Enable CONFIG_UIO
+Subject: [PATCH 02/11] ti_config_fragments: v8_baseport: Enable CONFIG_UIO
 
 For Jailhouse inter VM communication, Jailhouse driver
 adds a virtual PCI device in the kernel DT.

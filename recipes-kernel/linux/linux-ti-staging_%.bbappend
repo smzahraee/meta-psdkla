@@ -11,11 +11,13 @@ SRC_URI_append_j7-evm = " \
     file://0008-HACK-misc-Add-dma-buf-to-physical-address-exporter.patch \
     file://0009-HACK-ti_config_fragments-baseport-Enable-DMA-BUF-exp.patch \
     file://0010-HACK-ti_config_fragments-v8_baseport-Enable-DMA-BUF-.patch \
+    file://0011-arm64-dts-ti-k3-j721e-Add-support-for-pm2-som.patch \
 "
 
 KERNEL_DEVICETREE_append = " \
 	ti/k3-j721e-auto-common.dtbo \
 	ti/k3-j721e-vision-apps.dtbo \
+	ti/k3-j721e-proc-board-beta.dtb \
 "
 
 PR_append = "_psdkla"
