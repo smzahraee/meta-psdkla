@@ -1,4 +1,4 @@
-SRCREV = "c808d0eae3de801a7b4a14fa8296c21565e7b500"
+SRCREV = "df50ca1592cae97ad0c7285686d602926b4f7305"
 COMPATIBLE_MACHINE_append = "|j7-evm"
 PR_append = "_psdkla"
 RDEPENDS_${PN} += "bash"

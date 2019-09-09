@@ -11,7 +11,7 @@ inherit update-alternatives
 
 PROTOCOL = "git"
 BRANCH = "master"
-SRCREV = "2d37ef55f7990d96990b2fee4279b5b48baaef1b"
+SRCREV = "0fdbe5abaa523b96bb260c0aeafa6e1e6522fc91"
 
 SRC_URI = "git://git.ti.com/glsdk/ti-eth-fw.git;protocol=${PROTOCOL};branch=${BRANCH}"
 

@@ -1,0 +1,61 @@
+From 7f3b90313f7327237080753c3ce2836bbbcd18e7 Mon Sep 17 00:00:00 2001
+From: Keerthy <j-keerthy@ti.com>
+Date: Thu, 5 Sep 2019 13:50:24 +0530
+Subject: [PATCH 1/8] board: ti: common: board_detect: Add k3 specific board
+ detection
+
+The EEPROM fields for K3 family are different compared to
+the rest of TI SoCs. Introduce a separate board detect function
+and use the k3 specific eeprom structures.
+
+Reviewed-by: Andreas Dannenberg <dannenberg@ti.com>
+Signed-off-by: Keerthy <j-keerthy@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ board/ti/common/board_detect.c | 9 +++++++++
+ board/ti/common/board_detect.h | 9 +++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/board/ti/common/board_detect.c b/board/ti/common/board_detect.c
+index d54cba0..87aae76 100644
+--- a/board/ti/common/board_detect.c
++++ b/board/ti/common/board_detect.c
+@@ -470,6 +470,15 @@ int __maybe_unused ti_i2c_eeprom_am6_get_base(int bus_addr, int dev_addr)
+ 	return ret;
+ }
+ 
++bool __maybe_unused board_ti_k3_is(char *name_tag)
++{
++	struct ti_am6_eeprom *ep = TI_AM6_EEPROM_DATA;
++
++	if (ep->header == TI_DEAD_EEPROM_MAGIC)
++		return false;
++	return !strncmp(ep->name, name_tag, AM6_EEPROM_HDR_NAME_LEN);
++}
++
+ bool __maybe_unused board_ti_is(char *name_tag)
+ {
+ 	struct ti_common_eeprom *ep = TI_EEPROM_DATA;
+diff --git a/board/ti/common/board_detect.h b/board/ti/common/board_detect.h
+index a45d896..52f0eb2 100644
+--- a/board/ti/common/board_detect.h
++++ b/board/ti/common/board_detect.h
+@@ -311,6 +311,15 @@ int __maybe_unused ti_i2c_eeprom_am6_get_base(int bus_addr, int dev_addr);
+ bool board_ti_is(char *name_tag);
+ 
+ /**
++ * board_ti_k3_is() - Board detection logic for TI K3 EVMs
++ * @name_tag:	Tag used in eeprom for the board
++ *
++ * Return: false if board information does not match OR eeprom wasn't read.
++ *	   true otherwise
++ */
++bool board_ti_k3_is(char *name_tag);
++
++/**
+  * board_ti_rev_is() - Compare board revision for TI EVMs
+  * @rev_tag:	Revision tag to check in eeprom
+  * @cmp_len:	How many chars to compare?
+-- 
+2.7.4
+

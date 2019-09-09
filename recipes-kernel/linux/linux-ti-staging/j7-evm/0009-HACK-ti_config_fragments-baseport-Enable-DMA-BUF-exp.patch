@@ -1,0 +1,26 @@
+From 317717c2a9ff65d6c908ad10a5ef32a5960b6f27 Mon Sep 17 00:00:00 2001
+From: "Andrew F. Davis" <afd@ti.com>
+Date: Thu, 22 Aug 2019 00:12:02 +0000
+Subject: [PATCH 09/11] HACK: ti_config_fragments: baseport: Enable DMA-BUF
+ export driver
+
+Signed-off-by: Andrew F. Davis <afd@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ ti_config_fragments/baseport.cfg | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ti_config_fragments/baseport.cfg b/ti_config_fragments/baseport.cfg
+index 5e3e628..782fe53a 100644
+--- a/ti_config_fragments/baseport.cfg
++++ b/ti_config_fragments/baseport.cfg
+@@ -588,3 +588,6 @@ CONFIG_ION_SYSTEM_HEAP=y
+ CONFIG_ION_CARVEOUT_HEAP=y
+ CONFIG_ION_CHUNK_HEAP=y
+ CONFIG_ION_TI=y
++
++# DMA-BUF exporter
++CONFIG_DMA_BUF_PHYS=y
+-- 
+2.7.4
+

@@ -1,0 +1,39 @@
+From 91b0dcd58fdfe27571e7c352b082a28c9b9df321 Mon Sep 17 00:00:00 2001
+From: "Andrew F. Davis" <afd@ti.com>
+Date: Thu, 22 Aug 2019 00:12:00 +0000
+Subject: [PATCH 07/11] HACK: dt-bindings: misc: Add ti, dma_buf_phys binding
+ doc
+
+Signed-off-by: Andrew F. Davis <afd@ti.com>
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+---
+ .../devicetree/bindings/misc/ti,dma_buf_phys.txt        | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/misc/ti,dma_buf_phys.txt
+
+diff --git a/Documentation/devicetree/bindings/misc/ti,dma_buf_phys.txt b/Documentation/devicetree/bindings/misc/ti,dma_buf_phys.txt
+new file mode 100644
+index 00000000..d0529c4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/misc/ti,dma_buf_phys.txt
+@@ -0,0 +1,17 @@
++DMA-BUF contiguous buffer physical address user-space exporter binding
++
++Driver allowing user-space attaching of DMA-BUFs returning CPU physical
++addresses. The reasoning for making this act like a regular device
++described by DT is so the virtual device that binds the buffer can be
++made to act as if it is out on a bus or behind an IOMMU, for example.
++
++Required Properties:
++ - compatible:		Must be "ti,dma_buf_phys"
++
++Example:
++
++dma_buf_phys {
++	compatible = "ti,dma_buf_phys";
++	iommus = <&some_iommu>;
++	dma-coherent;
++};
+-- 
+2.7.4
+
