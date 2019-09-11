@@ -17,6 +17,7 @@ SRC_URI_append_j7-evm = " \
 KERNEL_DEVICETREE_append = " \
 	ti/k3-j721e-auto-common.dtbo \
 	ti/k3-j721e-vision-apps.dtbo \
+	ti/k3-j721e-psdkla-apps.dtbo \
 	ti/k3-j721e-proc-board-beta.dtb \
 "
 
