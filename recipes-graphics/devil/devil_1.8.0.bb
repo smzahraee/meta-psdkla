@@ -12,10 +12,15 @@ SRCREV = "e34284a7e07763769f671a74b4fec718174ad862"
 
 COMPATIBLE_MACHINE = "j7-evm"
 
-PR = "r1"
+PR = "r2"
 S = "${WORKDIR}/git"
 
 # Build only DevIL
 OECMAKE_SOURCEPATH = "${S}/DevIL"
 
-inherit cmake
+PACKAGECONFIG ??= "png"
+PACKAGECONFIG[png] = "-DIL_NO_PNG=0,-DIL_NO_PNG=1,libpng,"
+
+DEPENDS += "libpng"
+
+inherit pkgconfig cmake
