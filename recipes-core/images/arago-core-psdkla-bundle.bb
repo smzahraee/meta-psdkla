@@ -28,11 +28,13 @@ TARGET_IMAGES = "tisdk-rootfs-image"
 
 IMAGE_INSTALL = "\
     packagegroup-arago-tisdk-addons-sdk-host \
+    packagegroup-arago-tisdk-crypto-sdk-host \
     packagegroup-arago-tisdk-amsdk-sdk-host${ARAGO_KERNEL_SUFFIX} \
 "
 DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
 
-DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin sysfw.itb"
+DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin sysfw.itb sysfw-psdkra.itb u-boot.img Image"
+DEPLOY_IMAGES_NAME_append_j7-evm = " ti-sci-firmware-j721e-gp.bin"
 
 ARAGO_TISDK_IMAGE ?= "arago-core-psdkla-bundle"
 export IMAGE_BASENAME = "${ARAGO_TISDK_IMAGE}"

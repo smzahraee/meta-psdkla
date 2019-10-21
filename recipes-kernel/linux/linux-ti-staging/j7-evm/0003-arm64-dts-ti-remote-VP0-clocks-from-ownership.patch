@@ -1,7 +1,7 @@
-From ae8259d4fe362d9e77350654a42be00059d04a3b Mon Sep 17 00:00:00 2001
+From 38ea06f7a7fdfcbeedabfa42ef4bf06c87b80e62 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Sun, 7 Jul 2019 03:22:49 +0530
-Subject: [PATCH 03/11] arm64: dts: ti: remote VP0 clocks from ownership
+Subject: [PATCH 3/7] arm64: dts: ti: remote VP0 clocks from ownership
 
 Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
@@ -29,5 +29,5 @@ index e41e55f..8c98057 100644
  
  	/* partition information */
 -- 
-2.7.4
+1.9.1
 

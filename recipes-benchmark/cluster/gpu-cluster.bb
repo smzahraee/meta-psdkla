@@ -1,16 +1,16 @@
-SUMMARY = "Cluster application recipe"
+SUMMARY = "GPU Cluster application"
 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 PROTOCOL = "git"
-BRANCH = "master"
-SRCREV = "0865db06e56553ba8a2c32fd3b0cc8182bf6e5aa"
+BRANCH = "gpu-cluster"
+SRCREV = "f2cbcb8ae295f9fe6d202b9caf234455731a1be7"
 SRC_URI = " \
 	git://git.ti.com/glsdk/ti-cluster-linux-application.git;protocol=${PROTOCOL};branch=${BRANCH} \
 "
 
-DEPENDS = "rpmsg-char-helper drm"
+DEPENDS = "rpmsg-char-helper drm virtual/egl virtual/libgles2 libpng"
 
 S = "${WORKDIR}/git"
 
@@ -28,9 +28,7 @@ EXTRA_OECONF += " \
 "
 
 FILES_${PN} += " \
-	${datadir}/assets-${ASSET_SIZE}/dials/*.raw \
-	${datadir}/assets-${ASSET_SIZE}/needles/*.raw \
-	${datadir}/assets-${ASSET_SIZE}/digits/*.raw \
+	${datadir}/gpu-cluster-assets/*.png \
 "
 
 PR_append = "_psdkla"

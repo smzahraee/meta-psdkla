@@ -4,18 +4,14 @@ SRCREV_imggen-psdkra = "38a82e00f84efdf381dba001fff75e8411898e99"
 SRCREV_FORMAT += "_imggen-psdkra"
 
 SRC_URI_append = " \
-	file://0001-enable-debug-trace.patch \
 	git://git.ti.com/processor-firmware/system-firmware-image-gen.git;protocol=git;branch=master;destsuffix=imggen-psdkra;name=imggen-psdkra \
 	file://0001-turn-off-msmc-cache-for-psdkra-cache-size-0.patch \
 "
 
-SYSFW_PSDKRA_IMAGE = "sysfw-psdkra-${PV}.itb"
+SYSFW_PSDKRA_IMAGE = "sysfw-psdkra.itb"
 
 do_patch() {
-	cd ${WORKDIR}/imggen/
-	patch -p1 < ${WORKDIR}/0001-enable-debug-trace.patch
 	cd ${WORKDIR}/imggen-psdkra/
-	patch -p1 < ${WORKDIR}/0001-enable-debug-trace.patch
 	patch -p1 < ${WORKDIR}/0001-turn-off-msmc-cache-for-psdkra-cache-size-0.patch
 }
 

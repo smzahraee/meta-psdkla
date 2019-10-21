@@ -11,7 +11,7 @@ inherit update-alternatives
 
 PROTOCOL = "git"
 BRANCH = "master"
-SRCREV = "60fec9c5b4deae33b6eed334998a5800a877d741"
+SRCREV = "9df3083f1259acdcd18573f8319d72e55781e6d2"
 
 SRC_URI = "git://git.ti.com/glsdk/ti-cockpit-firmware-binaries.git;protocol=${PROTOCOL};branch=${BRANCH}"
 
