@@ -1,7 +1,7 @@
-From 125f475d20c3efd1a0d04f4aee54c0d949075384 Mon Sep 17 00:00:00 2001
+From bbedfe53dd6589ccd5a454f1776bcb704fbad2de Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Wed, 6 Mar 2019 15:53:24 +0530
-Subject: [PATCH 05/11] ti_config_fragments: v8_ipc: enable rpmsg_char
+Subject: [PATCH 5/7] ti_config_fragments: v8_ipc: enable rpmsg_char
 
 Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
@@ -22,5 +22,5 @@ index 280a1ce..43d5668 100644
  # RPMsg Samples
  CONFIG_SAMPLES=y
 -- 
-2.7.4
+1.9.1
 
