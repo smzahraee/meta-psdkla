@@ -6,6 +6,7 @@ GRAPHICS_RDEPENDS_append = "\
     glm-dev \
     devil-dev \
     libpng-dev \
+    img-pvr-sdk \
 "
 
 PR_append = "_psdkla"
