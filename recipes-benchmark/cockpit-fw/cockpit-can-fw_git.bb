@@ -34,7 +34,7 @@ TARGET_MAIN_R5FSS0_1 = "j7-main-r5f0_1-fw"
 ALTERNATIVE_${PN} = "j7-main-r5f0_1-fw"
 ALTERNATIVE_LINK_NAME[j7-main-r5f0_1-fw] = "${base_libdir}/firmware/${TARGET_MAIN_R5FSS0_1}"
 ALTERNATIVE_TARGET[j7-main-r5f0_1-fw] = "${base_libdir}/firmware/${TI_COCKPIT_FILENAME}"
-ALTERNATIVE_PRIORITY = "14"
+ALTERNATIVE_PRIORITY = "4"
 
 # This is used to prevent the build system to strip the executables
 INHIBIT_PACKAGE_STRIP = "1"
