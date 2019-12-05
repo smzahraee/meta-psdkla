@@ -6,6 +6,7 @@ SRCREV_FORMAT += "_imggen-psdkra"
 SRC_URI_append = " \
 	git://git.ti.com/processor-firmware/system-firmware-image-gen.git;protocol=git;branch=master;destsuffix=imggen-psdkra;name=imggen-psdkra \
 	file://0001-turn-off-msmc-cache-for-psdkra-cache-size-0.patch \
+        file://ti-sci-firmware-j721e-gp.bin \
 "
 
 SYSFW_PSDKRA_IMAGE = "sysfw-psdkra.itb"
@@ -13,6 +14,7 @@ SYSFW_PSDKRA_IMAGE = "sysfw-psdkra.itb"
 do_patch() {
 	cd ${WORKDIR}/imggen-psdkra/
 	patch -p1 < ${WORKDIR}/0001-turn-off-msmc-cache-for-psdkra-cache-size-0.patch
+	cp ${WORKDIR}/ti-sci-firmware-j721e-gp.bin ${WORKDIR}/git/ti-sysfw/
 }
 
 do_compile_append() {
