@@ -1,16 +1,16 @@
-From 38ea06f7a7fdfcbeedabfa42ef4bf06c87b80e62 Mon Sep 17 00:00:00 2001
+From 1ad350488706e6195fecf5c0f67129e6e6ab7e7e Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Sun, 7 Jul 2019 03:22:49 +0530
-Subject: [PATCH 3/7] arm64: dts: ti: remote VP0 clocks from ownership
+Subject: [PATCH 3/6] arm64: dts: ti: remote VP0 clocks from ownership
 
 Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
- .../ti/k3-j721e-common-proc-board-infotainment-display-sharing.dtso | 6 ++----
+ ...721e-common-proc-board-infotainment-display-sharing.dtso | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board-infotainment-display-sharing.dtso b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board-infotainment-display-sharing.dtso
-index e41e55f..8c98057 100644
+index e41e55f6b827..8c98057c546a 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board-infotainment-display-sharing.dtso
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board-infotainment-display-sharing.dtso
 @@ -22,12 +22,10 @@
@@ -29,5 +29,5 @@ index e41e55f..8c98057 100644
  
  	/* partition information */
 -- 
-1.9.1
+2.17.1
 

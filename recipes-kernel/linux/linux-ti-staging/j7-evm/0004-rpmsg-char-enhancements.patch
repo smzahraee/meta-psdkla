@@ -1,7 +1,7 @@
-From ed9aa1b71fcae5254a7aa3a400a725076e17bb7c Mon Sep 17 00:00:00 2001
+From 77704a8c455ffabcc7021e65492449fd5dbdcc17 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Tue, 5 Mar 2019 10:13:32 +0530
-Subject: [PATCH 4/7] rpmsg-char: enhancements
+Subject: [PATCH 4/6] rpmsg-char: enhancements
 
 To be specific, 3 enhancements:
 1. use a id.table  in rpmsg-char driver. That way, it
@@ -27,11 +27,11 @@ To be specific, 3 enhancements:
 Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
- drivers/rpmsg/rpmsg_char.c | 67 ++++++++++++++++++++++++++++++----------------
+ drivers/rpmsg/rpmsg_char.c | 67 +++++++++++++++++++++++++-------------
  1 file changed, 44 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/rpmsg/rpmsg_char.c b/drivers/rpmsg/rpmsg_char.c
-index 4bd9144..b2adb29 100644
+index 4bd91445a2fd..b2adb29331b0 100644
 --- a/drivers/rpmsg/rpmsg_char.c
 +++ b/drivers/rpmsg/rpmsg_char.c
 @@ -76,6 +76,8 @@ struct rpmsg_eptdev {
@@ -200,5 +200,5 @@ index 4bd9144..b2adb29 100644
  
  static int rpmsg_char_init(void)
 -- 
-1.9.1
+2.17.1
 

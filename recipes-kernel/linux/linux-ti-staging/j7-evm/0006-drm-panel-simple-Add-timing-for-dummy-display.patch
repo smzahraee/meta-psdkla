@@ -1,7 +1,7 @@
-From 69a169d74e44aec7bdd7df6260404ef88b95495c Mon Sep 17 00:00:00 2001
+From 76976524eee825cde8ba35a6d3589eb9312d7fe5 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Thu, 29 Aug 2019 18:00:39 +0530
-Subject: [PATCH 6/7] drm/panel: simple: Add timing for dummy display
+Subject: [PATCH 6/6] drm/panel: simple: Add timing for dummy display
 
 Add timing for dummy display so as to work with display
 sharing use case.
@@ -13,10 +13,10 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  1 file changed, 28 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 7b9a4cb..cc1f773 100644
+index 02ddc58b84d3..85f669e5f188 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2429,6 +2429,31 @@ static void panel_simple_shutdown(struct device *dev)
+@@ -2429,6 +2429,31 @@ static const struct panel_desc winstar_wf35ltiacd = {
  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
  };
  
@@ -48,16 +48,16 @@ index 7b9a4cb..cc1f773 100644
  static const struct of_device_id platform_of_match[] = {
  	{
  		.compatible = "ampire,am-480272h3tmqw-t01h",
-@@ -2692,6 +2717,9 @@ static void panel_simple_shutdown(struct device *dev)
+@@ -2691,6 +2716,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
  		.compatible = "winstar,wf35ltiacd",
  		.data = &winstar_wf35ltiacd,
- 	}, {
++	}, {
 +		.compatible = "ti,vx-app-dummy",
 +		.data = &vx_app_dummy,
-+	}, {
+ 	}, {
  		/* sentinel */
  	}
- };
 -- 
-1.9.1
+2.17.1
 

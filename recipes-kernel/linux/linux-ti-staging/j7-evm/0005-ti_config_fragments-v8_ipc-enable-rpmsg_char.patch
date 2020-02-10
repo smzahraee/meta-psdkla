@@ -1,7 +1,7 @@
-From bbedfe53dd6589ccd5a454f1776bcb704fbad2de Mon Sep 17 00:00:00 2001
+From f6fa1c4c34a2225a3c52908570da662061230bbc Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Wed, 6 Mar 2019 15:53:24 +0530
-Subject: [PATCH 5/7] ti_config_fragments: v8_ipc: enable rpmsg_char
+Subject: [PATCH 5/6] ti_config_fragments: v8_ipc: enable rpmsg_char
 
 Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
@@ -10,7 +10,7 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/ti_config_fragments/v8_ipc.cfg b/ti_config_fragments/v8_ipc.cfg
-index 280a1ce..43d5668 100644
+index 280a1ce98c19..43d5668014ee 100644
 --- a/ti_config_fragments/v8_ipc.cfg
 +++ b/ti_config_fragments/v8_ipc.cfg
 @@ -22,6 +22,7 @@ CONFIG_TI_K3_DSP_REMOTEPROC=m
@@ -22,5 +22,5 @@ index 280a1ce..43d5668 100644
  # RPMsg Samples
  CONFIG_SAMPLES=y
 -- 
-1.9.1
+2.17.1
 

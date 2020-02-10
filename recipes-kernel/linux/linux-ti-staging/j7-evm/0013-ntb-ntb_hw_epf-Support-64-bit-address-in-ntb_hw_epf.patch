@@ -1,0 +1,32 @@
+From 38942aa9b5134987ea5d2147af0e2693b4935cc2 Mon Sep 17 00:00:00 2001
+From: Dhaval Khandla <dhavaljk@ti.com>
+Date: Fri, 31 Jan 2020 18:40:15 +0530
+Subject: [PATCH 6/6] ntb: ntb_hw_epf: Support 64-bit address in ntb_hw_epf
+
+The current code assumes that address given by host to endpoint will be
+a 32-bit address because SMMU is being used. But without SMMU, there is
+a chance that 64-bit address can be given. This commit fixes the code to
+handle 64-bit address properly.
+
+Signed-off-by: Dhaval Khandla <dhavaljk@ti.com>
+---
+ drivers/ntb/hw/epf/ntb_hw_epf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/ntb/hw/epf/ntb_hw_epf.c b/drivers/ntb/hw/epf/ntb_hw_epf.c
+index 92fce6775b5b..83eab05fca07 100644
+--- a/drivers/ntb/hw/epf/ntb_hw_epf.c
++++ b/drivers/ntb/hw/epf/ntb_hw_epf.c
+@@ -360,7 +360,8 @@ static int ntb_epf_mw_set_trans(struct ntb_dev *ntb, int pidx, int idx,
+ 		return -EINVAL;
+ 	}
+ 
+-	ntb_epf_ctrl_writel(ndev, NTB_EPF_ADDR, addr);
++	ntb_epf_ctrl_writel(ndev, NTB_EPF_ADDR, lower_32_bits(addr));
++	ntb_epf_ctrl_writel(ndev, NTB_EPF_ADDR + 4, upper_32_bits(addr));
+ 	ntb_epf_ctrl_writel(ndev, NTB_EPF_SIZE, size);
+ 	ntb_epf_send_command(ndev, CMD_CONFIGURE_MW, idx);
+ 
+-- 
+2.17.1
+
