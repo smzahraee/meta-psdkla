@@ -8,17 +8,31 @@ FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 SRC_URI = " \
     file://j7-evm-oob-wallpaper.jpg \
     file://j7-evm-p0-wallpaper.jpg \
+    file://demo.service \
+    file://autolaunch-demo \
+    file://demo.sh \
 "
 
 DEPENDS += "weston-conf"
-RDEPENDS_${PN} += "weston-conf"
+RDEPENDS_${PN} += "weston-conf bash"
+SYSTEMD_SERVICE_${PN} = "demo.service"
 
 S = "${WORKDIR}"
+
+inherit systemd
 
 do_install() {
 	install -d ${D}/${datadir}/demo
 	install -m 644 ${WORKDIR}/j7-evm-oob-wallpaper.jpg ${D}${datadir}/demo/
 	install -m 644 ${WORKDIR}/j7-evm-p0-wallpaper.jpg ${D}${datadir}/demo/
+	install -m 0755 ${WORKDIR}/demo.sh ${D}${datadir}/demo/
+
+	# Install the systemd unit, initscript and demo script
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/demo.service ${D}${systemd_system_unitdir}
+
+	install -d ${D}${sysconfdir}/init.d
+	install -m 0755 ${WORKDIR}/autolaunch-demo ${D}${sysconfdir}/init.d
 }
 
 pkg_postinst_${PN} () {
@@ -34,4 +48,4 @@ FILES_${PN} += " \
 	${datadir}/demo/* \
 "
 
-PR_append = "_psdkla"
+PR_append = "_psdkla_1"
