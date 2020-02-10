@@ -11,6 +11,8 @@ RDEPENDS_${PN}_append = " \
         libion \
         libion-dev \
         oob-demo \
+        websocketd \
+        statcol \
 "
 
 PR_append = "_psdkla"
