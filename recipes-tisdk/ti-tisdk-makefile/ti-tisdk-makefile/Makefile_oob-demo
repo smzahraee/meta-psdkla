@@ -1,9 +1,15 @@
 
-linux_install: oob-demo-update
+linux_install: oob-demo_install
 
 oob-demo:
 	
 
-oob-demo-update:
+oob-demo_clean:
+	
+
+oob-demo_install:
+	@echo =============================
+	@echo Updating oob-demo wallpaper
+	@echo =============================
 	sed -i 's%background-image.*%background-image=/usr/share/demo/j7-evm-p0-wallpaper.jpg%' $(DESTDIR)/etc/weston.ini
 
