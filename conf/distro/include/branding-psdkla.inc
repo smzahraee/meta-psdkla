@@ -8,8 +8,3 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
 	ti/k3-j721e-pcie-backplane.dtbo \
 "
-
-# Autoload the kernel module
-KERNEL_MODULE_AUTOLOAD_EXTRAS = ""
-KERNEL_MODULE_AUTOLOAD_EXTRAS_j7-evm += "rpmsg_kdrv_switch"
-KERNEL_MODULE_AUTOLOAD += "${KERNEL_MODULE_AUTOLOAD_EXTRAS}"
