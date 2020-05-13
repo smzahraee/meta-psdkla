@@ -24,7 +24,7 @@ DTB_FILTER = "unknown"
 DTB_FILTER_j7-evm = "j721e"
 
 # List of target side images to build for the SDK
-TARGET_IMAGES = "tisdk-rootfs-image"
+TARGET_IMAGES = "tisdk-default-image"
 
 IMAGE_INSTALL = "\
     packagegroup-arago-tisdk-addons-sdk-host \
