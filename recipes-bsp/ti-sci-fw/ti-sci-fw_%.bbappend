@@ -1,11 +1,11 @@
 FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 
-SRCREV_imggen = "642da4e2a01ea5d8a553ae0d674839cd5e0715b9"
-SRCREV_imggen-psdkra = "642da4e2a01ea5d8a553ae0d674839cd5e0715b9"
+SRCREV_imggen = "a7d3909ed8ae23a7c90f7ef821713a8b0c3c061d"
+SRCREV_imggen-psdkra = "a7d3909ed8ae23a7c90f7ef821713a8b0c3c061d"
 SRCREV_FORMAT += "_imggen-psdkra"
 
 SRC_URI_append = " \
-	git://git.ti.com/processor-firmware/system-firmware-image-gen.git;protocol=git;branch=master;destsuffix=imggen-psdkra;name=imggen-psdkra \
+	git://git.ti.com/k3-image-gen/k3-image-gen.git;protocol=git;branch=master;destsuffix=imggen-psdkra;name=imggen-psdkra \
 	file://0001-turn-off-msmc-cache-for-psdkra-cache-size-0.patch \
 "
 
