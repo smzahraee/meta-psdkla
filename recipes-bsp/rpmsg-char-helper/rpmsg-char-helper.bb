@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 PROTOCOL = "git"
 BRANCH = "master"
-SRCREV = "fba8b83ea02d978eefbbd65a885daafa9c93b479"
+SRCREV = "b9e60da9abf71d232dd4851d98a2e97af58ee96a"
 SRC_URI = "git://git.ti.com/glsdk/rpmsg-char-helper.git;protocol=${PROTOCOL};branch=${BRANCH}"
 
 S = "${WORKDIR}/git"
