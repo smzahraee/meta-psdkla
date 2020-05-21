@@ -1,26 +1,23 @@
-From dd8c3683ad961e02986986d8773e101cc10f8e7d Mon Sep 17 00:00:00 2001
-From: Subhajit Paul <subhajit_paul@ti.com>
-Date: Tue, 2 Jul 2019 16:31:19 +0530
+From 07f4e2460547f94c116d3de158504b4127ae0281 Mon Sep 17 00:00:00 2001
+From: Kedar Chitnis <kedarc@ti.com>
+Date: Thu, 21 May 2020 19:12:44 +0530
 Subject: [PATCH 1/3] arm64: dts: ti: add new DT overlays for PSDKRA
 
 k3-j721e-vision-apps.dtso:
 * Memory carveouts for vision use cases
 * Combined carveouts for all heap sections
 * Move DSS and HDMI ownership to RTOS
-
-Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
-Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
- .../boot/dts/ti/k3-j721e-vision-apps.dtso     | 199 ++++++++++++++++++
- 1 file changed, 199 insertions(+)
+ arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso | 73 ++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
 new file mode 100644
-index 000000000000..7800b8b6cbd1
+index 0000000..4bd84c2
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
-@@ -0,0 +1,199 @@
+@@ -0,0 +1,73 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -39,39 +36,9 @@ index 000000000000..7800b8b6cbd1
 +
 +		__overlay__ {
 +
-+			dummy-panel {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				compatible = "ti,vx-app-dummy";
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					dummy_in: endpoint {
-+						remote-endpoint = <&dpi_out3>;
-+					};
-+				};
-+
-+			};
 +			dma_buf_phys {
 +				compatible = "ti,dma_buf_phys";
 +			};
-+
-+			ion {
-+				compatible = "ti,ion";
-+				ti_carveout_heap_0 {
-+					memory-region = <&vision_apps_shared_region>;
-+					ion-heap-type = <2>;
-+				};
-+			};
-+		};
-+	};
-+
-+	fragment@102 {
-+		target-path = "/chosen";
-+
-+		__overlay__ {
-+			gl-use-nulldrmws;
 +		};
 +	};
 +};
@@ -88,16 +55,17 @@ index 000000000000..7800b8b6cbd1
 +	#address-cells = <2>;
 +	#size-cells = <2>;
 +
-+	vision_apps_memory_region: vision_apps-dma-memory@ab000000 {
++	vision_apps_memory_region: vision_apps-dma-memory@ac000000 {
 +		compatible = "shared-dma-pool";
 +		reg = <0x00 0xac000000 0x00 0x02000000>;
 +		no-map;
 +	};
-+	vision_apps_shared_region: vision_apps_shared-memories@ad000000 {
-+		compatible = "shared-dma-pool";
++	vision_apps_shared_region: vision_apps_shared-memories@ae000000 {
++		compatible = "dma-heap-carveout";
 +		reg = <0x00 0xae000000 0x00 0x20000000>;
++        no-map;
 +	};
-+	vision_apps_core_heaps: vision_apps-core-heap-memory@cd000000 {
++	vision_apps_core_heaps: vision_apps-core-heap-memory@ce000000 {
 +		compatible = "shared-dma-pool";
 +		reg = <0x00 0xce000000 0x00 0x2e000000>;
 +		no-map;
@@ -117,109 +85,12 @@ index 000000000000..7800b8b6cbd1
 +};
 +
 +&dss {
-+	status = "ok";
-+
-+	pinctrl-names = "none"; /* pinmux configured by RTOS */
-+	power-domains = <&k3_pds 152 TI_SCI_PD_SHARED>; /* share IP among VMs and RTOS */
-+
-+	/* No changes to parents or rates for VP clocks
-+	 * if the VP is not owned by us
-+	 */
-+	assigned-clocks = <&k3_clks 152 13>;
-+
-+	assigned-clock-parents = <&k3_clks 152 18>;	/* PLL23_HSDIV0 */
-+
-+	/* partition information */
-+	dss_planes: dss-planes {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* vid1, marshalled to us by RTOS */
-+		plane@0 {
-+			reg = <0>;
-+			managed = <0>;
-+		};
-+
-+		/* vidl1, Reserved for jailhouse inmate */
-+		plane@1 {
-+			reg = <1>;
-+			managed = <0>;
-+		};
-+
-+		/* vid2, owned by RTOS */
-+		plane@2 {
-+			reg = <2>;
-+			managed = <0>;
-+		};
-+
-+		/* vidl2, marshalled to us by RTOS */
-+		plane@3 {
-+			reg = <3>;
-+			managed = <1>;
-+		};
-+	};
-+
-+	dss_vps: dss-vps {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* Owned by jailhouse inmate */
-+		vp@0 {
-+			reg = <0>;
-+			managed = <0>;
-+		};
-+
-+		/* Owned by RTOS */
-+		vp@1 {
-+			reg = <1>;
-+			managed = <0>;
-+		};
-+
-+		/* The 2 below are not owned by anyone
-+		 * else, so keeping here
-+		 */
-+		vp@2 {
-+			reg = <2>;
-+			managed = <0>;
-+		};
-+
-+		vp@3 {
-+			reg = <3>;
-+			managed = <1>;
-+		};
-+	};
-+
-+	dss_commons: dss-commons {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		interrupt-common {
-+			reg = <1>;
-+		};
-+
-+		config-common {
-+			status = "disabled";
-+			reg = <0>;
-+		};
-+	};
-+};
-+
-+&dss_ports {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	port@3 {
-+		reg = <3>;
-+
-+		dpi_out3: endpoint {
-+			remote-endpoint = <&dummy_in>;
-+		};
-+	};
++	status = "disabled";
 +};
 +
 +&main_i2c1 {
 +	status = "disabled";
 +};
--- 
-2.17.1
+--
+2.7.4
 
