@@ -6,6 +6,7 @@ RDEPENDS_${PN}_append = " \
         glsdk-util-scripts \
         libion \
         libion-dev \
+        oob-demo \
         websocketd \
         statcol \
 "
