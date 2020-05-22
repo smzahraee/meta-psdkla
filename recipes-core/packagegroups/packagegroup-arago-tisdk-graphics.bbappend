@@ -1,5 +1,5 @@
 # These dev packages are needed to build PTK apps against PSDKLA filesystem.
-GRAPHICS_RDEPENDS_append = "\
+RDEPENDS_${PN}_append = "\
     ${PREFERRED_PROVIDER_virtual/egl}-dev \
     wayland-dev \
     weston-dev \
