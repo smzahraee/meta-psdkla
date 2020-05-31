@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 
-SRCREV_imggen = "a7d3909ed8ae23a7c90f7ef821713a8b0c3c061d"
-SRCREV_imggen-psdkra = "a7d3909ed8ae23a7c90f7ef821713a8b0c3c061d"
+SRCREV_imggen-psdkra = "d9a550b91ec95d06a80f2ccc6dd829815ba35d88"
 SRCREV_FORMAT += "_imggen-psdkra"
 
 SRC_URI_append = " \
