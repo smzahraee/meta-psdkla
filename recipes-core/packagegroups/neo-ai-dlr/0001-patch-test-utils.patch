@@ -1,0 +1,11 @@
+--- a/tests/python/integration/test_utils.py	2020-06-07 19:25:45.731449472 -0500
++++ b/tests/python/integration/test_utils_new.py	2020-06-07 19:26:02.719656156 -0500
+@@ -27,7 +27,7 @@
+         except OSError:  
+             raise ValueError("Creation of the directory %s failed" % path)
+     
+-    s3_bucket = 'https://s3-us-west-2.amazonaws.com/neo-ai-dlr-test-artifacts'
++    s3_bucket = 'http://s3-us-west-2.amazonaws.com/neo-ai-dlr-test-artifacts'
+     if kind == 'tvm':
+         artifact_extensions = ['.json', '.params', '.so']
+     elif kind == 'treelite':
