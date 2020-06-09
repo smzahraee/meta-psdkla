@@ -14,6 +14,10 @@ RDEPENDS_${PN}_append = " \
         json-c \
         ocl-gl-headers \
         gdb \
+        python3-numpy \
+        neo-ai-dlr \
+        neo-ai-dlr-tests \
+        neo-ai-dlr-dev \
 "
 
 PR_append = "_psdkla"
