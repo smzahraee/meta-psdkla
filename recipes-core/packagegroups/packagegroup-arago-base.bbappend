@@ -2,11 +2,8 @@ RDEPENDS_${PN}_append = " \
         rpmsg-char-helper \
         rpmsg-char-helper-dev \
         libdrm-dev \
-        ti-img-rogue-umlibs-dev \
-        glsdk-util-scripts \
         libion \
         libion-dev \
-        oob-demo \
         websocketd \
         statcol \
         libloki \
@@ -20,4 +17,8 @@ RDEPENDS_${PN}_append = " \
         neo-ai-dlr-dev \
 "
 
+RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
+        glsdk-util-scripts \
+        oob-demo \
+"
 PR_append = "_psdkla"
