@@ -6,7 +6,7 @@ SRC_URI_append_j7-evm = " \
     file://0003-ti_config_fragments-v8_ipc-enable-rpmsg_char.patch \
 "
 
-KERNEL_DEVICETREE_append = " \
+KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
 "
 
