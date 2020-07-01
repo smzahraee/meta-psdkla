@@ -29,6 +29,7 @@ TARGET_IMAGES = "tisdk-default-image"
 IMAGE_INSTALL = "\
     packagegroup-arago-tisdk-addons-sdk-host \
     packagegroup-arago-tisdk-crypto-sdk-host \
+    ${@bb.utils.contains('MACHINE_FEATURES','gpu','packagegroup-arago-tisdk-graphics-sdk-host','',d)} \
     packagegroup-arago-tisdk-amsdk-sdk-host${ARAGO_KERNEL_SUFFIX} \
 "
 DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
