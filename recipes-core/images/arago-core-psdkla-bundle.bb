@@ -21,6 +21,7 @@ IMAGE_INSTALL_remove += "chromium"
 # Set DTB filters for each machine.  Use "unknown" by default to avoid
 # picking up DTB files for devices with no DTB support.
 DTB_FILTER = "unknown"
+DTB_FILTER_am65xx = "am65"
 DTB_FILTER_j7-evm = "j721e"
 
 # List of target side images to build for the SDK
@@ -34,8 +35,9 @@ IMAGE_INSTALL = "\
 "
 DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
 
-DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin sysfw.itb sysfw-psdkra.itb u-boot.img Image"
-DEPLOY_IMAGES_NAME_append_j7-evm = " ti-sci-firmware-j721e-gp.bin"
+DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin sysfw.itb u-boot.img Image"
+DEPLOY_IMAGES_NAME_append_am65xx-evm = "ti-sci-firmware-am65x-gp.bin ti-sci-firmware-am65x_sr2-gp.bin"
+DEPLOY_IMAGES_NAME_append_j7-evm = "sysfw-psdkra.itb ti-sci-firmware-j721e-gp.bin"
 
 ARAGO_TISDK_IMAGE ?= "arago-core-psdkla-bundle"
 export IMAGE_BASENAME = "${ARAGO_TISDK_IMAGE}"
