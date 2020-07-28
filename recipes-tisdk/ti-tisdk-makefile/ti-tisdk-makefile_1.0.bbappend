@@ -3,6 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/${MACHINE}:"
 SRC_URI_remove_j7-evm = "\
     file://Makefile_matrix-gui \
     file://Makefile_matrix-gui-browser \
+    file://Makefile_ti-ipc \
 "
 
 SRC_URI_append = "\
@@ -16,6 +17,7 @@ MAKEFILES_COMMON_remove_j7-evm = "\
 
 MAKEFILES_remove_j7-evm = " \
     pru-icss \
+    ti-ipc \
 "
 
 MAKEFILES_append_j7-evm = " oob-demo \
@@ -30,6 +32,7 @@ SRC_URI_remove_am65xx-evm = "\
     file://Makefile_barcode-roi \
     file://Makefile_mmwavegesture-hmi \
     file://Makefile_pdm-anomaly-detection \
+    file://Makefile_ti-ipc \
 "
 
 MAKEFILES_COMMON_remove_am65xx-evm = "\
@@ -43,6 +46,7 @@ MAKEFILES_remove_am65xx-evm = " \
     barcode-roi \
     mmwavegesture-hmi \
     pdm-anomaly-detection \
+    ti-ipc \
 "
 
 do_install_append_k3() {
