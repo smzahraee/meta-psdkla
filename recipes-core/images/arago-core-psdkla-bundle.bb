@@ -23,6 +23,7 @@ IMAGE_INSTALL_remove += "chromium"
 DTB_FILTER = "unknown"
 DTB_FILTER_am65xx-evm = "am65"
 DTB_FILTER_j7-evm = "j721e"
+DTB_FILTER_j7200-evm = "j7200"
 
 # List of target side images to build for the SDK
 TARGET_IMAGES = "tisdk-default-image"
