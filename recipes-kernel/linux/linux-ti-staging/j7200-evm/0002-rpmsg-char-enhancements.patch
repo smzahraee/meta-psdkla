@@ -27,20 +27,9 @@ To be specific, 3 enhancements:
 Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
- arch/arm64/boot/dts/ti/Makefile |  1 +
  drivers/rpmsg/rpmsg_char.c      | 67 ++++++++++++++++++++++-----------
- 2 files changed, 45 insertions(+), 23 deletions(-)
+ 1 files changed, 44 insertions(+), 23 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index f499ea75ffa5..4248ee390ead 100644
---- a/arch/arm64/boot/dts/ti/Makefile
-+++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -25,4 +25,5 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
- 				   k3-j721e-proc-board-tps65917.dtb \
- 				   k3-j721e-common-proc-board-infotainment.dtbo \
- 				   k3-j721e-pcie-backplane.dtbo \
-+				   k3-j721e-vision-apps.dtbo \
- 				   k3-j721e-common-proc-board-jailhouse.dtbo
 diff --git a/drivers/rpmsg/rpmsg_char.c b/drivers/rpmsg/rpmsg_char.c
 index d771a8b13da3..758d9191ad6c 100644
 --- a/drivers/rpmsg/rpmsg_char.c

@@ -36,9 +36,9 @@ IMAGE_INSTALL = "\
 "
 DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
 
-DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin sysfw.itb u-boot.img Image"
+DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin u-boot.img Image"
 DEPLOY_IMAGES_NAME_append_am65xx-evm = " ti-sci-firmware-am65x_sr2-gp.bin"
-DEPLOY_IMAGES_NAME_append_j7-evm = " sysfw-psdkra.itb ti-sci-firmware-j721e-gp.bin"
+DEPLOY_IMAGES_NAME_append_j7-evm = " sysfw.itb sysfw-psdkra.itb ti-sci-firmware-j721e-gp.bin"
 
 ARAGO_TISDK_IMAGE ?= "arago-core-psdkla-bundle"
 export IMAGE_BASENAME = "${ARAGO_TISDK_IMAGE}"
