@@ -24,6 +24,7 @@ SRC_URI_remove_j7200-evm = "\
     file://Makefile_matrix-gui \
     file://Makefile_matrix-gui-browser \
     file://Makefile_ti-ipc \
+    file://Makefile_ti-img-rogue-driver \
 "
 
 MAKEFILES_COMMON_remove_j7200-evm = "\
@@ -34,6 +35,7 @@ MAKEFILES_COMMON_remove_j7200-evm = "\
 MAKEFILES_remove_j7200-evm = " \
     pru-icss \
     ti-ipc \
+    ti-img-rogue-driver \
 "
 
 MAKEFILES_append_j7-evm = " oob-demo \
