@@ -1,7 +1,7 @@
-From c0425683bb02a6ef334bfab3252c823985d0fe39 Mon Sep 17 00:00:00 2001
+From 159766f211729677ab00ae8458e0c239e82295b0 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Tue, 5 Mar 2019 10:13:32 +0530
-Subject: [PATCH 2/3] rpmsg-char: enhancements
+Subject: [PATCH 2/2] rpmsg-char: enhancements
 
 To be specific, 3 enhancements:
 1. use a id.table  in rpmsg-char driver. That way, it
@@ -32,15 +32,16 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  2 files changed, 45 insertions(+), 23 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index f499ea75ffa5..4248ee390ead 100644
+index 12d72851f94d..71687e43081e 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -25,4 +25,5 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
- 				   k3-j721e-proc-board-tps65917.dtb \
+@@ -26,5 +26,6 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
+ 				   k3-j7200-common-proc-board.dtb \
  				   k3-j721e-common-proc-board-infotainment.dtbo \
  				   k3-j721e-pcie-backplane.dtbo \
 +				   k3-j721e-vision-apps.dtbo \
- 				   k3-j721e-common-proc-board-jailhouse.dtbo
+ 				   k3-j721e-common-proc-board-jailhouse.dtbo \
+ 				   k3-j7200-common-proc-board-jailhouse.dtbo
 diff --git a/drivers/rpmsg/rpmsg_char.c b/drivers/rpmsg/rpmsg_char.c
 index d771a8b13da3..758d9191ad6c 100644
 --- a/drivers/rpmsg/rpmsg_char.c
