@@ -67,6 +67,8 @@ MAKEFILES_remove_am65xx-evm = " \
     ti-ipc \
 "
 
+K3_UBOOT_MACHINE_R5_j7200-evm = "j7200_evm_r5_config"
+
 do_install_append_k3() {
     cat >> ${D}/Rules.make << __EOF__
 
