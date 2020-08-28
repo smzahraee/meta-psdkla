@@ -1,4 +1,4 @@
-From 5ea14bc389ed4be638239349806d53285ed64c38 Mon Sep 17 00:00:00 2001
+From 9b63e57060d46ed7bac4098e53ebdb7177f88227 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Wed, 6 Mar 2019 15:53:24 +0530
 Subject: [PATCH 3/3] ti_config_fragments: v8_ipc: enable rpmsg_char
