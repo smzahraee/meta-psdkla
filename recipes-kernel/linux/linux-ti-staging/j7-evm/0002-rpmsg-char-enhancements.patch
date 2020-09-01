@@ -1,4 +1,4 @@
-From 711e6825a019d23fe6c9df6cf78f314f7c18e1ef Mon Sep 17 00:00:00 2001
+From 406ed9dbf7047cb36d549d8b3ec7b848d6b8f891 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Tue, 5 Mar 2019 10:13:32 +0530
 Subject: [PATCH 2/3] rpmsg-char: enhancements
