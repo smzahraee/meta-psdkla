@@ -1,0 +1,94 @@
+From f99900f917b1ff3257bf3ddd61d13ac733717421 Mon Sep 17 00:00:00 2001
+From: Shyam Jagannathan <a0393891@ti.com>
+Date: Wed, 9 Sep 2020 20:54:46 +0530
+Subject: [PATCH] [VHWA] Created new entries for Main R5F 2_1
+
+- Partitioned Rx/Tx channels between Main R5F 2_0 and 2_1
+- Done to move DMPAC to Main R5F 2_0
+
+Signed-off-by: Shyam Jagannathan <a0393891@ti.com>
+---
+ soc/j721e/evm/rm-cfg.c        | 26 +++++++++++++-------------
+ soc/j721e/evm/sysfw_img_cfg.h |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/soc/j721e/evm/rm-cfg.c b/soc/j721e/evm/rm-cfg.c
+index 2a96ee2..0c19622 100644
+--- a/soc/j721e/evm/rm-cfg.c
++++ b/soc/j721e/evm/rm-cfg.c
+@@ -982,18 +982,18 @@ const struct boardcfg_rm_local j721e_boardcfg_rm_data = {
+ 		},
+ 		{
+ 			.start_resource = 168,
+-			.num_resource = 4,
++			.num_resource = 100,
+ 			.type = RESASG_UTYPE (J721E_DEV_NAVSS0_RINGACC_0,
+ 					RESASG_SUBTYPE_RA_UDMAP_TX_EXT),
+ 			.host_id = HOST_ID_MAIN_0_R5_0,
+ 		},
+ 		/* Main NAVSS Rings for extended Tx channels for HWA */
+ 		{
+-			.start_resource = 172,
+-			.num_resource = 128,
++			.start_resource = 268,
++			.num_resource = 32,
+ 			.type = RESASG_UTYPE (J721E_DEV_NAVSS0_RINGACC_0,
+ 					RESASG_SUBTYPE_RA_UDMAP_TX_EXT),
+-			.host_id = HOST_ID_MAIN_0_R5_0,
++			.host_id = HOST_ID_MAIN_0_R5_2,
+ 		},
+ 		/* Main NAVSS Rings for High capacity Rx channels */
+ 		{
+@@ -1436,14 +1436,6 @@ const struct boardcfg_rm_local j721e_boardcfg_rm_data = {
+ 					RESASG_SUBTYPE_UDMAP_TX_CHAN),
+ 			.host_id = HOST_ID_ALL,
+ 		},
+-		/* Main NAVSS UDMA extended Tx channels for HWA */
+-		{
+-			.start_resource = 172,
+-			.num_resource = 128,
+-			.type = RESASG_UTYPE (J721E_DEV_NAVSS0_UDMAP_0,
+-					RESASG_SUBTYPE_UDMAP_TX_ECHAN),
+-			.host_id = HOST_ID_MAIN_0_R5_0,
+-		},
+ 		/* Main NAVSS UDMA extended Tx channels for DRU */
+ 		{
+ 			.start_resource = 140,
+@@ -1466,13 +1458,21 @@ const struct boardcfg_rm_local j721e_boardcfg_rm_data = {
+ 					RESASG_SUBTYPE_UDMAP_TX_ECHAN),
+ 			.host_id = HOST_ID_C6X_1_1,
+ 		},
++		/* Main NAVSS UDMA extended Tx channels for HWA */
+ 		{
+ 			.start_resource = 168,
+-			.num_resource = 4,
++			.num_resource = 100,
+ 			.type = RESASG_UTYPE (J721E_DEV_NAVSS0_UDMAP_0,
+ 					RESASG_SUBTYPE_UDMAP_TX_ECHAN),
+ 			.host_id = HOST_ID_MAIN_0_R5_0,
+ 		},
++		{
++			.start_resource = 268,
++			.num_resource = 32,
++			.type = RESASG_UTYPE (J721E_DEV_NAVSS0_UDMAP_0,
++					RESASG_SUBTYPE_UDMAP_TX_ECHAN),
++			.host_id = HOST_ID_MAIN_0_R5_2,
++		},
+ 		/* Main NAVSS UDMA High capacity Tx channels */
+ 		{
+ 			.start_resource = 4,
+diff --git a/soc/j721e/evm/sysfw_img_cfg.h b/soc/j721e/evm/sysfw_img_cfg.h
+index bfd4e53..4509e32 100644
+--- a/soc/j721e/evm/sysfw_img_cfg.h
++++ b/soc/j721e/evm/sysfw_img_cfg.h
+@@ -37,6 +37,6 @@
+ #ifndef SYSFW_IMG_CFG_H
+ #define SYSFW_IMG_CFG_H
+ 
+-#define BOARDCFG_RM_RESASG_ENTRIES	342
++#define BOARDCFG_RM_RESASG_ENTRIES	344
+ 
+ #endif /* SYSFW_IMG_CFG_H */
+-- 
+2.17.1
+
