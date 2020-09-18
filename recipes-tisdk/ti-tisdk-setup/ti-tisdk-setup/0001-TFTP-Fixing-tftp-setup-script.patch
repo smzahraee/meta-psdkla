@@ -1,0 +1,25 @@
+From 6a63d2c10205442f97fe3689a3be7dd09b4416fa Mon Sep 17 00:00:00 2001
+From: Lucas Weaver <l-weaver@ti.com>
+Date: Sat, 19 Sep 2020 02:38:57 +0530
+Subject: [PATCH] [TFTP] Fixing tftp setup script
+
+---
+ setup-tftp.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup-tftp.sh b/setup-tftp.sh
+index e4dc816..98119c7 100644
+--- a/setup-tftp.sh
++++ b/setup-tftp.sh
+@@ -135,7 +135,7 @@ if [ -f $tftproot/$kernelimage ]; then
+          if [ ! -n "$newname" ]; then
+              newname="$kernelimage.$dte"
+          fi
+-         sudo mv "$tftproot/$kernelimage" "$tftproot/$newname"
++         sudo mv $tftproot/$kernelimage $tftproot/$newname
+          check_status
+          sudo cp $kernelimagesrc $tftproot
+          check_status
+-- 
+2.17.1
+
