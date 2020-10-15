@@ -1,4 +1,4 @@
-From 406ed9dbf7047cb36d549d8b3ec7b848d6b8f891 Mon Sep 17 00:00:00 2001
+From e5d40165ad4874b7e86b11b58d13a478b4c51775 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Tue, 5 Mar 2019 10:13:32 +0530
 Subject: [PATCH 2/3] rpmsg-char: enhancements
@@ -32,7 +32,7 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  2 files changed, 45 insertions(+), 23 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 12d72851f94d..71687e43081e 100644
+index 12d72851f..71687e430 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
 @@ -26,5 +26,6 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
@@ -43,7 +43,7 @@ index 12d72851f94d..71687e43081e 100644
  				   k3-j721e-common-proc-board-jailhouse.dtbo \
  				   k3-j7200-common-proc-board-jailhouse.dtbo
 diff --git a/drivers/rpmsg/rpmsg_char.c b/drivers/rpmsg/rpmsg_char.c
-index d771a8b13da3..758d9191ad6c 100644
+index d771a8b13..758d9191a 100644
 --- a/drivers/rpmsg/rpmsg_char.c
 +++ b/drivers/rpmsg/rpmsg_char.c
 @@ -76,6 +76,8 @@ struct rpmsg_eptdev {

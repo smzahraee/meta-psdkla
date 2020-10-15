@@ -1,4 +1,4 @@
-From e247f359d4a40af9c89939e8de16ba76808fae92 Mon Sep 17 00:00:00 2001
+From 63ad9a1ccdf3a4f04e4ee9b9b777985eaf89e109 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Wed, 6 Mar 2019 15:53:24 +0530
 Subject: [PATCH 3/3] ti_config_fragments: v8_ipc: enable rpmsg_char
@@ -10,7 +10,7 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/ti_config_fragments/v8_ipc.cfg b/ti_config_fragments/v8_ipc.cfg
-index 2533eebedf6b..12dc1ccdec38 100644
+index 2533eebed..12dc1ccde 100644
 --- a/ti_config_fragments/v8_ipc.cfg
 +++ b/ti_config_fragments/v8_ipc.cfg
 @@ -24,6 +24,7 @@ CONFIG_RPMSG_CHAR=m
