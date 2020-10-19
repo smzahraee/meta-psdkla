@@ -1,0 +1,29 @@
+From bc37a55bed14ae97262195ea4e79f87c1b28129e Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Sat, 29 Aug 2020 21:36:02 +0530
+Subject: [PATCH] [upstream] add condition for TIDL
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ CMakeLists.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3d853b7..3868824 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -112,6 +112,11 @@ FILE(GLOB DLR_SRC
+     ${TVM_SRC}/src/runtime/contrib/sort/sort.cc
+ )
+ 
++if(USE_TIDL)
++    list(APPEND DLR_SRC ${TVM_SRC}/src/runtime/contrib/tidl/tidl_runtime.cc)
++    include_directories(${USE_TIDL_RT_PATH}/inc)
++endif(USE_TIDL)
++
+ if(USE_OPENCL)
+     message("USING OpenCL")
+     if(USE_OPENCL STREQUAL "ON")
+-- 
+2.17.1
+
