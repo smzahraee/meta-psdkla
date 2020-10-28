@@ -10,6 +10,7 @@ SRC_URI_remove += "git://github.com/neo-ai/tvm;protocol=https;branch=release-1.4
 SRC_URI_append += " \
         file://0001-patch-test-utils.patch \
         file://0001-upstream-add-condition-for-TIDL.patch \
+        file://0001-not-upstream-yocto-run-without-REST.patch \
         git://github.com/texasinstruments/tvm;protocol=https;branch=tidl-j7;destsuffix=${S}/3rdparty/tvm;name=neo-ai-tvm-ti \
         git://github.com/dmlc/dmlc-core;protocol=https;branch=master;destsuffix=${S}/3rdparty/tvm/3rdparty/dmlc-core;name=neo-ai-tvm-dmlc-core-ti \
         git://github.com/dmlc/dlpack;protocol=https;branch=master;destsuffix=${S}/3rdparty/tvm/3rdparty/dlpack;name=neo-ai-tvm-dlpack-ti \
