@@ -1,13 +1,11 @@
 RDEPENDS_${PN}_append = " \
-        rpmsg-char-helper \
-        rpmsg-char-helper-dev \
-        ti-rpmsg-char \
-        ti-rpmsg-char-dev \
         libdrm-dev \
         libion \
         libion-dev \
         websocketd \
         statcol \
+        ti-rpmsg-char \
+        ti-rpmsg-char-dev \
         libloki \
         boost \
         json-c \
