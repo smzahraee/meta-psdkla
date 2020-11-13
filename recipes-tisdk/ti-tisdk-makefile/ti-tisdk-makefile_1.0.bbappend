@@ -4,10 +4,12 @@ SRC_URI_remove_j7-evm = "\
     file://Makefile_matrix-gui \
     file://Makefile_matrix-gui-browser \
     file://Makefile_ti-ipc \
+    file://Makefile_u-boot-spl \
 "
 
 SRC_URI_append = "\
     file://Makefile_oob-demo \
+    file://Makefile_u-boot-spl-j7 \
 "
 
 MAKEFILES_COMMON_remove_j7-evm = "\
@@ -18,6 +20,7 @@ MAKEFILES_COMMON_remove_j7-evm = "\
 MAKEFILES_remove_j7-evm = " \
     pru-icss \
     ti-ipc \
+    u-boot-spl \
 "
 
 SRC_URI_remove_j7200-evm = "\
@@ -25,6 +28,7 @@ SRC_URI_remove_j7200-evm = "\
     file://Makefile_matrix-gui-browser \
     file://Makefile_ti-ipc \
     file://Makefile_ti-img-rogue-driver \
+    file://Makefile_u-boot-spl \
 "
 
 MAKEFILES_COMMON_remove_j7200-evm = "\
@@ -36,9 +40,14 @@ MAKEFILES_remove_j7200-evm = " \
     pru-icss \
     ti-ipc \
     ti-img-rogue-driver \
+    u-boot-spl \
 "
 
 MAKEFILES_append_j7-evm = " oob-demo \
+    u-boot-spl-j7 \
+"
+
+MAKEFILES_append_j7200-evm = " u-boot-spl-j7 \
 "
 
 SRC_URI_remove_am65xx-evm = "\
