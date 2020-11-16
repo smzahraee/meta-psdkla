@@ -8,8 +8,8 @@ SRC_URI_remove += "git://github.com/neo-ai/tvm;protocol=https;branch=release-1.4
 
 # ... and add the new URI and add the submodules, again. Note -ti suffixes to make distinct entries
 SRC_URI_append += " \
-	file://0001-patch-integration.patch \
-	file://0001-DLR-fix-typo-input-vs-output.patch \
+        file://0001-patch-integration.patch \
+        file://0001-DLR-fix-typo-input-vs-output.patch \
         file://0001-upstream-add-condition-for-TIDL.patch \
         file://0001-not-upstream-yocto-run-without-REST.patch \
         git://github.com/texasinstruments/tvm;protocol=https;branch=tidl-j7;destsuffix=${S}/3rdparty/tvm;name=neo-ai-tvm-ti \
