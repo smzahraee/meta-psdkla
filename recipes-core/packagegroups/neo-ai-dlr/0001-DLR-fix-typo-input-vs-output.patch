@@ -1,0 +1,35 @@
+From 98344a43f4331a5da994c4b320a026c06456d91d Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <subhajit_paul@ti.com>
+Date: Sat, 14 Nov 2020 13:22:09 +0530
+Subject: [PATCH] DLR: fix typo input vs output
+
+Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+---
+ python/dlr/dlr_model.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/python/dlr/dlr_model.py b/python/dlr/dlr_model.py
+index 2f2062c..17c6162 100755
+--- a/python/dlr/dlr_model.py
++++ b/python/dlr/dlr_model.py
+@@ -264,7 +264,7 @@ class DLRModelImpl(IDLRModel):
+         return self.output_dtypes
+ 
+     def get_input_name(self, index):
+-        if not (0 <= index < self.num_outputs):
++        if not (0 <= index < self.num_inputs):
+             raise Exception("Index cannot be greater than {}".format(self.num_inputs - 1))
+         return self.get_input_names()[index]
+ 
+@@ -274,7 +274,7 @@ class DLRModelImpl(IDLRModel):
+         return self.get_output_names()[index]
+ 
+     def get_input_dtype(self, index):
+-        if not (0 <= index < self.num_outputs):
++        if not (0 <= index < self.num_inputs):
+             raise Exception("Index cannot be greater than {}".format(self.num_inputs - 1))
+         return self.get_input_dtypes()[index]
+ 
+-- 
+2.17.1
+
