@@ -14,7 +14,13 @@ SYSFW_SOC_j7-hs-evm = j721e
 SYSFW_SOC_j7200-evm = j7200
 SYSFW_SOC = $(SYSFW_SOC_$(PLATFORM))
 
-SYSFW_PREFIX = ti-fs-firmware
+SYSFW_PREFIX_$(PLATFORM) = NULL
+SYSFW_PREFIX_am65xx-evm = ti-sci-firmware
+SYSFW_PREFIX_am65xx-hs-evm = ti-sci-firmware
+SYSFW_PREFIX_j7-evm = ti-fs-firmware
+SYSFW_PREFIX_j7-hs-evm = ti-fs-firmware
+SYSFW_PREFIX_j7200-evm = ti-fs-firmware
+SYSFW_PREFIX = $(SYSFW_PREFIX_$(PLATFORM))
 
 ifeq ($(SYSFW_SOC),j7200)
 	SYSFW_BASE = tiboot3
