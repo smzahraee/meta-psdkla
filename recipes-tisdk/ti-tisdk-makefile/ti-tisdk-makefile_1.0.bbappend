@@ -50,6 +50,10 @@ MAKEFILES_append_j7-evm = " oob-demo \
 MAKEFILES_append_j7200-evm = " u-boot-spl-j7 \
 "
 
+SRC_URI_append_am65xx-evm = "\
+    file://Makefile_ti-sgx-ddk-km-am65xx \
+"
+
 SRC_URI_remove_am65xx-evm = "\
     file://Makefile_matrix-gui \
     file://Makefile_matrix-gui-browser \
@@ -60,6 +64,9 @@ SRC_URI_remove_am65xx-evm = "\
     file://Makefile_mmwavegesture-hmi \
     file://Makefile_pdm-anomaly-detection \
     file://Makefile_ti-ipc \
+    file://Makefile_ti-sgx-ddk-km \
+"
+MAKEFILES_append_am65xx-evm = " ti-sgx-ddk-km-am65xx \
 "
 
 MAKEFILES_COMMON_remove_am65xx-evm = "\
@@ -74,6 +81,7 @@ MAKEFILES_remove_am65xx-evm = " \
     mmwavegesture-hmi \
     pdm-anomaly-detection \
     ti-ipc \
+    ti-sgx-ddk-km \
 "
 
 K3_UBOOT_MACHINE_R5_j7200-evm = "j7200_evm_r5_config"
