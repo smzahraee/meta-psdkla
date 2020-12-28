@@ -19,6 +19,7 @@ RDEPENDS_${PN}_append = " \
         tensorflow-lite-staticdev \
         python3-opencv \
         python3-pip \
+        python3-pillow \
 "
 
 RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
