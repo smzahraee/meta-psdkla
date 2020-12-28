@@ -15,11 +15,10 @@ RDEPENDS_${PN}_append = " \
         neo-ai-dlr \
         neo-ai-dlr-tests \
         neo-ai-dlr-dev \
-        tensorflow-lite-dev \
-        tensorflow-lite-staticdev \
         python3-opencv \
         python3-pip \
         python3-pillow \
+        tensorflow-lite \
 "
 
 RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
