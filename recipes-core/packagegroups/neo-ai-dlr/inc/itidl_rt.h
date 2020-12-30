@@ -244,6 +244,7 @@ int32_t TIDLRT_deactivate(void *handle);
 
 int32_t TIDLRT_setParamsDefault(sTIDLRT_Params_t *prms);
 int32_t TIDLRT_setTensorDefault(sTIDLRT_Tensor_t *tensor);
+int32_t TIDLRT_getDdrStats(uint64_t *read_bytes, uint64_t *write_bytes);
 
 #ifdef __cplusplus
 }

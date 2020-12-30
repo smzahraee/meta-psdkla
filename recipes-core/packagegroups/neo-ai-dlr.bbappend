@@ -8,10 +8,10 @@ SRC_URI_remove += "git://github.com/neo-ai/tvm;protocol=https;branch=release-1.4
 
 # ... and add the new URI and add the submodules, again. Note -ti suffixes to make distinct entries
 SRC_URI_append += " \
-        file://0001-patch-integration.patch \
         file://0001-DLR-fix-typo-input-vs-output.patch \
         file://0001-upstream-add-condition-for-TIDL.patch \
         file://0001-not-upstream-yocto-run-without-REST.patch \
+        file://0001-maybe-upstream-add-a-method-to-get-custom-data.patch \
         git://github.com/texasinstruments/tvm;protocol=https;branch=tidl-j7;destsuffix=${S}/3rdparty/tvm;name=neo-ai-tvm-ti \
         git://github.com/dmlc/dmlc-core;protocol=https;branch=master;destsuffix=${S}/3rdparty/tvm/3rdparty/dmlc-core;name=neo-ai-tvm-dmlc-core-ti \
         git://github.com/dmlc/dlpack;protocol=https;branch=master;destsuffix=${S}/3rdparty/tvm/3rdparty/dlpack;name=neo-ai-tvm-dlpack-ti \
@@ -20,7 +20,7 @@ SRC_URI_append += " \
 # file://inc is a stopgap, it will come as TIDL header package
 
 # Redefine SRCREVs but with -ti suffix; no need to append to LIC_FILES_CHKSUM, these files should be identical
-SRCREV_neo-ai-tvm-ti = "4d87dd174f9f2a58b5d952a677c9adeeeed60507"
+SRCREV_neo-ai-tvm-ti = "87709a4dc2bef7940e2f1d015f72dfea36ff3d2e"
 SRCREV_neo-ai-tvm-dmlc-core-ti = "6c401e242c59a1f4c913918246591bb13fd714e7"
 SRCREV_neo-ai-tvm-dlpack-ti = "3ec04430e89a6834e5a1b99471f415fa939bf642"
 
