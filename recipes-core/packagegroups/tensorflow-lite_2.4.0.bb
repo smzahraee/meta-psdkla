@@ -16,7 +16,7 @@ SRC_URI = "git://github.com/tensorflow/tensorflow.git;branch=r2.4;rev=582c8d236c
     https://github.com/google/ruy/archive/5bb02fbf90824c2eb6cd7418f766c593106a332b.zip;name=ruy;subdir=${S}/${TF_DOWNLOADS}/ruy \
     https://github.com/google/googletest/archive/release-1.8.0.tar.gz;name=googletest;subdir=${S}/${TF_DOWNLOADS}/googletest \
     https://github.com/abseil/abseil-cpp/archive/df3ea785d8c30a9503321a3d35ee7d35808f190d.tar.gz;name=absl;subdir=${S}/${TF_DOWNLOADS}/absl \
-    https://github.com/intel/ARM_NEON_2_x86_SSE/archive/master.zip;name=neon_2_sse;subdir=${S}/${TF_DOWNLOADS}/neon_2_sse \
+    https://github.com/intel/ARM_NEON_2_x86_SSE/archive/2cbbc2a531bcb5734e051c46de47997b2e6b7a72.zip;name=neon_2_sse;subdir=${S}/${TF_DOWNLOADS}/neon_2_sse \
     https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/farmhash/archive/816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz;name=farmhash;subdir=${S}/${TF_DOWNLOADS}/farmhash \
     https://github.com/google/flatbuffers/archive/v1.12.0.tar.gz;name=flatbuffers;subdir=${S}/${TF_DOWNLOADS}/flatbuffers \
     https://storage.googleapis.com/mirror.tensorflow.org/www.kurims.kyoto-u.ac.jp/~ooura/fft2d.tgz;name=fft2d;subdir=${S}/${TF_DOWNLOADS}/fft2d \
@@ -34,7 +34,7 @@ SRC_URI[gemmlowp.sha256sum] = "43146e6f56cb5218a8caaab6b5d1601a083f1f31c06ff474a
 SRC_URI[ruy.sha256sum] = "d8f9dc52c0a52c8470e2e0b60bc16cba91853d812846c075f7ed8404990b003d"
 SRC_URI[googletest.sha256sum] = "58a6f4277ca2bc8565222b3bbd58a177609e9c488e8a72649359ba51450db7d8"
 SRC_URI[absl.sha256sum] = "f368a8476f4e2e0eccf8a7318b98dafbe30b2600f4e3cf52636e5eb145aba06a"
-SRC_URI[neon_2_sse.sha256sum] = "d4aa07ba49885e11220fa0996c973374a8cb10e0811c24ce4b0ac7b67868d17e"
+SRC_URI[neon_2_sse.sha256sum] = "0359e65a0d815574a862941d0b106a66a8b8091038e32a669bb6ddd8d81cd57a"
 SRC_URI[farmhash.sha256sum] = "6560547c63e4af82b0f202cb710ceabb3f21347a4b996db565a411da5b17aba0"
 SRC_URI[flatbuffers.sha256sum] = "62f2223fb9181d1d6338451375628975775f7522185266cd5296571ac152bc45"
 SRC_URI[fft2d.sha256sum] = "ada7e99087c4ed477bfdf11413f2ba8db8a840ba9bbf8ac94f4f3972e2a7cec9"
