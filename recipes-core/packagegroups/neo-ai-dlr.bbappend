@@ -56,3 +56,5 @@ python do_install() {
     bb.build.exec_func("neo_ai_dlr_do_install", d)
     d.setVar("S", "${WORKDIR}/git")
 }
+
+PR_append = "_psdkla"

@@ -1,26 +1,18 @@
-From 23b74cb3273e946df28c906bf38ee78016d16f36 Mon Sep 17 00:00:00 2001
-From: Subhajit Paul <subhajit_paul@ti.com>
-Date: Mon, 28 Dec 2020 18:25:52 +0530
-Subject: [PATCH] j
+From fcf6ec6d0bb8f9b21ed94a01f79d2f170f12285b Mon Sep 17 00:00:00 2001
+From: Subhajit Paul <a0132170@ti.com>
+Date: Mon, 4 Jan 2021 20:49:53 +0530
+Subject: [PATCH] x
 
-Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
+Signed-off-by: Subhajit Paul <a0132170@ti.com>
 ---
- tensorflow/lite/tools/pip_package/setup.py | 12 ------------
- 1 file changed, 12 deletions(-)
+ tensorflow/lite/tools/pip_package/setup.py | 10 ----------
+ 1 file changed, 10 deletions(-)
 
 diff --git a/tensorflow/lite/tools/pip_package/setup.py b/tensorflow/lite/tools/pip_package/setup.py
-index 387f0483850..9a18bf122eb 100644
+index 387f0483850..50d50f7c73e 100644
 --- a/tensorflow/lite/tools/pip_package/setup.py
 +++ b/tensorflow/lite/tools/pip_package/setup.py
-@@ -33,7 +33,6 @@ import sysconfig
- 
- from distutils.command.build_ext import build_ext
- import numpy
--import pybind11
- 
- from setuptools import Extension
- from setuptools import find_packages
-@@ -51,13 +50,6 @@ DOWNLOAD_SCRIPT_PATH = os.path.join(MAKE_DIR, 'download_dependencies.sh')
+@@ -51,13 +51,6 @@ DOWNLOAD_SCRIPT_PATH = os.path.join(MAKE_DIR, 'download_dependencies.sh')
  
  # Setup cross compiling
  TARGET = os.environ.get('TENSORFLOW_TARGET')
@@ -34,7 +26,7 @@ index 387f0483850..9a18bf122eb 100644
  MAKE_CROSS_OPTIONS = []
  for name in [
      'TARGET', 'TARGET_ARCH', 'CC_PREFIX', 'EXTRA_CXXFLAGS', 'EXTRA_CFLAGS'
-@@ -121,9 +113,6 @@ class CustomBuildExt(build_ext, object):
+@@ -121,9 +114,6 @@ class CustomBuildExt(build_ext, object):
      return super(CustomBuildExt, self).get_ext_filename(ext_name)
  
    def run(self):
@@ -44,14 +36,6 @@ index 387f0483850..9a18bf122eb 100644
      return super(CustomBuildExt, self).run()
  
  
-@@ -182,7 +171,6 @@ ext = Extension(
-         numpy.get_include(),
-         os.path.join(DOWNLOADS_DIR, 'flatbuffers', 'include'),
-         os.path.join(DOWNLOADS_DIR, 'absl'),
--        pybind11.get_include()
-     ],
-     libraries=[LIB_TFLITE],
-     library_dirs=[LIB_TFLITE_DIR])
 -- 
 2.17.1
 

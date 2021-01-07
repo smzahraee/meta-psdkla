@@ -59,33 +59,98 @@ do_cp_downloaded_build_deps() {
 }
 addtask do_cp_downloaded_build_deps after do_unpack before do_patch
 
-inherit python3native
+inherit setuptools3 python3native
+
+# Set B so that DLR Python installation can find the library
+B = "${S}"
 
 do_compile() {
     oe_runmake -f tensorflow/lite/tools/make/Makefile
+}
 
-    export PYTHON_LIB_PATH="${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages"
-    export TENSORFLOW_TARGET=${TUNE_ARCH}
-    export CC="${CC}"
-    export CXX="${CXX}"
-    export AR="${AR}"
-    export LD="${LD}"
+do_prepare_pip_package() {
+    # prepare for tfLite_runtime python package build / installation
+    mkdir -p ${S}/tensorflow/lite/tools/pip_package/gen/tflite_runtime
+    cp -r ${S}/tensorflow/lite/tools/pip_package/setup.py ${S}/tensorflow/lite/tools/pip_package/gen
+    cp -r ${S}/tensorflow/lite/tools/pip_package/MANIFEST.in ${S}/tensorflow/lite/tools/pip_package/gen
+    cp -r ${S}/tensorflow/lite/python/interpreter_wrapper ${S}/tensorflow/lite/tools/pip_package/gen
+    cp -r ${S}/tensorflow/lite/python/interpreter.py ${S}/tensorflow/lite/tools/pip_package/gen/tflite_runtime/
+    echo "__version__ = '${PV}'" > ${S}/tensorflow/lite/tools/pip_package/gen/tflite_runtime/__init__.py
+}
 
-    ${S}/tensorflow/lite/tools/pip_package/build_pip_package.sh
+addtask do_prepare_pip_package after do_compile before do_install
+
+tensorflow_lite_do_install() {
+
+    # install library
+    install -d ${D}${libdir}
+    install -m 0644 ${S}/../../make/gen/${TARGET_OS}_${TUNE_ARCH}/lib/*.a ${D}${libdir}/
+
+#    # install headers
+#    ##install -d ${D}${includedir}/tensorflow/lite
+#    ##install -m 0644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite/
+#    ##install -d ${D}${includedir}/tensorflow/lite/c
+#    ##install -m 0644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c/
+#    ##install -d ${D}${includedir}/tensorflow/lite/core/
+#    ##install -m 0644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core/
+#    ##install -d ${D}${includedir}/tensorflow/lite/core/api/
+#    ##install -m 0644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api/
+#    ##install -d ${D}${includedir}/tensorflow/lite/kernels
+#    ##install -m 0644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels/
+#    ##install -d  ${D}${includedir}/tensorflow/lite/profiling/
+#    ##install -m 0644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling/
+#    ##install -d ${D}${includedir}/tensorflow/lite/schema/
+#    ##install -m 0644 ${S}/tensorflow/lite/schema/*.h ${D}${includedir}/tensorflow/lite/schema/
+#    ##install -m 0644 ${S}/tensorflow/lite/schema/schema.fbs ${D}${includedir}/tensorflow/lite/schema/
+#    ##install -d ${D}${includedir}/tensorflow/lite/tools/
+#    ##install -m 0644 ${S}/tensorflow/lite/tools/*.h ${D}${includedir}/tensorflow/lite/tools/
+#    ##install -d ${D}${includedir}/tensorflow/lite/delegates/nnapi/
+#    ##install -m 0644 ${S}/tensorflow/lite/delegates/nnapi/*.h ${D}${includedir}/tensorflow/lite/delegates/nnapi/
+#    ##install -d ${D}${includedir}/tensorflow/lite/experimental/resource_variable/
+#    ##install -m 0644 ${S}/tensorflow/lite/experimental/resource_variable/*.h ${D}${includedir}/tensorflow/lite/experimental/resource_variable/
+#    ##install -d ${D}${includedir}/tensorflow/lite/kernels/internal/
+#    ##install -m 0644 ${S}/tensorflow/lite/kernels/internal/*.h ${D}${includedir}/tensorflow/lite/kernels/internal/
+#
+#    # install pkgconfig
+#    ##install -d ${D}${libdir}/pkgconfig
+#    ##install -m 0644 ${WORKDIR}/tensorflow-lite.pc.in ${D}${libdir}/pkgconfig/tensorflow-lite.pc
+#    ##sed -i 's:@version@:${PV}:g
+#    ##    s:@libdir@:${libdir}:g
+#    ##    s:@includedir@:${includedir}:g' ${D}${libdir}/pkgconfig/tensorflow-lite.pc
+#
+#    # install examples
+#    ##install -d ${D}${datadir}/${BPN}/examples
+#    ##install -m 0755 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/bin/minimal ${D}${datadir}/${BPN}/examples
+#    ##install -m 0755 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/bin/benchmark_model ${D}${datadir}/${BPN}/examples
+#    ##install -m 0755 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/bin/label_image ${D}${datadir}/${BPN}/examples
+#    ##install -m 0644 ${S}/tensorflow/lite/examples/label_image/testdata/grace_hopper.bmp ${D}${datadir}/${BPN}/examples
+#    ##install -m 0644 ${S}/tensorflow/lite/java/ovic/src/testdata/labels.txt ${D}${datadir}/${BPN}/examples
+#    ##install -m 0644 ${WORKDIR}/model/mobilenet_v1_1.0_224_quant.tflite ${D}${datadir}/${BPN}/examples
+#
+#    # install benchmarking script
+#    ##install -m 0755 ${WORKDIR}/tflite-benchmark.sh ${D}${datadir}/${BPN}/examples
+#
+    export PACKAGE_VERSION=${PV}
+    export TENSORFLOW_DIR=${S}/../../../../..
+    export LDFLAGS="${LDFLAGS} -L${S}/../../make/gen/${TARGET_OS}_${TUNE_ARCH}/lib "
+
+    STAGING_LIBDIR="${STAGING_LIBDIR_NATIVE}" distutils3_do_install
+}
+
+python do_install() {
+    d.setVar("S", "${WORKDIR}/git/tensorflow/lite/tools/pip_package/gen")
+    temp = "${STAGING_LIBDIR}"
+    d.setVar("STAGING_LIBDIR", "${STAGING_LIBDIR_NATIVE}")
+
+    bb.build.exec_func("tensorflow_lite_do_install", d)
+
+    d.setVar("STAGING_LIBDIR", temp)
+    d.setVar("S", "${WORKDIR}/git")
 }
 
 DEPENDS = "zlib \
-           python3 \
-           python3-native \
-           python3-pip-native \
-           python3-wheel-native \
            python3-numpy-native \
-           python3-pybind11 \
-"
-
-RDEPENDS_${PN} += "python3 \
-                   python3-numpy \
-                   python3-pybind11 \
+           python3-pybind11-native \
 "
 
 EXTRA_OEMAKE = "\
@@ -96,71 +161,14 @@ EXTRA_OEMAKE = "\
     'AR=${AR}' \
     'LD=${LD}' \
     'TARGET=${TARGET_OS}' \
-    'TARGET_ARCH=${TUNE_ARCH}'"
-
-do_install() {
-    # install library
-    install -d ${D}${libdir}
-    install -m 0644 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/lib/*.a ${D}${libdir}/
-
-    # install headers
-    ##install -d ${D}${includedir}/tensorflow/lite
-    ##install -m 0644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite/
-    ##install -d ${D}${includedir}/tensorflow/lite/c
-    ##install -m 0644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c/
-    ##install -d ${D}${includedir}/tensorflow/lite/core/
-    ##install -m 0644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core/
-    ##install -d ${D}${includedir}/tensorflow/lite/core/api/
-    ##install -m 0644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api/
-    ##install -d ${D}${includedir}/tensorflow/lite/kernels
-    ##install -m 0644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels/
-    ##install -d  ${D}${includedir}/tensorflow/lite/profiling/
-    ##install -m 0644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling/
-    ##install -d ${D}${includedir}/tensorflow/lite/schema/
-    ##install -m 0644 ${S}/tensorflow/lite/schema/*.h ${D}${includedir}/tensorflow/lite/schema/
-    ##install -m 0644 ${S}/tensorflow/lite/schema/schema.fbs ${D}${includedir}/tensorflow/lite/schema/
-    ##install -d ${D}${includedir}/tensorflow/lite/tools/
-    ##install -m 0644 ${S}/tensorflow/lite/tools/*.h ${D}${includedir}/tensorflow/lite/tools/
-    ##install -d ${D}${includedir}/tensorflow/lite/delegates/nnapi/
-    ##install -m 0644 ${S}/tensorflow/lite/delegates/nnapi/*.h ${D}${includedir}/tensorflow/lite/delegates/nnapi/
-    ##install -d ${D}${includedir}/tensorflow/lite/experimental/resource_variable/
-    ##install -m 0644 ${S}/tensorflow/lite/experimental/resource_variable/*.h ${D}${includedir}/tensorflow/lite/experimental/resource_variable/
-    ##install -d ${D}${includedir}/tensorflow/lite/kernels/internal/
-    ##install -m 0644 ${S}/tensorflow/lite/kernels/internal/*.h ${D}${includedir}/tensorflow/lite/kernels/internal/
-
-    # install pkgconfig
-    ##install -d ${D}${libdir}/pkgconfig
-    ##install -m 0644 ${WORKDIR}/tensorflow-lite.pc.in ${D}${libdir}/pkgconfig/tensorflow-lite.pc
-    ##sed -i 's:@version@:${PV}:g
-    ##    s:@libdir@:${libdir}:g
-    ##    s:@includedir@:${includedir}:g' ${D}${libdir}/pkgconfig/tensorflow-lite.pc
-
-    # install examples
-    ##install -d ${D}${datadir}/${BPN}/examples
-    ##install -m 0755 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/bin/minimal ${D}${datadir}/${BPN}/examples
-    ##install -m 0755 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/bin/benchmark_model ${D}${datadir}/${BPN}/examples
-    ##install -m 0755 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/bin/label_image ${D}${datadir}/${BPN}/examples
-    ##install -m 0644 ${S}/tensorflow/lite/examples/label_image/testdata/grace_hopper.bmp ${D}${datadir}/${BPN}/examples
-    ##install -m 0644 ${S}/tensorflow/lite/java/ovic/src/testdata/labels.txt ${D}${datadir}/${BPN}/examples
-    ##install -m 0644 ${WORKDIR}/model/mobilenet_v1_1.0_224_quant.tflite ${D}${datadir}/${BPN}/examples
-
-    # install benchmarking script
-    ##install -m 0755 ${WORKDIR}/tflite-benchmark.sh ${D}${datadir}/${BPN}/examples
-
-    # install python package
-    install -d ${D}/${PYTHON_SITEPACKAGES_DIR}
-    ${STAGING_BINDIR_NATIVE}/pip3 install --disable-pip-version-check -v \
-        -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
-        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/${WORKDIR}/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-${PV}-cp38-cp38-${TARGET_OS}_${TUNE_ARCH}.whl
-}
+    'TARGET_ARCH=${TUNE_ARCH}' \
+"
 
 FILES_${PN} += "${libdir}/*.a \
-               ${PYTHON_SITEPACKAGES_DIR}/tflite_runtime/*.py \
-               ${PYTHON_SITEPACKAGES_DIR}/tflite_runtime/*.so \
-               ${PYTHON_SITEPACKAGES_DIR}/tflite_runtime/__pycache__/* \
-	       ${PYTHON_SITEPACKAGES_DIR}/tflite_runtime-${PV}.dist-info/*"
+"
 
 FILES_${PN}-staticdev = ""
 
 INSANE_SKIP_${PN} += "src-uri-bad \
-                     staticdev"
+                      staticdev \
+"
