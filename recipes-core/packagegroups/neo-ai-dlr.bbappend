@@ -58,3 +58,33 @@ python do_install() {
 }
 
 PR_append = "_psdkla"
+
+BBCLASSEXTEND = "native nativesdk"
+
+DEPENDS_append_class-native += "python3-wheel"
+
+DEPENDS_append_class-target += " \
+                                neo-ai-dlr-native \
+                                neo-ai-tvm-native \
+"
+
+inherit deploy
+
+do_deploy () {
+:
+}
+
+do_deploy_append_class-target() {
+}
+
+do_deploy_append_class-native() {
+    # build the .whl package
+    cd ${S}/python
+    ${PYTHON} setup.py bdist_wheel
+
+    # deploy the .whl package
+    install -d ${DEPLOYDIR}
+    install -m 644 ${WORKDIR}/git/python/dist/dlr-1.4.0-py3-none-any.whl ${DEPLOYDIR}/dlr-1.4.0-py3-none-any.whl
+}
+
+addtask deploy before do_build after do_compile

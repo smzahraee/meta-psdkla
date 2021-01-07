@@ -172,3 +172,32 @@ FILES_${PN}-staticdev = ""
 INSANE_SKIP_${PN} += "src-uri-bad \
                       staticdev \
 "
+BBCLASSEXTEND = "native nativesdk"
+
+DEPENDS_append_class-native = "python3-wheel-native \
+"
+DEPENDS_append_class-target = "tensorflow-lite-native \
+"
+
+do_deploy () {
+:
+}
+
+do_deploy_append_class-target() {
+}
+
+do_deploy_append_class-native() {
+    # build the .whl package
+    export PACKAGE_VERSION=${PV}
+    export TENSORFLOW_DIR=${S}
+    export LDFLAGS="${LDFLAGS} -L${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/lib "
+
+    cd ${S}/tensorflow/lite/tools/pip_package/gen
+    ${PYTHON} setup.py bdist_wheel --py-limited-api cp36
+
+    # deploy the .whl package
+    install -d ${DEPLOYDIR}
+    install -m 644 ${WORKDIR}/git/tensorflow/lite/tools/pip_package/gen/dist/tflite_runtime-2.4.0-cp36-abi3-linux_x86_64.whl ${DEPLOYDIR}/tflite_runtime-2.4.0-cp36-abi3-linux_x86_64.whl
+}
+
+addtask deploy after do_prepare_pip_package before do_install
