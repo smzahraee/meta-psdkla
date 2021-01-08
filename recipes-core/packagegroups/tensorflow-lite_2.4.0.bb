@@ -59,7 +59,7 @@ do_cp_downloaded_build_deps() {
 }
 addtask do_cp_downloaded_build_deps after do_unpack before do_patch
 
-inherit setuptools3 python3native
+inherit setuptools3 python3native deploy
 
 # Set B so that DLR Python installation can find the library
 B = "${S}"
