@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 # We need to use texasinstruments/tvm, so remove the URI and its submodules ...
 SRC_URI_remove += "git://github.com/dmlc/tvm;protocol=https;branch=${BRANCH};name=tvm \
-		   git://github.com/dmlc/dmlc-core;protocol=https;branch=master;destsuffix=${S}/3rdparty/dmlc-core;name=dmlc-core \
+                   git://github.com/dmlc/dmlc-core;protocol=https;branch=master;destsuffix=${S}/3rdparty/dmlc-core;name=dmlc-core \
                    git://github.com/dmlc/HalideIR;protocol=https;branch=master;destsuffix=${S}/3rdparty/HalideIR;name=halideir \
                    git://github.com/dmlc/dlpack;protocol=https;branch=master;destsuffix=${S}/3rdparty/dlpack;name=dlpack \
                    git://github.com/agauniyal/rang;protocol=https;branch=master;destsuffix=${S}/3rdparty/rang;name=rang \
@@ -10,9 +10,9 @@ SRC_URI_remove += "git://github.com/dmlc/tvm;protocol=https;branch=${BRANCH};nam
 "
 
 LIC_FILES_CHKSUM_remove += "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e \
-			    file://3rdparty/dmlc-core/LICENSE;md5=0ca7d6e8f4af26868cb42025ad83374b \
+                            file://3rdparty/dmlc-core/LICENSE;md5=0ca7d6e8f4af26868cb42025ad83374b \
                             file://3rdparty/dlpack/LICENSE;md5=f62d4e85ba68a1574b74d97ab8dea9ab \
-			    file://3rdparty/HalideIR/LICENSE;md5=9910386e68f0616e1ecf1037479fa97e \
+                            file://3rdparty/HalideIR/LICENSE;md5=9910386e68f0616e1ecf1037479fa97e \
 "
 
 # ... and add the new URI and add the submodules, again. Note -ti suffixes to make distinct entries
@@ -21,13 +21,16 @@ SRC_URI_append += " \
         git://github.com/dmlc/dmlc-core;protocol=https;branch=master;destsuffix=${S}/3rdparty/dmlc-core;name=dmlc-core-ti \
         git://github.com/dmlc/dlpack;protocol=https;branch=master;destsuffix=${S}/3rdparty/dlpack;name=dlpack-ti \
         git://github.com/agauniyal/rang;protocol=https;branch=master;destsuffix=${S}/3rdparty/rang;name=rang-ti \
-	git://github.com/apache/incubator-tvm-vta;protocol=https;destsuffix=${S}/3rdparty/vta-hw;name=vta-hw-ti \
+        git://github.com/apache/incubator-tvm-vta;protocol=https;destsuffix=${S}/3rdparty/vta-hw;name=vta-hw-ti \
+        https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz;name=llvm \
+        file://0003-add-graphviz-to-install-dependency.patch \
+        file://0001-tidl-use-reduced-bit-depth-for-in-tensor-scale.patch \
         file://inc \
 "
 
 LIC_FILES_CHKSUM_append += " \
-	file://LICENSE;md5=6624767da5fc0a207875418ee416a320 \
-	file://3rdparty/dmlc-core/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e \
+        file://LICENSE;md5=6624767da5fc0a207875418ee416a320 \
+        file://3rdparty/dmlc-core/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e \
         file://3rdparty/dlpack/LICENSE;md5=f62d4e85ba68a1574b74d97ab8dea9ab \
         file://3rdparty/rang/LICENSE;md5=911690f51af322440237a253d695d19f \
         file://3rdparty/vta-hw/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e \
@@ -39,15 +42,24 @@ SRCREV_dmlc-core-ti = "6c401e242c59a1f4c913918246591bb13fd714e7"
 SRCREV_dlpack-ti = "3ec04430e89a6834e5a1b99471f415fa939bf642"
 SRCREV_rang-ti = "cabe04d6d6b05356fa8f9741704924788f0dd762"
 SRCREV_vta-hw-ti = "87ce9acfae550d1a487746e9d06c2e250076e54c"
+SRC_URI[llvm.sha256sum] = "b25f592a0c00686f03e3b7db68ca6dc87418f681f4ead4df4745a01d9be63843"
 
 BBCLASSEXTEND_append += " native"
 
+DEPENDS_remove += " \
+        llvm \
+        llvm-native \
+        googletest \
+"
+
 RDEPENDS_${PN}_remove += "python3-decorator"
 
-EXTRA_OECMAKE += " \
+
+EXTRA_OECMAKE = " \
+        -DUSE_LLVM=${WORKDIR}/clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04/bin/llvm-config \
         -DUSE_SORT=ON \
-	-DUSE_TIDL=ON \
-	-DUSE_TIDL_RT_PATH=${S}/.. \
+        -DUSE_TIDL=ON \
+        -DUSE_TIDL_RT_PATH=${S}/.. \
 "
 
 LLVM_RELEASE = "9.0.1"
