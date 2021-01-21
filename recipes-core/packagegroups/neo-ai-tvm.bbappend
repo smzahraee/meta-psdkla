@@ -24,7 +24,6 @@ SRC_URI_append += " \
         git://github.com/apache/incubator-tvm-vta;protocol=https;destsuffix=${S}/3rdparty/vta-hw;name=vta-hw-ti \
         https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz;name=llvm \
         file://0003-add-graphviz-to-install-dependency.patch \
-        file://0001-tidl-use-reduced-bit-depth-for-in-tensor-scale.patch \
         file://inc \
 "
 
@@ -37,7 +36,7 @@ LIC_FILES_CHKSUM_append += " \
 "
 
 # Redefine SRCREVs but with -ti suffix;
-SRCREV_tvm-ti = "87709a4dc2bef7940e2f1d015f72dfea36ff3d2e"
+SRCREV_tvm-ti = "57cf319b34ed8c2496e370967ec6543de8b79216"
 SRCREV_dmlc-core-ti = "6c401e242c59a1f4c913918246591bb13fd714e7"
 SRCREV_dlpack-ti = "3ec04430e89a6834e5a1b99471f415fa939bf642"
 SRCREV_rang-ti = "cabe04d6d6b05356fa8f9741704924788f0dd762"

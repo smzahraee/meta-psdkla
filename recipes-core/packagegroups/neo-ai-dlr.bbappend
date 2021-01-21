@@ -20,7 +20,7 @@ SRC_URI_append += " \
 # file://inc is a stopgap, it will come as TIDL header package
 
 # Redefine SRCREVs but with -ti suffix; no need to append to LIC_FILES_CHKSUM, these files should be identical
-SRCREV_neo-ai-tvm-ti = "87709a4dc2bef7940e2f1d015f72dfea36ff3d2e"
+SRCREV_neo-ai-tvm-ti = "57cf319b34ed8c2496e370967ec6543de8b79216"
 SRCREV_neo-ai-tvm-dmlc-core-ti = "6c401e242c59a1f4c913918246591bb13fd714e7"
 SRCREV_neo-ai-tvm-dlpack-ti = "3ec04430e89a6834e5a1b99471f415fa939bf642"
 
