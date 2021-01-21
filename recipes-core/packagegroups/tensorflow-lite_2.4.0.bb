@@ -25,6 +25,7 @@ SRC_URI = "git://github.com/tensorflow/tensorflow.git;branch=r2.4;rev=582c8d236c
     http://download.tensorflow.org/models/mobilenet_v1_2018_08_02/mobilenet_v1_1.0_224_quant.tgz;name=mobilenet_v1_quant;subdir=${WORKDIR}/model;destsuffix=model \
     file://apply-modification-for-eigen.patch \
     file://apply-modification-for-setup-py.patch \
+    file://0001-tflite-interpreter-add-support-for-custom-data.patch \
     file://tflite-benchmark.sh \
     file://tensorflow-lite.pc.in \
 "
