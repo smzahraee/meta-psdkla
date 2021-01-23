@@ -133,6 +133,7 @@ tensorflow_lite_do_install() {
 #
     export PACKAGE_VERSION=${PV}
     export TENSORFLOW_DIR=${S}/../../../../..
+    export TENSORFLOW_TARGET=${TUNE_ARCH}
     export LDFLAGS="${LDFLAGS} -L${S}/../../make/gen/${TARGET_OS}_${TUNE_ARCH}/lib "
 
     STAGING_LIBDIR="${STAGING_LIBDIR_NATIVE}" distutils3_do_install
@@ -140,12 +141,12 @@ tensorflow_lite_do_install() {
 
 python do_install() {
     d.setVar("S", "${WORKDIR}/git/tensorflow/lite/tools/pip_package/gen")
-    temp = "${STAGING_LIBDIR}"
+    temp_staging_dir = "${STAGING_LIBDIR}"
     d.setVar("STAGING_LIBDIR", "${STAGING_LIBDIR_NATIVE}")
 
     bb.build.exec_func("tensorflow_lite_do_install", d)
 
-    d.setVar("STAGING_LIBDIR", temp)
+    d.setVar("STAGING_LIBDIR", temp_staging_dir)
     d.setVar("S", "${WORKDIR}/git")
 }
 
@@ -192,6 +193,7 @@ do_deploy_append_class-native() {
     export PACKAGE_VERSION=${PV}
     export TENSORFLOW_DIR=${S}
     export LDFLAGS="${LDFLAGS} -L${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/lib "
+    export TENSORFLOW_TARGET=${TUNE_ARCH}
 
     cd ${S}/tensorflow/lite/tools/pip_package/gen
     ${PYTHON} setup.py bdist_wheel --py-limited-api cp36
