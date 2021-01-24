@@ -36,7 +36,7 @@ LIC_FILES_CHKSUM_append += " \
 "
 
 # Redefine SRCREVs but with -ti suffix;
-SRCREV_tvm-ti = "57cf319b34ed8c2496e370967ec6543de8b79216"
+SRCREV_tvm-ti = "c57a239ce21f5c7c7fde92147a1295ddaa268d88"
 SRCREV_dmlc-core-ti = "6c401e242c59a1f4c913918246591bb13fd714e7"
 SRCREV_dlpack-ti = "3ec04430e89a6834e5a1b99471f415fa939bf642"
 SRCREV_rang-ti = "cabe04d6d6b05356fa8f9741704924788f0dd762"

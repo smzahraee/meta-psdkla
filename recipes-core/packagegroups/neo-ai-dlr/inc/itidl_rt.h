@@ -100,6 +100,9 @@ extern "C" {
 #define TIDLRT_Uint32          ((int32_t) 4)
 #define TIDLRT_Int32           ((int32_t) 5)
 #define TIDLRT_Float32         ((int32_t) 6)
+#define TIDLRT_Uint64          ((int32_t) 7)
+#define TIDLRT_Int64           ((int32_t) 8)
+
 /* @} */
 
 
