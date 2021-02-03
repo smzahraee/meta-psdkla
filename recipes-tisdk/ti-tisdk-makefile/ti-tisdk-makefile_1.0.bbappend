@@ -10,6 +10,7 @@ SRC_URI_remove_j7-evm = "\
 SRC_URI_append = "\
     file://Makefile_oob-demo \
     file://Makefile_u-boot-spl-j7 \
+    file://Makefile_u-boot-spl-j7200 \
 "
 
 MAKEFILES_COMMON_remove_j7-evm = "\
@@ -47,7 +48,7 @@ MAKEFILES_append_j7-evm = " oob-demo \
     u-boot-spl-j7 \
 "
 
-MAKEFILES_append_j7200-evm = " u-boot-spl-j7 \
+MAKEFILES_append_j7200-evm = " u-boot-spl-j7200 \
 "
 
 SRC_URI_append_am65xx-evm = "\
