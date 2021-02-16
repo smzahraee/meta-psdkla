@@ -1,0 +1,143 @@
+From a872cf6bf00fc22b370e66aa450c9aea6ef1af37 Mon Sep 17 00:00:00 2001
+From: Keerthy <j-keerthy@ti.com>
+Date: Thu, 11 Feb 2021 08:45:15 +0530
+Subject: [PATCH] arm64: dts: ti: k3-j721e-common-proc-board.dts: Add the nodes
+ for ina226 devices
+
+add the nodes for ina226 devices to enable power measurements
+
+Signed-off-by: Keerthy <j-keerthy@ti.com>
+---
+ .../dts/ti/k3-j721e-common-proc-board.dts     | 109 ++++++++++++++++++
+ 1 file changed, 109 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
+index d1a2eb415..249f2fef1 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
+@@ -196,6 +196,13 @@
+ 		>;
+ 	};
+ 
++	main_i2c2_pins_default: main-i2c2-pins-default {
++		pinctrl-single,pins = <
++			J721E_IOPAD(0x1c8, PIN_INPUT_PULLUP, 2) /* (AB5) SPI0_CLK.I2C2_SCL */
++			J721E_IOPAD(0x1cc, PIN_INPUT_PULLUP, 2) /* (AA1) SPI0_D0.I2C2_SDA */
++		>;
++	};
++
+ 	main_i2c3_pins_default: main-i2c3-pins-default {
+ 		pinctrl-single,pins = <
+ 			J721E_IOPAD(0x270, PIN_INPUT_PULLUP, 4) /* (T26) MMC2_CLK.I2C3_SCL */
+@@ -644,6 +651,108 @@
+ 	};
+ };
+ 
++&main_i2c2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&main_i2c2_pins_default>;
++	clock-frequency = <400000>;
++
++	ina226@40 {
++		compatible = "ti,ina226";
++		reg = <0x40>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@41 {
++		compatible = "ti,ina226";
++		reg = <0x41>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@42 {
++		compatible = "ti,ina226";
++		reg = <0x42>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@43 {
++		compatible = "ti,ina226";
++		reg = <0x43>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@44 {
++		compatible = "ti,ina226";
++		reg = <0x44>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@45 {
++		compatible = "ti,ina226";
++		reg = <0x45>;
++		shunt-resistor = <5000>;
++	};
++
++	ina226@46 {
++		compatible = "ti,ina226";
++		reg = <0x46>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@47 {
++		compatible = "ti,ina226";
++		reg = <0x47>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@48 {
++		compatible = "ti,ina226";
++		reg = <0x48>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@49 {
++		compatible = "ti,ina226";
++		reg = <0x49>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@4a {
++		compatible = "ti,ina226";
++		reg = <0x4a>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@4b {
++		compatible = "ti,ina226";
++		reg = <0x4b>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@4c {
++		compatible = "ti,ina226";
++		reg = <0x4c>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@4d {
++		compatible = "ti,ina226";
++		reg = <0x4d>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@4e {
++		compatible = "ti,ina226";
++		reg = <0x4e>;
++		shunt-resistor = <10000>;
++	};
++
++	ina226@4f {
++		compatible = "ti,ina226";
++		reg = <0x4f>;
++		shunt-resistor = <10000>;
++	};
++};
++
+ &main_i2c1 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&main_i2c1_pins_default>;
+-- 
+2.17.1
+
