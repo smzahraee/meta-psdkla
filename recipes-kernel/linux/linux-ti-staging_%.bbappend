@@ -18,4 +18,4 @@ KERNEL_DEVICETREE_append_j7200-evm = " \
 	ti/k3-j7200-dra821a.dtbo \
 "
 
-PR_append = "_psdkla_4"
+PR_append = "_psdkla_6"

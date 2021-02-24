@@ -1,18 +1,19 @@
-From a872cf6bf00fc22b370e66aa450c9aea6ef1af37 Mon Sep 17 00:00:00 2001
+From 10dadc26ec9d48ca82b8705b5621ebe5e8290936 Mon Sep 17 00:00:00 2001
 From: Keerthy <j-keerthy@ti.com>
-Date: Thu, 11 Feb 2021 08:45:15 +0530
+Date: Wed, 24 Feb 2021 10:00:18 +0530
 Subject: [PATCH] arm64: dts: ti: k3-j721e-common-proc-board.dts: Add the nodes
  for ina226 devices
 
-add the nodes for ina226 devices to enable power measurements
+add the nodes for ina226 devices to enable power measurements. Along with that enable
+i2c access to INA226 via I2C expander p10.
 
 Signed-off-by: Keerthy <j-keerthy@ti.com>
 ---
- .../dts/ti/k3-j721e-common-proc-board.dts     | 109 ++++++++++++++++++
- 1 file changed, 109 insertions(+)
+ .../dts/ti/k3-j721e-common-proc-board.dts     | 117 ++++++++++++++++++
+ 1 file changed, 117 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
-index d1a2eb415..249f2fef1 100644
+index d1a2eb415..195b5fda8 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
 @@ -196,6 +196,13 @@
@@ -29,7 +30,22 @@ index d1a2eb415..249f2fef1 100644
  	main_i2c3_pins_default: main-i2c3-pins-default {
  		pinctrl-single,pins = <
  			J721E_IOPAD(0x270, PIN_INPUT_PULLUP, 4) /* (T26) MMC2_CLK.I2C3_SCL */
-@@ -644,6 +651,108 @@
+@@ -626,6 +633,14 @@
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+ 
++		p08 {
++			/* P10 - PM_I2C_CTRL_OE */
++			gpio-hog;
++			gpios = <8 GPIO_ACTIVE_HIGH>;
++			output-high;
++			line-name = "CTRL_PM_I2C_OE";
++		};
++
+ 		p09 {
+ 			/* P11 - MCASP/TRACE_MUX_S0 */
+ 			gpio-hog;
+@@ -644,6 +659,108 @@
  	};
  };
  
