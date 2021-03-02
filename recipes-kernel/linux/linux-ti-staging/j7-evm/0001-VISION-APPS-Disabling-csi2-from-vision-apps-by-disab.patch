@@ -1,0 +1,29 @@
+From c4801489e3f8f0420938ab82e00a06e300921935 Mon Sep 17 00:00:00 2001
+From: Lucas Weaver <l-weaver@ti.com>
+Date: Tue, 2 Mar 2021 14:30:26 -0600
+Subject: [PATCH] [VISION APPS] Disabling csi2 from vision apps by disabling in
+ dtbo
+
+---
+ arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
+index fa33df0e7..1ebf1856b 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
++++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dtso
+@@ -278,3 +278,11 @@
+ &main_i2c1 {
+ 	status = "disabled";
+ };
++
++&csi2_0 {
++	status = "disabled";
++};
++
++&ti_csi2rx0 {
++	status = "disabled";
++};
+-- 
+2.17.1
+
