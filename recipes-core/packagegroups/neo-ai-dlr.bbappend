@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
+BRANCH = "main"
+
 # We need to use texasinstruments/tvm, so remove the URI and its submodules ...
 SRC_URI_remove += "git://github.com/neo-ai/tvm;protocol=https;branch=release-1.4.0;destsuffix=${S}/3rdparty/tvm;name=neo-ai-tvm \
                    git://github.com/dmlc/dmlc-core;protocol=https;branch=master;destsuffix=${S}/3rdparty/tvm/3rdparty/dmlc-core;name=neo-ai-tvm-dmlc-core \
