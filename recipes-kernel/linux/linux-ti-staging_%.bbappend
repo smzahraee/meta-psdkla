@@ -1,9 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/${MACHINE}:"
 
 SRC_URI_append_j7-evm = " \
-    file://0001-Memory-map-updates-for-vision-apps.patch \
+    file://0001-arm64-dts-ti-Add-DTB-overlays-for-vision-apps-and-ed.patch \
     file://0001-arm64-dts-ti-k3-j721e-common-proc-board.dts-Add-the-.patch \
-    file://0001-VISION-APPS-Disabling-csi2-from-vision-apps-by-disab.patch \
     file://0001-ti_config_fragments-Add-multimedia.cfg.patch \
     file://0002-v4l-videodev2-Add-10bit-definitions-for-NV12-and-NV1.patch \
     file://0003-drivers-media-platform-Kconfig-Add-Video-decoder-kco.patch \
@@ -16,12 +15,12 @@ SRC_URI_append_j7-evm = " \
 "
 
 SRC_URI_append_j7200-evm = " \
-    file://0001-Memory-map-updates-for-vision-apps.patch \
     file://0002-DRA821A-Adding-DRA821A-emulation-dtbo.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
+	ti/k3-j721e-edgeai-apps.dtbo \
 "
 
 KERNEL_DEVICETREE_append_j7200-evm = " \
