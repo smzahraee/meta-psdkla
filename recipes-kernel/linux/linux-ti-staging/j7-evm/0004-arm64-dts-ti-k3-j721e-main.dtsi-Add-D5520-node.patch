@@ -1,0 +1,37 @@
+From ddcd597c48ef2bb1bcea13af5946ae662794f0e3 Mon Sep 17 00:00:00 2001
+From: Sunita Nadampalli <sunitan@ti.com>
+Date: Mon, 8 Mar 2021 18:51:22 +0530
+Subject: [PATCH 4/9] arm64: dts: ti: k3-j721e-main.dtsi: Add D5520 node
+
+Add D5520 video decoder node to k3 devices.
+
+Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Signed-off-by: Sunita Nadampalli <sunitan@ti.com>
+Reviewed-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Sidraya Jayagond <sidraya.bj@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721e-main.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+index 8d0c16252ffa..b8c456735e27 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+@@ -1340,6 +1340,14 @@
+ 		power-domains = <&k3_pds 193 TI_SCI_PD_EXCLUSIVE>;
+ 	};
+ 
++	d5520: video-decoder@4300000 {
++	       /* IMG D5520 driver configuration */
++	       compatible = "img,d5500-vxd";
++	       reg = <0x00 0x04300000 0x00 0x100000>;
++	       power-domains = <&k3_pds 144 TI_SCI_PD_EXCLUSIVE>;
++	       interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
++	};
++
+ 	ufs_wrapper: ufs-wrapper@4e80000 {
+ 		compatible = "ti,j721e-ufs";
+ 		reg = <0x0 0x4e80000 0x0 0x100>;
+-- 
+2.17.1
+

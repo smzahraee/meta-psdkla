@@ -1,0 +1,44 @@
+From 8a013785d4c6022c85bd8947bd5e594eeca0c85a Mon Sep 17 00:00:00 2001
+From: Angela Stegmaier <angelabaker@ti.com>
+Date: Mon, 8 Mar 2021 19:11:37 +0530
+Subject: [PATCH 8/9] dt-bindings: Add binding for img,vxe384 for J721E
+
+Add the dt-binding for the img,vxe384 node for J721E.
+
+Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Reviewed-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Sidraya Jayagond <sidraya.bj@ti.com>
+---
+ .../devicetree/bindings/media/img,vxe384.txt  | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/img,vxe384.txt
+
+diff --git a/Documentation/devicetree/bindings/media/img,vxe384.txt b/Documentation/devicetree/bindings/media/img,vxe384.txt
+new file mode 100644
+index 000000000000..0c8734f54113
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/img,vxe384.txt
+@@ -0,0 +1,20 @@
++Imagination VXE384 Driver
++-------------------------
++
++The IMG VXE384 video encode driver for the VXE384 is a video encoder for
++multiple video formats including H.264 on the TI J721E family of SoCs.
++
++Required properties:
++- compatible: must be "img,vxe384"
++- reg: physical base address and length of the registers for the VXE384
++- interrupts: should contain interrupt number for the VXE384
++
++Example for J721E:
++==================
++
++       vxe384: video-encoder@4200000 {
++               compatible = "img,vxe384";
++               reg = <0x00 0x04200000 0x00 0x100000>;
++               power-domains = <&k3_pds 153 TI_SCI_PD_EXCLUSIVE>;
++               interrupts = <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>;
++       };
+-- 
+2.17.1
+

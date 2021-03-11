@@ -1,0 +1,47 @@
+From d4ec201d6606f5dddd862cb5cf14b109968090da Mon Sep 17 00:00:00 2001
+From: Sunita Nadampalli <sunitan@ti.com>
+Date: Mon, 8 Mar 2021 18:48:45 +0530
+Subject: [PATCH 3/9] drivers: media: platform: Kconfig: Add Video decoder
+ kconfig entries
+
+Add video decoder basic config to Kconfig and
+select the required V4l2 modules.
+
+Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Signed-off-by: Sunita Nadampalli <sunitan@ti.com>
+Reviewed-by: Benoit Parrot <bparrot@ti.com>
+
+Modified help syntax from --help-- to help
+
+Signed-off-by: Sidraya Jayagond <sidraya.bj@ti.com>
+---
+ drivers/media/platform/Kconfig | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index ebaa217b5785..49c9f0a889a3 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -502,6 +502,19 @@ config VIDEO_TI_VPE_DEBUG
+ 	help
+ 	  Enable debug messages on VPE driver.
+ 
++config VIDEO_IMG_VXD_DEC
++	  tristate "IMG VXD DEC (Video Decoder) driver"
++	  depends on VIDEO_DEV && VIDEO_V4L2
++	  depends on ARCH_K3_J721E_SOC || COMPILE_TEST
++	  select VIDEOBUF2_CORE
++	  select VIDEOBUF2_DMA_CONTIG
++	  select VIDEOBUF2_DMA_SG
++	  select V4L2_MEM2MEM_DEV
++	  help
++	    This is an IMG VXD DEC V4L2 driver that adds support for the
++	    Imagination D5520 (Video Decoder) hardware.
++	    The module name when built is vxd-dec.
++
+ config VIDEO_QCOM_VENUS
+ 	tristate "Qualcomm Venus V4L2 encoder/decoder driver"
+ 	depends on VIDEO_DEV && VIDEO_V4L2
+-- 
+2.17.1
+
