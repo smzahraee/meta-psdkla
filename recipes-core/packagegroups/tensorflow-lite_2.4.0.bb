@@ -81,11 +81,13 @@ do_prepare_pip_package() {
 
 addtask do_prepare_pip_package after do_compile before do_install
 
-tensorflow_lite_do_install() {
+DISTUTILS_SETUP_PATH = "${WORKDIR}/git/tensorflow/lite/tools/pip_package/gen"
+
+do_install() {
 
     # install library
     install -d ${D}${libdir}
-    install -m 0644 ${S}/../../make/gen/${TARGET_OS}_${TUNE_ARCH}/lib/*.a ${D}${libdir}/
+    install -m 0644 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/lib/*.a ${D}${libdir}/
 
 #    # install headers
 #    ##install -d ${D}${includedir}/tensorflow/lite
@@ -131,23 +133,13 @@ tensorflow_lite_do_install() {
 #    # install benchmarking script
 #    ##install -m 0755 ${WORKDIR}/tflite-benchmark.sh ${D}${datadir}/${BPN}/examples
 #
+    cd ${WORKDIR}/git/tensorflow/lite/tools/pip_package/gen
     export PACKAGE_VERSION=${PV}
-    export TENSORFLOW_DIR=${S}/../../../../..
+    export TENSORFLOW_DIR=../../../../..
     export TENSORFLOW_TARGET=${TUNE_ARCH}
-    export LDFLAGS="${LDFLAGS} -L${S}/../../make/gen/${TARGET_OS}_${TUNE_ARCH}/lib "
+    export LDFLAGS="${LDFLAGS} -L../../make/gen/${TARGET_OS}_${TUNE_ARCH}/lib "
 
-    STAGING_LIBDIR="${STAGING_LIBDIR_NATIVE}" distutils3_do_install
-}
-
-python do_install() {
-    d.setVar("S", "${WORKDIR}/git/tensorflow/lite/tools/pip_package/gen")
-    temp_staging_dir = "${STAGING_LIBDIR}"
-    d.setVar("STAGING_LIBDIR", "${STAGING_LIBDIR_NATIVE}")
-
-    bb.build.exec_func("tensorflow_lite_do_install", d)
-
-    d.setVar("STAGING_LIBDIR", temp_staging_dir)
-    d.setVar("S", "${WORKDIR}/git")
+    distutils3_do_install
 }
 
 DEPENDS = "zlib \
@@ -177,8 +169,6 @@ INSANE_SKIP_${PN} += "src-uri-bad \
 BBCLASSEXTEND = "native nativesdk"
 
 DEPENDS_append_class-native = "python3-wheel-native \
-"
-DEPENDS_append_class-target = "tensorflow-lite-native \
 "
 
 do_deploy () {
