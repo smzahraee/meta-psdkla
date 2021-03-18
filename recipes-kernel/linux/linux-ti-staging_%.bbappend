@@ -12,6 +12,7 @@ SRC_URI_append_j7-evm = " \
     file://0007-arm64-dts-ti-k3-j721e-main.dtsi-Add-VXE384-node.patch \
     file://0008-dt-bindings-Add-binding-for-img-vxe384-for-J721E.patch \
     file://0009-ti_config_fragments-multimedia.cfg-Add-video-encode-.patch \
+    file://0001-Disabling-d5520-and-vxe384-from-vision-apps-by-disab.patch \
 "
 
 SRC_URI_append_j7200-evm = " \
