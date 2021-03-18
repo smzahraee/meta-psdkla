@@ -14,3 +14,7 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 KERNEL_DEVICETREE_append_j7200-evm = " \
 	ti/k3-j7200-dra821a.dtbo \
 "
+
+CREATE_SRCIPK_pn-ti-img-encode-decode = "1"
+SRCIPK_INSTALL_DIR_pn-ti-img-encode-decode = "board-support/extra-drivers/${PN}-${PV}"
+SRCIPK_PRESERVE_GIT_pn-ti-img-encode-decode = "true"
