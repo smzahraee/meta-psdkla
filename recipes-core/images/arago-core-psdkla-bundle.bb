@@ -38,7 +38,9 @@ DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
 
 DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin u-boot.img Image"
 DEPLOY_IMAGES_NAME_append_am65xx-evm = " ti-sci-firmware-am65x_sr2-gp.bin"
-DEPLOY_IMAGES_NAME_append_j7-evm = " sysfw.itb ti-fs-firmware-j721e-gp.bin ipc_echo_testb_mcu1_0_release_strip.xer5f"
+DEPLOY_IMAGES_NAME_append_j7-evm = "\
+    sysfw.itb ti-fs-firmware-j721e-gp.bin ti-fs-firmware-j721e-hs-cert.bin \
+    ti-fs-firmware-j721e-hs-enc.bin ipc_echo_testb_mcu1_0_release_strip.xer5f"
 DEPLOY_IMAGES_NAME_append_j7200-evm = " ti-fs-firmware-j7200-gp.bin ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
 ARAGO_TISDK_IMAGE ?= "arago-core-psdkla-bundle"
