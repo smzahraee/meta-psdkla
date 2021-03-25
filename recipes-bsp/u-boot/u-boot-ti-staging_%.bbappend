@@ -4,4 +4,4 @@ SRC_URI_append_j7-evm = " \
     file://0001-Optimal-QoS-Configuration.patch \
 "
 
-PR_append = "_psdkla"
+PR_append = "_psdkla_1"
