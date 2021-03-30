@@ -1,52 +1,52 @@
-From 8da530aa9f4ee1e04249210cf687a7bd806aeca2 Mon Sep 17 00:00:00 2001
+From b501a6225a88ad055d0526fafb3ead502d865694 Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Fri, 11 Sep 2020 21:27:37 +0530
-Subject: [PATCH] [maybe-upstream] add a method to get custom data
+Subject: [PATCH] add a method to get custom data
 
 ---
- include/dlr.h           |  3 ++
- include/dlr_common.h    | 11 ++++-
+ include/dlr.h           |  4 ++
+ include/dlr_common.h    | 10 +++++
  include/dlr_tvm.h       |  1 +
  python/dlr/api.py       | 11 +++++
  python/dlr/dlr_model.py | 18 +++++++-
  src/dlr.cc              | 91 ++++++++++++++++++++++++++++++++++++++++-
  src/dlr_tvm.cc          | 13 ++++++
- 7 files changed, 145 insertions(+), 3 deletions(-)
+ 7 files changed, 146 insertions(+), 2 deletions(-)
 
 diff --git a/include/dlr.h b/include/dlr.h
-index 9cfedb5..27179e1 100644
+index 9110933..198479d 100644
 --- a/include/dlr.h
 +++ b/include/dlr.h
-@@ -390,6 +390,9 @@ int SetDLRNumThreads(DLRModelHandle* handle, int threads);
+@@ -430,6 +430,10 @@ int SetDLRNumThreads(DLRModelHandle* handle, int threads);
  DLR_DLL
  int UseDLRCPUAffinity(DLRModelHandle* handle, int use);
  
 +DLR_DLL
 +int GetDLRTIBenchmarkData(DLRModelHandle* handle, const char ***annotations,
 +		uint64_t **vals, int *count);
- /*! \} */
- 
- #ifdef __cplusplus
++
+ /*!
+  * \brief Set custom allocator malloc function. Must be called before CreateDLRModel or
+  *        CreateDLRPipeline. It is recommended to use with SetDLRCustomAllocatorFree and
 diff --git a/include/dlr_common.h b/include/dlr_common.h
-index 9b4ac8d..1eccfb1 100644
+index 6da510d..e4f2f4a 100644
 --- a/include/dlr_common.h
 +++ b/include/dlr_common.h
-@@ -122,6 +122,10 @@ class DLR_DLL DLRModel {
+@@ -148,6 +148,10 @@ class DLR_DLL DLRModel {
    virtual const std::vector<int64_t>& GetInputShape(int index) const;
    virtual void GetInput(const char* name, void* input) = 0;
-   virtual void SetInput(const char* name, const int64_t* shape, void* input, int dim) = 0;
+   virtual void SetInput(const char* name, const int64_t* shape, const void* input, int dim) = 0;
 +  virtual bool GetCustomData(const char* name, void **out) {
 +    LOG(ERROR) << "GetCustomData is not supported yet!";
 +    return false;
 +  };
  
-   /* Ouput related functions */
+   /* Output related functions */
    virtual int GetNumOutputs() { return num_outputs_; }
-@@ -152,7 +156,12 @@ class DLR_DLL DLRModel {
+@@ -179,6 +183,12 @@ class DLR_DLL DLRModel {
    virtual bool HasMetadata() const;
    virtual void UseCPUAffinity(bool use) = 0;
    virtual void Run() = 0;
--  
 +
 +  uint64_t run_start_ts, run_start_ddr_read, run_start_ddr_write;
 +  uint64_t run_end_ts, run_end_ddr_read, run_end_ddr_write;
@@ -55,21 +55,21 @@ index 9b4ac8d..1eccfb1 100644
 +  std::unique_ptr<uint64_t[]> vals;
  };
  
- }  // namespace dlr
+ typedef std::shared_ptr<DLRModel> DLRModelPtr;
 diff --git a/include/dlr_tvm.h b/include/dlr_tvm.h
-index a263380..b56c433 100644
+index e5c4f07..c38d3c8 100644
 --- a/include/dlr_tvm.h
 +++ b/include/dlr_tvm.h
-@@ -44,6 +44,7 @@ class DLR_DLL TVMModel : public DLRModel {
+@@ -47,6 +47,7 @@ class DLR_DLL TVMModel : public DLRModel {
    virtual void GetInput(const char* name, void* input) override;
-   virtual void SetInput(const char* name, const int64_t* shape, void* input,
+   virtual void SetInput(const char* name, const int64_t* shape, const void* input,
                          int dim) override;
 +  virtual bool GetCustomData(const char* name, void **out) override;
+   void SetInputTensor(const char* name, DLTensor* tensor);
+   void SetInputTensorZeroCopy(const char* name, DLTensor* tensor);
  
-   virtual void GetOutput(int index, void* out) override;
-   virtual void GetOutputShape(int index, int64_t* shape) const override;
 diff --git a/python/dlr/api.py b/python/dlr/api.py
-index a58272a..6dcf0ee 100644
+index d3c8421..489b74f 100644
 --- a/python/dlr/api.py
 +++ b/python/dlr/api.py
 @@ -32,6 +32,10 @@ class IDLRModel:
@@ -83,7 +83,7 @@ index a58272a..6dcf0ee 100644
  
  def _find_model_file(model_path, ext):
      if os.path.isfile(model_path) and model_path.endswith(ext):
-@@ -312,3 +316,10 @@ class DLRModel(IDLRModel):
+@@ -292,3 +296,10 @@ class DLRModel(IDLRModel):
          except Exception as ex:
              self.neo_logger.exception("error in getting output data type {} {}".format(self._impl.__class__.__name__, ex))
              raise ex
@@ -95,7 +95,7 @@ index a58272a..6dcf0ee 100644
 +            self.neo_logger.exception("error in getting TI benchmark data \"{}\" {} {}".format(self._impl.__class__.__name__, ex))
 +            raise ex
 diff --git a/python/dlr/dlr_model.py b/python/dlr/dlr_model.py
-index 25730e3..8b49e6c 100755
+index 9360538..e45ded9 100755
 --- a/python/dlr/dlr_model.py
 +++ b/python/dlr/dlr_model.py
 @@ -1,6 +1,6 @@
@@ -103,11 +103,11 @@ index 25730e3..8b49e6c 100755
  import ctypes
 -from ctypes import c_void_p, c_int, c_char_p, byref, POINTER, c_longlong
 +from ctypes import c_void_p, c_int, c_char_p, byref, POINTER, c_longlong, c_uint64
+ import json
  import numpy as np
  import os
- import sys
-@@ -501,3 +501,19 @@ class DLRModelImpl(IDLRModel):
-                                      out.ctypes.data_as(ctypes.POINTER(input_ctype))))
+@@ -481,3 +481,19 @@ class DLRModelImpl(IDLRModel):
+                                      out.ctypes._as_parameter_))
          out = out.reshape(shape)
          return out
 +
@@ -127,10 +127,10 @@ index 25730e3..8b49e6c 100755
 +
 +        return out
 diff --git a/src/dlr.cc b/src/dlr.cc
-index c288065..fcda7ee 100644
+index 9ea1853..3705930 100644
 --- a/src/dlr.cc
 +++ b/src/dlr.cc
-@@ -18,6 +18,13 @@
+@@ -14,6 +14,13 @@
  
  using namespace dlr;
  
@@ -144,7 +144,7 @@ index c288065..fcda7ee 100644
  /* DLR C API implementation */
  
  extern "C" int GetDLRNumInputs(DLRModelHandle* handle, int* num_inputs) {
-@@ -341,9 +348,34 @@ extern "C" int DeleteDLRModel(DLRModelHandle* handle) {
+@@ -401,9 +408,34 @@ extern "C" int DeleteDLRModel(DLRModelHandle* handle) {
    API_END();
  }
  
@@ -180,11 +180,10 @@ index c288065..fcda7ee 100644
    API_END();
  }
  
-@@ -403,3 +435,60 @@ extern "C" int UseDLRCPUAffinity(DLRModelHandle* handle, int use) {
-   model->UseCPUAffinity(use);
+@@ -452,6 +484,63 @@ extern "C" int UseDLRCPUAffinity(DLRModelHandle* handle, int use) {
    API_END();
  }
-+
+ 
 +extern "C" int GetDLRTIBenchmarkData(DLRModelHandle* handle, const char ***annotations,
 +		uint64_t **vals, int *count) {
 +  API_BEGIN();
@@ -241,12 +240,16 @@ index c288065..fcda7ee 100644
 +
 +  API_END();
 +}
++
+ extern "C" int SetDLRCustomAllocatorMalloc(DLRMallocFunctionPtr custom_malloc_fn) {
+   API_BEGIN();
+   DLRAllocatorFunctions::SetMallocFunction(custom_malloc_fn);
 diff --git a/src/dlr_tvm.cc b/src/dlr_tvm.cc
-index 2fa7daf..a12d322 100644
+index 09da1d1..029580b 100644
 --- a/src/dlr_tvm.cc
 +++ b/src/dlr_tvm.cc
-@@ -190,6 +190,19 @@ void TVMModel::GetOutputShape(int index, int64_t* shape) const {
-               sizeof(int64_t) * outputs_[index]->ndim);
+@@ -251,6 +251,19 @@ void TVMModel::GetOutputShape(int index, int64_t* shape) const {
+   std::memcpy(shape, outputs_[index]->shape, sizeof(int64_t) * outputs_[index]->ndim);
  }
  
 +bool TVMModel::GetCustomData(const char *name, void **out)

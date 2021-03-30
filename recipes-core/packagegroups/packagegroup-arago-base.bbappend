@@ -13,7 +13,6 @@ RDEPENDS_${PN}_append = " \
         gdb \
         python3-numpy \
         neo-ai-dlr \
-        neo-ai-dlr-tests \
         neo-ai-dlr-dev \
         python3-opencv \
         python3-pip \
