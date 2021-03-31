@@ -31,6 +31,7 @@ SRC_URI_remove_j7200-evm = "\
     file://Makefile_ti-ipc \
     file://Makefile_ti-img-rogue-driver \
     file://Makefile_u-boot-spl \
+    file://Makefile_sysfw-image \
 "
 
 MAKEFILES_COMMON_remove_j7200-evm = "\
@@ -43,6 +44,7 @@ MAKEFILES_remove_j7200-evm = " \
     ti-ipc \
     ti-img-rogue-driver \
     u-boot-spl \
+    sysfw-image \
 "
 
 MAKEFILES_append_j7-evm = " oob-demo \
@@ -98,4 +100,4 @@ UBOOT_MACHINE_R5=${K3_UBOOT_MACHINE_R5}
 __EOF__
 }
 
-PR_append = "_psdkla"
+PR_append = "_psdkla_1"
