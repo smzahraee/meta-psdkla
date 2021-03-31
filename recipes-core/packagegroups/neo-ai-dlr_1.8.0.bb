@@ -93,4 +93,4 @@ do_install() {
     install -m 0644 ${S}/build/lib/libdlr.so ${D}${PYTHON_SITEPACKAGES_DIR}/dlr
 }
 
-PR_append = "_psdkla_3"
+PR_append = "_psdkla"
