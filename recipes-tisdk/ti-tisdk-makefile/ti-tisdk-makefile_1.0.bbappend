@@ -91,13 +91,12 @@ MAKEFILES_remove_am65xx-evm = " \
 
 K3_UBOOT_MACHINE_R5_j7200-evm = "j7200_evm_r5_config"
 
-do_install_append_k3() {
+do_install_append_j7-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
-# Add CROSS_COMPILE and UBOOT_MACHINE for the R5
-export CROSS_COMPILE_ARMV7=\$(LINUX_DEVKIT_PATH)/sysroots/${SDKMACHINE}-arago-linux/usr/bin/arm-none-linux-gnueabihf-
-UBOOT_MACHINE_R5=${K3_UBOOT_MACHINE_R5}
+export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
+
 __EOF__
 }
 
-PR_append = "_psdkla_1"
+PR_append = "_psdkla_2"
