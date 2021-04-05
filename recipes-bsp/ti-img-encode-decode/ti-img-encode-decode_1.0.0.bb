@@ -18,6 +18,7 @@ BRANCH = "master"
 SRC_URI = "git://git.ti.com/jacinto7_multimedia/ti-img-encode-decode.git;protocol=git;branch=${BRANCH} \
            file://0001-TI-IMG-video-codec-driver-porting-to-ti-linux-5.4.y.patch \
            file://0002-Decoder-driver-hanging-on-Gstreamer-and-standalone-t.patch \
+           file://0001-Removed-Encode-Decoder-Makefile-dependency-on-.confi.patch \
 "
 
 S = "${WORKDIR}/git"
