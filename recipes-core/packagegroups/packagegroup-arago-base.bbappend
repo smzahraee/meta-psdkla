@@ -19,6 +19,7 @@ RDEPENDS_${PN}_append = " \
         python3-pillow \
         tensorflow-lite \
         onnxruntime \
+        dialog \
 "
 
 RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
