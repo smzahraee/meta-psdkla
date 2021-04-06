@@ -225,6 +225,8 @@ EXTRA_OECMAKE = " \
 "
 
 do_install() { 
+    cmake_do_install
+
     install -d ${B}/docs/python
 
     install -m 0644 ${S}/setup.py ${B}
