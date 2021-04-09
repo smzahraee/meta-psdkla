@@ -1,6 +1,4 @@
 
-linux_install: oob-demo_install
-
 oob-demo:
 
 
