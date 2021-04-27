@@ -1,0 +1,25 @@
+From 5fb21dd021af111e04d728131c17aa63eef66169 Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Tue, 8 Dec 2020 15:19:17 +0200
+Subject: [PATCH 17/35] ti_config_fragments/connectivity.cfg: enable pps bc
+ support
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ ti_config_fragments/connectivity.cfg | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ti_config_fragments/connectivity.cfg b/ti_config_fragments/connectivity.cfg
+index b834a9d18b08..77fcca6788d2 100644
+--- a/ti_config_fragments/connectivity.cfg
++++ b/ti_config_fragments/connectivity.cfg
+@@ -504,3 +504,6 @@ CONFIG_SERIAL_8250_PRUSS=m
+ 
+ # MUX Drivers
+ CONFIG_MUX_GPIO=y
++
++CONFIG_TI_1PPS_DM_TIMER=y
++CONFIG_TI_PTP_BC=y
+-- 
+2.17.1
+

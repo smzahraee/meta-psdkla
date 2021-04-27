@@ -1,0 +1,26 @@
+From 0433900d634ef3860583fe792ff713aa386d4e3c Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Mon, 8 Feb 2021 17:03:13 +0200
+Subject: [PATCH 23/35] cpts: latch clean on stop
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ drivers/net/ethernet/ti/cpts.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/ethernet/ti/cpts.c b/drivers/net/ethernet/ti/cpts.c
+index 4c1d15cc08d6..27cc3b06c792 100644
+--- a/drivers/net/ethernet/ti/cpts.c
++++ b/drivers/net/ethernet/ti/cpts.c
+@@ -1929,6 +1929,8 @@ static inline void cpts_latch_pps_stop(struct cpts *cpts)
+ 	WRITE_TCLR(cpts->odt2, v);
+ 
+ 	cpts->pps_latch_state = INIT;
++	cpts->pps_latch_offset = 0;
++	cpts->pps_latch_receive = 0;
+ }
+ 
+ static inline void cpts_latch_pps_start(struct cpts *cpts)
+-- 
+2.17.1
+

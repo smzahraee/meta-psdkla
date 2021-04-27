@@ -1,0 +1,158 @@
+From 14cebfb700cf9ef409593766a0cb9009583a926e Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Fri, 9 Apr 2021 15:13:51 +0300
+Subject: [PATCH 30/35] irqchip: irq-pruss-intc: allow shared irq mapping
+ between PRUs
+
+The IEP prX_iep_tim_cap_cmp_pend (CMP) IRQ is shared between PRU cores and
+used by standalone IEP driver. Now the PRU FW pru_intc_map defines IEP CMP
+IRQ in PRU0 FW binary only as Linux PRUSS INTC driver doesn't allows shared
+IRQs mapping. As result, the proper IEP PPS functionality is possible only
+when both PRU cores are loaded - both icss emac interfaces are up.
+
+ifconfig pru10 up
+ifconfig pru11 up
+ ^ PPS is working
+
+ifconfig pru11 up
+ ^ PPS is not working
+
+ifconfig pru10 up
+ifconfig pru11 up
+ ^ PPS is working
+ifconfig pru10 down
+ ^ PPS is not working
+
+This issue affects only dual-emac mode.
+
+Fix it by allowing shared IRQ INTC mappings between PRUs cores and
+implement use count protection for shared IRQs. Note. FW binaries shell
+have shared IRQ INTC mapping defined exactly the same way for both PRUx
+binaries.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ drivers/irqchip/irq-pruss-intc.c       | 56 +++++++++++++++++---------
+ include/linux/irqchip/irq-pruss-intc.h |  2 +
+ 2 files changed, 38 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/irqchip/irq-pruss-intc.c b/drivers/irqchip/irq-pruss-intc.c
+index 215d97c19129..e0adebdc9387 100644
+--- a/drivers/irqchip/irq-pruss-intc.c
++++ b/drivers/irqchip/irq-pruss-intc.c
+@@ -232,10 +232,17 @@ int pruss_intc_configure(struct device *dev,
+ 
+ 		/* check if sysevent already assigned */
+ 		if (intc->config_map.sysev_to_ch[i] != PRU_INTC_FREE) {
+-			dev_err(dev, "event %d (req. channel %d) already assigned to channel %d\n",
+-				i, ch, intc->config_map.sysev_to_ch[i]);
+-			ret = -EEXIST;
+-			goto fail_evt;
++			if (intc->config_map.sysev_to_ch[i] == ch) {
++				intc->config_map.sysev_use_cnt[i]++;
++				dev_dbg(dev, "re-use SYSEVT%d -> CH%d uc:%d\n",
++					i, ch, intc->config_map.sysev_use_cnt[i]);
++				continue;
++			} else {
++				dev_err(dev, "event %d (req. channel %d) already assigned to channel %d\n",
++					i, ch, intc->config_map.sysev_to_ch[i]);
++				ret = -EEXIST;
++				goto fail_evt;
++			}
+ 		}
+ 
+ 		intc->config_map.sysev_to_ch[i] = ch;
+@@ -243,9 +250,11 @@ int pruss_intc_configure(struct device *dev,
+ 		bitmap_set(sysevt_bitmap, i, 1);
+ 		ch_mask |= BIT(ch);
+ 		idx = i / CMR_EVT_PER_REG;
++		intc->config_map.sysev_use_cnt[i]++;
+ 
+-		dev_dbg(dev, "SYSEVT%d -> CH%d (CMR%d 0x%08x)\n", i, ch, idx,
+-			pruss_intc_read_reg(intc, PRU_INTC_CMR(idx)));
++		dev_dbg(dev, "SYSEVT%d -> CH%d (CMR%d 0x%08x) uc:%d\n", i, ch, idx,
++			pruss_intc_read_reg(intc, PRU_INTC_CMR(idx)),
++			intc->config_map.sysev_use_cnt[i]);
+ 	}
+ 
+ 	/*
+@@ -260,18 +269,17 @@ int pruss_intc_configure(struct device *dev,
+ 
+ 		/* check if channel already assigned */
+ 		if (intc->config_map.ch_to_host[i] != PRU_INTC_FREE) {
+-			dev_err(dev, "channel %d (req. intr_no %d) already assigned to intr_no %d\n",
+-				i, host, intc->config_map.ch_to_host[i]);
+-			ret = -EEXIST;
+-			goto fail_ch;
+-		}
+-
+-		/* check if host intr is already in use by other PRU */
+-		if (intc->host_mask & (1U << host)) {
+-			dev_err(dev, "%s: host intr %d already in use\n",
+-				__func__, host);
+-			ret = -EEXIST;
+-			goto fail_ch;
++			if (intc->config_map.ch_to_host[i] == host) {
++				intc->config_map.ch_use_cnt[i]++;
++				dev_dbg(dev, "re-use CH%d -> HOST%d uc:%d\n",
++					i, host, intc->config_map.ch_use_cnt[i]);
++				continue;
++			} else {
++				dev_err(dev, "%s: host intr %d already in use\n",
++					__func__, host);
++				ret = -EEXIST;
++				goto fail_ch;
++			}
+ 		}
+ 
+ 		intc->config_map.ch_to_host[i] = host;
+@@ -279,9 +287,11 @@ int pruss_intc_configure(struct device *dev,
+ 		ch_mask |= BIT(i);
+ 		host_mask |= BIT(host);
+ 		idx = i / HMR_CH_PER_REG;
++		intc->config_map.ch_use_cnt[i]++;
+ 
+-		dev_dbg(dev, "CH%d -> HOST%d (HMR%d 0x%08x)\n", i, host, idx,
+-			pruss_intc_read_reg(intc, PRU_INTC_HMR(idx)));
++		dev_dbg(dev, "CH%d -> HOST%d (HMR%d 0x%08x) uc:%d\n", i, host, idx,
++			pruss_intc_read_reg(intc, PRU_INTC_HMR(idx)),
++			intc->config_map.ch_use_cnt[i]);
+ 	}
+ 
+ 	dev_info(dev, "configured system_events[%d-0] = %*pb\n",
+@@ -369,6 +379,9 @@ int pruss_intc_unconfigure(struct device *dev,
+ 		if (ch < 0)
+ 			continue;
+ 
++		if (--intc->config_map.sysev_use_cnt[i])
++			continue;
++
+ 		/* mark sysevent free in global map */
+ 		intc->config_map.sysev_to_ch[i] = PRU_INTC_FREE;
+ 		bitmap_set(sysevt_bitmap, i, 1);
+@@ -381,6 +394,9 @@ int pruss_intc_unconfigure(struct device *dev,
+ 		if (host < 0)
+ 			continue;
+ 
++		if (--intc->config_map.ch_use_cnt[i])
++			continue;
++
+ 		/* mark channel free in global map */
+ 		intc->config_map.ch_to_host[i] = PRU_INTC_FREE;
+ 		host_mask |= BIT(host);
+diff --git a/include/linux/irqchip/irq-pruss-intc.h b/include/linux/irqchip/irq-pruss-intc.h
+index f41f422f167e..d827da2820c4 100644
+--- a/include/linux/irqchip/irq-pruss-intc.h
++++ b/include/linux/irqchip/irq-pruss-intc.h
+@@ -31,6 +31,8 @@ struct device;
+ struct pruss_intc_config {
+ 	s8 sysev_to_ch[MAX_PRU_SYS_EVENTS];
+ 	s8 ch_to_host[MAX_PRU_CHANNELS];
++	u8 sysev_use_cnt[MAX_PRU_SYS_EVENTS];
++	s8 ch_use_cnt[MAX_PRU_CHANNELS];
+ };
+ 
+ #if IS_ENABLED(CONFIG_TI_PRUSS_INTC)
+-- 
+2.17.1
+

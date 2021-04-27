@@ -1,0 +1,59 @@
+From d299e96ce9f05e78f89e6db737bffbd727d1a37e Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Fri, 9 Apr 2021 15:13:53 +0300
+Subject: [PATCH 32/35] irqchip: irq-pruss-intc: fix enabling of intc events
+
+Now PRUSS INTC events are enabled by default once IRQ events are mapped to
+channel:host pair. This causes issues with undesirable IRQs triggering
+which are silently processed by pruss_intc_irq_handler(), like optional
+IRQs defined in FW pru_intc_map, but not used by Linux.
+
+Fix it by masking all event by default except those which are routed to PRU
+cores (Host IRQs 0,1), the unmasking of IRQs is responsibility of Linux IRQ
+core when IRQ is actually requested.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ drivers/irqchip/irq-pruss-intc.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/irqchip/irq-pruss-intc.c b/drivers/irqchip/irq-pruss-intc.c
+index e0adebdc9387..41ea9592bfd4 100644
+--- a/drivers/irqchip/irq-pruss-intc.c
++++ b/drivers/irqchip/irq-pruss-intc.c
+@@ -247,11 +247,17 @@ int pruss_intc_configure(struct device *dev,
+ 
+ 		intc->config_map.sysev_to_ch[i] = ch;
+ 		pruss_intc_update_cmr(intc, i, ch);
+-		bitmap_set(sysevt_bitmap, i, 1);
+ 		ch_mask |= BIT(ch);
+ 		idx = i / CMR_EVT_PER_REG;
+ 		intc->config_map.sysev_use_cnt[i]++;
+ 
++		/* unmask PRU cores events only */
++		host = intc_config->ch_to_host[ch];
++		if (host < MIN_PRU_HOST_INT) {
++			bitmap_set(sysevt_bitmap, i, 1);
++			dev_dbg(dev, "SYSEVT%d -> CH%d -> HOST%d unmask\n", i, ch, host);
++		}
++
+ 		dev_dbg(dev, "SYSEVT%d -> CH%d (CMR%d 0x%08x) uc:%d\n", i, ch, idx,
+ 			pruss_intc_read_reg(intc, PRU_INTC_CMR(idx)),
+ 			intc->config_map.sysev_use_cnt[i]);
+@@ -441,11 +447,12 @@ static void pruss_intc_init(struct pruss_intc *intc)
+ 
+ 	/*
+ 	 * configure polarity (SIPR register) to active high and
+-	 * type (SITR register) to pulse interrupt for all system events
++	 * type (SITR register) to pulse interrupt, and mask for all system events
+ 	 */
+ 	for (i = 0; i < num_event_type_regs; i++) {
+ 		pruss_intc_write_reg(intc, PRU_INTC_SIPR(i), 0xffffffff);
+ 		pruss_intc_write_reg(intc, PRU_INTC_SITR(i), 0);
++		pruss_intc_write_reg(intc, PRU_INTC_ECR(i), 0);
+ 	}
+ 
+ 	/* clear all interrupt channel map registers, 4 events per register */
+-- 
+2.17.1
+
