@@ -7,7 +7,6 @@ IMAGE_FSTYPES_remove = "wic.xz"
 KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
 	ti/k3-j721e-edgeai-apps.dtbo \
-	ti/k3-j721e-pcie-backplane.dtbo \
 "
 
 # Update the list of DTB and DTBOs globally.
