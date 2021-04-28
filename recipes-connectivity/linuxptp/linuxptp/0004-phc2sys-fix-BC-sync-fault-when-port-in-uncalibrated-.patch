@@ -1,0 +1,109 @@
+From b1b337ee432fe7556c13542e83ce96801c3706fb Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Mon, 4 Jan 2021 14:51:09 +0200
+Subject: [PATCH 04/15] phc2sys: fix BC sync fault when port in uncalibrated
+ state
+
+Reflect upstream commit 67e37b7 ("phc2sys: fix BC sync fault when port in uncalibrated state")
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ phc2sys.c | 61 +++++++++++++++++++++++--------------------------------
+ 1 file changed, 25 insertions(+), 36 deletions(-)
+
+diff --git a/phc2sys.c b/phc2sys.c
+index a4c29a5..33c669d 100644
+--- a/phc2sys.c
++++ b/phc2sys.c
+@@ -393,7 +393,6 @@ static void reconfigure(struct node *node)
+ {
+ 	struct clock *c, *rt = NULL, *src = NULL, *last = NULL, *dup = NULL;
+ 	int src_cnt = 0, dst_cnt = 0;
+-	struct clock *uncalib_clk = NULL;
+ 	int old_state, extts_sync = 0;
+ 
+ 	pr_info("reconfiguring after port state change");
+@@ -447,8 +446,6 @@ static void reconfigure(struct node *node)
+ 			break;
+ 		case PS_UNCALIBRATED:
+ 			src_cnt++;
+-			if (extts_sync)
+-				uncalib_clk = c;
+ 			break;
+ 		case PS_SLAVE:
+ 			src = c;
+@@ -458,11 +455,31 @@ static void reconfigure(struct node *node)
+ 		last = c;
+ 	}
+ 
+-	if (extts_sync && uncalib_clk) {
+-		pr_info("no master, %s is becoming one, waiting...",
+-			uncalib_clk->device);
+-		pps_output_off(node);
+-		pps_input_off(node);
++	if (src_cnt > 1) {
++		pr_info("multiple master clocks available, postponing sync...");
++		if (extts_sync) {
++			pps_output_off(node);
++			pps_input_off(node);
++		}
++		node->master = NULL;
++		return;
++	}
++	if (src_cnt > 0 && !src) {
++		pr_info("master clock not ready, waiting...");
++		if (extts_sync) {
++			pps_output_off(node);
++			pps_input_off(node);
++		}
++		node->master = NULL;
++		return;
++	}
++	if (!src_cnt && !dst_cnt) {
++		/* example: all clocks are PS_INITIALIZING */
++		pr_info("no PHC ready, waiting...");
++		if (extts_sync) {
++			pps_output_off(node);
++			pps_input_off(node);
++		}
+ 		node->master = NULL;
+ 		return;
+ 	}
+@@ -495,34 +512,6 @@ static void reconfigure(struct node *node)
+ 			return;
+ 		}
+ 	}
+-	if (src_cnt > 1) {
+-		pr_info("multiple master clocks available, postponing sync...");
+-		if (extts_sync) {
+-			pps_output_off(node);
+-			pps_input_off(node);
+-		}
+-		node->master = NULL;
+-		return;
+-	}
+-	if (src_cnt > 0 && !src) {
+-		pr_info("master clock not ready, waiting...");
+-		if (extts_sync) {
+-			pps_output_off(node);
+-			pps_input_off(node);
+-		}
+-		node->master = NULL;
+-		return;
+-	}
+-	if (!src_cnt && !dst_cnt) {
+-		/* example: all clocks are PS_INITIALIZING */
+-		pr_info("no PHC ready, waiting...");
+-		if (extts_sync) {
+-			pps_output_off(node);
+-			pps_input_off(node);
+-		}
+-		node->master = NULL;
+-		return;
+-	}
+ 	if ((!src_cnt && (!rt || rt->dest_only)) ||
+ 	    (!dst_cnt && !rt)) {
+ 		pr_info("nothing to synchronize");
+-- 
+2.17.1
+

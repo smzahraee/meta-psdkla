@@ -1,0 +1,35 @@
+From 2cf90f2b9ce949f7501b69a70d0e66cc08f2cfe1 Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Wed, 10 Feb 2021 14:46:20 +0200
+Subject: [PATCH 12/15] phc2sys: add delay before settime after master switch
+
+Experiments shows that it takes 3 sec for new master (PS_SLAVE) clock to
+settle, and phc2sys performs settime for slave(PS_MASTER) clocks at ~1-2 sc
+boundary which is to early.
+
+Add 2sec delay before settime and enabling pps in/out.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ phc2sys.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/phc2sys.c b/phc2sys.c
+index 5bb6b7f..cda543a 100644
+--- a/phc2sys.c
++++ b/phc2sys.c
+@@ -1189,6 +1189,11 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 		return EXTTS_INIT_CLOCKS_RETRY;
+ 	}
+ 
++	/* make sure the settime is complete and ready */
++	interval.tv_sec = 2;
++	interval.tv_nsec = 0;
++	clock_nanosleep(CLOCK_MONOTONIC, 0, &interval, NULL);
++
+ 	LIST_FOREACH(clock, &node->clocks, list) {
+ 		/* don't try to init the clock to itself */
+ 		if (clock->clkid == master_clkid ||
+-- 
+2.17.1
+

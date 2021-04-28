@@ -1,0 +1,28 @@
+From 741de9d4587ee608e3d6e5f323553a3dc53f4d74 Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Fri, 5 Mar 2021 12:56:18 +0200
+Subject: [PATCH 13/15] pmc: fix port state passive slave displaying
+
+Fix port state passive slave displaying in PORT_DATA_SET request.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ pmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pmc.c b/pmc.c
+index 65d1d61..26aa29a 100644
+--- a/pmc.c
++++ b/pmc.c
+@@ -398,7 +398,7 @@ static void pmc_show(struct ptp_message *msg, FILE *fp)
+ 		break;
+ 	case TLV_PORT_DATA_SET:
+ 		p = (struct portDS *) mgt->data;
+-		if (p->portState > PS_SLAVE) {
++		if (p->portState > PS_PASSIVE_SLAVE) {
+ 			p->portState = 0;
+ 		}
+ 		fprintf(fp, "PORT_DATA_SET "
+-- 
+2.17.1
+

@@ -1,0 +1,355 @@
+From 51b9fc753cbb27c544cd0342f3716de38f37bfd7 Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Fri, 22 Jan 2021 20:23:12 +0200
+Subject: [PATCH 06/15] phc2sys.c: clean up extts sync init
+
+Hence there is async read in place we can just clean up extts init and
+simply skip N extts per clock instead.
+
+F this magic.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ phc2sys.c | 258 ++++--------------------------------------------------
+ 1 file changed, 18 insertions(+), 240 deletions(-)
+
+diff --git a/phc2sys.c b/phc2sys.c
+index 490eb1b..8d17aa4 100644
+--- a/phc2sys.c
++++ b/phc2sys.c
+@@ -92,6 +92,7 @@ struct clock {
+ 	struct stats *delay_stats;
+ 	struct clockcheck *sanity_check;
+ 	unsigned int number;
++	unsigned int extts_discard;
+ };
+ 
+ struct port {
+@@ -1138,6 +1139,7 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 	struct timespec interval;
+ 
+ 	/* Disable pps out on all clocks. "All clocks" is just in case. */
++	/* Disable pps in on all clocks. "ALL clocks" is just in case. */
+ 	LIST_FOREACH(clock, &node->clocks, list) {
+ 		if (clock->clkid == CLOCK_REALTIME)
+ 			continue;
+@@ -1146,6 +1148,11 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 			continue;
+ 
+ 		pps_output_control(clock->clkid, 0);
++		pr_debug("%s: pps out off", clock->device);
++
++		extts_input_control(clock, CLK_EXTTS_IDX(n, clock), 0);
++		pr_debug("%s: pps in off", clock->device);
++
+ 
+ 		if (IS_CPTS_CLOCK(n, clock))
+ 			cpts = clock;
+@@ -1156,20 +1163,6 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 			clk1 = clock;
+ 		else if (!clk2)
+ 			clk2 = clock;
+-
+-		pr_debug("%s: pps out off", clock->device);
+-	}
+-
+-	/* Disable pps in on all clocks. "ALL clocks" is just in case. */
+-	LIST_FOREACH(clock, &node->clocks, list) {
+-		if (clock->clkid == CLOCK_REALTIME)
+-			continue;
+-
+-		if (clock->dup_phc)
+-			continue;
+-
+-		extts_input_control(clock, CLK_EXTTS_IDX(n, clock), 0);
+-		pr_debug("%s: pps in off", clock->device);
+ 	}
+ 
+ 	if (!node->master)
+@@ -1183,20 +1176,6 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 		return EXTTS_INIT_CLOCKS_RETRY;
+ 	}
+ 
+-	if (cpts && (node->master != cpts)) {
+-		autocfg_extts_clock_settime(node, node->master, cpts);
+-
+-		pr_debug("reset %s servo", cpts->device);
+-		servo_reset(cpts->servo);
+-		cpts->servo_state = SERVO_UNLOCKED;
+-
+-		if (cpts->offset_stats) {
+-			stats_reset(cpts->offset_stats);
+-			stats_reset(cpts->freq_stats);
+-			stats_reset(cpts->delay_stats);
+-		}
+-	}
+-
+ 	LIST_FOREACH(clock, &node->clocks, list) {
+ 		/* don't try to init the clock to itself */
+ 		if (clock->clkid == master_clkid ||
+@@ -1205,15 +1184,9 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 		    !strcmp(clock->device, node->master->device))
+ 			continue;
+ 
+-		if (cpts && clock == cpts)
+-			continue;
+-
+ 		if (clock->clkid == CLOCK_REALTIME)
+ 			continue;
+ 
+-		if (clock->state == PS_UNCALIBRATED)
+-			continue;
+-
+ 		if (clock->dup_phc)
+ 			continue;
+ 
+@@ -1230,7 +1203,7 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 		}
+ 	}
+ 
+-	/* make sure the ettime is complete and ready */
++	/* make sure the settime is complete and ready */
+ 	interval.tv_sec = 0;
+ 	interval.tv_nsec = 1000;
+ 	clock_nanosleep(CLOCK_MONOTONIC, 0, &interval, NULL);
+@@ -1239,220 +1212,21 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 	pps_output_control(master_clkid, 1);
+ 	pr_info("%s: pps out enabled", node->master->device);
+ 
+-	if (IS_CPTS_CLOCK(n, node->master)) {
+-		/* enable extts input on all slave clocks */
+-		LIST_FOREACH(clock, &node->clocks, list) {
+-			if (clock->clkid == master_clkid)
+-				continue;
+-
+-			if (clock->clkid == CLOCK_REALTIME)
+-				continue;
+-
+-			if (clock->state == PS_UNCALIBRATED)
+-				continue;
+-
+-			if (clock->dup_phc)
+-				continue;
+-
+-			extts_input_control(clock,
+-					   CLK_EXTTS_IDX(n, clock), 1);
+-			pr_debug("%s: pps in enabled", clock->device);
+-		}
+-
+-		if (n_clocks < 3)
+-			return 0;
+-
+-		/* At here, there are at least 3 clocks including master cpts.
+-		 * and not including CLOCK_REALTIME.
+-		 */
+-		pr_info("slave1 %s: waiting for pps-in ready (%d extts)",
+-			clk1->device, max_num_cpts_ts);
+-		for (i = 0; i < max_num_cpts_ts; i++) {
+-			if (!read_extts(CLOCKID_TO_FD(clk1->clkid),
+-					&extts_offset, &cpts_extts_ts,
+-					CLK_EXTTS_IDX(n, clk1))) {
+-				pr_err("%s read_extts failed", clk1->device);
+-				return -1;
+-			}
+-
+-			pr_debug("slave1 %s discard extts_ts %llu",
+-				 clk1->device, cpts_extts_ts);
+-		}
+-
+-		pr_info("slave2 %s: matching slave1 last extts (max %d)",
+-			clk2->device, max_num_ts);
+-		for (i = 0; i < max_num_ts; i++) {
+-			if (!read_extts(CLOCKID_TO_FD(clk2->clkid),
+-					&extts_offset, &extts_ts,
+-					CLK_EXTTS_IDX(n, clk2))) {
+-				pr_err("%s read_extts failed", clk2->device);
+-				return -1;
+-			}
+-
+-			d = extts_ts - cpts_extts_ts;
+-			pr_debug("slave2 %s discard extts_ts %llu d %lld",
+-				 clk2->device, extts_ts, d);
+-
+-			if (close_to_zero(d)) {
+-				if (i < 1)
+-					pr_info("Extts matches q-head.");
+-
+-				break;
+-			}
+-		}
+-
+-		if (i == max_num_ts) {
+-			pr_err("slave2 %s failed in matching slave1 %s extts",
+-			       clk2->device, clk1->device);
+-			run_pmc_events(node);
+-			if (node->state_changed) {
+-				pr_info("retry...");
+-				return EXTTS_INIT_CLOCKS_RETRY;
+-			}
+-
+-			return EXTTS_INIT_CLOCKS_FAIL;
+-		}
+-
+-		run_pmc_events(node);
+-		if (node->state_changed) {
+-			pr_info("clk state change while matching extts, retry...");
+-			return EXTTS_INIT_CLOCKS_RETRY;
+-		}
+-
+-		return EXTTS_INIT_CLOCKS_OK;
+-	}
+-
+-	/* Now cpts is not the master clk or it may not even exist. */
+-	/* Get non-cpts slave phc ready first. */
+-	LIST_FOREACH(clock, &node->clocks, list) {
+-		/* don't try to init the clock to itself */
+-		if (clock->clkid == master_clkid ||
+-		    (clock->phc_index >= 0 &&
+-		     clock->phc_index == node->master->phc_index) ||
+-		    !strcmp(clock->device, node->master->device))
+-			continue;
+-
+-		if (cpts && clock->clkid == cpts->clkid)
+-			continue;
+-
+-		if (clock->clkid == CLOCK_REALTIME)
+-			continue;
+-
+-		if (clock->state == PS_UNCALIBRATED)
+-			continue;
+-
+-		if (clock->dup_phc)
+-			continue;
+-
+-		extts_input_control(clock, CLK_EXTTS_IDX(n, clock), 1);
+-		last = clock;
+-		pr_info("%s: pps in enabled", clock->device);
+-	}
+-
+-	/* cpts does not exist or it is becoming internal master */
+-	if (!cpts || cpts->state == PS_UNCALIBRATED)
+-		return 0;
+-
+-	if (last) {
+-		if (!read_extts(CLOCKID_TO_FD(last->clkid),
+-				&extts_offset,
+-				&extts_ts, CLK_EXTTS_IDX(n, last))) {
+-			pr_err("%s read_extts failed", last->device);
+-			return -1;
+-		}
+-
+-		pr_debug("%s discard extts_ts %llu before cpts",
+-			 last->device, extts_ts);
+-	}
+-
+-	/* cpts exists and is not the internal master clock,
+-	 * enable its pps latch now.
+-	 */
+-	extts_input_control(cpts, CLK_EXTTS_IDX(n, cpts), 1);
+-	pr_info("cpts: pps-in on, waiting for ready (%d extts)",
+-		max_num_cpts_ts);
+-	for (i = 0; i < max_num_cpts_ts; i++) {
+-		if (!read_extts(CLOCKID_TO_FD(cpts->clkid),
+-				&extts_offset,
+-				&cpts_extts_ts, CLK_EXTTS_IDX(n, cpts))) {
+-			pr_err("%s read_extts failed", cpts->device);
+-			return -1;
+-		}
+-
+-		d = extts_ts - cpts_extts_ts;
+-		pr_debug("cpts discard extts_ts %llu d %lld",
+-			 cpts_extts_ts, d);
+-	}
+-
+-	d = extts_ts - cpts_extts_ts;
+-	if (close_to_zero(d)) {
+-		pr_info("cpts's last discard backward matches %s",
+-			last->device);
+-		return EXTTS_INIT_CLOCKS_OK;
+-	}
+-
+-	/* cpts as internal slave is now ready, bring the other
+-	 * internal slave clocks to sync to the same pps as cpts
+-	 */
++	/* enable extts input on all slave clocks */
+ 	LIST_FOREACH(clock, &node->clocks, list) {
+-		/* don't try to init the clock to itself */
+-		if (clock->clkid == master_clkid ||
+-		    (clock->phc_index >= 0 &&
+-		     clock->phc_index == node->master->phc_index) ||
+-		    !strcmp(clock->device, node->master->device))
+-			continue;
+-
+-		if (cpts && clock->clkid == cpts->clkid)
++		if (clock->clkid == master_clkid)
+ 			continue;
+ 
+ 		if (clock->clkid == CLOCK_REALTIME)
+ 			continue;
+ 
+-		if (clock->state == PS_UNCALIBRATED)
+-			continue;
+-
+ 		if (clock->dup_phc)
+ 			continue;
+ 
+-		pr_info("%s: matching cpts last extts (max %d)",
+-			clock->device, max_num_ts);
+-		for (i = 0; i < max_num_ts; i++) {
+-			if (!read_extts(CLOCKID_TO_FD(clock->clkid),
+-					&extts_offset,
+-					&extts_ts, CLK_EXTTS_IDX(n, clock))) {
+-				pr_err("%s read_extts failed", clock->device);
+-				return -1;
+-			}
+-
+-			d = extts_ts - cpts_extts_ts;
+-			pr_debug("%s discard extts_ts %llu d %lld",
+-				 clock->device, extts_ts, d);
+-
+-			if (close_to_zero(d)) {
+-				if (i < 1)
+-					pr_info("Extts matches cpts at q-head.");
+-
+-				if (llabs(d) > 1000000) {
+-					prepare_retry(node);
+-					pr_info("master not stable, retry...");
+-					return EXTTS_INIT_CLOCKS_RETRY;
+-				} else {
+-					break;
+-				}
+-			}
+-		}
+-
+-		if (i == max_num_ts) {
+-			pr_err("%s failed in matching cpts extts",
+-			       clock->device);
+-			run_pmc_events(node);
+-			if (node->state_changed) {
+-				pr_info("retry...");
+-				return EXTTS_INIT_CLOCKS_RETRY;
+-			}
+-
+-			return EXTTS_INIT_CLOCKS_FAIL;
+-		}
++		clock->extts_discard = CPTS_EXTTS_DISCARDS_MAX;
++		extts_input_control(clock,
++				   CLK_EXTTS_IDX(n, clock), 1);
++		pr_debug("%s: pps in enabled", clock->device);
+ 	}
+ 
+ 	run_pmc_events(node);
+@@ -1563,6 +1337,10 @@ static int do_autocfg_extts_loop(struct node *node, int subscriptions)
+ 					&extts_ts, CLK_EXTTS_IDX(n, clock)))
+ 				continue;
+ 
++			/* skip N extts to have PPS settle */
++			if (clock->extts_discard--)
++				continue;
++
+ 			update_clock(node, clock, extts_offset, extts_ts, -1);
+ 		}
+ 	}
+-- 
+2.17.1
+

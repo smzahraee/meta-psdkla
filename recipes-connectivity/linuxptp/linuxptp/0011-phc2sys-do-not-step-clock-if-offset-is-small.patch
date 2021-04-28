@@ -1,0 +1,89 @@
+From 569fec426b9cc81a0a268f0de50faacaf0ec3436 Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Thu, 11 Feb 2021 12:23:35 +0200
+Subject: [PATCH 11/15] phc2sys do not step clock if offset is small
+
+On RT Kernel the delay between subsequent clk_get operations could be
+pretty high (~30us) comparing to src to dts clock offset (<1us) which
+causes destination clock to step by ~(delay / 2) value introducing
+unnecessary sync errors.
+
+If src to dts clock offset is small and < step_threshold do not step dts
+clock and let servo dial with it.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+---
+ phc2sys.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/phc2sys.c b/phc2sys.c
+index ab53992..5bb6b7f 100644
+--- a/phc2sys.c
++++ b/phc2sys.c
+@@ -93,6 +93,7 @@ struct clock {
+ 	struct clockcheck *sanity_check;
+ 	unsigned int number;
+ 	unsigned int extts_discard;
++	double step_threshold;
+ };
+ 
+ struct port {
+@@ -187,6 +188,7 @@ static struct servo *servo_add(struct node *node, struct clock *clock)
+ 
+ static struct clock *clock_add(struct node *node, char *device)
+ {
++	double servo_step_threshold;
+ 	struct clock *c;
+ 	clockid_t clkid = CLOCK_INVALID;
+ 	int phc_index = -1;
+@@ -237,6 +239,13 @@ static struct clock *clock_add(struct node *node, char *device)
+ 		c->sysoff_method = sysoff_probe(CLOCKID_TO_FD(clkid),
+ 						node->phc_readings);
+ 
++	servo_step_threshold = config_get_double(phc2sys_config, NULL, "step_threshold");
++	if (servo_step_threshold > 0.0) {
++		c->step_threshold = servo_step_threshold * NS_PER_SEC;
++	} else {
++		c->step_threshold = 0.0;
++	}
++
+ 	c->number = node->num_clocks++;
+ 	LIST_INSERT_HEAD(&node->clocks, c, list);
+ 	return c;
+@@ -1055,6 +1064,10 @@ static void autocfg_extts_clock_settime(struct node *node,
+ 		return;
+ 	}
+ 
++	if (dst->step_threshold &&
++	    dst->step_threshold > llabs(dst_offset))
++		return;
++
+ 	if (dst_offset < 0) {
+ 		/* need a positive adj to bring dst clock
+ 		 * to the same SEC as the src clock.
+@@ -1077,6 +1090,11 @@ static void autocfg_extts_clock_settime(struct node *node,
+ 		src->device, dst_offset, dst->device,
+ 		tdst1.tv_sec, tdst1.tv_nsec,
+ 		tdst2.tv_sec, tdst2.tv_nsec);
++
++	if (dst->servo) {
++		servo_reset(dst->servo);
++		dst->servo_state = SERVO_UNLOCKED;
++	}
+ }
+ 
+ #define CPTS_EXTTS_DISCARDS_MAX  0
+@@ -1186,10 +1204,6 @@ static int autocfg_extts_init_clocks(struct node *node,
+ 			continue;
+ 
+ 		autocfg_extts_clock_settime(node, node->master, clock);
+-		if (clock->servo) {
+-			servo_reset(clock->servo);
+-			clock->servo_state = SERVO_UNLOCKED;
+-		}
+ 
+ 		if (clock->offset_stats) {
+ 			stats_reset(clock->offset_stats);
+-- 
+2.17.1
+

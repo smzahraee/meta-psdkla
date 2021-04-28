@@ -1,0 +1,107 @@
+From 538f377f2d39e9d77f1432f857045204c642e351 Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Thu, 21 Jan 2021 15:19:30 +0200
+Subject: [PATCH 05/15] phc2sys: switch to async read of extts
+
+There could be the case when one of the destination PHCs can stop sending
+extts events. This, in turn, will block other PHC as the blocking read() is
+used. As result, the sync between PPS and extts timestamps will be lost.
+
+Switch phc2sys to use async read by using poll() and read extts only from
+ready FD.
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+Signed-off-by: Lokesh Vutla <lokeshvutla@ti.com>
+---
+ phc2sys.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/phc2sys.c b/phc2sys.c
+index 33c669d..490eb1b 100644
+--- a/phc2sys.c
++++ b/phc2sys.c
+@@ -91,6 +91,7 @@ struct clock {
+ 	struct stats *freq_stats;
+ 	struct stats *delay_stats;
+ 	struct clockcheck *sanity_check;
++	unsigned int number;
+ };
+ 
+ struct port {
+@@ -126,6 +127,8 @@ struct node {
+ 	char *gmac_iface;
+ 	int use_extts_sync;
+ 	struct clock *extts_last_master;
++	unsigned int num_clocks;
++	struct pollfd fds[8];
+ };
+ 
+ static struct config *phc2sys_config;
+@@ -236,6 +239,7 @@ static struct clock *clock_add(struct node *node, char *device)
+ 		c->sysoff_method = sysoff_probe(CLOCKID_TO_FD(clkid),
+ 						node->phc_readings);
+ 
++	c->number = node->num_clocks++;
+ 	LIST_INSERT_HEAD(&node->clocks, c, list);
+ 	return c;
+ }
+@@ -408,6 +412,9 @@ static void reconfigure(struct node *node)
+ 	}
+ 
+ 	LIST_FOREACH(c, &node->clocks, list) {
++		node->fds[c->number].fd = -1;
++		node->fds[c->number].events = POLLIN;
++
+ 		if (c->clkid == CLOCK_REALTIME) {
+ 			rt = c;
+ 			continue;
+@@ -434,6 +441,7 @@ static void reconfigure(struct node *node)
+ 			if (!dup) {
+ 				pr_info("selecting %s (%s) for synchronization",
+ 					c->device, ps_str[c->state]);
++				node->fds[c->number].fd = CLOCKID_TO_FD(c->clkid);
+ 				dst_cnt++;
+ 				LIST_INSERT_HEAD(&node->dst_clocks,
+ 						 c, dst_list);
+@@ -1464,7 +1472,7 @@ static int do_autocfg_extts_loop(struct node *node, int subscriptions)
+ 	uint64_t extts_ts;
+ 	uint64_t ts;
+ 	int64_t offset, delay;
+-	int ret = 0;
++	int ret = 0, cnt;
+ 	int max_num_ts = OTHER_EXTTS_DISCARDS_MAX;
+ 	int max_num_cpts_ts = CPTS_EXTTS_DISCARDS_MAX;
+ 
+@@ -1509,6 +1517,19 @@ static int do_autocfg_extts_loop(struct node *node, int subscriptions)
+ 		if (!node->master)
+ 			continue;
+ 
++		cnt = poll(&node->fds[0], node->num_clocks, 2000);
++		if (cnt < 0) {
++			if (EINTR == errno) {
++				continue;
++			} else {
++				pr_emerg("poll failed");
++				break;
++			}
++		} else if (!cnt) {
++			pr_debug("poll returns zero, no events");
++			continue;
++		}
++
+ 		LIST_FOREACH(clock, &node->dst_clocks, dst_list) {
+ 			if (!update_needed(clock))
+ 				continue;
+@@ -1534,6 +1555,9 @@ static int do_autocfg_extts_loop(struct node *node, int subscriptions)
+ 			if (clock->state == PS_UNCALIBRATED)
+ 				continue;
+ 
++			if (!(node->fds[clock->number].revents & POLLIN))
++				continue;
++
+ 			if (!read_extts(CLOCKID_TO_FD(clock->clkid),
+ 					&extts_offset,
+ 					&extts_ts, CLK_EXTTS_IDX(n, clock)))
+-- 
+2.17.1
+
