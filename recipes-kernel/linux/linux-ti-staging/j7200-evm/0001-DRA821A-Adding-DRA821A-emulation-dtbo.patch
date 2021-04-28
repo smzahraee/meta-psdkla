@@ -4,29 +4,28 @@ Date: Fri, 11 Dec 2020 22:34:56 +0530
 Subject: [PATCH] [DRA821A] Adding DRA821A emulation dtbo
 
 ---
- arch/arm64/boot/dts/ti/Makefile              |  3 ++-
- arch/arm64/boot/dts/ti/k3-j7200-dra821a.dtso | 25 ++++++++++++++++++++
- 2 files changed, 27 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/ti/k3-j7200-dra821a.dtso
+ arch/arm64/boot/dts/ti/Makefile             |  1 +
+ arch/arm64/boot/dts/ti/k3-j7200-dra821a.dts | 25 +++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j7200-dra821a.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 9979e4491a81..a2ee4ab9ac88 100644
+index 5e8b0d0f37af..5b21191cfdb0 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -28,6 +28,7 @@ dtb-$(CONFIG_ARCH_K3_J721E_SOC) += k3-j721e-common-proc-board.dtb \
- 				   k3-j721e-pcie-backplane.dtbo \
- 				   k3-j721e-vision-apps.dtbo \
- 				   k3-j721e-common-proc-board-jailhouse.dtbo \
--				   k3-j7200-common-proc-board-jailhouse.dtbo
-+				   k3-j7200-common-proc-board-jailhouse.dtbo \
-+				   k3-j7200-dra821a.dtbo
+@@ -17,6 +17,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-am654-idk.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721e-common-proc-board.dtb
+ 
+ dtb-$(CONFIG_ARCH_K3) += k3-j7200-common-proc-board.dtb
++dtb-$(CONFIG_ARCH_K3) += k3-j7200-dra821a.dtbo
  
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm.dtb
-diff --git a/arch/arm64/boot/dts/ti/k3-j7200-dra821a.dtso b/arch/arm64/boot/dts/ti/k3-j7200-dra821a.dtso
+ 
+diff --git a/arch/arm64/boot/dts/ti/k3-j7200-dra821a.dts b/arch/arm64/boot/dts/ti/k3-j7200-dra821a.dts
 new file mode 100644
 index 000000000000..5f2b219e775e
 --- /dev/null
-+++ b/arch/arm64/boot/dts/ti/k3-j7200-dra821a.dtso
++++ b/arch/arm64/boot/dts/ti/k3-j7200-dra821a.dts
 @@ -0,0 +1,25 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*

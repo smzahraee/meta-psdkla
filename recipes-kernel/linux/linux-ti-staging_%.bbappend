@@ -6,7 +6,7 @@ SRC_URI_append_j7-evm = " \
 "
 
 SRC_URI_append_j7200-evm = " \
-    file://0002-DRA821A-Adding-DRA821A-emulation-dtbo.patch \
+    file://0001-DRA821A-Adding-DRA821A-emulation-dtbo.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
