@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 
+SRCREV_imggen_am65xx-evm = "5cad1fe257e8d9c9d30a53d721954a203a16e506"
+
 DM_FILTER_j7-evm-k3r5 = "j721e"
 DM_FILTER_j7200-evm-k3r5 = "j7200"
 
@@ -35,4 +37,4 @@ do_deploy_append_j7200-evm-k3r5() {
 	install -m 644 ${SYSFW_DM} ${DEPLOYDIR}/
 }
 
-PR_append = "_psdkla_2"
+PR_append = "_psdkla_3"
