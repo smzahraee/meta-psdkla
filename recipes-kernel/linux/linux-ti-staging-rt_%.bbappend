@@ -38,4 +38,10 @@ SRC_URI_append_am57xx-evm = " \
     file://0035-net-ethernet-ti-prueth-fix-rx-timestamp-reading-when.patch \
 "
 
-PR_append = "_psdkla_2"
+KERNEL_DEVICETREE_append_am57xx-evm = " \
+        am571x-idk-pps.dtb \
+        am572x-idk-pps.dtb \
+        am574x-idk-pps.dtb \
+"
+
+PR_append = "_psdkla_3"
