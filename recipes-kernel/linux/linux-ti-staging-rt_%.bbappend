@@ -38,4 +38,4 @@ SRC_URI_append_am57xx-evm = " \
     file://0035-net-ethernet-ti-prueth-fix-rx-timestamp-reading-when.patch \
 "
 
-PR_append = "_psdkla_1"
+PR_append = "_psdkla_2"
