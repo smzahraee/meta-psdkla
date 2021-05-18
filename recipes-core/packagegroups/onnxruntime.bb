@@ -54,7 +54,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f7e3b1308cb5c00b372a6e78835732d \
 
 SRC_URI = "git://github.com/microsoft/onnxruntime;protocol=https;branch=master;name=base \
            git://github.com/gabime/spdlog;protocol=https;branch=v2.x;destsuffix=${S}/server/external/spdlog;name=server-external-spdlog \
-           git://github.com/apple/coremltools;protocol=https;branch=master;destsuffix=${S}/cmake/external/coremltools;name=cmake-external-coremltools \
+           git://github.com/apple/coremltools;protocol=https;branch=main;destsuffix=${S}/cmake/external/coremltools;name=cmake-external-coremltools \
            git://github.com/microsoft/onnxruntime-tvm;protocol=https;branch=nuphar;destsuffix=${S}/cmake/external/tvm;name=cmake-external-tvm \
            git://github.com/dmlc/dlpack;protocol=https;branch=main;destsuffix=${S}/cmake/external/tvm/3rdparty/dlpack;name=cmake-external-tvm-3rdparty-dlpack \
            git://github.com/agauniyal/rang;protocol=https;branch=master;destsuffix=${S}/cmake/external/tvm/3rdparty/rang;name=cmake-external-tvm-3rdparty-rang \
@@ -236,4 +236,4 @@ do_install() {
     distutils3_do_install --use_tidl
 }
 
-PR_append = "_psdkla"
+PR_append = "_psdkla_2"
