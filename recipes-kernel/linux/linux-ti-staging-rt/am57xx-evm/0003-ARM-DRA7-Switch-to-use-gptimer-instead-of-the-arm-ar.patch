@@ -1,0 +1,39 @@
+From cd8b228bf76490a9448b1df74b8e853b5535adf2 Mon Sep 17 00:00:00 2001
+From: Keerthy <j-keerthy@ti.com>
+Date: Mon, 22 Feb 2021 09:04:20 +0530
+Subject: [PATCH 3/4] ARM: DRA7: Switch to use gptimer instead of the arm
+ architected timer
+
+ARM architected timer has a saturation issue at 388days in DRA7 SoCs,
+so switch to using GPT time source instead.
+
+Signed-off-by: Tero Kristo <t-kristo@ti.com>
+---
+ arch/arm/mach-omap2/board-generic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-omap2/board-generic.c b/arch/arm/mach-omap2/board-generic.c
+index ff992f8895ee..ad512f07d568 100644
+--- a/arch/arm/mach-omap2/board-generic.c
++++ b/arch/arm/mach-omap2/board-generic.c
+@@ -327,7 +327,7 @@ DT_MACHINE_START(DRA74X_DT, "Generic DRA74X (Flattened Device Tree)")
+ 	.init_late	= dra7xx_init_late,
+ 	.init_irq	= omap_gic_of_init,
+ 	.init_machine	= omap_generic_init,
+-	.init_time	= omap5_realtime_timer_init,
++	.init_time	= omap3_gptimer_timer_init,
+ 	.dt_compat	= dra74x_boards_compat,
+ 	.restart	= omap44xx_restart,
+ MACHINE_END
+@@ -350,7 +350,7 @@ DT_MACHINE_START(DRA72X_DT, "Generic DRA72X (Flattened Device Tree)")
+ 	.init_late	= dra7xx_init_late,
+ 	.init_irq	= omap_gic_of_init,
+ 	.init_machine	= omap_generic_init,
+-	.init_time	= omap5_realtime_timer_init,
++	.init_time	= omap3_gptimer_timer_init,
+ 	.dt_compat	= dra72x_boards_compat,
+ 	.restart	= omap44xx_restart,
+ MACHINE_END
+-- 
+2.17.1
+
