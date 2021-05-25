@@ -16,6 +16,7 @@ IMAGE_INSTALL_remove_am65xx-evm = "\
 
 IMAGE_INSTALL_append = " \
         docker \
+        packagegroup-arago-gst-sdk-target \
         packagegroup-python3-jupyter \
 "
 
