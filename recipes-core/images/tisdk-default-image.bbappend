@@ -11,6 +11,7 @@ IMAGE_INSTALL_remove_j7200-evm = "\
 
 IMAGE_INSTALL_append = " \
         docker \
+        packagegroup-arago-gst-sdk-target \
         packagegroup-python3-jupyter \
 "
 
