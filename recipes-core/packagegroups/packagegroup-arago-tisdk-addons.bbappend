@@ -9,4 +9,6 @@ pru-icss \
     boost \
     ninja \
     meson \
+    opencv \
+    opencv-dev \
 "
