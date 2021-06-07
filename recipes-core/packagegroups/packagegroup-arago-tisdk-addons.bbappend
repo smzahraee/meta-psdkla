@@ -11,4 +11,5 @@ pru-icss \
     meson \
     opencv \
     opencv-dev \
+    corkscrew \
 "
