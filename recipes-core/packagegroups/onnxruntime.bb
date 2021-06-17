@@ -236,4 +236,4 @@ do_install() {
     distutils3_do_install --use_tidl
 }
 
-PR_append = "_psdkla_2"
+PR_append = "_psdkla_3"
