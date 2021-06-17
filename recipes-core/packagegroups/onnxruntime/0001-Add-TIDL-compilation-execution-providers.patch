@@ -1,4 +1,4 @@
-From 2301a128539fd58672393c3171202d69108129df Mon Sep 17 00:00:00 2001
+From 1a8f97d3425c77b9aa8c63dc65c2999240eed86d Mon Sep 17 00:00:00 2001
 From: Subhajit Paul <subhajit_paul@ti.com>
 Date: Thu, 1 Apr 2021 00:52:43 +0530
 Subject: [PATCH] Add TIDL compilation / execution providers
@@ -27,8 +27,8 @@ Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
  .../core/providers/get_execution_providers.cc |   16 +
  onnxruntime/core/providers/tidl/symbols.txt   |    1 +
  .../providers/tidl/tidl_execution_provider.cc |  449 ++++++++
- .../providers/tidl/tidl_execution_provider.h  |   78 ++
- .../tidl/tidl_execution_provider_common.h     |   61 +
+ .../providers/tidl/tidl_execution_provider.h  |   79 ++
+ .../tidl/tidl_execution_provider_common.h     |   64 ++
  .../providers/tidl/tidl_provider_factory.cc   |   47 +
  onnxruntime/core/session/inference_session.cc |   96 +-
  onnxruntime/core/session/inference_session.h  |    8 +
@@ -56,7 +56,7 @@ Signed-off-by: Subhajit Paul <subhajit_paul@ti.com>
  tidl_demos/tools/pics.py                      |   39 +
  tool.cmake                                    |    9 +
  tools/ci_build/build.py                       |    8 +-
- 51 files changed, 3288 insertions(+), 16 deletions(-)
+ 51 files changed, 3292 insertions(+), 16 deletions(-)
  create mode 100644 csharp/test/Microsoft.ML.OnnxRuntime.EndToEndTests.Capi/makefile
  create mode 100755 csharp/test/Microsoft.ML.OnnxRuntime.EndToEndTests.Capi/setenv.sh
  create mode 100644 include/onnxruntime/core/providers/tidl/tidl_provider_factory.h
@@ -477,7 +477,7 @@ index 000000000..27ab3ca3c
 +OrtSessionOptionsAppendExecutionProvider_Tidl
 diff --git a/onnxruntime/core/providers/tidl/tidl_execution_provider.cc b/onnxruntime/core/providers/tidl/tidl_execution_provider.cc
 new file mode 100644
-index 000000000..25ddbdc9c
+index 000000000..c2bbd2c45
 --- /dev/null
 +++ b/onnxruntime/core/providers/tidl/tidl_execution_provider.cc
 @@ -0,0 +1,449 @@
@@ -550,12 +550,13 @@ index 000000000..25ddbdc9c
 +    }
 +    printf("libtidl_onnxrt_EP loaded %p \n", tidl_ops_->lib);
 +    assert(tidl_ops_->lib);
-+ }
++  }
 +  tidl_ops_->TIDL_getSupportedNodes = reinterpret_cast<decltype(tidl_ops_->TIDL_getSupportedNodes)>(dlsym(tidl_ops_->lib, "TIDL_getSupportedNodes"));
 +  tidl_ops_->TIDL_populateOptions = reinterpret_cast<decltype(tidl_ops_->TIDL_populateOptions)>(dlsym(tidl_ops_->lib, "TIDL_populateOptions"));
 +  tidl_ops_->TIDL_createStateFunc = reinterpret_cast<decltype(tidl_ops_->TIDL_createStateFunc)>(dlsym(tidl_ops_->lib, "TIDL_createStateFunc"));
 +  tidl_ops_->TIDL_computeImportFunc = reinterpret_cast<decltype(tidl_ops_->TIDL_computeImportFunc)>(dlsym(tidl_ops_->lib, "TIDL_computeImportFunc"));
 +  tidl_ops_->TIDL_computeInvokeFunc = reinterpret_cast<decltype(tidl_ops_->TIDL_computeInvokeFunc)>(dlsym(tidl_ops_->lib, "TIDL_computeInvokeFunc"));
++  tidl_ops_->TIDL_releaseRtFunc = reinterpret_cast<decltype(tidl_ops_->TIDL_releaseRtFunc)>(dlsym(tidl_ops_->lib, "TIDL_releaseRtFunc"));
 +  tidl_ops_->TIDL_isInputConst = reinterpret_cast<decltype(tidl_ops_->TIDL_isInputConst)>(dlsym(tidl_ops_->lib, "TIDL_isInputConst"));
 +  tidl_ops_->TIDL_getOutputShape = reinterpret_cast<decltype(tidl_ops_->TIDL_getOutputShape)>(dlsym(tidl_ops_->lib, "TIDL_getOutputShape"));
 +  tidl_ops_->TIDLEP_getDdrStats = reinterpret_cast<decltype(tidl_ops_->TIDLEP_getDdrStats)>(dlsym(tidl_ops_->lib, "TIDLEP_getDdrStats"));
@@ -823,7 +824,7 @@ index 000000000..25ddbdc9c
 +  //populate output params
 +  for (int j = 0; j < onnxRtParams->numNetOutData; j++) 
 +  {
-+    std::vector<int64_t> nchw_shape = tidl_ops->TIDL_getOutputShape(state_subGraph->ioBuffDesc, onnxRtParams->outDataNames[j]);
++    std::vector<int64_t> nchw_shape = tidl_ops->TIDL_getOutputShape(state_subGraph->ioBufDesc, onnxRtParams->outDataNames[j]);
 +    auto* output_tensor = ort.KernelContext_GetOutput(context, j, nchw_shape.data(), nchw_shape.size());
 +    OrtTensorTypeAndShapeInfo* output_info = ort.GetTensorTypeAndShape(output_tensor);
 +    int64_t outTensorElementType = ort.GetTensorElementType(output_info);
@@ -891,12 +892,11 @@ index 000000000..25ddbdc9c
 +      return 0;      
 +    };
 +
-+    compute_info.release_state_func = [](FunctionState state) 
++    compute_info.release_state_func = [&](FunctionState state) 
 +    {
 +       OnnxTIDLSubGraphParams *state_subGraph = reinterpret_cast<OnnxTIDLSubGraphParams*>(state);
-+       free(state_subGraph->ioBuffDesc);
++       tidl_ops_->TIDL_releaseRtFunc(state_subGraph);
 +       free(state);
-+       //ORT_UNUSED_PARAMETER(state);
 +    };
 +
 +    compute_info.compute_func = [&](FunctionState state, const OrtCustomOpApi* api, OrtKernelContext* context) 
@@ -932,10 +932,10 @@ index 000000000..25ddbdc9c
 +}  // namespace onnxruntime
 diff --git a/onnxruntime/core/providers/tidl/tidl_execution_provider.h b/onnxruntime/core/providers/tidl/tidl_execution_provider.h
 new file mode 100644
-index 000000000..b3c4b4871
+index 000000000..98f95030a
 --- /dev/null
 +++ b/onnxruntime/core/providers/tidl/tidl_execution_provider.h
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,79 @@
 +// Copyright (c) Microsoft Corporation. All rights reserved.
 +// Licensed under the MIT License.
 +
@@ -978,6 +978,7 @@ index 000000000..b3c4b4871
 +    decltype(&::TIDL_createStateFunc) TIDL_createStateFunc;
 +    decltype(&::TIDL_computeImportFunc) TIDL_computeImportFunc;
 +    decltype(&::TIDL_computeInvokeFunc) TIDL_computeInvokeFunc;
++    decltype(&::TIDL_releaseRtFunc) TIDL_releaseRtFunc;
 +    decltype(&::TIDL_isInputConst) TIDL_isInputConst;
 +    decltype(&::TIDL_getOutputShape) TIDL_getOutputShape;
 +    decltype(&::TIDLEP_getDdrStats) TIDLEP_getDdrStats;
@@ -1016,10 +1017,10 @@ index 000000000..b3c4b4871
 +}  // namespace onnxruntime
 diff --git a/onnxruntime/core/providers/tidl/tidl_execution_provider_common.h b/onnxruntime/core/providers/tidl/tidl_execution_provider_common.h
 new file mode 100644
-index 000000000..aa8daa849
+index 000000000..88db89b97
 --- /dev/null
 +++ b/onnxruntime/core/providers/tidl/tidl_execution_provider_common.h
-@@ -0,0 +1,61 @@
+@@ -0,0 +1,64 @@
 +// Copyright (c) Microsoft Corporation. All rights reserved.
 +// Licensed under the MIT License.
 +#ifndef TIDL_ONNX_RT_EP_COMMON_H
@@ -1058,11 +1059,12 @@ index 000000000..aa8daa849
 +  int32_t inputIdx[TIDL_MAX_ALG_IN_BUFS];
 +  int32_t numInputs;
 +  int32_t numOutputs;
-+  void * ioBuffDesc;
 +  void * rtHandle;
 +  void * rtInList;
 +  void * rtOutList;
 +  void * stats;
++  void * netPtr;
++  void * ioBufDesc;
 +  onnxRtParams_t onnxRtParams;
 +}OnnxTIDLSubGraphParams;
 +
@@ -1073,10 +1075,12 @@ index 000000000..aa8daa849
 +  void TIDL_createStateFunc(OnnxTIDLSubGraphParams * state_subgraph, std::string * string_buf, const std::string node_name);
 +  void TIDL_computeImportFunc(OnnxTIDLSubGraphParams * state_subGraph, std::string * string_buf, int32_t opSetVersion);
 +  void TIDL_computeInvokeFunc(OnnxTIDLSubGraphParams * state_subGraph);
++  void TIDL_releaseRtFunc(OnnxTIDLSubGraphParams * state_subGraph);
 +  int32_t TIDL_isInputConst(std::string * string_buf, const string name);
 +  std::vector<int64_t> TIDL_getOutputShape(void * ioBufDescVPtr, int8_t onnxName[]);
 +  int32_t TIDLEP_getDdrStats(uint64_t * read, uint64_t * write);
 +  int32_t TIDLEP_getSubGraphStats(OnnxTIDLSubGraphParams * state_subGraph, char **node_name, void **node_data);
++
 +}
 +
 +
