@@ -39,4 +39,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-edgeai-apps.dtbo \
 "
 
-PR_append = "_psdkla_11"
+PR_append = "_psdkla_12"
