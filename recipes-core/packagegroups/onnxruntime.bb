@@ -73,7 +73,7 @@ SRC_URI = "git://github.com/microsoft/onnxruntime;protocol=https;branch=master;n
            git://github.com/google/benchmark;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx-tensorrt/third_party/onnx/third_party/benchmark;name=cmake-external-onnx-tensorrt-third-party-onnx-third-party-benchmark \
            git://github.com/pybind/pybind11;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx-tensorrt/third_party/onnx/third_party/pybind11;name=cmake-external-onnx-tensorrt-third-party-onnx-third-party-pybind11 \
            git://github.com/wjakob/clang-cindex-python3;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx-tensorrt/third_party/onnx/third_party/pybind11/tools/clang;name=cmake-external-onnx-tensorrt-third-party-onnx-third-party-pybind11-tools-clang \
-           git://github.com/google/re2;protocol=https;branch=master;destsuffix=${S}/cmake/external/re2;name=cmake-external-re2 \
+           git://github.com/google/re2;protocol=https;branch=main;destsuffix=${S}/cmake/external/re2;name=cmake-external-re2 \
            git://github.com/onnx/onnx;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx;name=cmake-external-onnx \
            git://github.com/google/benchmark;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx/third_party/benchmark;name=cmake-external-onnx-third-party-benchmark \
            git://github.com/pybind/pybind11;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx/third_party/pybind11;name=cmake-external-onnx-third-party-pybind11 \
@@ -89,7 +89,7 @@ SRC_URI = "git://github.com/microsoft/onnxruntime;protocol=https;branch=master;n
            git://github.com/dcleblanc/SafeInt;protocol=https;branch=master;destsuffix=${S}/cmake/external/SafeInt/safeint;name=cmake-external-SafeInt-safeint \
            git://github.com/microsoft/FeaturizersLibrary;protocol=https;branch=master;destsuffix=${S}/cmake/external/FeaturizersLibrary;name=cmake-external-FeaturizersLibrary \
            git://gitlab.com/libeigen/eigen;protocol=https;branch=master;destsuffix=${S}/cmake/external/FeaturizersLibrary/src/3rdParty/eigen;name=cmake-external-FeaturizersLibrary-src-3rdParty-eigen \
-           git://github.com/google/re2;protocol=https;branch=master;destsuffix=${S}/cmake/external/FeaturizersLibrary/src/3rdParty/re2;name=cmake-external-FeaturizersLibrary-src-3rdParty-re2 \
+           git://github.com/google/re2;protocol=https;branch=main;destsuffix=${S}/cmake/external/FeaturizersLibrary/src/3rdParty/re2;name=cmake-external-FeaturizersLibrary-src-3rdParty-re2 \
            file://0001-use-system-pybind11.patch \
 	   file://0001-Add-TIDL-compilation-execution-providers.patch \
 "
