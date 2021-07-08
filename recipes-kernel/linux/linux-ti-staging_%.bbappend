@@ -32,6 +32,8 @@ SRC_URI_append_j7-evm = " \
     file://0027-media-platform-Kconfig-Add-Video-decoder-kconfig-ent.patch \
     file://0028-decoder-MJPEG-Decoder-support-has-been-added.patch \
     file://0029-decoder-separate-V4L2-node-implementation-from-commo.patch \
+    file://0001-dma-buf-heaps-Initialize-during-core-instead-of-subs.patch \
+    file://0002-dma-buf-heaps-Add-Carveout-heap-to-dmabuf-heaps.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
