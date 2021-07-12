@@ -34,6 +34,8 @@ SRC_URI_append_j7-evm = " \
     file://0029-decoder-separate-V4L2-node-implementation-from-commo.patch \
     file://0001-dma-buf-heaps-Initialize-during-core-instead-of-subs.patch \
     file://0002-dma-buf-heaps-Add-Carveout-heap-to-dmabuf-heaps.patch \
+    file://0001-HACK-dt-bindings-misc-Add-ti-dma_buf_phys-bindig-doc.patch \
+    file://0002-HACK-misc-Add-dma-buf-to-physical-address-exporter.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -41,4 +43,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-edgeai-apps.dtbo \
 "
 
-PR_append = "_psdkla_13"
+PR_append = "_psdkla_14"
