@@ -1,5 +1,5 @@
 # Fix this SRCREV to the latest at the release time
-# 5-Apr-2021
+# 15-Jul-2021
 
-SRCREV = "e0f9eef8aafdf6319022d7972d3f1f65eefb784d"
-PR_append = "_psdkla_3"
+SRCREV = "b2662cc08e1160f533fdf22a868f12b51baa965e"
+PR_append = "_psdkla_4"
