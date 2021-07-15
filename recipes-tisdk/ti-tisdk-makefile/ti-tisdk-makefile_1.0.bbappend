@@ -11,6 +11,15 @@ SRC_URI_append = "\
     file://Makefile_oob-demo \
     file://Makefile_u-boot-spl-j7 \
     file://Makefile_u-boot-spl-j7200 \
+    file://Makefile_linux-dtbs-jacinto \
+"
+
+MAKEFILES_remove = " \
+    linux-dtbs \
+"
+
+MAKEFILES_append = " \
+    linux-dtbs-jacinto \
 "
 
 MAKEFILES_COMMON_remove_j7-evm = "\
@@ -97,4 +106,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_3"
+PR_append = "_psdkla_4"
