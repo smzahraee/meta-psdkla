@@ -1,7 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI_append_j7-evm = " \
-    file://0001-Optimal-QoS-Configuration.patch \
+    file://0001-tiU21.01-PATCH-Optimal-QoS-Settings.patch \
 "
 
-PR_append = "_psdkla_1"
+PR_append = "_psdkla_2"
