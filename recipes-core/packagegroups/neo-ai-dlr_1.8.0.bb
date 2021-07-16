@@ -39,7 +39,7 @@ SRC_URI = "git://github.com/neo-ai/neo-ai-dlr;protocol=https;branch=main;name=ba
 "
 
 SRCREV_base = "1c6d0371b75376417b3ae8751fbc357ae1f732a4"
-SRCREV_3rdparty-tvm = "7cb25218470492962e06c9dd07746c82a6be07e3"
+SRCREV_3rdparty-tvm = "2a9cf9fb08cd1e102cb0c7d4baff318cbbdb3b64"
 SRCREV_3rdparty-tvm-3rdparty-vta-hw = "57db5a718c74a788c98120ebbe1230797be698c8"
 SRCREV_3rdparty-tvm-3rdparty-dmlc-core = "6c401e242c59a1f4c913918246591bb13fd714e7"
 SRCREV_3rdparty-tvm-3rdparty-rang = "cabe04d6d6b05356fa8f9741704924788f0dd762"
@@ -93,4 +93,5 @@ do_install() {
     install -m 0644 ${S}/build/lib/libdlr.so ${D}${PYTHON_SITEPACKAGES_DIR}/dlr
 }
 
+PR = "r1"
 PR_append = "_psdkla"
