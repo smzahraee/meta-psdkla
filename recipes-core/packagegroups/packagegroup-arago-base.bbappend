@@ -20,6 +20,7 @@ RDEPENDS_${PN}_append = " \
         tensorflow-lite \
         onnxruntime \
         dialog \
+        udev \
 "
 
 RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
@@ -31,4 +32,4 @@ RDEPENDS_${PN}_append_j7200-evm = "\
         glsdk-util-scripts \
 "
 
-PR_append = "_psdkla"
+PR_append = "_psdkla_1"
