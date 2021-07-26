@@ -41,11 +41,15 @@ SRC_URI_append_j7-evm = " \
     file://tiL5.10-CON-V2-2-4-arm64-dts-ti-k3-j721e-main-Add-nodes-to-enable-CSI2-1-and-DPHY-1.patch \
     file://tiL5.10-CON-V2-3-4-arm64-dts-ti-k3-j721e-eaik-Add-overlay-for-CSI2-interfaced-with-OV5640-camera.patch \
     file://tiL5.10-CON-V2-4-4-arm64-dts-ti-k3-j721e-eaik-Add-DT-overlay-for-RPi-camera-V2.patch \
+    file://tiL5.10-CON-1-2-media-ti-j721e-csi2rx-Add-RAW8-and-RAW10-pixel-format-support.patch \
+    file://tiL5.10-CON-2-2-media-cadence-Extend-format-to-support-RAW-data-for-CSI2RX.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
 	ti/k3-j721e-edgeai-apps.dtbo \
+	ti/k3-j721e-eaik-csi2-ov5640.dtbo \
+	ti/k3-j721e-eaik-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_17"
+PR_append = "_psdkla_18"
