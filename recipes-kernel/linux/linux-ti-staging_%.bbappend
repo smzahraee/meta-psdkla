@@ -37,6 +37,10 @@ SRC_URI_append_j7-evm = " \
     file://0001-HACK-dt-bindings-misc-Add-ti-dma_buf_phys-bindig-doc.patch \
     file://0002-HACK-misc-Add-dma-buf-to-physical-address-exporter.patch \
     file://0001-HACK-dma-buf-heaps-carveout-Add-support-for-cached-c.patch \
+    file://tiL5.10-CON-V2-1-4-dt-bindings-i2c-i2c-mux-pca954x-Convert-to-DT-schema.patch \
+    file://tiL5.10-CON-V2-2-4-arm64-dts-ti-k3-j721e-main-Add-nodes-to-enable-CSI2-1-and-DPHY-1.patch \
+    file://tiL5.10-CON-V2-3-4-arm64-dts-ti-k3-j721e-eaik-Add-overlay-for-CSI2-interfaced-with-OV5640-camera.patch \
+    file://tiL5.10-CON-V2-4-4-arm64-dts-ti-k3-j721e-eaik-Add-DT-overlay-for-RPi-camera-V2.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -44,4 +48,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-edgeai-apps.dtbo \
 "
 
-PR_append = "_psdkla_15"
+PR_append = "_psdkla_17"
