@@ -1,4 +1,8 @@
+From 5bbd5e015bdf8350d92bf3ab5406b5b1b73edf2e Mon Sep 17 00:00:00 2001
 From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Wed, 7 Jul 2021 16:47:09 +0530
+Subject: [PATCH 2/9] arm64: dts: ti: k3-j721e-main: Add nodes to enable CSI2-1
+ and DPHY-1
 
 Add node for the second instance of Cadence CSI2RX-1, DPHY-1, and TI's
 CSI2RX wrapper. This enables CSI2 capture from the second instance of the
@@ -88,3 +92,6 @@ index 78f56841b13f..d8398eb14371 100644
 +		power-domains = <&k3_pds 148 TI_SCI_PD_EXCLUSIVE>;
 +	};
  };
+-- 
+2.31.1
+

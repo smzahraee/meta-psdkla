@@ -1,0 +1,32 @@
+From a21c7462588d5145a616ea8da87b3c92c9d294f2 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Mon, 26 Jul 2021 22:08:38 +0530
+Subject: [PATCH 6/9] phy: dt-bindings: cdns-dphy: Add j721e-dphy compatible
+
+Document the j721e compatible for cdns-dphy.
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ Documentation/devicetree/bindings/phy/cdns,dphy.yaml | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
+index d5a5e1f0b671..ab2ab81f105d 100644
+--- a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
++++ b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
+@@ -11,7 +11,11 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    items:
++    oneOf:
++      - items:
++          - enum:
++              - ti,j721e-dphy
++          - const: cdns,dphy
+       - const: cdns,dphy
+ 
+   reg:
+-- 
+2.31.1
+

@@ -1,6 +1,7 @@
-From: Rob Herring <robh@kernel.org>
-
+From 64eae26ff79a687e03b2d95e05e4a460c57149ad Mon Sep 17 00:00:00 2001
 From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Wed, 26 May 2021 13:48:38 -0500
+Subject: [PATCH 1/9] dt-bindings: i2c: i2c-mux-pca954x: Convert to DT schema
 
 Convert the i2c-mux-pca954x binding to DT schema format.
 
@@ -101,7 +102,7 @@ index 7abda506b828..000000000000
 -	};
 diff --git a/Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml b/Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
 new file mode 100644
-index 000000000000..9f1726d0356b
+index 000000000000..b09ee6bea3c1
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
 @@ -0,0 +1,110 @@
@@ -215,3 +216,6 @@ index 000000000000..9f1726d0356b
 +        };
 +    };
 +...
+-- 
+2.31.1
+

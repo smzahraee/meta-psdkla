@@ -1,4 +1,8 @@
+From 87ea2565865b985b7583496fbd79f7bc141eef6f Mon Sep 17 00:00:00 2001
 From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Tue, 13 Jul 2021 18:09:05 +0530
+Subject: [PATCH 3/9] arm64: dts: ti: k3-j721e-eaik: Add overlay for CSI2
+ interfaced with OV5640 camera
 
 The OV5640 camera sensor is interfaced with CSI2RX through a MIPI header.
 The sensor shall be configured through the I2C which is interfaced with
@@ -129,3 +133,6 @@ index 000000000000..d8dac41787ef
 +	};
 +
 +};
+-- 
+2.31.1
+

@@ -1,4 +1,8 @@
+From 946c0810430dd20f1b48927763f550b5d38bebff Mon Sep 17 00:00:00 2001
 From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Tue, 13 Jul 2021 18:28:12 +0530
+Subject: [PATCH 4/9] arm64: dts: ti: k3-j721e-eaik: Add DT overlay for RPi
+ camera V2
 
 Two RPi camera headers present on EAIK are connected to each port of
 two CSI2RX instances 0 and 1. Sensors are configured through I2C
@@ -197,3 +201,6 @@ index 000000000000..565910d0c54d
 +		data-lanes = <1 2>;
 +	};
 +};
+-- 
+2.31.1
+
