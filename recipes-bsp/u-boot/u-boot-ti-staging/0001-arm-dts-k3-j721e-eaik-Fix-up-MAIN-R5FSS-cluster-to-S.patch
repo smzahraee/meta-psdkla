@@ -1,0 +1,41 @@
+From 1d9f6f4e102adfca8ef38e40b203b98d3e2bde35 Mon Sep 17 00:00:00 2001
+From: Rahul T R <r-ravikumar@ti.com>
+Date: Tue, 3 Aug 2021 22:12:13 +0530
+Subject: [PATCH] arm: dts: k3-j721e-eaik: Fix up MAIN R5FSS cluster to
+ Split-mode
+
+The modes for both the clusters are set to LockStep mode by default
+which leads to follwing error
+
+k3_r5f_rproc r5f@5d00000: Invalid op: Trying to start secondary core 7 in lockstep mode
+Load Remote Processor 3 with data@addr=0x82000000 506728 bytes: Failed!
+
+Fix this by switching both the clusters to Split-mode.
+Make this mode change in the u-boot specific dtsi file to avoid such
+sync overrides in the future until the kernel dts is also switched to
+Split-mode by default.
+
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ arch/arm/dts/k3-j721e-eaik-u-boot.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm/dts/k3-j721e-eaik-u-boot.dtsi b/arch/arm/dts/k3-j721e-eaik-u-boot.dtsi
+index 94b9e09e30..5e4fed2a84 100644
+--- a/arch/arm/dts/k3-j721e-eaik-u-boot.dtsi
++++ b/arch/arm/dts/k3-j721e-eaik-u-boot.dtsi
+@@ -278,3 +278,11 @@
+ &dss {
+ 	status = "disabled";
+ };
++
++&main_r5fss0 {
++	ti,cluster-mode = <0>;
++};
++
++&main_r5fss1 {
++	ti,cluster-mode = <0>;
++};
+-- 
+2.17.1
+
