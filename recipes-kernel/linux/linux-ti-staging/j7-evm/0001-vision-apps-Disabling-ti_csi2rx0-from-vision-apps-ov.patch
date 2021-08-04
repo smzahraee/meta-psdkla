@@ -1,0 +1,24 @@
+From bf3e7af8b2d518c5abbe243c39a5c65ee1c5c4d2 Mon Sep 17 00:00:00 2001
+From: Lucas Weaver <l-weaver@ti.com>
+Date: Wed, 4 Aug 2021 16:59:33 -0500
+Subject: [PATCH] vision apps: Disabling ti_csi2rx0 from vision apps overlay
+
+---
+ arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
+index eaedfbd68..a1860839a 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
+@@ -30,3 +30,7 @@
+ &ti_csi2rx0 {
+ 	status = "disabled";
+ };
++
++&ti_csi2rx1 {
++	status = "disabled";
++};
+-- 
+2.17.1
+

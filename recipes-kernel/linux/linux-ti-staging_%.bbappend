@@ -46,6 +46,7 @@ SRC_URI_append_j7-evm = " \
     file://0007-arm64-dts-ti-k3-j721e-Update-compatible-for-DPHY.patch \
     file://0008-media-ti-j721e-csi2rx-Add-RAW8-and-RAW10-pixel-forma.patch \
     file://0009-media-cadence-Extend-format-to-support-RAW-data-for-.patch \
+    file://0001-vision-apps-Disabling-ti_csi2rx0-from-vision-apps-ov.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -55,4 +56,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-eaik-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_19"
+PR_append = "_psdkla_20"
