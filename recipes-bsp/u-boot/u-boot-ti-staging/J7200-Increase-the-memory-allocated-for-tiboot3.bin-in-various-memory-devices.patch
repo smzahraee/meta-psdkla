@@ -1,0 +1,526 @@
+From patchwork Tue Aug  3 09:54:51 2021
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Aswath Govindraju <a-govindraju@ti.com>
+X-Patchwork-Id: 5540
+X-Patchwork-Delegate: praneeth@ti.com
+From: Aswath Govindraju <a-govindraju@ti.com>
+Subject: [tiU21.01 PATCH 1/5] configs: j7200_evm_*_defconfig: Increase memory
+ area allocated for tiboot3.bin in eMMC
+Date: Tue, 3 Aug 2021 15:24:51 +0530
+Message-ID: <20210803095455.22737-2-a-govindraju@ti.com>
+In-Reply-To: <20210803095455.22737-1-a-govindraju@ti.com>
+References: <20210803095455.22737-1-a-govindraju@ti.com>
+Return-Path: lokeshvutla@ti.com
+List-Post: <mailto:linux-patch-review@list.ti.com>
+MIME-Version: 1.0
+Cc: linux-patch-review@list.ti.com, Praneeth Bajjuri <praneeth@ti.com>,
+ Lokesh Vutla <lokeshvutla@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Aswath Govindraju <a-govindraju@ti.com>
+List-ID: <linux-patch-review@list.ti.com>
+List-Post: <mailto:linux-patch-review@list.ti.com>
+
+The current size of tiboot3.bin is 516KB and the memory reserved for it in
+eMMC boot partition is 512KB. This leads to overlap of tiboot3.bin over
+tispl.bin region and break in eMMC boot mode.
+
+Therefore, fix this by increasing the memory allocated for tiboot3.bin to
+1MB.
+
+Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+---
+ configs/j7200_evm_a72_defconfig | 6 +++---
+ configs/j7200_evm_r5_defconfig  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/configs/j7200_evm_a72_defconfig b/configs/j7200_evm_a72_defconfig
+index 84f55491d28b..8f299d822867 100644
+--- a/configs/j7200_evm_a72_defconfig
++++ b/configs/j7200_evm_a72_defconfig
+@@ -8,7 +8,7 @@ CONFIG_NR_DRAM_BANKS=2
+ CONFIG_SOC_K3_J721E=y
+ CONFIG_TARGET_J7200_A72_EVM=y
+ CONFIG_ENV_SIZE=0x20000
+-CONFIG_ENV_OFFSET=0x680000
++CONFIG_ENV_OFFSET=0x700000
+ CONFIG_SYS_SPI_U_BOOT_OFFS=0x280000
+ CONFIG_DM_GPIO=y
+ CONFIG_SPL_DM_SPI=y
+@@ -17,7 +17,7 @@ CONFIG_SPL_MMC_SUPPORT=y
+ CONFIG_SPL_SERIAL_SUPPORT=y
+ CONFIG_SPL_DRIVERS_MISC_SUPPORT=y
+ CONFIG_SPL_STACK_R_ADDR=0x82000000
+-CONFIG_ENV_OFFSET_REDUND=0x6A0000
++CONFIG_ENV_OFFSET_REDUND=0x720000
+ CONFIG_SPL_FS_FAT=y
+ CONFIG_SPL_LIBDISK_SUPPORT=y
+ CONFIG_SPL_SPI_FLASH_SUPPORT=y
+@@ -37,7 +37,7 @@ CONFIG_SPL_SYS_MALLOC_SIMPLE=y
+ CONFIG_SPL_STACK_R=y
+ CONFIG_SPL_SEPARATE_BSS=y
+ CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_USE_SECTOR=y
+-CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR=0x1400
++CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR=0x1800
+ CONFIG_SPL_DMA=y
+ CONFIG_SPL_ENV_SUPPORT=y
+ CONFIG_SPL_I2C_SUPPORT=y
+diff --git a/configs/j7200_evm_r5_defconfig b/configs/j7200_evm_r5_defconfig
+index 462d93bf9807..a1eb8d9ed553 100644
+--- a/configs/j7200_evm_r5_defconfig
++++ b/configs/j7200_evm_r5_defconfig
+@@ -32,7 +32,7 @@ CONFIG_SPL_STACK_R=y
+ CONFIG_SPL_SEPARATE_BSS=y
+ CONFIG_SPL_EARLY_BSS=y
+ CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_USE_SECTOR=y
+-CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR=0x400
++CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR=0x800
+ CONFIG_SPL_DMA=y
+ CONFIG_SPL_ENV_SUPPORT=y
+ CONFIG_SPL_FS_EXT4=y
+
+From patchwork Tue Aug  3 09:54:52 2021
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Aswath Govindraju <a-govindraju@ti.com>
+X-Patchwork-Id: 5538
+X-Patchwork-Delegate: praneeth@ti.com
+From: Aswath Govindraju <a-govindraju@ti.com>
+Subject: [tiU21.01 PATCH 2/5] configs: j7200_evm_*_defconfig: Increase memory
+ area allocated for tiboot3.bin in HyperFlash
+Date: Tue, 3 Aug 2021 15:24:52 +0530
+Message-ID: <20210803095455.22737-3-a-govindraju@ti.com>
+In-Reply-To: <20210803095455.22737-1-a-govindraju@ti.com>
+References: <20210803095455.22737-1-a-govindraju@ti.com>
+Return-Path: lokeshvutla@ti.com
+List-Post: <mailto:linux-patch-review@list.ti.com>
+MIME-Version: 1.0
+Cc: linux-patch-review@list.ti.com, Praneeth Bajjuri <praneeth@ti.com>,
+ Lokesh Vutla <lokeshvutla@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Aswath Govindraju <a-govindraju@ti.com>
+List-ID: <linux-patch-review@list.ti.com>
+List-Post: <mailto:linux-patch-review@list.ti.com>
+
+The current size of tiboot3.bin is 516KB and the memory reserved for it in
+HyperFlash is 512KB. This leads to overlap of tiboot3.bin over tispl.bin
+region and break in HyperFlash boot mode.
+
+Therefore, fix this by increasing the memory allocated for tiboot3.bin to
+1MB.
+
+Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+---
+ configs/j7200_evm_a72_defconfig |  2 +-
+ include/configs/j721e_evm.h     | 13 +++++++++++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/configs/j7200_evm_a72_defconfig b/configs/j7200_evm_a72_defconfig
+index 8f299d822867..6fd9db2fe12b 100644
+--- a/configs/j7200_evm_a72_defconfig
++++ b/configs/j7200_evm_a72_defconfig
+@@ -73,7 +73,7 @@ CONFIG_CMD_USB_MASS_STORAGE=y
+ CONFIG_CMD_TIME=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_MTDIDS_DEFAULT="nor0=47040000.spi.0,nor0=47034000.hyperbus"
+-CONFIG_MTDPARTS_DEFAULT="mtdparts=47040000.spi.0:512k(ospi.tiboot3),2m(ospi.tispl),4m(ospi.u-boot),256k(ospi.env),256k(ospi.env.backup),57088k@8m(ospi.rootfs),256k(ospi.phypattern);47034000.hyperbus:512k(hbmc.tiboot3),2m(hbmc.tispl),4m(hbmc.u-boot),256k(hbmc.env),-@8m(hbmc.rootfs)"
++CONFIG_MTDPARTS_DEFAULT="mtdparts=47040000.spi.0:512k(ospi.tiboot3),2m(ospi.tispl),4m(ospi.u-boot),256k(ospi.env),256k(ospi.env.backup),57088k@8m(ospi.rootfs),256k(ospi.phypattern);47034000.hyperbus:1m(hbmc.tiboot3),2m(hbmc.tispl),4m(hbmc.u-boot),256k(hbmc.env),-@8m(hbmc.rootfs)"
+ CONFIG_CMD_UBI=y
+ # CONFIG_ISO_PARTITION is not set
+ # CONFIG_SPL_EFI_PARTITION is not set
+diff --git a/include/configs/j721e_evm.h b/include/configs/j721e_evm.h
+index 9edd6b1f328e..02246099c998 100644
+--- a/include/configs/j721e_evm.h
++++ b/include/configs/j721e_evm.h
+@@ -23,10 +23,8 @@
+ #if defined(CONFIG_TARGET_J721E_A72_EVM) || defined(CONFIG_TARGET_J7200_A72_EVM)
+ #define CONFIG_SYS_INIT_SP_ADDR         (CONFIG_SPL_TEXT_BASE +	\
+ 					 CONFIG_SYS_K3_NON_SECURE_MSRAM_SIZE)
+-#define CONFIG_SYS_UBOOT_BASE		0x50280000
+ /* Image load address in RAM for DFU boot*/
+ #else
+-#define CONFIG_SYS_UBOOT_BASE		0x50080000
+ /*
+  * Maximum size in memory allocated to the SPL BSS. Keep it as tight as
+  * possible (to allow the build to go through), as this directly affects
+@@ -51,6 +49,17 @@
+ /* Image load address in RAM for DFU boot*/
+ #endif
+ 
++/* Base address of bootloader images to load from HyperFlash */
++#if defined(CONFIG_TARGET_J721E_A72_EVM)
++#define CONFIG_SYS_UBOOT_BASE		0x50280000
++#elif defined(CONFIG_TARGET_J7200_A72_EVM)
++#define CONFIG_SYS_UBOOT_BASE		0x50300000
++#elif defined(CONFIG_TARGET_J721E_R5_EVM)
++#define CONFIG_SYS_UBOOT_BASE		0x50080000
++#else
++#define CONFIG_SYS_UBOOT_BASE		0x50100000
++#endif
++
+ #ifdef CONFIG_SYS_K3_SPL_ATF
+ #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME	"tispl.bin"
+ #endif
+
+From patchwork Tue Aug  3 09:54:53 2021
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Aswath Govindraju <a-govindraju@ti.com>
+X-Patchwork-Id: 5542
+X-Patchwork-Delegate: praneeth@ti.com
+From: Aswath Govindraju <a-govindraju@ti.com>
+Subject: [tiU21.01 PATCH 3/5] configs: j7200_evm_*_defconfig: Increase memory
+ area allocated for tiboot3.bin in OSPI flash
+Date: Tue, 3 Aug 2021 15:24:53 +0530
+Message-ID: <20210803095455.22737-4-a-govindraju@ti.com>
+In-Reply-To: <20210803095455.22737-1-a-govindraju@ti.com>
+References: <20210803095455.22737-1-a-govindraju@ti.com>
+Return-Path: lokeshvutla@ti.com
+List-Post: <mailto:linux-patch-review@list.ti.com>
+MIME-Version: 1.0
+Cc: linux-patch-review@list.ti.com, Praneeth Bajjuri <praneeth@ti.com>,
+ Lokesh Vutla <lokeshvutla@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Aswath Govindraju <a-govindraju@ti.com>
+List-ID: <linux-patch-review@list.ti.com>
+List-Post: <mailto:linux-patch-review@list.ti.com>
+
+The current size of tiboot3.bin is 516KB and the memory reserved for it
+in the OSPI flash is 512KB. This leads to overlap of tiboot3.bin on
+tispl.bin region and break in OSPI boot mode.
+
+Therefore, fix this by increasing the memory allocated for tiboot3.bin to
+1MB.
+
+Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+---
+ configs/j7200_evm_a72_defconfig | 4 ++--
+ configs/j7200_evm_r5_defconfig  | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configs/j7200_evm_a72_defconfig b/configs/j7200_evm_a72_defconfig
+index 6fd9db2fe12b..6b2fb870ea4b 100644
+--- a/configs/j7200_evm_a72_defconfig
++++ b/configs/j7200_evm_a72_defconfig
+@@ -9,7 +9,7 @@ CONFIG_SOC_K3_J721E=y
+ CONFIG_TARGET_J7200_A72_EVM=y
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_ENV_OFFSET=0x700000
+-CONFIG_SYS_SPI_U_BOOT_OFFS=0x280000
++CONFIG_SYS_SPI_U_BOOT_OFFS=0x300000
+ CONFIG_DM_GPIO=y
+ CONFIG_SPL_DM_SPI=y
+ CONFIG_SPL_TEXT_BASE=0x80080000
+@@ -73,7 +73,7 @@ CONFIG_CMD_USB_MASS_STORAGE=y
+ CONFIG_CMD_TIME=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_MTDIDS_DEFAULT="nor0=47040000.spi.0,nor0=47034000.hyperbus"
+-CONFIG_MTDPARTS_DEFAULT="mtdparts=47040000.spi.0:512k(ospi.tiboot3),2m(ospi.tispl),4m(ospi.u-boot),256k(ospi.env),256k(ospi.env.backup),57088k@8m(ospi.rootfs),256k(ospi.phypattern);47034000.hyperbus:1m(hbmc.tiboot3),2m(hbmc.tispl),4m(hbmc.u-boot),256k(hbmc.env),-@8m(hbmc.rootfs)"
++CONFIG_MTDPARTS_DEFAULT="mtdparts=47040000.spi.0:1m(ospi.tiboot3),2m(ospi.tispl),4m(ospi.u-boot),256k(ospi.env),256k(ospi.env.backup),57088k@8m(ospi.rootfs),256k(ospi.phypattern);47034000.hyperbus:1m(hbmc.tiboot3),2m(hbmc.tispl),4m(hbmc.u-boot),256k(hbmc.env),-@8m(hbmc.rootfs)"
+ CONFIG_CMD_UBI=y
+ # CONFIG_ISO_PARTITION is not set
+ # CONFIG_SPL_EFI_PARTITION is not set
+diff --git a/configs/j7200_evm_r5_defconfig b/configs/j7200_evm_r5_defconfig
+index a1eb8d9ed553..f09a3b742b6d 100644
+--- a/configs/j7200_evm_r5_defconfig
++++ b/configs/j7200_evm_r5_defconfig
+@@ -8,7 +8,7 @@ CONFIG_SOC_K3_J721E=y
+ CONFIG_K3_EARLY_CONS=y
+ CONFIG_TARGET_J7200_R5_EVM=y
+ CONFIG_ENV_SIZE=0x20000
+-CONFIG_SYS_SPI_U_BOOT_OFFS=0x80000
++CONFIG_SYS_SPI_U_BOOT_OFFS=0x100000
+ CONFIG_DM_GPIO=y
+ CONFIG_SPL_DM_SPI=y
+ CONFIG_SPL_TEXT_BASE=0x41c00000
+
+From patchwork Tue Aug  3 09:54:54 2021
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Aswath Govindraju <a-govindraju@ti.com>
+X-Patchwork-Id: 5541
+X-Patchwork-Delegate: praneeth@ti.com
+From: Aswath Govindraju <a-govindraju@ti.com>
+Subject: [tiU21.01 PATCH 4/5] configs: j721e_evm.h: Fix the dfu environment
+ variables for eMMC and OSPI
+Date: Tue, 3 Aug 2021 15:24:54 +0530
+Message-ID: <20210803095455.22737-5-a-govindraju@ti.com>
+In-Reply-To: <20210803095455.22737-1-a-govindraju@ti.com>
+References: <20210803095455.22737-1-a-govindraju@ti.com>
+Return-Path: lokeshvutla@ti.com
+List-Post: <mailto:linux-patch-review@list.ti.com>
+MIME-Version: 1.0
+Cc: linux-patch-review@list.ti.com, Praneeth Bajjuri <praneeth@ti.com>,
+ Lokesh Vutla <lokeshvutla@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Aswath Govindraju <a-govindraju@ti.com>
+List-ID: <linux-patch-review@list.ti.com>
+List-Post: <mailto:linux-patch-review@list.ti.com>
+
+As the size of tiboot3.bin has increased, the memory layout of the
+bootloaders in eMMC and OSPI have been changed to accommodate this.
+
+Therefore, introduce new dfu environment variables for combined boot images
+and accordingly update them for J7200 in the config header file.
+
+Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+---
+ include/configs/j721e_evm.h     |  9 ++++++++-
+ include/environment/ti/k3_dfu.h | 17 +++++++++++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/include/configs/j721e_evm.h b/include/configs/j721e_evm.h
+index 02246099c998..91679005c064 100644
+--- a/include/configs/j721e_evm.h
++++ b/include/configs/j721e_evm.h
+@@ -171,12 +171,19 @@
+ #define EXTRA_ENV_CONFIG_MAIN_CPSW0_QSGMII_PHY
+ #endif
+ 
+-/* set default dfu_bufsiz to 128KB (sector size of OSPI) */
++#ifdef CONFIG_TARGET_J7200_A72_EVM
++#define EXTRA_ENV_DFUARGS \
++	DFU_ALT_INFO_MMC \
++	DFU_ALT_INFO_EMMC_COMBINED \
++	DFU_ALT_INFO_RAM \
++	DFU_ALT_INFO_OSPI_COMBINED
++#else
+ #define EXTRA_ENV_DFUARGS \
+ 	DFU_ALT_INFO_MMC \
+ 	DFU_ALT_INFO_EMMC \
+ 	DFU_ALT_INFO_RAM \
+ 	DFU_ALT_INFO_OSPI
++#endif
+ 
+ #if defined(CONFIG_TARGET_J721E_A72_EVM) || defined(CONFIG_TARGET_J7200_A72_EVM)
+ #define EXTRA_ENV_J721E_BOARD_SETTINGS_MTD				\
+diff --git a/include/environment/ti/k3_dfu.h b/include/environment/ti/k3_dfu.h
+index 2f503b8de880..e712e4b69ffc 100644
+--- a/include/environment/ti/k3_dfu.h
++++ b/include/environment/ti/k3_dfu.h
+@@ -29,6 +29,15 @@
+ 	"u-env.raw raw 0x3400 0x100 mmcpart 1;" \
+ 	"sysfw.itb.raw raw 0x3600 0x800 mmcpart 1\0"
+ 
++#define DFU_ALT_INFO_EMMC_COMBINED \
++	"dfu_alt_info_emmc=" \
++	"rawemmc raw 0 0x800000 mmcpart 1;" \
++	"rootfs part 0 1 mmcpart 0;" \
++	"tiboot3.bin.raw raw 0x0 0x800 mmcpart 1;" \
++	"tispl.bin.raw raw 0x800 0x1000 mmcpart 1;" \
++	"u-boot.img.raw raw 0x1800 0x2000 mmcpart 1;" \
++	"u-env.raw raw 0x3800 0x100 mmcpart 1;\0"
++
+ #define DFU_ALT_INFO_OSPI \
+ 	"dfu_alt_info_ospi=" \
+ 	"tiboot3.bin raw 0x0 0x080000;" \
+@@ -38,6 +47,14 @@
+ 	"sysfw.itb raw 0x6c0000 0x100000;" \
+ 	"rootfs raw 0x800000 0x3800000\0"
+ 
++#define DFU_ALT_INFO_OSPI_COMBINED \
++	"dfu_alt_info_ospi=" \
++	"tiboot3.bin raw 0x0 0x100000;" \
++	"tispl.bin raw 0x100000 0x200000;" \
++	"u-boot.img raw 0x300000 0x400000;" \
++	"u-boot-env raw 0x700000 0x020000;" \
++	"rootfs raw 0x800000 0x3800000\0"
++
+ #define DFU_ALT_INFO_RAM \
+ 	"dfu_alt_info_ram=" \
+ 	"tispl.bin ram 0x80080000 0x100000;" \
+
+From patchwork Tue Aug  3 09:54:55 2021
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Aswath Govindraju <a-govindraju@ti.com>
+X-Patchwork-Id: 5539
+X-Patchwork-Delegate: praneeth@ti.com
+From: Aswath Govindraju <a-govindraju@ti.com>
+Subject: [tiU21.01 PATCH 5/5] baord: ti: j721e: README: Update README to
+ include documention for j7200
+Date: Tue, 3 Aug 2021 15:24:55 +0530
+Message-ID: <20210803095455.22737-6-a-govindraju@ti.com>
+In-Reply-To: <20210803095455.22737-1-a-govindraju@ti.com>
+References: <20210803095455.22737-1-a-govindraju@ti.com>
+Return-Path: lokeshvutla@ti.com
+List-Post: <mailto:linux-patch-review@list.ti.com>
+MIME-Version: 1.0
+Cc: linux-patch-review@list.ti.com, Praneeth Bajjuri <praneeth@ti.com>,
+ Lokesh Vutla <lokeshvutla@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Aswath Govindraju <a-govindraju@ti.com>
+List-ID: <linux-patch-review@list.ti.com>
+List-Post: <mailto:linux-patch-review@list.ti.com>
+
+Update README to add j7200 specific commands and memory layout for eMMC and
+OSPI.
+
+Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+---
+ board/ti/j721e/README | 129 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 126 insertions(+), 3 deletions(-)
+
+diff --git a/board/ti/j721e/README b/board/ti/j721e/README
+index 0c9b0c839b16..615f3c37bd45 100644
+--- a/board/ti/j721e/README
++++ b/board/ti/j721e/README
+@@ -239,6 +239,8 @@ Below commands can be used to download tiboot3.bin, tispl.bin, u-boot.img,
+ and sysfw.itb over tftp and then flash those to OSPI at their respective
+ addresses.
+ 
++Commands for j721e:
++
+ => sf probe
+ => tftp ${loadaddr} tiboot3.bin
+ => sf update $loadaddr 0x0 $filesize
+@@ -249,7 +251,17 @@ addresses.
+ => tftp ${loadaddr} sysfw.itb
+ => sf update $loadaddr 0x6C0000 $filesize
+ 
+-Flash layout for OSPI:
++Commands for j7200:
++
++=> sf probe
++=> tftp ${loadaddr} tiboot3.bin
++=> sf update $loadaddr 0x0 $filesize
++=> tftp ${loadaddr} tispl.bin
++=> sf update $loadaddr 0x100000 $filesize
++=> tftp ${loadaddr} u-boot.img
++=> sf update $loadaddr 0x300000 $filesize
++
++Flash layout for OSPI on j721e:
+ 
+          0x0 +----------------------------+
+              |     ospi.tiboot3(512K)     |
+@@ -264,8 +276,8 @@ Flash layout for OSPI:
+              |     ospi.env(128K)         |
+              |                            |
+     0x6A0000 +----------------------------+
+-	     |	 ospi.env.backup (128K)   |
+-	     |                            |
++             |   ospi.env.backup (128K)   |
++             |                            |
+     0x6C0000 +----------------------------+
+              |      ospi.sysfw(1M)        |
+              |                            |
+@@ -275,3 +287,114 @@ Flash layout for OSPI:
+              |     ospi.rootfs(UBIFS)     |
+              |                            |
+              +----------------------------+
++
++Flash layout for OSPI on j7200:
++
++         0x0 +----------------------------+
++             |     ospi.tiboot3(1M)       |
++             |                            |
++    0x100000 +----------------------------+
++             |     ospi.tispl(2M)         |
++             |                            |
++    0x300000 +----------------------------+
++             |     ospi.u-boot(4M)        |
++             |                            |
++    0x700000 +----------------------------+
++             |     ospi.env(128K)         |
++             |                            |
++    0x720000 +----------------------------+
++             |   ospi.env.backup(128K)    |
++             |                            |
++    0x740000 +----------------------------+
++             |      padding (768k)        |
++    0x800000 +----------------------------+
++             |     ospi.rootfs(UBIFS)     |
++             |                            |
++             +----------------------------+
++
++
++eMMC:
++-----
++ROM supports booting from eMMC from boot0 partition offset 0x0
++
++Flashing images to eMMC:
++
++The following commands can be used to download tiboot3.bin, tispl.bin,
++u-boot.img, and sysfw.itb from an SD card and write them to the eMMC boot0
++partition at respective addresses.
++
++Commands for j721e:
++
++=> mmc dev 0 1
++=> fatload mmc 1 ${loadaddr} tiboot3.bin
++=> mmc write ${loadaddr} 0x0 0x400
++=> fatload mmc 1 ${loadaddr} tispl.bin
++=> mmc write ${loadaddr} 0x400 0x1000
++=> fatload mmc 1 ${loadaddr} u-boot.img
++=> mmc write ${loadaddr} 0x1400 0x2000
++=> fatload mmc 1 ${loadaddr} sysfw.itb
++=> mmc write ${loadaddr} 0x3600 0x800
++
++Commands for j7200:
++
++=> mmc dev 0 1
++=> fatload mmc 1 ${loadaddr} tiboot3.bin
++=> mmc write ${loadaddr} 0x0 0x800
++=> fatload mmc 1 ${loadaddr} tispl.bin
++=> mmc write ${loadaddr} 0x800 0x1000
++=> fatload mmc 1 ${loadaddr} u-boot.img
++=> mmc write ${loadaddr} 0x1800 0x2000
++
++To give the ROM access to the boot partition, the following command must be
++used for the first time:
++
++=> mmc partconf 0 1 1 1
++
++To set bus width, reset bus width and data rate during boot, the following
++command must be used for the first time:
++
++=> mmc bootbus 0 2 0 0
++
++To create a software partition for the rootfs, the following command can be
++used:
++
++=> gpt write mmc 0 ${partitions}
++
++eMMC layout in J721e:
++
++           boot0 partition (8 MB)                        user partition
++   0x0+----------------------------------+      0x0+-------------------------+
++      |     tiboot3.bin (512 KB)         |         |                         |
++ 0x400+----------------------------------+         |                         |
++      |       tispl.bin (2 MB)           |         |                         |
++0x1400+----------------------------------+         |        rootfs           |
++      |       u-boot.img (4 MB)          |         |                         |
++0x3400+----------------------------------+         |                         |
++      |      environment (128 KB)        |         |                         |
++0x3500+----------------------------------+         |                         |
++      |   backup environment (128 KB)    |         |                         |
++0x3600+----------------------------------+         |                         |
++      |          sysfw (1 MB)            |         |                         |
++0x3E00+----------------------------------+         +-------------------------+
++
++eMMC layout in J7200:
++
++           boot0 partition (8 MB)                        user partition
++   0x0+----------------------------------+      0x0+-------------------------+
++      |     tiboot3.bin (1 MB)           |         |                         |
++ 0x800+----------------------------------+         |                         |
++      |       tispl.bin (2 MB)           |         |                         |
++0x1800+----------------------------------+         |        rootfs           |
++      |       u-boot.img (4 MB)          |         |                         |
++0x3800+----------------------------------+         |                         |
++      |      environment (128 KB)        |         |                         |
++0x3900+----------------------------------+         |                         |
++      |   backup environment (128 KB)    |         |                         |
++0x3A00+----------------------------------+         +-------------------------+
++
++Kernel image and DT are expected to be present in the /boot folder of rootfs.
++To boot kernel from eMMC, use the following commands:
++
++=> setenv mmcdev 0
++=> setenv bootpart 0
++=> boot
