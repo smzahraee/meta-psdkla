@@ -1,7 +1,7 @@
 # Kernel DTB build targets
 linux-dtbs-jacinto: linux-dtbs
-linux-dtbs_clean-jacinto: linux-dtbs_clean
-linux-dtbs_install-jacinto: linux-dtbs_install
+linux-dtbs-jacinto_clean: linux-dtbs_clean
+linux-dtbs-jacinto_install: linux-dtbs_install
 
 linux-dtbs:
 	@echo =====================================
