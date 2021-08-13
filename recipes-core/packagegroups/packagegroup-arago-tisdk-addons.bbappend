@@ -12,4 +12,5 @@ pru-icss \
     opencv \
     opencv-dev \
     corkscrew \
+    python3-pycparser \
 "
