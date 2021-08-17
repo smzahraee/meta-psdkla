@@ -36,10 +36,6 @@ SRC_URI_append_am57xx-evm = " \
     file://0033-HACK-irqchip-irq-pruss-intc-fix-processing-of-level-.patch \
     file://0034-net-ethernet-prueth-convert-hsr-prp-irq-to-threaded-.patch \
     file://0035-net-ethernet-ti-prueth-fix-rx-timestamp-reading-when.patch \
-    file://0001-clk-ti-dra7xx-add-alias-for-timer-source-clocks.patch \
-    file://0002-ARM-DRA7-clocksource-add-support-for-GPT-local-timer.patch \
-    file://0003-ARM-DRA7-Switch-to-use-gptimer-instead-of-the-arm-ar.patch \
-    file://0004-ARM-dts-DRA7-L4-drop-ARM-architected-timer-usage.patch \
 "
 
 KERNEL_DEVICETREE_append_am57xx-evm = " \
@@ -48,4 +44,4 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_4"
+PR_append = "_psdkla_5"
