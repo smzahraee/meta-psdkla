@@ -1,0 +1,77 @@
+From e56df05ddd8a7f217874739bca8a6b9b4280caec Mon Sep 17 00:00:00 2001
+From: Pratyush Yadav <p.yadav@ti.com>
+Date: Thu, 12 Aug 2021 00:35:00 +0530
+Subject: [tiL5.10-CON PATCH 2/2] media: ti: j721e-csi2rx: reduce max frame
+ height and width
+
+Currently the max width and height are set to UINT_MAX. This has
+multiple problems. First, max_width must be a multiple of step_width,
+which is not accounted for. Round down max_width to a multiple of
+step_width.
+
+Second, Gstreamer treats the numbers as signed values, and trips up when
+dealing with such large values since they are interpreted as negative
+values. While it is not generally right to change the kernel for an
+application bug, it is not such a big deal here. This change is
+replacing one set of absurdly large arbitrary values with another set of
+smaller but still absurdly large arbitrary values. Both limits are
+unlikely to be hit in practice.
+
+Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+---
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 23 +++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index 62251ac51cdf..c3fbf3e6bfcc 100644
+--- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -43,6 +43,14 @@
+ #define CSI_DF_RAW10			0x2B
+ 
+ #define PSIL_WORD_SIZE_BYTES		16
++/*
++ * There are no hard limits on the width or height. The DMA engine can handle
++ * all sizes. The max width and height are arbitrary numbers for this driver.
++ * Use 16M * 16M as the arbitrary limit. It is large enough that it is unlikely
++ * the limit will be hit in practice.
++ */
++#define MAX_WIDTH_BYTES			SZ_16M
++#define MAX_HEIGHT_BYTES		SZ_16M
+ 
+ #define DRAIN_TIMEOUT_MS		50
+ 
+@@ -293,6 +301,7 @@ static int ti_csi2rx_enum_framesizes(struct file *file, void *fh,
+ 				     struct v4l2_frmsizeenum *fsize)
+ {
+ 	const struct ti_csi2rx_fmt *fmt;
++	unsigned int pixels_in_word;
+ 	u8 bpp;
+ 
+ 	fmt = find_format_by_pix(fsize->pixel_format);
+@@ -301,12 +310,18 @@ static int ti_csi2rx_enum_framesizes(struct file *file, void *fh,
+ 
+ 	bpp = ALIGN(fmt->bpp, 8);
+ 
++	/*
++	 * Number of pixels in one PSI-L word. The transfer happens in multiples
++	 * of PSI-L word sizes.
++	 */
++	pixels_in_word = PSIL_WORD_SIZE_BYTES * 8 / bpp;
++
+ 	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+-	fsize->stepwise.min_width = PSIL_WORD_SIZE_BYTES * 8 / bpp;
+-	fsize->stepwise.max_width = UINT_MAX;
+-	fsize->stepwise.step_width = PSIL_WORD_SIZE_BYTES * 8 / bpp;
++	fsize->stepwise.min_width = pixels_in_word;
++	fsize->stepwise.max_width = rounddown(MAX_WIDTH_BYTES, pixels_in_word);
++	fsize->stepwise.step_width = pixels_in_word;
+ 	fsize->stepwise.min_height = 1;
+-	fsize->stepwise.max_height = UINT_MAX;
++	fsize->stepwise.max_height = MAX_HEIGHT_BYTES;
+ 	fsize->stepwise.step_height = 1;
+ 
+ 	return 0;
+-- 
+2.30.0
+
