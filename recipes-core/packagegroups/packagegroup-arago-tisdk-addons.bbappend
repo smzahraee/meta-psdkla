@@ -13,4 +13,6 @@ pru-icss \
     opencv-dev \
     corkscrew \
     python3-pycparser \
+    python3-plotly \
+    python3-cffi \
 "
