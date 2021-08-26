@@ -49,6 +49,7 @@ SRC_URI_append_j7-evm = " \
     file://0001-vision-apps-Disabling-ti_csi2rx0-from-vision-apps-ov.patch \
     file://0001-media-ti-j721e-csi2rx-Drain-DMA-when-dropping-frames.patch \
     file://0002-media-ti-j721e-csi2rx-reduce-max-frame-height-and-wi.patch \
+    file://0001-v4l-vxd-dec-Flushing-all-the-IO-buffers-and-releasin.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -58,4 +59,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-eaik-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_21"
+PR_append = "_psdkla_22"
