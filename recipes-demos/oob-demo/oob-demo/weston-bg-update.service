@@ -1,0 +1,14 @@
+[Unit]
+Description=Update weston ini background image based on the platform name
+Before=weston.service
+
+[Service]
+ExecStart=/etc/init.d/weston-bg-update
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStopSec=20
+KillMode=process
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

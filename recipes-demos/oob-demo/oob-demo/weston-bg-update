@@ -1,0 +1,15 @@
+#!/bin/bash
+
+for sh in /etc/profile.d/*.sh ; do
+    [ -r "$sh" ] && . "$sh"
+done
+
+# Point weston background-image to specific board based on the compatible string
+# from the device tree proc.
+if grep -q eaik <<< cat /proc/device-tree/compatible; then
+	sed -i "/^background-image=/s/=.*/=\/usr\/share\/demo\/j7-sk-p0-wallpaper.jpg/" /etc/weston.ini
+else
+	sed -i "/^background-image=/s/=.*/=\/usr\/share\/demo\/j7-evm-oob-wallpaper.jpg/" /etc/weston.ini
+fi
+
+exit 0

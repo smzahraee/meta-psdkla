@@ -8,14 +8,17 @@ FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 SRC_URI = " \
     file://j7-evm-oob-wallpaper.jpg \
     file://j7-evm-p0-wallpaper.jpg \
+    file://j7-sk-p0-wallpaper.jpg \
     file://demo.service \
+    file://weston-bg-update.service \
+    file://weston-bg-update \
     file://autolaunch-demo \
     file://demo.sh \
 "
 
 DEPENDS += "weston-init"
 RDEPENDS_${PN} += "weston-init bash"
-SYSTEMD_SERVICE_${PN} = "demo.service"
+SYSTEMD_SERVICE_${PN} = "demo.service weston-bg-update.service"
 
 S = "${WORKDIR}"
 
@@ -25,14 +28,17 @@ do_install() {
 	install -d ${D}/${datadir}/demo
 	install -m 644 ${WORKDIR}/j7-evm-oob-wallpaper.jpg ${D}${datadir}/demo/
 	install -m 644 ${WORKDIR}/j7-evm-p0-wallpaper.jpg ${D}${datadir}/demo/
+	install -m 644 ${WORKDIR}/j7-sk-p0-wallpaper.jpg ${D}${datadir}/demo/
 	install -m 0755 ${WORKDIR}/demo.sh ${D}${datadir}/demo/
 
 	# Install the systemd unit, initscript and demo script
 	install -d ${D}${systemd_system_unitdir}
 	install -m 0644 ${WORKDIR}/demo.service ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/weston-bg-update.service ${D}${systemd_system_unitdir}
 
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/autolaunch-demo ${D}${sysconfdir}/init.d
+	install -m 0755 ${WORKDIR}/weston-bg-update ${D}${sysconfdir}/init.d
 }
 
 pkg_postinst_${PN} () {
