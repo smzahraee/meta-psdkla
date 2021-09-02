@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
+SRCREV_j7-evm = "d77252021a85c72d7ff9a4e151b81c4b4b9e1205"
+
 SRC_URI_append_j7-evm = " \
     file://0001-tiU21.01-PATCH-Optimal-QoS-Settings.patch \
     file://tiU12.01-arm-dts-k3-j721e-eaik-Add-updated-lp4ddr-config-of-4266MTs.patch \
@@ -20,4 +22,4 @@ SRC_URI_append_j7200-evm-k3r5 = " \
     file://J7200-Increase-the-memory-allocated-for-tiboot3.bin-in-various-memory-devices.patch \
 "
 
-PR_append = "_psdkla_7"
+PR_append = "_psdkla_8"
