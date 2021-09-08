@@ -1,0 +1,14 @@
+[Unit]
+Description=set host name as per compatible name
+
+[Service]
+ExecStart=/etc/init.d/hostname-update
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
