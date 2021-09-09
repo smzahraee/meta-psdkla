@@ -15,5 +15,4 @@ pru-icss \
     python3-pycparser \
     python3-plotly \
     python3-cffi \
-    python3-streamlit \
 "
