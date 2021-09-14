@@ -1,0 +1,85 @@
+From b5c850fedb11682abb11ec3fc0bfa7120c19edfd Mon Sep 17 00:00:00 2001
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Date: Fri, 26 Feb 2021 16:44:15 +0200
+Subject: [PATCH 1/2] HACK: v2: net: packet: Avoid fragmented SKB
+
+The target RAW Ethernet packets are small (fits the page), but af-packet code
+uses fragmented skbs any way tpacket_snd(). This lead to unnecessary fragmented
+skb usage and end up calling __skb_linearize() from validate_xmit_skb().
+
+This patch is attempt to allocate and use skb linear skb head space and so,
+avoid fragmented skbs.
+
+This reduces the sendto() systemcall duration about 5-6us for six parallel
+redundant streams.
+
+Changes in v2:
+- do not mark SKB as SKBTX_ZEROCOPY_FRAG if it's linear. This fixes HSR
+crashes due to incorrect arguments passed in skb_release_data()->
+skb_zcopy_clear()
+- account missed hlen during skb alloc
+- add alloclen to be clear about functionality
+
+Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
+[Kurt: Test and adjust commit message]
+Signed-off-by: Kurt Kanzenbach <kurt@linutronix.de>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ net/packet/af_packet.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/net/packet/af_packet.c b/net/packet/af_packet.c
+index fa8b2274d171..6422f9b067de 100644
+--- a/net/packet/af_packet.c
++++ b/net/packet/af_packet.c
+@@ -2498,7 +2498,6 @@ static int tpacket_fill_skb(struct packet_sock *po, struct sk_buff *skb,
+ 	skb->mark = po->sk.sk_mark;
+ 	skb->tstamp = sockc->transmit_time;
+ 	skb_setup_tx_timestamp(skb, sockc->tsflags);
+-	skb_zcopy_set_nouarg(skb, ph.raw);
+ 
+ 	skb_reserve(skb, hlen);
+ 	skb_reset_network_header(skb);
+@@ -2554,6 +2553,11 @@ static int tpacket_fill_skb(struct packet_sock *po, struct sk_buff *skb,
+ 		len = ((to_write > len_max) ? len_max : to_write);
+ 	}
+ 
++	if (skb_shinfo(skb)->nr_frags)
++		skb_zcopy_set_nouarg(skb, ph.raw);
++	else
++		skb_shinfo(skb)->destructor_arg = ph.raw;
++
+ 	packet_parse_headers(skb, sock);
+ 
+ 	return tp_len;
+@@ -2643,7 +2647,7 @@ static int tpacket_snd(struct packet_sock *po, struct msghdr *msg)
+ 	void *data;
+ 	int len_sum = 0;
+ 	int status = TP_STATUS_AVAILABLE;
+-	int hlen, tlen, copylen = 0;
++	int hlen, tlen, copylen = 0, alloclen;
+ 	long timeo = 0;
+ 
+ 	mutex_lock(&po->pg_vec_lock);
+@@ -2737,9 +2741,16 @@ static int tpacket_snd(struct packet_sock *po, struct msghdr *msg)
+ 						    vnet_hdr->hdr_len);
+ 		}
+ 		copylen = max_t(int, copylen, dev->hard_header_len);
++		alloclen = hlen + tlen + sizeof(struct sockaddr_ll) +
++			  (copylen - dev->hard_header_len);
++
++		if (copylen + tp_len < PAGE_SIZE) {
++			alloclen += tp_len;
++			copylen = tp_len;
++		}
++
+ 		skb = sock_alloc_send_skb(&po->sk,
+-				hlen + tlen + sizeof(struct sockaddr_ll) +
+-				(copylen - dev->hard_header_len),
++				alloclen,
+ 				!need_wait, &err);
+ 
+ 		if (unlikely(skb == NULL)) {
+-- 
+2.17.1
+

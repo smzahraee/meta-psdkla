@@ -36,6 +36,8 @@ SRC_URI_append_am57xx-evm = " \
     file://0033-HACK-irqchip-irq-pruss-intc-fix-processing-of-level-.patch \
     file://0034-net-ethernet-prueth-convert-hsr-prp-irq-to-threaded-.patch \
     file://0035-net-ethernet-ti-prueth-fix-rx-timestamp-reading-when.patch \
+    file://0036-HACK-v2-net-packet-Avoid-fragmented-SKB.patch \
+    file://0037-net-hsr-hsr_forward-fix-tx_flags-copy.patch \
 "
 
 KERNEL_DEVICETREE_append_am57xx-evm = " \
@@ -44,4 +46,4 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_5"
+PR_append = "_psdkla_6"
