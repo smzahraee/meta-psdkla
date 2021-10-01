@@ -14,8 +14,6 @@ SRC_URI_append_j7-evm = " \
 KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
 	ti/k3-j721e-edgeai-apps.dtbo \
-	ti/k3-j721e-eaik-csi2-ov5640.dtbo \
-	ti/k3-j721e-eaik-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_23"
+PR_append = "_psdkla_24"
