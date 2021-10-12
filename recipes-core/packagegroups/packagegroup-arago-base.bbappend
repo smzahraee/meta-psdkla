@@ -26,6 +26,7 @@ RDEPENDS_${PN}_append = " \
 RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
         glsdk-util-scripts \
         oob-demo \
+        wifi-oob \
 "
 
 RDEPENDS_${PN}_append_j7200-evm = "\
