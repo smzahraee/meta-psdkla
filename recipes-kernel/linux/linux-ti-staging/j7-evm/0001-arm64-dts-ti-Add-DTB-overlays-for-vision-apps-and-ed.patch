@@ -1,4 +1,4 @@
-From ede1daa381c9ddbd914848d61ef9c035b5b2f40f Mon Sep 17 00:00:00 2001
+From cce3a3e4c1dbb658d66e8345300ea0b1cef3a561 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Mon, 12 Jul 2021 08:46:24 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlays for vision apps and edgeai
@@ -17,9 +17,9 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
  arch/arm64/boot/dts/ti/Makefile               |   2 +
  .../boot/dts/ti/k3-j721e-edgeai-apps.dts      |   9 +
- .../boot/dts/ti/k3-j721e-rtos-memory-map.dtsi | 270 ++++++++++++++++++
+ .../boot/dts/ti/k3-j721e-rtos-memory-map.dtsi | 275 ++++++++++++++++++
  .../boot/dts/ti/k3-j721e-vision-apps.dts      |  36 +++
- 4 files changed, 317 insertions(+)
+ 4 files changed, 322 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
@@ -54,10 +54,10 @@ index 000000000..5defaca9c
 +
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000..142eff854
+index 000000000..c7b66779d
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
-@@ -0,0 +1,270 @@
+@@ -0,0 +1,275 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -275,6 +275,11 @@ index 000000000..142eff854
 +	intercore_eth_main_r5fss0_core1_memory_region: intercore-eth-r5f-memory@fc000000 {
 +		compatible = "shared-dma-pool";
 +		reg = <0x00 0xfc000000 0x00 0x02000000>;
++		no-map;
++	};
++	eeprom_shadow_memory_region: eeprom-shadow-r5f-memory@fe000000 {
++		compatible = "shared-dma-pool";
++		reg = <0x00 0xfe000000 0x00 0x01000000>;
 +		no-map;
 +	};
 +	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
