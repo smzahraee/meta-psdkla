@@ -6,4 +6,4 @@ IMAGE_FSTYPES_remove = "wic.xz"
 # This is to ensure that the recipe for ti-tisdk-makefile picks this for generating makefile
 KERNEL_DEVICETREE_append_j7-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "", "ti/k3-j721e-vision-apps.dtbo ti/k3-j721e-edgeai-apps.dtbo ", d)}"
 
-KERNEL_DEVICETREE_append_j721s2-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "", "ti/k3-j721e-vision-apps.dtbo ", d)}"
+KERNEL_DEVICETREE_append_j721s2-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "", "ti/k3-j721s2-vision-apps.dtbo ", d)}"

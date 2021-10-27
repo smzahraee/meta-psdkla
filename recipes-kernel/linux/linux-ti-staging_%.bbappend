@@ -27,7 +27,7 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 "
 
 KERNEL_DEVICETREE_append_j721s2-evm = " \
-    ti/k3-j721e-vision-apps.dtbo \
+    ti/k3-j721s2-vision-apps.dtbo \
 "
 
 PR_append = "_psdkla_28"

@@ -42,13 +42,6 @@ SRC_URI_remove_j7200-evm = "\
     file://Makefile_sysfw-image \
 "
 
-SRC_URI_remove_j721s2-evm = "\
-    file://Makefile_matrix-gui \
-    file://Makefile_matrix-gui-browser \
-    file://Makefile_ti-ipc \
-    file://Makefile_sysfw-image \
-"
-
 MAKEFILES_COMMON_remove_j7200-evm = "\
     matrix-gui \
     matrix-gui-browser \
@@ -59,12 +52,6 @@ MAKEFILES_remove_j7200-evm = " \
     ti-ipc \
     ti-img-rogue-driver \
     u-boot-spl \
-    sysfw-image \
-"
-
-MAKEFILES_remove_j721s2-evm = " \
-    pru-icss \
-    ti-ipc \
     sysfw-image \
 "
 
@@ -119,4 +106,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_6"
+PR_append = "_psdkla_7"
