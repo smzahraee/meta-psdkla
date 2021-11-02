@@ -1,4 +1,4 @@
-From 65f82b93c5416586df69e387bf16d959895130c4 Mon Sep 17 00:00:00 2001
+From 826facd3506c7b533244be9cf6d03ccc32981071 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Tue, 26 Oct 2021 15:48:33 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
@@ -17,7 +17,7 @@ related peripherals from Linux so that it can be used by RTOS.
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 7552151995f0..a92474576c56 100644
+index 755215199..a92474576 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
 @@ -29,6 +29,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-eaik-rpi-cam-imx219.dtbo
@@ -30,7 +30,7 @@ index 7552151995f0..a92474576c56 100644
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm-icssg1-dualemac.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000000..5541a846355f
+index 000000000..f808b0b91
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 @@ -0,0 +1,242 @@
@@ -211,23 +211,23 @@ index 000000000000..5541a846355f
 +		reg = <0x00 0xaa100000 0x00 0x06f00000>;
 +		no-map;
 +	};
-+	vision_apps_rtos_ipc_memory_region: vision-apps-ipc-memories@b2000000 {
-+		compatible = "shared-dma-pool";
++	vision_apps_rtos_ipc_memory_region: vision-apps-rtos-ipc-memory-region {
 +		reg = <0x00 0xb2000000 0x00 0x02000000>;
++		alignment = <0x1000>;
 +		no-map;
 +	};
 +	vision_apps_memory_region: vision-apps-dma-memory@b4000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xb4000000 0x00 0x05fe0000>;
++		reg = <0x00 0xb4000000 0x00 0x06000000>;
 +		no-map;
 +	};
 +	vision_apps_shared_region: vision_apps_shared-memories {
 +		compatible = "dma-heap-carveout";
-+		reg = <0x00 0xb9fe0000 0x00 0x20000000>;
++		reg = <0x00 0xba000000 0x00 0x20000000>;
 +	};
-+	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@d9fe0000 {
++	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@da000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xd9fe0000 0x00 0x22020000>;
++		reg = <0x00 0xda000000 0x00 0x22000000>;
 +		no-map;
 +	};
 +	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
@@ -278,7 +278,7 @@ index 000000000000..5541a846355f
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 new file mode 100644
-index 000000000000..559157a06ca2
+index 000000000..559157a06
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 @@ -0,0 +1,16 @@
