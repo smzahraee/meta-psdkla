@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658 \
 "
 
 # Main DLR sources plus submodules (and submodules of submodules).
-SRC_URI = "git://github.com/neo-ai/neo-ai-dlr;protocol=https;branch=main;name=base \
+SRC_URI = "git://github.com/texasinstruments/neo-ai-dlr;protocol=https;branch=tidl-j7;name=base \
            git://github.com/texasinstruments/tvm;protocol=https;branch=tidl-j7;destsuffix=${S}/3rdparty/tvm;name=3rdparty-tvm \
            git://github.com/apache/incubator-tvm-vta;protocol=https;branch=main;destsuffix=${S}/3rdparty/tvm/3rdparty/vta-hw;name=3rdparty-tvm-3rdparty-vta-hw \
            git://github.com/dmlc/dmlc-core;protocol=https;branch=main;destsuffix=${S}/3rdparty/tvm/3rdparty/dmlc-core;name=3rdparty-tvm-3rdparty-dmlc-core \
@@ -31,14 +31,10 @@ SRC_URI = "git://github.com/neo-ai/neo-ai-dlr;protocol=https;branch=main;name=ba
            git://github.com/google/benchmark;protocol=https;branch=master;destsuffix=${S}/3rdparty/treelite/3rdparty/protobuf/third_party/benchmark;name=3rdparty-treelite-3rdparty-protobuf-third-party-benchmark \
            git://github.com/fmtlib/fmt;protocol=https;nobranch=1;destsuffix=${S}/3rdparty/treelite/3rdparty/fmt;name=3rdparty-treelite-3rdparty-fmt \
            git://github.com/llohse/libnpy;protocol=https;branch=master;destsuffix=${S}/3rdparty/libnpy;name=3rdparty-libnpy \
-           file://0001-maybe-upstream-add-condition-for-googletest-build.patch \
-           file://0001-upstream-add-condition-for-TIDL.patch \
-           file://0001-not-upstream-yocto-run-without-REST.patch \
-           file://0001-maybe-upstream-add-a-method-to-get-custom-data.patch \
            file://inc \
 "
 
-SRCREV_base = "1c6d0371b75376417b3ae8751fbc357ae1f732a4"
+SRCREV_base = "0b9f538e31995f0a7c14afbdd73a33eed03b3ff0"
 SRCREV_3rdparty-tvm = "2a9cf9fb08cd1e102cb0c7d4baff318cbbdb3b64"
 SRCREV_3rdparty-tvm-3rdparty-vta-hw = "57db5a718c74a788c98120ebbe1230797be698c8"
 SRCREV_3rdparty-tvm-3rdparty-dmlc-core = "6c401e242c59a1f4c913918246591bb13fd714e7"
@@ -93,5 +89,6 @@ do_install() {
     install -m 0644 ${S}/build/lib/libdlr.so ${D}${PYTHON_SITEPACKAGES_DIR}/dlr
 }
 
-PR = "r1"
+PV = "1.8.0"
+PR = "r2"
 PR_append = "_psdkla"
