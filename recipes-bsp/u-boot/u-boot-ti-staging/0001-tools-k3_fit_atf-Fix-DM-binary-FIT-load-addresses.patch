@@ -1,0 +1,49 @@
+From 4c6f57d44ce35db54ee234c278054f170c61ae7a Mon Sep 17 00:00:00 2001
+From: Suman Anna <s-anna@ti.com>
+Date: Sat, 14 Aug 2021 01:30:26 -0500
+Subject: [PATCH] tools: k3_fit_atf: Fix DM binary FIT load addresses
+
+The DM binary runs on the MCU R5F Core0 after R5 SPL on J721E and J7200
+SoCs. The binary is built alongside the TFA, OPTEE and A72 SPL binaries
+and included in the tispl.bin FIT image. The R5 SPL loads the DM binary
+at 0xA0000000 address, based on the value used in the FIT image build
+script. The DM binary though is an ELF image and not a regular binary
+file, and so is processed further to load the actual program segments
+using the U-Boot's standard ELF loader library.
+
+The DM binary does leverage a certain portion of DDR for its program
+segments, and typically reserves 16 MB of DDR at 0xA0000000 with the
+1st MB used for IPC between Linux and the remote processor, and
+remaining memory for firmware segments. This can cause an incomplete
+loading of the program segments if the DM binary is larger than 1 MB,
+due to overlap of the initial loaded binary and the actual program
+segments.
+
+Fix this by using the address 0x89000000, which matches the current
+"addr_mcur5f0_0load" env variable used by R5 SPL before the DM firmware
+inclusion into the tispl.bin.
+
+Fixes: ad49cdb4feb4 ("tools: k3_fit_atf: add DM binary to the FIT image")
+Signed-off-by: Suman Anna <s-anna@ti.com>
+---
+ tools/k3_fit_atf.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/k3_fit_atf.sh b/tools/k3_fit_atf.sh
+index 3a476ced98b1..7bc07ad07468 100755
+--- a/tools/k3_fit_atf.sh
++++ b/tools/k3_fit_atf.sh
+@@ -67,8 +67,8 @@ cat << __HEADER_EOF
+ 			arch = "arm32";
+ 			compression = "none";
+ 			os = "DM";
+-			load = <0xa0000000>;
+-			entry = <0xa0000000>;
++			load = <0x89000000>;
++			entry = <0x89000000>;
+ 		};
+ 		spl {
+ 			description = "SPL (64-bit)";
+-- 
+2.32.0
+
