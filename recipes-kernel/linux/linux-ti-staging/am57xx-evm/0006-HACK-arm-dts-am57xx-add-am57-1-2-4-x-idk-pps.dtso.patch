@@ -1,0 +1,487 @@
+From 6450963d0ec738f95340183785109b996d358b9a Mon Sep 17 00:00:00 2001
+From: "x1082265@ti.com" <dharma.b@mistralsolutions.com>
+Date: Tue, 2 Nov 2021 10:37:43 +0530
+Subject: [PATCH] HACK: arm: dts: am57xx: add am57[1,2,4]x-idk-pps.dtso
+
+This commit adds the am57[1,2,4]x-idk-pps.dtso which is extension of the
+am57[1,2,4]x-idk.dts. It enables the PPS IO pins (sync/latch) and PTP BC
+bindings at the modified AM571x-idk EVM where the USB/LCD Display
+are disabled.
+---
+ arch/arm/boot/dts/am57xx-idk-common.dtsi |   5 +
+ arch/arm/boot/dts/ti/Makefile            |   6 +-
+ arch/arm/boot/dts/ti/am571x-idk-pps.dtso | 144 +++++++++++++++++++++++
+ arch/arm/boot/dts/ti/am572x-idk-pps.dtso | 128 ++++++++++++++++++++
+ arch/arm/boot/dts/ti/am574x-idk-pps.dtso | 129 ++++++++++++++++++++
+ arch/arm/boot/dts/ti/dtb-merge.cfg       |   3 +
+ 6 files changed, 414 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/ti/am571x-idk-pps.dtso
+ create mode 100644 arch/arm/boot/dts/ti/am572x-idk-pps.dtso
+ create mode 100644 arch/arm/boot/dts/ti/am574x-idk-pps.dtso
+
+diff --git a/arch/arm/boot/dts/am57xx-idk-common.dtsi b/arch/arm/boot/dts/am57xx-idk-common.dtsi
+index 15aa70c4457f..8f4396919ed1 100644
+--- a/arch/arm/boot/dts/am57xx-idk-common.dtsi
++++ b/arch/arm/boot/dts/am57xx-idk-common.dtsi
+@@ -189,6 +189,11 @@
+ 			local-mac-address = [00 00 00 00 00 00];
+ 		};
+ 	};
++
++       ptp_bc: ptp_bc {
++               compatible = "ti,am57-bc";
++               status = "disabled";
++       };
+ };
+ 
+ &pruss2_iep {
+diff --git a/arch/arm/boot/dts/ti/Makefile b/arch/arm/boot/dts/ti/Makefile
+index 50ce91a1f31c..d67ef5f7c9cb 100644
+--- a/arch/arm/boot/dts/ti/Makefile
++++ b/arch/arm/boot/dts/ti/Makefile
+@@ -36,7 +36,11 @@ dtb-$(CONFIG_SOC_DRA7XX) += \
+ 	am57xx-idk-osd-lcd-common.dtbo \
+ 	dra71-evm-lcd-auo-g101evn01.0.dtbo \
+ 	dra76-evm-tfp410.dtbo \
+-	dra71-evm-nand.dtb
++	dra71-evm-nand.dtb \
++	am571x-idk-pps.dtbo \
++	am572x-idk-pps.dtbo \
++	am574x-idk-pps.dtbo
++
+ 
+ $(obj)/%.dtb: $(src)/../%.dts FORCE
+ 	$(call if_changed_dep,dtc,dtb)
+diff --git a/arch/arm/boot/dts/ti/am571x-idk-pps.dtso b/arch/arm/boot/dts/ti/am571x-idk-pps.dtso
+new file mode 100644
+index 000000000000..ff77bfdc9e77
+--- /dev/null
++++ b/arch/arm/boot/dts/ti/am571x-idk-pps.dtso
+@@ -0,0 +1,144 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/clock/dra7.h>
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/dra.h>
++
++&mac {
++       /* cptr pps1 generator and latch properties */
++       pps_timer = <&timer16>;
++       latch_timer = <&timer15>;
++       pinctrl-names = "pwm_off", "pwm_on", "ref_off", "ref_on",
++                       "latch_on", "latch_off";
++       pinctrl-0 = <&pps1_timer16_pwm_off>;
++       pinctrl-1 = <&pps1_timer16_pwm_on>;
++       pinctrl-2 = <&pps1_timer16_pwm2_off>;
++       pinctrl-3 = <&pps1_timer16_pwm2_on>;
++       pinctrl-4 = <&pps1_timer15_latch_on>;
++       pinctrl-5 = <&pps1_timer15_latch_off>;
++
++       pps-enable-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
++       ref-enable-gpios = <&gpio6 19 GPIO_ACTIVE_HIGH>;
++       assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>, <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++       assigned-clock-parents = <&abe_giclk_div>, <&abe_giclk_div>;
++};
++
++&dpll_abe_ck {
++       assigned-clocks = <&dpll_abe_ck>;
++       assigned-clock-rates = <50000000>;
++};
++
++&pruss1_iep {
++       pinctrl-names = "sync0_off", "sync0_on", "latch0_off", "latch0_on";
++       pinctrl-0 = <&pr1_edc_sync0_off>;
++       pinctrl-1 = <&pr1_edc_sync0_on>;
++       pinctrl-2 = <&pr1_edc_latch0_off>;
++       pinctrl-3 = <&pr1_edc_latch0_on>;
++};
++
++&pruss2_iep {
++       pinctrl-names = "sync0_off", "sync0_on", "latch0_off", "latch0_on";
++       pinctrl-0 = <&pr2_edc_sync0_off>;
++       pinctrl-1 = <&pr2_edc_sync0_on>;
++       pinctrl-2 = <&pr2_edc_latch0_off>;
++       pinctrl-3 = <&pr2_edc_latch0_on>;
++};
++
++&dra7_pmx_core {
++       pps1_timer16_pwm_on: pps1_timer16_pwm_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pps1_timer16_pwm_off: pps1_timer16_pwm_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pps1_timer16_pwm2_on: pps1_timer16_pwm2_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT | MUX_MODE7)
++               >;
++       };
++
++       pps1_timer16_pwm2_off: pps1_timer16_pwm2_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pps1_timer15_latch_on: pps1_timer15_latch_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE7)
++               >;
++       };
++
++       pps1_timer15_latch_off: pps1_timer15_latch_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++
++       pr1_edc_sync0_on: pr1_edc_sync0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3724, PIN_OUTPUT | MUX_MODE13)
++               >;
++       };
++
++       pr1_edc_sync0_off: pr1_edc_sync0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3724, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pr1_edc_latch0_on: pr1_edc_latch0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3694, PIN_INPUT | MUX_MODE12)
++               >;
++       };
++
++       pr1_edc_latch0_off: pr1_edc_latch0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3694, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_sync0_on: pr2_edc_sync0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3728, PIN_OUTPUT | MUX_MODE13)
++               >;
++       };
++
++       pr2_edc_sync0_off: pr2_edc_sync0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3728, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_latch0_on: pr2_edc_latch0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3698, PIN_INPUT | MUX_MODE12)
++               >;
++       };
++
++       pr2_edc_latch0_off: pr2_edc_latch0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3698, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++};
++
++&ptp_bc {
++       pps-sel0-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
++       pps-sel1-gpios = <&gpio6 7 GPIO_ACTIVE_HIGH>;
++
++       status = "okay";
++};
+diff --git a/arch/arm/boot/dts/ti/am572x-idk-pps.dtso b/arch/arm/boot/dts/ti/am572x-idk-pps.dtso
+new file mode 100644
+index 000000000000..ee1dccf2e240
+--- /dev/null
++++ b/arch/arm/boot/dts/ti/am572x-idk-pps.dtso
+@@ -0,0 +1,128 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/clock/dra7.h>
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/dra.h>
++
++&mac {
++       /* cptr pps1 generator and latch properties */
++       pps_timer = <&timer16>;
++       latch_timer = <&timer15>;
++       pinctrl-names = "pwm_off", "pwm_on", "ref_off", "ref_on",
++                       "latch_on", "latch_off";
++       pinctrl-0 = <&pps1_timer16_pwm_off>;
++       pinctrl-1 = <&pps1_timer16_pwm_on>;
++       pinctrl-2 = <&pps1_timer16_pwm2_off>;
++       pinctrl-3 = <&pps1_timer16_pwm2_on>;
++       pinctrl-4 = <&pps1_timer15_latch_on>;
++       pinctrl-5 = <&pps1_timer15_latch_off>;
++
++       pps-enable-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
++       ref-enable-gpios = <&gpio6 19 GPIO_ACTIVE_HIGH>;
++       assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>, <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++       assigned-clock-parents = <&abe_giclk_div>, <&abe_giclk_div>;
++};
++
++&dpll_abe_ck {
++       assigned-clocks = <&dpll_abe_ck>;
++       assigned-clock-rates = <50000000>;
++};
++
++&pruss2_iep {
++       pinctrl-names = "sync0_off", "sync0_on", "latch0_off", "latch0_on",
++                       "sync1_off", "sync1_on";
++       pinctrl-0 = <&pr2_edc_sync0_off>;
++       pinctrl-1 = <&pr2_edc_sync0_on>;
++       pinctrl-2 = <&pr2_edc_latch0_off>;
++       pinctrl-3 = <&pr2_edc_latch0_on>;
++       pinctrl-4 = <&pr2_edc_sync1_off>;
++       pinctrl-5 = <&pr2_edc_sync1_on>;
++};
++
++&dra7_pmx_core {
++       pps1_timer16_pwm_on: pps1_timer16_pwm_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pps1_timer16_pwm_off: pps1_timer16_pwm_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pps1_timer16_pwm2_on: pps1_timer16_pwm2_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT | MUX_MODE7)
++               >;
++       };
++
++       pps1_timer16_pwm2_off: pps1_timer16_pwm2_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pps1_timer15_latch_on: pps1_timer15_latch_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE7)
++               >;
++       };
++
++       pps1_timer15_latch_off: pps1_timer15_latch_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_sync0_on: pr2_edc_sync0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f8, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pr2_edc_sync0_off: pr2_edc_sync0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f8, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_latch0_on: pr2_edc_latch0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f0, PIN_INPUT | MUX_MODE10)
++               >;
++       };
++
++       pr2_edc_latch0_off: pr2_edc_latch0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f0, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_sync1_on: pr2_edc_sync1_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35fc, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pr2_edc_sync1_off: pr2_edc_sync1_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35fc, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++};
++
++&ptp_bc {
++       pps-sel0-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
++       pps-sel1-gpios = <&gpio6 7 GPIO_ACTIVE_HIGH>;
++
++       status = "okay";
++};
++
+diff --git a/arch/arm/boot/dts/ti/am574x-idk-pps.dtso b/arch/arm/boot/dts/ti/am574x-idk-pps.dtso
+new file mode 100644
+index 000000000000..651e6ec1f16d
+--- /dev/null
++++ b/arch/arm/boot/dts/ti/am574x-idk-pps.dtso
+@@ -0,0 +1,129 @@
++
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/clock/dra7.h>
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/dra.h>
++
++&mac {
++       /* cptr pps1 generator and latch properties */
++       pps_timer = <&timer16>;
++       latch_timer = <&timer15>;
++       pinctrl-names = "pwm_off", "pwm_on", "ref_off", "ref_on",
++                       "latch_on", "latch_off";
++       pinctrl-0 = <&pps1_timer16_pwm_off>;
++       pinctrl-1 = <&pps1_timer16_pwm_on>;
++       pinctrl-2 = <&pps1_timer16_pwm2_off>;
++       pinctrl-3 = <&pps1_timer16_pwm2_on>;
++       pinctrl-4 = <&pps1_timer15_latch_on>;
++       pinctrl-5 = <&pps1_timer15_latch_off>;
++
++       pps-enable-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
++       ref-enable-gpios = <&gpio6 19 GPIO_ACTIVE_HIGH>;
++       assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>, <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++       assigned-clock-parents = <&abe_giclk_div>, <&abe_giclk_div>;
++};
++
++&dpll_abe_ck {
++       assigned-clocks = <&dpll_abe_ck>;
++       assigned-clock-rates = <50000000>;
++};
++
++&pruss2_iep {
++       pinctrl-names = "sync0_off", "sync0_on", "latch0_off", "latch0_on",
++                       "sync1_off", "sync1_on";
++       pinctrl-0 = <&pr2_edc_sync0_off>;
++       pinctrl-1 = <&pr2_edc_sync0_on>;
++       pinctrl-2 = <&pr2_edc_latch0_off>;
++       pinctrl-3 = <&pr2_edc_latch0_on>;
++       pinctrl-4 = <&pr2_edc_sync1_off>;
++       pinctrl-5 = <&pr2_edc_sync1_on>;
++};
++
++&dra7_pmx_core {
++       pps1_timer16_pwm_on: pps1_timer16_pwm_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pps1_timer16_pwm_off: pps1_timer16_pwm_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pps1_timer16_pwm2_on: pps1_timer16_pwm2_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT | MUX_MODE7)
++               >;
++       };
++
++       pps1_timer16_pwm2_off: pps1_timer16_pwm2_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pps1_timer15_latch_on: pps1_timer15_latch_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE7)
++               >;
++       };
++
++       pps1_timer15_latch_off: pps1_timer15_latch_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_sync0_on: pr2_edc_sync0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f8, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pr2_edc_sync0_off: pr2_edc_sync0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f8, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_latch0_on: pr2_edc_latch0_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f0, PIN_INPUT | MUX_MODE10)
++               >;
++       };
++
++       pr2_edc_latch0_off: pr2_edc_latch0_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35f0, PIN_INPUT | MUX_MODE15)
++               >;
++       };
++
++       pr2_edc_sync1_on: pr2_edc_sync1_on {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35fc, PIN_OUTPUT | MUX_MODE10)
++               >;
++       };
++
++       pr2_edc_sync1_off: pr2_edc_sync1_off {
++               pinctrl-single,pins = <
++                       DRA7XX_CORE_IOPAD(0x35fc, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++               >;
++       };
++};
++
++&ptp_bc {
++       pps-sel0-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
++       pps-sel1-gpios = <&gpio6 7 GPIO_ACTIVE_HIGH>;
++
++       status = "okay";
++};
++
+diff --git a/arch/arm/boot/dts/ti/dtb-merge.cfg b/arch/arm/boot/dts/ti/dtb-merge.cfg
+index 1b5b20940a8e..6f5e4890228b 100644
+--- a/arch/arm/boot/dts/ti/dtb-merge.cfg
++++ b/arch/arm/boot/dts/ti/dtb-merge.cfg
+@@ -1,3 +1,6 @@
+ am57xx-evm: am57xx-beagle-x15.dtb am57xx-evm-common.dtbo
+ am57xx-evm-reva3: am57xx-beagle-x15-revc.dtb am57xx-evm-common.dtbo am57xx-evm-reva3.dtbo
+ dra71-evm-nand: dra71-evm.dtb dra71-evm-nand.dtb
++am571x-idk-pps: am571x-idk.dtb am571x-idk-pps.dtbo
++am572x-idk-pps: am572x-idk.dtb am572x-idk-pps.dtbo
++am574x-idk-pps: am574x-idk.dtb am574x-idk-pps.dtbo
+-- 
+2.17.1
+

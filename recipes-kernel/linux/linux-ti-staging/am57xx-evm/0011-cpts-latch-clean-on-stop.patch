@@ -1,0 +1,25 @@
+From be32eaa462f391a82a63c643662dab4407ae3a2f Mon Sep 17 00:00:00 2001
+From: "x1082265@ti.com" <dharma.b@mistralsolutions.com>
+Date: Tue, 2 Nov 2021 12:03:49 +0530
+Subject: [PATCH] cpts: latch clean on stop
+
+---
+ drivers/net/ethernet/ti/cpts.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/ethernet/ti/cpts.c b/drivers/net/ethernet/ti/cpts.c
+index 494972de5124..0a8925361051 100644
+--- a/drivers/net/ethernet/ti/cpts.c
++++ b/drivers/net/ethernet/ti/cpts.c
+@@ -1908,6 +1908,8 @@ static inline void cpts_latch_pps_stop(struct cpts *cpts)
+        WRITE_TCLR(cpts->odt2, v);
+ 
+        cpts->pps_latch_state = INIT;
++       cpts->pps_latch_offset = 0;
++       cpts->pps_latch_receive = 0;
+ }
+ 
+ static inline void cpts_latch_pps_start(struct cpts *cpts)
+-- 
+2.17.1
+
