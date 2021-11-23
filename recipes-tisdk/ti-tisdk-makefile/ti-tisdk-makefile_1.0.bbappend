@@ -58,6 +58,7 @@ MAKEFILES_remove_j7200-evm = " \
 
 SRC_URI_remove_j721s2-evm = "\
     file://Makefile_ti-ipc \
+    file://Makefile_sysfw-image \
     file://Makefile_u-boot-spl \
 "
 
@@ -65,6 +66,7 @@ MAKEFILES_remove_j721s2-evm = " \
     pru-icss \
     ti-ipc \
     ti-img-rogue-driver \
+    sysfw-image \
     u-boot-spl \
 "
 
@@ -122,4 +124,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_11"
+PR_append = "_psdkla_10"
