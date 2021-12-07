@@ -38,6 +38,7 @@ SRC_URI_append_am57xx-evm = " \
     file://0035-net-ethernet-ti-prueth-fix-rx-timestamp-reading-when.patch \
     file://0036-HACK-v2-net-packet-Avoid-fragmented-SKB.patch \
     file://0037-net-hsr-hsr_forward-fix-tx_flags-copy.patch \
+    file://0038-Queue-to-PCP-map-fix.patch \
 "
 
 KERNEL_DEVICETREE_append_am57xx-evm = " \
@@ -46,4 +47,4 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_6"
+PR_append = "_psdkla_8"

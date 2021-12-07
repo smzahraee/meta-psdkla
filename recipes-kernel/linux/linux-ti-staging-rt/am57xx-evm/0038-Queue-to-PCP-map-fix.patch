@@ -1,0 +1,26 @@
+From d75941f0724dbcc0092a1be87700dde83f0b0054 Mon Sep 17 00:00:00 2001
+From: root <root@shizuka.couthit.local>
+Date: Fri, 19 Nov 2021 10:38:28 +0530
+Subject: [PATCH] Queue to PCP map fix Signed-off-by: Parvathi
+ <parvathi@couthit.com>
+
+---
+ drivers/net/ethernet/ti/icss_lre_firmware.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/ti/icss_lre_firmware.h b/drivers/net/ethernet/ti/icss_lre_firmware.h
+index e5cb1092aa8d..baf39c1466fb 100644
+--- a/drivers/net/ethernet/ti/icss_lre_firmware.h
++++ b/drivers/net/ethernet/ti/icss_lre_firmware.h
+@@ -59,7 +59,7 @@
+ /* SHARED RAM */
+ 
+ /* 8 bytes of VLAN PCP to RX QUEUE MAPPING */
+-#define ICSS_LRE_QUEUE_2_PCP_MAP_OFFSET		0x120
++#define ICSS_LRE_QUEUE_2_PCP_MAP_OFFSET		0x124
+ #define ICSS_LRE_START				0x140
+ 
+ /* Number of frames successfully sent over port A/B that are HSR/PRP tagged */
+-- 
+2.17.1
+
