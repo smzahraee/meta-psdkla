@@ -9,7 +9,6 @@ SRC_URI_append_j7-evm = " \
     file://0001-media-ti-j721e-csi2rx-Add-RAW8-and-RAW10-pixel-forma.patch \
     file://0002-media-cadence-Extend-format-to-support-RAW-data-for-.patch \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-RPi-expansion-heade.patch \
-    file://0001-media-platform-Makefile-Fix-build-failure-in-paralle.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -18,4 +17,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-sk-rpi-exp-header.dtbo \
 "
 
-PR_append = "_psdkla_30"
+PR_append = "_psdkla_29"
