@@ -1,7 +1,5 @@
 PR_append = ".arago0"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-
 do_install_append() {
     rm -rf ${D}${systemd_system_unitdir}
 }
