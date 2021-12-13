@@ -15,6 +15,8 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-vision-apps.dtbo \
 	ti/k3-j721e-edgeai-apps.dtbo \
 	ti/k3-j721e-sk-rpi-exp-header.dtbo \
+	ti/k3-j721e-sk-csi2-ov5640.dtbo \
+	ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_29"
+PR_append = "_psdkla_30"
