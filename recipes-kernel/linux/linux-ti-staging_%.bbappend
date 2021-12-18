@@ -10,6 +10,7 @@ SRC_URI_append_j7-evm = " \
     file://0002-media-cadence-Extend-format-to-support-RAW-data-for-.patch \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-RPi-expansion-heade.patch \
     file://0001-v4l-vxd-dec-Flushing-all-the-IO-buffers-and-releasin.patch \
+    file://0001-media-platform-vxe-vxd-decoder-Fix-memory-flush-at-s.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -20,4 +21,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_31"
+PR_append = "_psdkla_32"
