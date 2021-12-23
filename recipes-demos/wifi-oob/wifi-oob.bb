@@ -33,6 +33,7 @@ SRC_URI= " \
     file://sta_connect-ex.sh \
     file://sta_start.sh \
     file://sta_stop.sh \
+    file://wificfg \
 "
 
 do_install() {
@@ -45,6 +46,7 @@ do_install() {
     install -m 0755 ${WORKDIR}/sta_connect-ex.sh ${D}/${datadir}/intel9260
     install -m 0755 ${WORKDIR}/sta_start.sh ${D}/${datadir}/intel9260
     install -m 0755 ${WORKDIR}/sta_stop.sh ${D}/${datadir}/intel9260
+    install -m 0755 ${WORKDIR}/wificfg ${D}/${datadir}/intel9260
 
     install -d ${D}/${sysconfdir}/systemd/network
     install -m 0644 ${WORKDIR}/01-wlan1-static.network ${D}/${sysconfdir}/systemd/network
