@@ -15,7 +15,7 @@ FILES_${PN} += "${datadir}/intel9260/"
 COMPATIBLE_MACHINE = "j7"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SYSTEMD_SERVICE_${PN} = "startwlan.service startwlansta.service"
+SYSTEMD_SERVICE_${PN} = "startwlanap.service startwlansta.service"
 
 inherit systemd
 
@@ -26,8 +26,8 @@ SRC_URI= " \
     file://hostapd.conf \
     file://udhcpd.conf \
     file://01-wlan1-static.network \
-    file://startwlan.sh \
-    file://startwlan.service \
+    file://startwlanap.sh \
+    file://startwlanap.service \
     file://startwlansta.service \
     file://startwlansta.sh \
     file://sta_connect-ex.sh \
@@ -52,11 +52,11 @@ do_install() {
     install -m 0644 ${WORKDIR}/01-wlan1-static.network ${D}/${sysconfdir}/systemd/network
 
     install -d ${D}${sysconfdir}/systemd/system
-    install -m 0644 ${WORKDIR}/startwlan.service ${D}${sysconfdir}/systemd/system
+    install -m 0644 ${WORKDIR}/startwlanap.service ${D}${sysconfdir}/systemd/system
     install -m 0644 ${WORKDIR}/startwlansta.service ${D}${sysconfdir}/systemd/system
 
     install -d ${D}/${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/startwlan.sh ${D}/${sysconfdir}/init.d
+    install -m 0755 ${WORKDIR}/startwlanap.sh ${D}/${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/startwlansta.sh ${D}/${sysconfdir}/init.d
 }
 

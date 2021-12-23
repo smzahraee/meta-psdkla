@@ -1,6 +1,27 @@
 #!/bin/sh
 
+get_cfg ()
+{
+configfile=$1
+section=$2
+param=$3
+
+python3 -c "
+import configparser;
+config = configparser.ConfigParser();
+config.read('$configfile');
+print (config.get('$section','$param'));
+"
+}
+
+filename=/usr/share/intel9260/wificfg
 defapname=J7SK-AP
+
+ENABLE=`get_cfg $filename Wifi-STA sta_enable`
+
+if [ $ENABLE != "no" ]; then
+    exit
+fi
 
 echo -n "Starting WLAN AP setup"
 cd /usr/share/intel9260

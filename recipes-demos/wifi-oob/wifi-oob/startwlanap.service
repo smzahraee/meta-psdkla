@@ -1,5 +1,5 @@
 [Unit]
-Description=startwlan
+Description=startwlanap
 
 [Service]
 Type=oneshot
@@ -9,7 +9,7 @@ IgnoreSIGPIPE=no
 KillMode=process
 GuessMainPID=no
 RemainAfterExit=yes
-ExecStart=/etc/init.d/startwlan.sh
+ExecStart=/etc/init.d/startwlanap.sh
 StandardOutput=journal+console
 
 
