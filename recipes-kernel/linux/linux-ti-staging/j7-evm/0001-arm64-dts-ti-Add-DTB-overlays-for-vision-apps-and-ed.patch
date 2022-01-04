@@ -168,7 +168,7 @@ index 000000000000..c7b66779d4f0
 +		reg = <0x00 0xa0000000 0x00 0x00100000>;
 +		no-map;
 +	};
-+	vision_apps_mcu_r5fss0_core0_memory_region: vision_apps-r5f-memory@a0100000 {
++	vision_apps_mcu_r5fss0_core0_memory_region: vision-apps-r5f-memory@a0100000 {
 +		compatible = "shared-dma-pool";
 +		reg = <0x00 0xa0100000 0x00 0x00f00000>;
 +		no-map;
