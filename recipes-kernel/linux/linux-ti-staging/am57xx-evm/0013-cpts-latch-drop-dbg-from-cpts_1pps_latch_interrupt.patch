@@ -1,0 +1,36 @@
+From 68eb2044b2707dd65b881a34fc5070d6eceae39c Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Tue, 30 Nov 2021 20:12:13 +0530
+Subject: [PATCH 13/17] cpts: latch: drop dbg from cpts_1pps_latch_interrupt
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ drivers/net/ethernet/ti/cpts.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/drivers/net/ethernet/ti/cpts.c b/drivers/net/ethernet/ti/cpts.c
+index 1ead62354c1c..54325937c3e6 100644
+--- a/drivers/net/ethernet/ti/cpts.c
++++ b/drivers/net/ethernet/ti/cpts.c
+@@ -2061,7 +2061,6 @@ static irqreturn_t cpts_1pps_tmr_interrupt(int irq, void *dev_id)
+	return IRQ_HANDLED;
+ }
+
+-static int latch_cnt;
+ static irqreturn_t cpts_1pps_latch_interrupt(int irq, void *dev_id)
+ {
+	struct cpts *cpts = (struct cpts *)dev_id;
+@@ -2070,11 +2069,6 @@ static irqreturn_t cpts_1pps_latch_interrupt(int irq, void *dev_id)
+
+	cpts_latch_proc(cpts, READ_TCAP(cpts->odt2));
+
+-	if (latch_cnt <= 100)
+-		latch_cnt++;
+-	if ((latch_cnt % 10) == 0)
+-		dev_dbg(cpts->dev, "%s %d\n", __func__, latch_cnt);
+-
+	return IRQ_HANDLED;
+ }
+ #endif
+--
+2.17.0

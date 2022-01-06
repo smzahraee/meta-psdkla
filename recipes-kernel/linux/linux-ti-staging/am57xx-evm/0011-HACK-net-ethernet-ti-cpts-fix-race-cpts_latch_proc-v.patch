@@ -1,0 +1,44 @@
+From e67bb19e047400167cc6d9316039d74e09fc0d7a Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Tue, 30 Nov 2021 20:08:02 +0530
+Subject: [PATCH 11/17] HACK: net: ethernet: ti: cpts: fix race cpts_latch_proc
+ vs cpts_fifo_read
+
+There is shared data used between cpts_latch_proc and cpts_fifo_read
+ - pps_latch_offset
+ - pps_latch_receive
+and on RT Kernel both function are called from threaded IRQ context with
+the same priority and so can race.
+
+Add spin_lock section in cpts_latch_proc() to protect shared data.
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ drivers/net/ethernet/ti/cpts.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/ti/cpts.c b/drivers/net/ethernet/ti/cpts.c
+index 0b7f2306497e..55fb51d264c3 100644
+--- a/drivers/net/ethernet/ti/cpts.c
++++ b/drivers/net/ethernet/ti/cpts.c
+@@ -1920,15 +1920,17 @@ static void cpts_latch_proc(struct cpts *cpts, u32 latch_cnt)
+ {
+	u32 offset = 0xFFFFFFFFUL - latch_cnt + 1;
+	u32 reload_cnt = CPTS_LATCH_TMR_RELOAD_CNT;
++	unsigned long flags;
+	static bool skip;
+	static int init_cnt;
+
+	if (!cpts)
+		return;
+-
++	spin_lock_irqsave(&cpts->lock, flags);
+	cpts->pps_latch_offset = offset * CPTS_TMR_CLK_PERIOD +
+		CPTS_TMR_LATCH_DELAY;
+	cpts->pps_latch_receive = true;
++	spin_unlock_irqrestore(&cpts->lock, flags);
+
+	/* Timer poll state machine */
+	switch (cpts->pps_latch_state) {
+--
+2.17.0
