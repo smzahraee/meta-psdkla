@@ -1,0 +1,34 @@
+From c5c0f85719538e923069f3f6a32b0ff040f53a1c Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Tue, 30 Nov 2021 20:24:35 +0530
+Subject: [PATCH 16/17] net: ethernet: ti: cpts: clean timer capture status
+
+The DM Timer capture detection logic has to be reset or the
+IRQSTATUS[2].TCAR_IT_FLAG is cleared by writing 1 to it otherwise no update
+on the TCAR1 register and no interrupt triggering will happen after first
+capture event. After commit "cpts: latch: disable tmr irq while latch is
+on" the capture detection logic has not been reset when cpts_latch_proc()
+is called from CPTS IRQ.
+
+Fix it. (fix for NONADJUST)
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ drivers/net/ethernet/ti/cpts.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/ethernet/ti/cpts.c b/drivers/net/ethernet/ti/cpts.c
+index b79b39ee65fb..737118206316 100644
+--- a/drivers/net/ethernet/ti/cpts.c
++++ b/drivers/net/ethernet/ti/cpts.c
+@@ -2013,6 +2013,7 @@ static u32 cpts_latch_proc(struct cpts *cpts)
+ 	u32 pps_latch_offset;
+ 
+ 	latch_cnt = READ_TCAP(cpts->odt2);
++	writel_relaxed(OMAP_TIMER_INT_CAPTURE, cpts->odt2->irq_stat);
+ 	offset = 0xFFFFFFFFUL - latch_cnt + 1;
+ 
+ 	pps_latch_offset = offset * CPTS_TMR_CLK_PERIOD +  CPTS_TMR_LATCH_DELAY;
+-- 
+2.17.0
+

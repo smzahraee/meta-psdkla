@@ -1,0 +1,95 @@
+From b4cb415154245acdee0ab31ef087912973dc9cb6 Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Tue, 30 Nov 2021 20:03:24 +0530
+Subject: [PATCH 10/17] HACK: net: ethernet: ti: icss_iep: Use delayed work for
+ cap cmp handler
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ drivers/net/ethernet/ti/icss_iep.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/net/ethernet/ti/icss_iep.c b/drivers/net/ethernet/ti/icss_iep.c
+index 926cd27a3540..cd6216e792a3 100644
+--- a/drivers/net/ethernet/ti/icss_iep.c
++++ b/drivers/net/ethernet/ti/icss_iep.c
+@@ -125,7 +125,7 @@ struct icss_iep {
+ 	int cap_cmp_irq;
+ 	u64 period;
+ 	u32 latch_enable;
+-	struct hrtimer sync_timer;
++	struct delayed_work sync_work;
+ 
+ 	int bc_clkid;
+ 	int pruss_id;
+@@ -592,8 +592,6 @@ static int icss_iep_perout_enable(struct icss_iep *iep,
+	}
+
+	spin_lock_irqsave(&iep->irq_lock, flags);
+-	if (iep->cap_cmp_irq)
+-		hrtimer_cancel(&iep->sync_timer);
+	ret = icss_iep_perout_enable_hw(iep, req, on);
+	if (!ret)
+		iep->perout_enabled = !!on;
+@@ -643,8 +641,7 @@ static irqreturn_t icss_iep_cap_cmp_handler(int irq, void *dev_id)
+ 		ptp_clock_event(iep->ptp_clock, &pevent);
+ 		dev_dbg(iep->dev, "IEP:pps ts: %llu next:%llu:\n", ns, ns_next);
+
+-		hrtimer_start(&iep->sync_timer, ms_to_ktime(30), /* 20ms + buffer */
+-			      HRTIMER_MODE_REL);
++		schedule_delayed_work(&iep->sync_work, msecs_to_jiffies(30)); /* 20ms + buffer */
+ 
+ 		ret = IRQ_HANDLED;
+ 	}
+@@ -709,8 +706,6 @@ static int icss_iep_pps_enable(struct icss_iep *iep, int on)
+ 			pinctrl_select_state(iep->pins, iep->pps[0].pin_on);
+ 		ret = icss_iep_perout_enable_hw(iep, &rq.perout, on);
+ 	} else {
+-		if (iep->cap_cmp_irq)
+-			hrtimer_cancel(&iep->sync_timer);
+ 		ret = icss_iep_perout_enable_hw(iep, &rq.perout, on);
+ 		if (iep->pps[0].pin_off)
+ 			pinctrl_select_state(iep->pins, iep->pps[0].pin_off);
+@@ -807,16 +802,17 @@ static struct ptp_clock_info icss_iep_ptp_info = {
+ 	.enable		= icss_iep_ptp_enable,
+ };
+ 
+-static enum hrtimer_restart icss_iep_sync0_work(struct hrtimer *timer)
++static void icss_iep_sync0_work(struct work_struct *work)
+ {
+-	struct icss_iep *iep = container_of(timer, struct icss_iep, sync_timer);
++	struct delayed_work *dw = to_delayed_work(work);
++	struct icss_iep *iep = container_of(dw, struct icss_iep, sync_work);
+ 
+	icss_iep_writel(iep, ICSS_IEP_SYNC_CTRL_REG, 0);
+	icss_iep_writel(iep, ICSS_IEP_SYNC_CTRL_REG,
+			IEP_SYNC_CTRL_SYNC_N_EN(0) | IEP_SYNC_CTRL_SYNC_EN);
+	icss_iep_writel(iep, ICSS_IEP_SYNC0_STAT_REG, 1);
+
+-	return HRTIMER_NORESTART;
++	icss_iep_writel(iep, ICSS_IEP_SYNC0_STAT_REG, 1);
+ }
+ 
+ static int iep_get_pps_extts_pins(struct icss_iep *iep)
+@@ -963,7 +959,7 @@ void icss_iep_put(struct icss_iep *iep)
+	device_unlock(iep->dev);
+	put_device(iep->dev);
+	if (iep->cap_cmp_irq)
+-		hrtimer_cancel(&iep->sync_timer);
++		cancel_delayed_work(&iep->sync_work);
+	if (iep->pins)
+		devm_pinctrl_put(iep->pins);
+ }
+@@ -1107,8 +1103,7 @@ static int icss_iep_probe(struct platform_device *pdev)
+ 			dev_err(iep->dev, "Request irq failed for cap_cmp %d\n", ret);
+			return ret;
+ 		}
+-		hrtimer_init(&iep->sync_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+-		iep->sync_timer.function = icss_iep_sync0_work;
++		INIT_DELAYED_WORK(&iep->sync_work, icss_iep_sync0_work);
+ 	}
+ 
+	iep_clk = devm_clk_get(dev, NULL);
+-- 
+2.17.0
+
