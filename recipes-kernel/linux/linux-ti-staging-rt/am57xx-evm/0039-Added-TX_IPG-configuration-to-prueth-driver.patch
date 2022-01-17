@@ -1,0 +1,36 @@
+From 399bddf971db88eed5f48d63459e434d191ca3e0 Mon Sep 17 00:00:00 2001
+From: root <root@bulbasaur.couthit.local>
+Date: Mon, 3 Jan 2022 13:53:52 +0530
+Subject: [PATCH] Added TX_IPG configuration to prueth driver Signed-off-by:
+ Parvathi <parvathi@couthit.com>
+
+---
+ drivers/net/ethernet/ti/prueth_core.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/net/ethernet/ti/prueth_core.c b/drivers/net/ethernet/ti/prueth_core.c
+index d0cf9ef91..e8bb95af3 100644
+--- a/drivers/net/ethernet/ti/prueth_core.c
++++ b/drivers/net/ethernet/ti/prueth_core.c
+@@ -385,6 +385,18 @@ static void prueth_hostconfig(struct prueth *prueth)
+ 
+ static void prueth_mii_init(struct prueth *prueth)
+ {
++	/* Configuration of Tx_IPG */
++	regmap_update_bits(prueth->mii_rt,
++			   PRUSS_MII_RT_TX_IPG0,
++			   PRUSS_MII_RT_TX_IPG_IPG_MASK,
++			   (TX_MIN_IPG) <<
++			   PRUSS_MII_RT_TX_IPG_IPG_SHIFT);
++	regmap_update_bits(prueth->mii_rt,
++			   PRUSS_MII_RT_TX_IPG1,
++			   PRUSS_MII_RT_TX_IPG_IPG_MASK,
++			   (TX_MIN_IPG) <<
++			   PRUSS_MII_RT_TX_IPG_IPG_SHIFT);
++
+ 	/* Configuration of Port 0 Rx */
+ 	prueth_mii_set(RX, 0, ENABLE, PRUSS_MII_RT_RXCFG_RX_ENABLE);
+ 	prueth_mii_set(RX, 0, DATA_RDY_MODE_DIS,
+-- 
+2.17.1
+

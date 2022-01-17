@@ -39,6 +39,7 @@ SRC_URI_append_am57xx-evm = " \
     file://0036-HACK-v2-net-packet-Avoid-fragmented-SKB.patch \
     file://0037-net-hsr-hsr_forward-fix-tx_flags-copy.patch \
     file://0038-Queue-to-PCP-map-fix.patch \
+    file://0039-Added-TX_IPG-configuration-to-prueth-driver.patch \
 "
 
 KERNEL_DEVICETREE_append_am57xx-evm = " \
@@ -47,4 +48,4 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_8"
+PR_append = "_psdkla_9"
