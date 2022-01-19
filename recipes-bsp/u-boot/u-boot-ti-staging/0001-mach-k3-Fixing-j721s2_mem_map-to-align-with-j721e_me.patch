@@ -1,0 +1,36 @@
+From aa0e2a08fd530b99db1a2dbddc2380eff09654d7 Mon Sep 17 00:00:00 2001
+From: Lucas Weaver <l-weaver@ti.com>
+Date: Wed, 19 Jan 2022 13:17:41 -0600
+Subject: [PATCH] mach-k3: Fixing j721s2_mem_map to align with j721e_mem_map
+
+-Without this change, we were seeing the failures observed in bugs
+ ADASVISION-5064 and ADASVISION-5067
+---
+ arch/arm/mach-k3/arm64-mmu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-k3/arm64-mmu.c b/arch/arm/mach-k3/arm64-mmu.c
+index c7f455c881..21eee8c04f 100644
+--- a/arch/arm/mach-k3/arm64-mmu.c
++++ b/arch/arm/mach-k3/arm64-mmu.c
+@@ -202,13 +202,13 @@ struct mm_region j721s2_mem_map[NR_MMU_REGIONS] = {
+ 	}, {
+ 		.virt = 0xa0000000UL,
+ 		.phys = 0xa0000000UL,
+-		.size = 0x04800000UL,
++		.size = 0x1bc00000UL,
+ 		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL_NC) |
+ 			 PTE_BLOCK_NON_SHARE
+ 	}, {
+-		.virt = 0xa4800000UL,
+-		.phys = 0xa4800000UL,
+-		.size = 0x5b800000UL,
++		.virt = 0xbbc00000UL,
++		.phys = 0xbbc00000UL,
++		.size = 0x44400000UL,
+ 		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL) |
+ 			 PTE_BLOCK_INNER_SHARE
+ 	}, {
+-- 
+2.17.1
+
