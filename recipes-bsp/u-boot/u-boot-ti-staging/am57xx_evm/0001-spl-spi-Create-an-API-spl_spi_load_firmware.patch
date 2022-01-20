@@ -1,0 +1,82 @@
+From b66647e8611b83c12fc23a2fcc49122a79dad49b Mon Sep 17 00:00:00 2001
+From: Priya N S <priya.ns@ti.com>
+Date: Mon, 6 Dec 2021 15:00:33 +0530
+Subject: [PATCH 1/2] spl: spi: Create an API spl_spi_load_firmware()
+
+Create a new API spl_spi_load_firmware() that takes firmware from the
+SPI flash offset and loads it to provided loadaddress.
+The API spl_spi_load_firmware() takes firmware filename, SPI flash
+offset and loadaddress as the parameters.
+
+Signed-off-by: Priya N S <priya.ns@ti.com>
+---
+ common/spl/spl_spi.c | 38 ++++++++++++++++++++++++++++++++++++++
+ include/spl.h        |  3 +++
+ 2 files changed, 41 insertions(+)
+
+diff --git a/common/spl/spl_spi.c b/common/spl/spl_spi.c
+index 2744fb5d52..b6e591179f 100644
+--- a/common/spl/spl_spi.c
++++ b/common/spl/spl_spi.c
+@@ -52,6 +52,44 @@ static int spi_load_image_os(struct spl_image_info *spl_image,
+ }
+ #endif
+ 
++int spl_spi_load_firmware(char *name_fw, u32 *loadaddr, u32 spi_offset)
++{
++       struct spi_flash *flash;
++       struct image_header *header;
++       u32 temp_load_addr, temp_load_size;
++
++       flash = spi_flash_probe(CONFIG_SF_DEFAULT_BUS,
++                               CONFIG_SF_DEFAULT_CS,
++                               CONFIG_SF_DEFAULT_SPEED,
++                               CONFIG_SF_DEFAULT_MODE);
++       if (!flash) {
++               debug("%s: SPI probe failed.\n", __func__);
++               return 1;
++       }
++
++       if (spi_offset == 0)
++               return 1;
++
++       header = (struct image_header *)(CONFIG_SYS_TEXT_BASE);
++
++       spi_flash_read(flash, spi_offset, 128, (void *)header);
++
++       if (image_get_magic(header) != IH_MAGIC) {
++               debug("%s: mkimage signature not found\n", __func__);
++               return 1;
++       }
++
++       temp_load_addr = (u32)(*loadaddr) - sizeof(struct image_header);
++
++       temp_load_size = image_get_data_size(header) +
++               sizeof(struct image_header);
++
++       spi_flash_read(flash, spi_offset, temp_load_size,
++		      (void *)temp_load_addr);
++
++       return 0;
++}
++
+ static ulong spl_spi_fit_read(struct spl_load_info *load, ulong sector,
+ 			      ulong count, void *buf)
+ {
+diff --git a/include/spl.h b/include/spl.h
+index b72dfc7e3d..ca541b3595 100644
+--- a/include/spl.h
++++ b/include/spl.h
+@@ -520,6 +520,9 @@ int spl_usb_load(struct spl_image_info *spl_image,
+ int spl_ymodem_load_image(struct spl_image_info *spl_image,
+ 			  struct spl_boot_device *bootdev);
+ 
++int spl_spi_load_firmware(char *name_fw, u32 *loadaddr,
++			  u32 spi_offset);
++
+ /**
+  * spl_invoke_atf - boot using an ARM trusted firmware image
+  */
+-- 
+2.17.0
+
