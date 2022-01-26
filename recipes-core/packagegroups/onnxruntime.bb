@@ -52,7 +52,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f7e3b1308cb5c00b372a6e78835732d \
                     file://cmake/external/FeaturizersLibrary/src/3rdParty/re2/LICENSE;md5=3b5c31eb512bdf3cb11ffd5713963760 \
 "
 
-SRC_URI = "git://github.com/microsoft/onnxruntime;protocol=https;branch=master;name=base \
+SRC_URI = "git://github.com/TexasInstruments/onnxruntime;protocol=https;branch=tidl-j7;name=base \
            git://github.com/gabime/spdlog;protocol=https;branch=v2.x;destsuffix=${S}/server/external/spdlog;name=server-external-spdlog \
            git://github.com/apple/coremltools;protocol=https;branch=main;destsuffix=${S}/cmake/external/coremltools;name=cmake-external-coremltools \
            git://github.com/microsoft/onnxruntime-tvm;protocol=https;branch=nuphar;destsuffix=${S}/cmake/external/tvm;name=cmake-external-tvm \
@@ -90,11 +90,9 @@ SRC_URI = "git://github.com/microsoft/onnxruntime;protocol=https;branch=master;n
            git://github.com/microsoft/FeaturizersLibrary;protocol=https;branch=master;destsuffix=${S}/cmake/external/FeaturizersLibrary;name=cmake-external-FeaturizersLibrary \
            git://gitlab.com/libeigen/eigen;protocol=https;branch=master;destsuffix=${S}/cmake/external/FeaturizersLibrary/src/3rdParty/eigen;name=cmake-external-FeaturizersLibrary-src-3rdParty-eigen \
            git://github.com/google/re2;protocol=https;branch=main;destsuffix=${S}/cmake/external/FeaturizersLibrary/src/3rdParty/re2;name=cmake-external-FeaturizersLibrary-src-3rdParty-re2 \
-           file://0001-use-system-pybind11.patch \
-	   file://0001-Add-TIDL-compilation-execution-providers.patch \
 "
 
-SRCREV_base = "c8e2e3191b2d506d1260069eb3d3fc7c262ec172"
+SRCREV_base = "0ab07df1803bb86adfbb7e1158fbed2687a8a2f3"
 SRCREV_server-external-spdlog = "352281313fe1c4313bc222cb9de222afd50c822f"
 SRCREV_cmake-external-coremltools = "523d5e03d86c26267ee6bdf17dd20f6ce6bdadd7"
 SRCREV_cmake-external-tvm = "eab844a87298d500f1924f8a7cadb4cbee426093"
