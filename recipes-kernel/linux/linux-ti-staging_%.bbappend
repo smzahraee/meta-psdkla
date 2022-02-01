@@ -12,6 +12,7 @@ SRC_URI_append_j7-evm = " \
     file://0001-v4l-vxd-dec-Flushing-all-the-IO-buffers-and-releasin.patch \
     file://0001-media-platform-vxe-vxd-decoder-Fix-memory-flush-at-s.patch \
     file://0001-arm64-dts-ti-k3-j721e-Changes-for-enabling-HW-PWM-on.patch \
+    file://0001-vxe-vxd-decoder-Add-seek-functionality.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -22,4 +23,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_34"
+PR_append = "_psdkla_35"
