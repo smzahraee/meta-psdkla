@@ -24,4 +24,10 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am574x-idk-pps.dtb \
 "
 
+KERNEL_DEVICETREE_append_am57xx-hs-evm = " \
+        am571x-idk-pps.dtb \
+        am572x-idk-pps.dtb \
+        am574x-idk-pps.dtb \
+"
+
 PR_append = "_psdkla_6"
