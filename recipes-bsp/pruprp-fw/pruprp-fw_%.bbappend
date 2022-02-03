@@ -8,7 +8,7 @@ SRC_URI_append_am57xx-evm = " \
 do_install() {
         install -d ${D}${base_libdir}/firmware/ti-pruss
         for f in ${TARGET}; do
-                install -m 0644 ${WORKDIR}/$f ${D}${base_libdir}/firmware/ti-pruss/$f
+                install -m 0644 ${WORKDIR}/git/ti-pruss/$f ${D}${base_libdir}/firmware/ti-pruss/$f
         done
 }
 
