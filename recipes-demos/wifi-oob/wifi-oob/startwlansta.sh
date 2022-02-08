@@ -17,6 +17,12 @@ print (config.get('$section','$param'));
 filename=/usr/share/intel9260/wificfg
 defapname=J7SK-AP
 
+interfaceState=$(ip a s | grep -nr "wlp1s0")
+
+if [ -z "$interfaceState" ]; then
+ exit
+fi
+
 cd /usr/share/intel9260
 
 ./load_wlcore.sh
