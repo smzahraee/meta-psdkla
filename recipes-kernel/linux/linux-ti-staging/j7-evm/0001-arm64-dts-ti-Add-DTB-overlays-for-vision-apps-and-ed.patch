@@ -1,4 +1,4 @@
-From 80cfdda672cd557ca4d4fa1ae89e6c27552d0e0b Mon Sep 17 00:00:00 2001
+From 633d5be30d6b45506ef631a94e649ebe3b02179d Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Mon, 12 Jul 2021 08:46:24 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlays for vision apps and edgeai
@@ -17,15 +17,15 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 ---
  arch/arm64/boot/dts/ti/Makefile               |   2 +
  .../boot/dts/ti/k3-j721e-edgeai-apps.dts      |   9 +
- .../boot/dts/ti/k3-j721e-rtos-memory-map.dtsi | 275 ++++++++++++++++++
+ .../boot/dts/ti/k3-j721e-rtos-memory-map.dtsi | 287 ++++++++++++++++++
  .../boot/dts/ti/k3-j721e-vision-apps.dts      |  36 +++
- 4 files changed, 322 insertions(+)
+ 4 files changed, 334 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 4aa9a7a2dea3..b65400e2b3f0 100644
+index 64f1baf0e..6ed0db619 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
 @@ -27,6 +27,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-cpb-csi2-ov5640.dtbo
@@ -39,7 +39,7 @@ index 4aa9a7a2dea3..b65400e2b3f0 100644
  
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
 new file mode 100644
-index 000000000000..5defaca9ccf1
+index 000000000..5defaca9c
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
 @@ -0,0 +1,9 @@
@@ -54,10 +54,10 @@ index 000000000000..5defaca9ccf1
 +
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000000..c7b66779d4f0
+index 000000000..3f5b7c4ca
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
-@@ -0,0 +1,275 @@
+@@ -0,0 +1,287 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -156,6 +156,14 @@ index 000000000000..c7b66779d4f0
 +};
 +
 +&rtos_ipc_memory_region {
++	status = "disabled";
++};
++
++&main_r5fss0_core0_shared_memory_queue_region {
++	status = "disabled";
++};
++
++&main_r5fss0_core0_shared_memory_bufpool_region {
 +	status = "disabled";
 +};
 +
@@ -269,17 +277,17 @@ index 000000000000..c7b66779d4f0
 +	};
 +	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@d8000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xd8000000 0x00 0x24000000>;
++		reg = <0x00 0xd8000000 0x00 0x23000000>;
 +		no-map;
 +	};
-+	intercore_eth_main_r5fss0_core1_memory_region: intercore-eth-r5f-memory@fc000000 {
++	vision_apps_main_r5fss0_core0_shared_memory_queue_region: vision-apps-r5f-virtual-eth-queues@fb000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xfc000000 0x00 0x02000000>;
++		reg = <0x00 0xfb000000 0x00 0x00800000>;
 +		no-map;
 +	};
-+	eeprom_shadow_memory_region: eeprom-shadow-r5f-memory@fe000000 {
++	vision_apps_main_r5fss0_core0_shared_memory_bufpool_region: vision-apps-r5f-virtual-eth-buffers@fb800000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xfe000000 0x00 0x01000000>;
++		reg = <0x00 0xfb800000 0x00 0x01800000>;
 +		no-map;
 +	};
 +	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
@@ -301,7 +309,9 @@ index 000000000000..c7b66779d4f0
 +
 +&main_r5fss0_core0 {
 +	memory-region = <&vision_apps_main_r5fss0_core0_dma_memory_region>,
-+			<&vision_apps_main_r5fss0_core0_memory_region>;
++			<&vision_apps_main_r5fss0_core0_memory_region>,
++			<&vision_apps_main_r5fss0_core0_shared_memory_queue_region>,
++			<&vision_apps_main_r5fss0_core0_shared_memory_bufpool_region>;
 +};
 +
 +&main_r5fss0_core1 {
@@ -333,9 +343,11 @@ index 000000000000..c7b66779d4f0
 +	memory-region = <&vision_apps_c71_0_dma_memory_region>,
 +			<&vision_apps_c71_0_memory_region>;
 +};
++
++
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 new file mode 100644
-index 000000000000..a1860839a627
+index 000000000..a1860839a
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 @@ -0,0 +1,36 @@

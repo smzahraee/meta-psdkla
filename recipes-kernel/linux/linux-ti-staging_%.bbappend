@@ -21,4 +21,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_36"
+PR_append = "_psdkla_37"
