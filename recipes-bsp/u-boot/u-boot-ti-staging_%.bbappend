@@ -8,4 +8,4 @@ SRC_URI_append_j7-evm-k3r5 = " \
     file://0001-tiU21.01-PATCH-Optimal-QoS-Settings.patch \
 "
 
-PR_append = "_psdkla_10"
+PR_append = "_psdkla_11"
