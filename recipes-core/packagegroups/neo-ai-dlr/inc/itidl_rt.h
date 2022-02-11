@@ -224,10 +224,12 @@ void * traceBaseName;
 float quantRangeExpansionFactor;
 /** Update factor used for range of activation while quantization */
 float quantRangeUpdateFactor;
+/** Maximum Tolerated delay for TIDL pre-emption in milliSecond */
+float maxPreEmptDelay;
 /** Call back Function pointer to Write Log*/
 int32_t(*TIDLVprintf)(const char * format, va_list arg);
 /** Call back Function pointer to Write Binary data to a file*/
-int32_t(*TIDLWriteBinToFile)(const char * fileName, void * addr, int32_t size);
+int32_t(*TIDLWriteBinToFile)(const char * fileName, void * addr, int32_t size, void *tracePtr);
 /** Call back Function pointer to read data from a binary file */
 int32_t(*TIDLReadBinFromFile)(const char * fileName, void * addr, int32_t size);
 /** Pointer to structure holding perf data */
@@ -235,19 +237,133 @@ sTIDLRT_PerfStats_t *stats;
 
 }sTIDLRT_Params_t;
 
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_create
+@brief      Function to create an instance of TIDL runtime
+@param      prms     : Pointer to user configuration as defined in \ref sTIDLRT_Params_t
+@param      handle   : Pointer to the Successfully created insatance is retured with this
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_create(sTIDLRT_Params_t *prms, void **handle);
 
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_delete
+@brief      Function to delete an instance of TIDL runtime
+@param      handle   : Pointer to the Successfully created TIDL RT insatance
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_delete(void *handle);
 
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_invoke
+@brief      Function to drun inference on input using a TIDL RT instance hanle
+@param      handle   : Pointer to the Successfully created TIDL RT insatance
+@param      in       : Pointer to list of input tensors as defined in \ref sTIDLRT_Tensor_t
+@param      out      : Pointer to list of output tensors as defined in \ref sTIDLRT_Tensor_t
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_invoke(void *handle, sTIDLRT_Tensor_t *in[], sTIDLRT_Tensor_t *out[]);
 
-/* Activate will be done by the invoke if the hanlde is not active. */
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_deactivate
+@brief      Function to deactivate a instance of TIDL runtime. Activate will 
+            be done by the invoke if the handle is not active.
+@param      handle   : Pointer to the Successfully created TIDL RT insatance
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_deactivate(void *handle);
 
-
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_setParamsDefault
+@brief      Function to set default values ofr parameters defined in \ref sTIDLRT_Params_t
+@param      prms   : Pointer to a instance of \ref sTIDLRT_Params_t
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_setParamsDefault(sTIDLRT_Params_t *prms);
+
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_setTensorDefault
+@brief      Function to set default values of parameters defined in \ref sTIDLRT_Tensor_t
+@param      prms   : Pointer to a instance of \ref sTIDLRT_Tensor_t
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_setTensorDefault(sTIDLRT_Tensor_t *tensor);
+
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_getDdrStats
+@brief      Function to get the number of bytes read and written during the last inference call \ref TIDLRT_invoke
+@param      read_bytes   : Number of bytes read from DDR memory
+@param      write_bytes  : Number of bytes written to DDR memory
+@remarks    None
+@return     VX_SUCCESS  (0)    - Successful
+            VX_FAILURE  ( < 0) - Unspecified error
+----------------------------------------------------------------------------
+*/
 int32_t TIDLRT_getDdrStats(uint64_t *read_bytes, uint64_t *write_bytes);
+
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_allocSharedMem
+@brief      Function to allocate memory in the shared heap memory section betwen the Host core and DL accelerator.
+            Allocating mmeory here would help in avoiding buffer copy between the cores
+@param      alignment   : Bases address alignment required in number of bytes
+@param      size        : Number of bytes to be allocated
+@remarks    None
+@return     Pinter to allocated memory   - Successful
+            NULL                        - Error
+----------------------------------------------------------------------------
+*/
+void   *TIDLRT_allocSharedMem(int32_t alignment, int32_t size);
+
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_freeSharedMem
+@brief      Function to free the memory allocated using \ref  TIDLRT_allocSharedMem 
+@param      ptr        : Pointer to allocated memory
+@remarks    None
+@return     None
+----------------------------------------------------------------------------
+*/
+void    TIDLRT_freeSharedMem(void *ptr);
+
+/**
+----------------------------------------------------------------------------
+@fn         TIDLRT_allocSharedMem
+@brief      Function to check whether  The memory pointed by input pointer \
+            is part of shared heap section or NOT
+@param      ptr   : Pointer to the memory
+@remarks    None
+@return     1   - True 
+            0   - False
+----------------------------------------------------------------------------
+*/
+int32_t TIDLRT_isSharedMem(void *ptr);
+
 
 #ifdef __cplusplus
 }
