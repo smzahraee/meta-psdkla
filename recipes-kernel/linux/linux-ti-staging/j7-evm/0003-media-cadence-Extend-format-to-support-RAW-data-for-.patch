@@ -1,8 +1,8 @@
-From 06608d9e0330d2dc33894481b55258c0d855ca20 Mon Sep 17 00:00:00 2001
-From: Sinthu Raja <sinthu.raja@ti.com>
-Date: Wed, 7 Jul 2021 16:59:49 +0530
-Subject: [PATCH 2/2] media: cadence: Extend format to support RAW data for
- CSI2RX
+From cdf7cb57840ea59616802b848d473afd69cad701 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@mistralsolutions.com>
+Date: Wed, 14 Jul 2021 18:22:21 +0530
+Subject: [tiL5.10-CON PATCH 3/3] media: cadence: Extend format to support RAW
+ data for CSI2RX
 
 Extend the media bus format list to support all the RGB layouts of RAW8
 and  RAW10
@@ -56,5 +56,5 @@ index 155898d3d7ad..0c4d1fa892c9 100644
  
  static u8 csi2rx_get_bpp(u32 code)
 -- 
-2.31.1
+2.34.1
 

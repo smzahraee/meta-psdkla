@@ -6,8 +6,9 @@ SRC_URI_append_j7-evm = " \
     file://0001-HACK-dt-bindings-misc-Add-ti-dma_buf_phys-bindig-doc.patch \
     file://0002-HACK-misc-Add-dma-buf-to-physical-address-exporter.patch \
     file://0001-HACK-dma-buf-heaps-carveout-Add-support-for-cached-c.patch \
-    file://0001-media-ti-j721e-csi2rx-Add-RAW8-and-RAW10-pixel-forma.patch \
-    file://0002-media-cadence-Extend-format-to-support-RAW-data-for-.patch \
+    file://0001-media-ti-j721e-csi2rx-Set-the-data-size-shift-correc.patch \
+    file://0002-media-ti-j721e-csi2rx-Add-RAW8-and-RAW10-pixel-forma.patch \
+    file://0003-media-cadence-Extend-format-to-support-RAW-data-for-.patch \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-RPi-expansion-heade.patch \
     file://0001-v4l-vxd-dec-Flushing-all-the-IO-buffers-and-releasin.patch \
     file://0001-arm64-dts-ti-k3-j721e-Changes-for-enabling-HW-PWM-on.patch \
@@ -21,4 +22,4 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
 "
 
-PR_append = "_psdkla_37"
+PR_append = "_psdkla_38"
