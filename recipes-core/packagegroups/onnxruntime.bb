@@ -92,7 +92,7 @@ SRC_URI = "git://github.com/TexasInstruments/onnxruntime;protocol=https;branch=t
            git://github.com/google/re2;protocol=https;branch=main;destsuffix=${S}/cmake/external/FeaturizersLibrary/src/3rdParty/re2;name=cmake-external-FeaturizersLibrary-src-3rdParty-re2 \
 "
 
-SRCREV_base = "0ab07df1803bb86adfbb7e1158fbed2687a8a2f3"
+SRCREV_base = "22908b8d8466f2b44dbe8c9dce3211fb13f225f4"
 SRCREV_server-external-spdlog = "352281313fe1c4313bc222cb9de222afd50c822f"
 SRCREV_cmake-external-coremltools = "523d5e03d86c26267ee6bdf17dd20f6ce6bdadd7"
 SRCREV_cmake-external-tvm = "eab844a87298d500f1924f8a7cadb4cbee426093"
