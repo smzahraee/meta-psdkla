@@ -234,6 +234,8 @@ int32_t(*TIDLWriteBinToFile)(const char * fileName, void * addr, int32_t size, v
 int32_t(*TIDLReadBinFromFile)(const char * fileName, void * addr, int32_t size);
 /** Pointer to structure holding perf data */
 sTIDLRT_PerfStats_t *stats;
+/** Int value of priority for selcting the target name 0(highest prior)-7(lowest prior) */
+int targetPriority;
 
 }sTIDLRT_Params_t;
 
