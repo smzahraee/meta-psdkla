@@ -17,6 +17,7 @@ SRC_URI_append_j721s2-evm = " \
     file://0001-HACK-dt-bindings-misc-Add-ti-dma_buf_phys-bindig-doc.patch \
     file://0002-HACK-misc-Add-dma-buf-to-physical-address-exporter.patch \
     file://0001-HACK-dma-buf-heaps-carveout-Add-support-for-cached-c.patch \
+    file://0001-HACK-arm64-dts-ti-k3-j721s2-common-proc-board-Set-DP.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -28,4 +29,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_35"
+PR_append = "_psdkla_36"
