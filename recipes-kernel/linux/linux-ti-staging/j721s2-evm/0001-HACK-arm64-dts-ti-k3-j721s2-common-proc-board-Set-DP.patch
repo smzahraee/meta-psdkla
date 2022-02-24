@@ -1,0 +1,34 @@
+From 08cdb385afb5bb790f7e154da4a6b3e934219291 Mon Sep 17 00:00:00 2001
+From: Rahul T R <r-ravikumar@ti.com>
+Date: Mon, 14 Feb 2022 14:28:07 +0530
+Subject: [PATCH] HACK: arm64: dts: ti: k3-j721s2-common-proc-board: Set DPI1
+ freq in DT
+
+Set DSS DPI1 frequency to 148.5 MHz to support 1920x1080 by default.
+This is a workaround for a sysfw bug, not able to change the clock frequency
+in the driver when the IP is on
+
+See: https://jira.itg.ti.com/browse/SYSFW-5172
+
+This patch can dropped once the SYSFW-5172 is fixed
+
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dts | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dts
+index c90bd74b3c81..775be29ceb08 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-common-proc-board.dts
+@@ -552,6 +552,7 @@
+ 				 <&k3_clks 158 19>,
+ 				 <&k3_clks 158 28>,
+ 				 <&k3_clks 158 4>;
++	assigned-clock-rates = <148500000>;
+ };
+ 
+ &dss_ports {
+-- 
+2.17.1
+

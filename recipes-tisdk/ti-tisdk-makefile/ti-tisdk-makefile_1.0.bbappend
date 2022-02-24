@@ -11,6 +11,7 @@ SRC_URI_append = "\
     file://Makefile_oob-demo \
     file://Makefile_u-boot-spl-j7 \
     file://Makefile_u-boot-spl-j7200 \
+    file://Makefile_u-boot-spl-j721s2 \
     file://Makefile_linux-dtbs-jacinto \
 "
 
@@ -55,11 +56,28 @@ MAKEFILES_remove_j7200-evm = " \
     sysfw-image \
 "
 
+SRC_URI_remove_j721s2-evm = "\
+    file://Makefile_ti-ipc \
+    file://Makefile_sysfw-image \
+    file://Makefile_u-boot-spl \
+"
+
+MAKEFILES_remove_j721s2-evm = " \
+    pru-icss \
+    ti-ipc \
+    ti-img-rogue-driver \
+    sysfw-image \
+    u-boot-spl \
+"
+
 MAKEFILES_append_j7-evm = " oob-demo \
     u-boot-spl-j7 \
 "
 
 MAKEFILES_append_j7200-evm = " u-boot-spl-j7200 \
+"
+
+MAKEFILES_append_j721s2-evm = " u-boot-spl-j721s2 \
 "
 
 SRC_URI_append_am65xx-evm = "\
@@ -106,4 +124,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_5"
+PR_append = "_psdkla_6"
