@@ -40,6 +40,7 @@ SRC_URI_append_am57xx-evm = " \
     file://0037-net-hsr-hsr_forward-fix-tx_flags-copy.patch \
     file://0038-Queue-to-PCP-map-fix.patch \
     file://0039-Added-TX_IPG-configuration-to-prueth-driver.patch \
+    file://0040-HSR-tag-fix-for-PTP-link-local-frames-with-without-V.patch \
 "
 
 KERNEL_DEVICETREE_append_am57xx-evm = " \

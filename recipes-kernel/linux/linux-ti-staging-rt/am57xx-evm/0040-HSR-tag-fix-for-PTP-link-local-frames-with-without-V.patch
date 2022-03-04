@@ -1,0 +1,130 @@
+From 81786e95db7aedb14a56aab86b2dd2e557723169 Mon Sep 17 00:00:00 2001
+From: root <root@bulbasaur.couthit.local>
+Date: Mon, 28 Feb 2022 17:57:25 +0530
+Subject: [PATCH] HSR tag fix for PTP link local frames with/without Vlan
+ tagged Signed-off-by Parvathi <parvathi@couthit.local>
+
+---
+ drivers/net/ethernet/ti/icss_switch.h |  3 ++
+ drivers/net/ethernet/ti/prueth.h      |  1 +
+ drivers/net/ethernet/ti/prueth_core.c | 41 ++++++++++++++++++++++++---
+ 3 files changed, 41 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/ethernet/ti/icss_switch.h b/drivers/net/ethernet/ti/icss_switch.h
+index f20b8eb35..f0c0bfa95 100644
+--- a/drivers/net/ethernet/ti/icss_switch.h
++++ b/drivers/net/ethernet/ti/icss_switch.h
+@@ -86,6 +86,9 @@
+ #define PRUETH_BD_SW_FLOOD_MASK		BIT(7)
+ #define PRUETH_BD_SW_FLOOD_SHIFT	7
+ 
++#define	PRUETH_LL_HAS_NO_HSRTAG_MASK	BIT(13)
++#define	PRUETH_LL_HAS_NO_HSRTAG_SHIFT	13
++
+ #define	PRUETH_BD_SHADOW_MASK		BIT(14)
+ #define	PRUETH_BD_SHADOW_SHIFT		14
+ 
+diff --git a/drivers/net/ethernet/ti/prueth.h b/drivers/net/ethernet/ti/prueth.h
+index 01850d6cc..a54ac7c15 100644
+--- a/drivers/net/ethernet/ti/prueth.h
++++ b/drivers/net/ethernet/ti/prueth.h
+@@ -107,6 +107,7 @@ struct prueth_queue_info {
+  */
+ struct prueth_packet_info {
+ 	bool start_offset;
++	bool ll_has_no_hsrTag;
+ 	bool shadow;
+ 	unsigned int port;
+ 	unsigned int length;
+diff --git a/drivers/net/ethernet/ti/prueth_core.c b/drivers/net/ethernet/ti/prueth_core.c
+index d0cf9ef91..3ea1dfa21 100644
+--- a/drivers/net/ethernet/ti/prueth_core.c
++++ b/drivers/net/ethernet/ti/prueth_core.c
+@@ -1067,6 +1067,7 @@ void parse_packet_info(struct prueth *prueth, u32 buffer_descriptor,
+ 	else
+ 		pkt_info->start_offset = false;
+ 
++	pkt_info->ll_has_no_hsrTag = (buffer_descriptor & PRUETH_LL_HAS_NO_HSRTAG_MASK);
+ 	pkt_info->shadow = !!(buffer_descriptor & PRUETH_BD_SHADOW_MASK);
+ 	pkt_info->port = (buffer_descriptor & PRUETH_BD_PORT_MASK) >>
+ 			 PRUETH_BD_PORT_SHIFT;
+@@ -1166,6 +1167,9 @@ int emac_rx_packet(struct prueth_emac *emac, u16 *bd_rd_ptr,
+ 	u8 offset = 0, *ptr;
+ 	u64 ts;
+ 	int ret;
++        char dummy_hsr_tag[] = {0x89, 0x2f, 0x00, 0x00, 0x00, 0x00};
++	int adjust_for_dummy_hsr_tag = 0;
++	u8 *check_vlan_ptr;
+ 
+ 	if (PRUETH_IS_HSR(prueth))
+ 		start_offset = (pkt_info.start_offset ?
+@@ -1203,6 +1207,11 @@ int emac_rx_packet(struct prueth_emac *emac, u16 *bd_rd_ptr,
+ 	/* Pkt len w/ HSR tag removed, If applicable */
+ 	actual_pkt_len = pkt_info.length - start_offset;
+ 
++	/* Need to add dummy hsr tag for PTP LL packets */
++	if(pkt_info.ll_has_no_hsrTag){
++		actual_pkt_len += ICSS_LRE_TAG_RCT_SIZE;
++	}
++
+ 	/* Allocate a socket buffer for this packet */
+ 	skb = netdev_alloc_skb_ip_align(ndev, actual_pkt_len);
+ 	if (!skb) {
+@@ -1224,6 +1233,30 @@ int emac_rx_packet(struct prueth_emac *emac, u16 *bd_rd_ptr,
+ 	}
+ 	src_addr += start_offset;
+ 
++	if(pkt_info.ll_has_no_hsrTag){
++	     /* Copy destination and source MAC address first */
++		memcpy(dst_addr, src_addr, PRUETH_ETH_TYPE_OFFSET);
++		src_addr += PRUETH_ETH_TYPE_OFFSET;
++		dst_addr += PRUETH_ETH_TYPE_OFFSET;
++
++		adjust_for_dummy_hsr_tag += PRUETH_ETH_TYPE_OFFSET;
++
++		/* Check for VLAN tag */
++		check_vlan_ptr = src_addr;
++		type = (*check_vlan_ptr++) << PRUETH_ETH_TYPE_UPPER_SHIFT;
++		type |= *check_vlan_ptr++;
++
++		if(type == ETH_P_8021Q){
++			memcpy(dst_addr, src_addr, VLAN_HLEN);
++			src_addr += VLAN_HLEN;
++			dst_addr += VLAN_HLEN;
++			adjust_for_dummy_hsr_tag += VLAN_HLEN;
++		}
++		/* Copy dummy HSR tag */
++		memcpy(dst_addr, dummy_hsr_tag, ICSS_LRE_TAG_RCT_SIZE);
++		dst_addr += ICSS_LRE_TAG_RCT_SIZE;
++	}
++
+ 	/* Copy the data from PRU buffers(OCMC) to socket buffer(DRAM) */
+ 	if (buffer_wrapped) { /* wrapped around buffer */
+ 		int bytes = (buffer_desc_count - read_block) * ICSS_BLOCK_SIZE;
+@@ -1241,10 +1274,10 @@ int emac_rx_packet(struct prueth_emac *emac, u16 *bd_rd_ptr,
+ 		bytes -= start_offset;
+ 
+ 		/* copy non-wrapped part */
+-		memcpy(dst_addr, src_addr, bytes);
++		memcpy(dst_addr, src_addr, bytes - adjust_for_dummy_hsr_tag);
+ 
+ 		/* copy wrapped part */
+-		dst_addr += bytes;
++		dst_addr += (bytes - adjust_for_dummy_hsr_tag);
+ 		remaining = actual_pkt_len - bytes;
+ 		if (pkt_info.shadow)
+ 			src_addr += bytes;
+@@ -1253,8 +1286,8 @@ int emac_rx_packet(struct prueth_emac *emac, u16 *bd_rd_ptr,
+ 		memcpy(dst_addr, src_addr, remaining);
+ 		src_addr += remaining;
+ 	} else {
+-		memcpy(dst_addr, src_addr, actual_pkt_len);
+-		src_addr += actual_pkt_len;
++		memcpy(dst_addr, src_addr, actual_pkt_len - adjust_for_dummy_hsr_tag);
++		src_addr += actual_pkt_len - adjust_for_dummy_hsr_tag;
+ 	}
+ 
+ 	if (pkt_info.timestamp) {
+-- 
+2.17.1
+
