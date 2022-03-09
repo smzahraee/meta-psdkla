@@ -1,0 +1,161 @@
+From 3a8679fef1d38163d080f8a55e8947b321b154df Mon Sep 17 00:00:00 2001
+From: Vijay Pothukuchi <vijayp@ti.com>
+Date: Fri, 4 Mar 2022 18:25:35 -0600
+Subject: [PATCH 1/2] arm64: dts: ti: k3-j721e: Add PWM nodes to SK and J721e
+ EVM platforms
+
+The following has been done in this commit:
+1) Add new nodes definitions for enabling all 6 EHRPWM instances
+2) Add rules to disable all the instances for non SK platforms
+
+see: https://jira.itg.ti.com/browse/JACINTOREQ-1971
+
+This patch will be pushed to core SDK post 8.2
+
+Signed-off-by: Vijay Pothukuchi <vijayp@ti.com>
+---
+ .../dts/ti/k3-j721e-common-proc-board.dts     | 24 +++++++
+ arch/arm64/boot/dts/ti/k3-j721e-main.dtsi     | 62 ++++++++++++++++++-
+ arch/arm64/boot/dts/ti/k3-j721e-sk.dts        | 24 +++++++
+ 3 files changed, 109 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
+index b626e265289f..56d987db4bfc 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
+@@ -1183,3 +1183,27 @@
+ &csi0_port4 {
+ 	status = "disabled";
+ };
++
++&main_ehrpwm0 {
++	status = "disabled";
++};
++
++&main_ehrpwm1 {
++	status = "disabled";
++};
++
++&main_ehrpwm2 {
++	status = "disabled";
++};
++
++&main_ehrpwm3 {
++	status = "disabled";
++};
++
++&main_ehrpwm4 {
++	status = "disabled";
++};
++
++&main_ehrpwm5 {
++	status = "disabled";
++};
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+index ba1e76d1bcbf..947e0d718c4b 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+@@ -65,7 +65,67 @@
+ 			#mux-control-cells = <1>;
+ 			mux-reg-masks = <0x4000 0x8000000>, /* USB0 to SERDES0/3 mux */
+ 					<0x4010 0x8000000>; /* USB1 to SERDES1/2 mux */
+-	    };
++		};
++
++		ehrpwm_tbclk: clock@4140 {
++			compatible = "ti,am654-ehrpwm-tbclk", "syscon";
++			reg = <0x4140 0x18>;
++			#clock-cells = <1>;
++		};
++	};
++
++	main_ehrpwm0: pwm@3000000 {
++		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
++		#pwm-cells = <3>;
++		reg = <0x0 0x3000000 0x0 0x100>;
++		power-domains = <&k3_pds 83 TI_SCI_PD_EXCLUSIVE>;
++		clocks = <&ehrpwm_tbclk 0>, <&k3_clks 83 0>;
++		clock-names = "tbclk", "fck";
++	};
++
++	main_ehrpwm1: pwm@3010000 {
++		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
++		#pwm-cells = <3>;
++		reg = <0x0 0x3010000 0x0 0x100>;
++		power-domains = <&k3_pds 84 TI_SCI_PD_EXCLUSIVE>;
++		clocks = <&ehrpwm_tbclk 1>, <&k3_clks 84 0>;
++		clock-names = "tbclk", "fck";
++	};
++
++	main_ehrpwm2: pwm@3020000 {
++		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
++		#pwm-cells = <3>;
++		reg = <0x0 0x3020000 0x0 0x100>;
++		power-domains = <&k3_pds 85 TI_SCI_PD_EXCLUSIVE>;
++		clocks = <&ehrpwm_tbclk 2>, <&k3_clks 85 0>;
++		clock-names = "tbclk", "fck";
++	};
++
++	main_ehrpwm3: pwm@3030000 {
++		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
++		#pwm-cells = <3>;
++		reg = <0x0 0x3030000 0x0 0x100>;
++		power-domains = <&k3_pds 86 TI_SCI_PD_EXCLUSIVE>;
++		clocks = <&ehrpwm_tbclk 3>, <&k3_clks 86 0>;
++		clock-names = "tbclk", "fck";
++	};
++
++	main_ehrpwm4: pwm@3040000 {
++		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
++		#pwm-cells = <3>;
++		reg = <0x0 0x3040000 0x0 0x100>;
++		power-domains = <&k3_pds 87 TI_SCI_PD_EXCLUSIVE>;
++		clocks = <&ehrpwm_tbclk 4>, <&k3_clks 87 0>;
++		clock-names = "tbclk", "fck";
++	};
++
++	main_ehrpwm5: pwm@3050000 {
++		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
++		#pwm-cells = <3>;
++		reg = <0x0 0x3050000 0x0 0x100>;
++		power-domains = <&k3_pds 88 TI_SCI_PD_EXCLUSIVE>;
++		clocks = <&ehrpwm_tbclk 5>, <&k3_clks 88 0>;
++		clock-names = "tbclk", "fck";
+ 	};
+ 
+ 	gic500: interrupt-controller@1800000 {
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
+index a95be5a5f3d6..0472d20cd329 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
+@@ -1282,3 +1282,27 @@
+ 	memory-region = <&c71_0_dma_memory_region>,
+ 			<&c71_0_memory_region>;
+ };
++
++&main_ehrpwm0 {
++	status = "disabled";
++};
++
++&main_ehrpwm1 {
++	status = "disabled";
++};
++
++&main_ehrpwm2 {
++	status = "disabled";
++};
++
++&main_ehrpwm3 {
++	status = "disabled";
++};
++
++&main_ehrpwm4 {
++	status = "disabled";
++};
++
++&main_ehrpwm5 {
++	status = "disabled";
++};
+-- 
+2.17.1
+
