@@ -12,6 +12,7 @@ SRC_URI_append_j7-evm = " \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-RPi-expansion-heade.patch \
     file://0001-arm64-dts-ti-k3-j721e-Changes-for-enabling-HW-PWM-on.patch \
     file://0001-arm64-dts-ti-k3-j721e-sk-Add-additional-DDR-carveout.patch \
+    file://imx390-fpdlink.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -28,10 +29,28 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 	ti/k3-j721e-sk-rpi-exp-header.dtbo \
 	ti/k3-j721e-sk-csi2-ov5640.dtbo \
 	ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
+	ti/k3-j721e-cpb-fpdlink-fusion.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-0-0.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-0-1.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-0-2.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-0-3.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-1-0.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-1-1.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-1-2.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-cm-1-3.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-0-0.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-0-1.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-0-2.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-0-3.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-1-0.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-1-1.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-1-2.dtbo \
+	ti/k3-j721e-cpb-fpdlink-imx390-rcm-1-3.dtbo \
+	ti/k3-j721e-sk-fpdlink-fusion.dtbo \
 "
 
 KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_41"
+PR_append = "_psdkla_42"
