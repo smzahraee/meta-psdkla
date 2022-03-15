@@ -16,7 +16,8 @@ file://0013-cpts-latch-drop-dbg-from-cpts_1pps_latch_interrupt.patch \
 file://0014-cpts-latch-split-init-and-adjust.patch \
 file://0015-cpts-latch-disable-tmr-irq-while-latch-is-on.patch \
 file://0016-net-ethernet-ti-cpts-clean-timer-capture-status.patch \
-file://0017-HACK-v2-net-packet-Avoid-fragmented-SKB.patch "
+file://0017-HACK-v2-net-packet-Avoid-fragmented-SKB.patch \
+file://0018-ti_config_fragments-dra7_only-Enable-CLS_FLOWER.patch "
 
 PATCHTOOL = "git"
 
