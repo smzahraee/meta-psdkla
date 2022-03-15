@@ -18,6 +18,8 @@ file://0015-cpts-latch-disable-tmr-irq-while-latch-is-on.patch \
 file://0016-net-ethernet-ti-cpts-clean-timer-capture-status.patch \
 file://0017-HACK-v2-net-packet-Avoid-fragmented-SKB.patch "
 
+PATCHTOOL = "git"
+
 KERNEL_DEVICETREE_append_am57xx-evm = " \
         am571x-idk-pps.dtb \
         am572x-idk-pps.dtb \
@@ -30,4 +32,4 @@ KERNEL_DEVICETREE_append_am57xx-hs-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_6"
+PR_append = "_psdkla_7"
