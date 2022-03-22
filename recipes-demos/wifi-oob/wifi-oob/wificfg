@@ -6,6 +6,6 @@
 # after the boot
 
 [Wifi-STA]
-    sta_enable = yes
+    sta_enable = no
     ssid = GalaxyA51
     password = 987654321
