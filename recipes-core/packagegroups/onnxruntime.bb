@@ -68,7 +68,7 @@ SRC_URI = "git://github.com/TexasInstruments/onnxruntime;protocol=https;branch=t
            git://github.com/tensorflow/tensorboard;protocol=https;branch=master;destsuffix=${S}/cmake/external/tensorboard;name=cmake-external-tensorboard \
            git://github.com/HowardHinnant/date;protocol=https;branch=master;destsuffix=${S}/cmake/external/date;name=cmake-external-date \
            git://github.com/google/flatbuffers;protocol=https;branch=master;destsuffix=${S}/cmake/external/flatbuffers;name=cmake-external-flatbuffers \
-           git://github.com/onnx/onnx-tensorrt;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx-tensorrt;name=cmake-external-onnx-tensorrt \
+           git://github.com/onnx/onnx-tensorrt;protocol=https;branch=main;destsuffix=${S}/cmake/external/onnx-tensorrt;name=cmake-external-onnx-tensorrt \
            git://github.com/onnx/onnx;protocol=https;branch=rel-1.6.1;destsuffix=${S}/cmake/external/onnx-tensorrt/third_party/onnx;name=cmake-external-onnx-tensorrt-third-party-onnx \
            git://github.com/google/benchmark;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx-tensorrt/third_party/onnx/third_party/benchmark;name=cmake-external-onnx-tensorrt-third-party-onnx-third-party-benchmark \
            git://github.com/pybind/pybind11;protocol=https;branch=master;destsuffix=${S}/cmake/external/onnx-tensorrt/third_party/onnx/third_party/pybind11;name=cmake-external-onnx-tensorrt-third-party-onnx-third-party-pybind11 \
