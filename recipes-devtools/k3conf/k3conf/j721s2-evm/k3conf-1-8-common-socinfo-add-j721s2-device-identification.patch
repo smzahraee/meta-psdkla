@@ -1,0 +1,77 @@
+From patchwork Tue Feb  1 20:37:27 2022
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Bryan Brattlof <bb@ti.com>
+X-Patchwork-Id: 7525
+From: Bryan Brattlof <bb@ti.com>
+Subject: [k3conf PATCH 1/8] common: socinfo: add j721s2 device identification
+Date: Tue, 1 Feb 2022 14:37:27 -0600
+Message-ID: <20220201203734.26355-2-bb@ti.com>
+In-Reply-To: <20220201203734.26355-1-bb@ti.com>
+References: <20220201203734.26355-1-bb@ti.com>
+Return-Path: nm@ti.com
+List-Post: <mailto:linux-patch-review@list.ti.com>
+MIME-Version: 1.0
+To: TI Linux Patch Review <linux-patch-review@list.ti.com>
+Cc: Dave Gerlach <d-gerlach@ti.com>, Nishanth Menon <nm@ti.com>, Bryan
+ Brattlof <bb@ti.com>
+List-ID: <linux-patch-review@list.ti.com>
+List-Post: <mailto:linux-patch-review@list.ti.com>
+
+Add the initial identification support for the j721s2 SoC
+
+Signed-off-by: Bryan Brattlof <bb@ti.com>
+---
+ common/socinfo.c  | 11 +++++++++++
+ include/socinfo.h |  1 +
+ 2 files changed, 12 insertions(+)
+
+diff --git a/common/socinfo.c b/common/socinfo.c
+index cd525629b03d2..7027e6516c7ac 100644
+--- a/common/socinfo.c
++++ b/common/socinfo.c
+@@ -144,6 +144,12 @@ static void am654_sr2_init(void)
+ 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+ }
+ 
++static void j721s2_init(void)
++{
++	soc_info.host_id = DEFAULT_HOST_ID;
++	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
++}
++
+ static void j721e_init(void)
+ {
+ 	struct ti_sci_info *sci_info = &soc_info.sci_info;
+@@ -225,6 +231,9 @@ int soc_init(uint32_t host_id)
+ 	case AM65X:
+ 		name = "AM65x";
+ 		break;
++	case J721S2:
++		name = "J721S2";
++		break;
+ 	case J721E:
+ 		name = "J721E";
+ 		break;
+@@ -254,6 +263,8 @@ int soc_init(uint32_t host_id)
+ 		am654_init();
+ 	else if (soc_info.soc == AM65X && soc_info.rev == REV_SR2_0)
+ 		am654_sr2_init();
++	else if (soc_info.soc == J721S2)
++		j721s2_init();
+ 	else if (soc_info.soc == J721E)
+ 		j721e_init();
+ 	else if (soc_info.soc == J7200)
+diff --git a/include/socinfo.h b/include/socinfo.h
+index 377177c195d5d..808359f291018 100644
+--- a/include/socinfo.h
++++ b/include/socinfo.h
+@@ -48,6 +48,7 @@
+ #define J721E	0xbb64
+ #define J7200	0xbb6d
+ #define AM64X	0xbb38
++#define J721S2	0xbb75
+ 
+ typedef enum {
+ 	REV_SR1_0,
