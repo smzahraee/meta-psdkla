@@ -1,0 +1,31 @@
+From bb96258a8090159795f77f9bcc0bebf23f8be086 Mon Sep 17 00:00:00 2001
+From: Prasanth Babu Mantena <p-mantena@ti.com>
+Date: Thu, 24 Mar 2022 14:24:57 +0530
+Subject: [PATCH] vxe-vxd: decoder: Fix input buffer size
+
+Fix for Input Buffer size of decoder
+Related to https://jira.itg.ti.com/browse/LCPD-24099
+
+This patch will be pushed to core SDK for next release
+
+Signed-off-by: Prasanth Babu Mantena <p-mantena@ti.com>
+---
+ drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c b/drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c
+index 72cd03c92..8411b9b34 100644
+--- a/drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c
++++ b/drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c
+@@ -1383,7 +1383,7 @@ static int vxd_dec_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ 		 * I frame with full YUV size (YUV422)
+ 		 */
+ 		plane_fmt[0].sizeimage = ALIGN(pix_mp->width, HW_ALIGN) *
+-			ALIGN(pix_mp->height, HW_ALIGN) * 2;
++			ALIGN(pix_mp->height, HW_ALIGN);
+ 	} else {
+ 		fmt = find_format(f, IMG_DEC_FMT_TYPE_CAPTURE);
+ 		if (!fmt) {
+-- 
+2.17.1
+
