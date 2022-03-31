@@ -81,7 +81,7 @@ SRC_URI = "git://github.com/TexasInstruments/onnxruntime;protocol=https;branch=t
            git://github.com/microsoft/wil;protocol=https;branch=master;destsuffix=${S}/cmake/external/wil;name=cmake-external-wil \
            git://github.com/NVlabs/cub;protocol=https;branch=main;destsuffix=${S}/cmake/external/cub;name=cmake-external-cub \
            git://github.com/google/nsync;protocol=https;branch=master;destsuffix=${S}/cmake/external/nsync;name=cmake-external-nsync \
-           git://github.com/protocolbuffers/protobuf;protocol=https;branch=master;destsuffix=${S}/cmake/external/protobuf;name=cmake-external-protobuf \
+           git://github.com/protocolbuffers/protobuf;protocol=https;branch=main;destsuffix=${S}/cmake/external/protobuf;name=cmake-external-protobuf \
            git://github.com/google/googletest;protocol=https;branch=master;destsuffix=${S}/cmake/external/protobuf/third_party/googletest;name=cmake-external-protobuf-third-party-googletest \
            git://github.com/google/benchmark;protocol=https;branch=master;destsuffix=${S}/cmake/external/protobuf/third_party/benchmark;name=cmake-external-protobuf-third-party-benchmark \
            git://github.com/jarro2783/cxxopts;protocol=https;branch=master;destsuffix=${S}/cmake/external/cxxopts;name=cmake-external-cxxopts \
@@ -234,4 +234,4 @@ do_install() {
     distutils3_do_install --use_tidl
 }
 
-PR_append = "_psdkla_3"
+PR_append = "_psdkla_4"
