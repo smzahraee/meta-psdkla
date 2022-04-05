@@ -1,4 +1,4 @@
-From 62a644e8028203d5cde136d98bb968480d80f714 Mon Sep 17 00:00:00 2001
+From 85524a38afdd52773752bf1bc738ab8ae8c5dbe3 Mon Sep 17 00:00:00 2001
 From: Pratyush Yadav <p.yadav@ti.com>
 Date: Fri, 11 Mar 2022 12:46:43 +0530
 Subject: [PATCH] imx390+fpdlink
@@ -19,7 +19,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  .../userspace-api/media/v4l/dev-subdev.rst    |  250 +-
  .../media/v4l/vidioc-subdev-g-routing.rst     |    4 +
  arch/arm64/boot/dts/ti/Makefile               |   18 +
- .../dts/ti/k3-j721e-cpb-fpdlink-fusion.dts    |   69 +
+ .../dts/ti/k3-j721e-cpb-fpdlink-fusion.dts    |  112 +
  .../ti/k3-j721e-cpb-fpdlink-imx390-cm-0-0.dts |  103 +
  .../ti/k3-j721e-cpb-fpdlink-imx390-cm-0-1.dts |  103 +
  .../ti/k3-j721e-cpb-fpdlink-imx390-cm-0-2.dts |  103 +
@@ -36,7 +36,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  .../k3-j721e-cpb-fpdlink-imx390-rcm-1-1.dts   |  103 +
  .../k3-j721e-cpb-fpdlink-imx390-rcm-1-2.dts   |  103 +
  .../k3-j721e-cpb-fpdlink-imx390-rcm-1-3.dts   |  103 +
- .../dts/ti/k3-j721e-sk-fpdlink-fusion.dts     |  134 +
+ .../dts/ti/k3-j721e-sk-fpdlink-fusion.dts     |  125 +
  drivers/i2c/Kconfig                           |    9 +
  drivers/i2c/Makefile                          |    1 +
  drivers/i2c/i2c-atr.c                         |  558 ++
@@ -88,7 +88,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  include/uapi/linux/v4l2-subdev.h              |   40 +-
  include/uapi/linux/videodev2.h                |   15 +-
  ti_config_fragments/audio_display.cfg         |    4 +
- 76 files changed, 15844 insertions(+), 924 deletions(-)
+ 76 files changed, 15878 insertions(+), 924 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx390.yaml
  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
@@ -841,10 +841,10 @@ index 9f281a5eb..d6663080d 100644
  
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-cpb-fpdlink-fusion.dts b/arch/arm64/boot/dts/ti/k3-j721e-cpb-fpdlink-fusion.dts
 new file mode 100644
-index 000000000..18d9d31c6
+index 000000000..ce4407040
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-cpb-fpdlink-fusion.dts
-@@ -0,0 +1,69 @@
+@@ -0,0 +1,112 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -903,6 +903,39 @@ index 000000000..18d9d31c6
 +			#size-cells = <0>;
 +		};
 +	};
++
++	deser@36 {
++		compatible = "ti,ds90ub960-q1";
++
++		reg-names = "main", "ser0", "ser1", "ser2", "ser3";
++		reg       = <0x36>, <0x54>, <0x55>, <0x56>, <0x57>;
++
++		clocks = <&clk_fusion_25M_fixed>;
++
++		i2c-alias-pool = /bits/ 16 <0x5a 0x5b 0x5c 0x5d 0x5e 0x5f>;
++
++		data-rate = <1600000000>;
++
++		ds90ub960_1_ports: ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			/* CSI-2 */
++			port@4 {
++				reg = <4>;
++				ds90ub960_1_csi_out: endpoint {
++					clock-lanes = <0>;
++					data-lanes = <1 2 3 4>;
++					remote-endpoint = <&csi2_phy1>;
++				};
++			};
++		};
++
++		ds90ub960_1_atr: i2c-atr {
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++	};
 +};
 +
 +&csi0_port0 {
@@ -910,6 +943,16 @@ index 000000000..18d9d31c6
 +
 +	csi2_phy0: endpoint {
 +		remote-endpoint = <&ds90ub960_0_csi_out>;
++		clock-lanes = <0>;
++		data-lanes = <1 2 3 4>;
++	};
++};
++
++&csi1_port0 {
++	status = "okay";
++
++	csi2_phy1: endpoint {
++		remote-endpoint = <&ds90ub960_1_csi_out>;
 +		clock-lanes = <0>;
 +		data-lanes = <1 2 3 4>;
 +	};
@@ -2660,10 +2703,10 @@ index 000000000..e94e62271
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk-fpdlink-fusion.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk-fpdlink-fusion.dts
 new file mode 100644
-index 000000000..4e584573e
+index 000000000..b4cb9c59a
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-sk-fpdlink-fusion.dts
-@@ -0,0 +1,134 @@
+@@ -0,0 +1,125 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -2701,11 +2744,11 @@ index 000000000..4e584573e
 +			#size-cells = <0>;
 +			reg = <0>;
 +
-+			deser@3a {
++			deser@38 {
 +				compatible = "ti,ds90ub960-q1";
 +
 +				reg-names = "main", "ser0", "ser1", "ser2", "ser3";
-+				reg       = <0x3a>, <0x44>, <0x45>, <0x46>, <0x47>;
++				reg       = <0x38>, <0x44>, <0x45>, <0x46>, <0x47>;
 +
 +				clocks = <&clk_fusion_25M_fixed>;
 +
@@ -2737,21 +2780,14 @@ index 000000000..4e584573e
 +			deser@30 {
 +				compatible = "ti,ds90ub960-q1";
 +
-+				reg-names = "main",
-+					"rxport0", "rxport1", "rxport2", "rxport3",
-+					"ser0", "ser1", "ser2", "ser3";
-+				reg       = <0x30>,
-+					<0x50>, <0x51>, <0x52>, <0x53>,
-+					<0x54>, <0x55>, <0x56>, <0x57>;
++				reg-names = "main", "ser0", "ser1", "ser2", "ser3";
++				reg       = <0x30>, <0x54>, <0x55>, <0x56>, <0x57>;
 +
 +				clocks = <&clk_fusion_25M_fixed>;
 +
 +				i2c-alias-pool = /bits/ 16 <0x5a 0x5b 0x5c 0x5d 0x5e 0x5f>;
 +
 +				data-rate = <1600000000>;
-+
-+				gpio-controller;
-+				#gpio-cells = <3>; /* rxport, remote gpio num, flags */
 +
 +				ds90ub960_1_ports: ports {
 +					#address-cells = <1>;
@@ -2762,9 +2798,7 @@ index 000000000..4e584573e
 +						reg = <4>;
 +						ds90ub960_1_csi_out: endpoint {
 +							clock-lanes = <0>;
-+							data-lanes = <1 2>;
-+							/* Actually a REFCLK multiplier */
-+							data-rate = <1600000000>;
++							data-lanes = <1 2 3 4>;
 +							remote-endpoint = <&csi2_phy1>;
 +						};
 +					};
