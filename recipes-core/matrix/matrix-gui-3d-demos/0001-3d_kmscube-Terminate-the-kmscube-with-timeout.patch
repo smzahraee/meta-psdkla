@@ -1,0 +1,30 @@
+From 837a5abdd244045b94b57226905409dba7c8e5ff Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Wed, 13 Apr 2022 17:45:02 +0530
+Subject: [PATCH] 3d_kmscube: Terminate the kmscube with timeout
+
+Current version of kmscube will not terminate unless
+SIGKILL is passed.
+
+Terminate it with a predefined timeout.
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ 3d_apps/3d_kmscube/3d_kmscube.desktop | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/3d_apps/3d_kmscube/3d_kmscube.desktop b/3d_apps/3d_kmscube/3d_kmscube.desktop
+index 14ff74a..5aeefe8 100644
+--- a/3d_apps/3d_kmscube/3d_kmscube.desktop
++++ b/3d_apps/3d_kmscube/3d_kmscube.desktop
+@@ -4,6 +4,6 @@ Name=KMS Cube
+ GenericName=Demo App
+ Icon=/usr/share/matrix-gui-2.0/apps/images/3d-icon.png
+ Type=Application
+-Exec=/usr/bin/kmscube -n 600
++Exec=timeout 20 /usr/bin/kmscube
+ Categories=3d
+ ProgramType=gui
+-- 
+2.17.0
+

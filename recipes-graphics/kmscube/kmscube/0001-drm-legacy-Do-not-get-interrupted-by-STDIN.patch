@@ -1,0 +1,31 @@
+From a22d92ff42c40b7914f3423681d9b5ef551f4661 Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Fri, 22 Apr 2022 18:47:21 +0530
+Subject: [PATCH] drm-legacy: Do not get interrupted by STDIN
+
+KMSCUBE: while invoking kmscube from matrix-gui,
+it is getting interrupted by the user (i.e STDIN)
+
+This commit provides a Workaround to fix this issue.
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ drm-legacy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drm-legacy.c b/drm-legacy.c
+index 56a0fed..296bdba 100644
+--- a/drm-legacy.c
++++ b/drm-legacy.c
+@@ -97,7 +97,7 @@ static int legacy_run(const struct gbm *gbm, const struct egl *egl)
+ 
+ 		while (waiting_for_flip) {
+ 			FD_ZERO(&fds);
+-			FD_SET(0, &fds);
++			//FD_SET(0, &fds); /* FIXME: DO NOT get interrupted on STDIN */
+ 			FD_SET(drm.fd, &fds);
+ 
+ 			ret = select(drm.fd + 1, &fds, NULL, NULL, NULL);
+-- 
+2.7.4
+
