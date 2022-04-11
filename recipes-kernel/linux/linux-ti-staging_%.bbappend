@@ -17,6 +17,8 @@ SRC_URI_append_j7-evm = " \
     file://0001-vxe-vxd-decoder-Fix-input-buffer-size.patch \
     file://0001-vxe-vxd-encoder-Fix-for-alignment-of-resolution.patch \
     file://0001-vxe-vxd-decoder-remove-DMA_IMPORT-mode.patch \
+    file://0001-thermal-k3_j72xx_bandgap-Add-the-bandgap-driver-supp.patch \
+    file://0002-arm64-dts-ti-k3-j721e-Add-VTM-node-and.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -57,4 +59,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_47"
+PR_append = "_psdkla_48"
