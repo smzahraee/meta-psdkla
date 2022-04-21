@@ -5,7 +5,7 @@ SRC_URI_remove = "\
 "
 
 SRC_URI_append = "\
-    git://github.com/google/protobuf.git;branch=master \
+    git://github.com/google/protobuf.git;branch=main \
 "
 
-PR_append = "_psdkla"
+PR_append = "_psdkla_1"
