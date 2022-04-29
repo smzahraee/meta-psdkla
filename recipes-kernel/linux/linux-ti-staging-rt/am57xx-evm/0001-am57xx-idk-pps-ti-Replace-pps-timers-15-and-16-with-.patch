@@ -1,0 +1,290 @@
+From 7a5983425ffab257890d891680cef35cfcc600a5 Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Fri, 22 Apr 2022 18:26:35 +0530
+Subject: [PATCH] am57xx-idk-pps: ti: Replace pps timers 15 and 16 with 2 and
+ 14
+
+There are some conflicts with the timers 15 and 16, as they were
+being used for ipu, so replacing them with timers 2 and 14
+
+JIRA Reference:
+https://jira.itg.ti.com/browse/ADASVISION-5437
+---
+ arch/arm/boot/dts/ti/am571x-idk-pps.dts | 43 +++++++++++++------------
+ arch/arm/boot/dts/ti/am572x-idk-pps.dts | 43 +++++++++++++------------
+ arch/arm/boot/dts/ti/am574x-idk-pps.dts | 43 +++++++++++++------------
+ 3 files changed, 66 insertions(+), 63 deletions(-)
+
+diff --git a/arch/arm/boot/dts/ti/am571x-idk-pps.dts b/arch/arm/boot/dts/ti/am571x-idk-pps.dts
+index eae0e88c0..9b286ef4d 100644
+--- a/arch/arm/boot/dts/ti/am571x-idk-pps.dts
++++ b/arch/arm/boot/dts/ti/am571x-idk-pps.dts
+@@ -13,23 +13,24 @@
+ &mac_sw {
+ 	pinctrl-names = "pwm_off", "pwm_on", "ref_off", "ref_on",
+ 		"latch_on", "latch_off";
+-	pinctrl-0 = <&pps1_timer16_pwm_off>;
+-	pinctrl-1 = <&pps1_timer16_pwm_on>;
+-	pinctrl-2 = <&pps1_timer16_pwm2_off>;
+-	pinctrl-3 = <&pps1_timer16_pwm2_on>;
+-	pinctrl-4 = <&pps1_timer15_latch_on>;
+-	pinctrl-5 = <&pps1_timer15_latch_off>;
++	pinctrl-0 = <&pps1_timer14_pwm_off>;
++	pinctrl-1 = <&pps1_timer14_pwm_on>;
++	pinctrl-2 = <&pps1_timer14_pwm2_off>;
++	pinctrl-3 = <&pps1_timer14_pwm2_on>;
++	pinctrl-4 = <&pps1_timer2_latch_on>;
++	pinctrl-5 = <&pps1_timer2_latch_off>;
+ 
+ 	pps-enable-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
+ 	ref-enable-gpios = <&gpio6 19 GPIO_ACTIVE_HIGH>;
+-	assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>, <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++	assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER14_CLKCTRL 24>, <&l4per_clkctrl DRA7_L4PER_TIMER2_CLKCTRL 24>;
+ 	assigned-clock-parents = <&abe_giclk_div>, <&abe_giclk_div>;
+ };
+ 
+ &cpts {
+ 	/* cptr pps1 generator and latch properties */
+-	pps_timer = <&timer16>;
+-	latch_timer = <&timer15>;
++	pps_timer = <&timer14>;
++	latch_timer = <&timer2>;
++	cpts_pps_hw_event_index = <1>;
+ };
+ 
+ &dpll_abe_ck {
+@@ -54,39 +55,39 @@
+ };
+ 
+ &dra7_pmx_core {
+-pps1_timer16_pwm_on: pps1_timer16_pwm_on {
++pps1_timer14_pwm_on: pps1_timer14_pwm_on {
+ 			     pinctrl-single,pins = <
+-				     DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT | MUX_MODE10)
++				     DRA7XX_CORE_IOPAD(0x3698, PIN_OUTPUT | MUX_MODE10)
+ 				     >;
+ 		     };
+ 
+-pps1_timer16_pwm_off: pps1_timer16_pwm_off {
++pps1_timer14_pwm_off: pps1_timer14_pwm_off {
+ 			      pinctrl-single,pins = <
+-				      DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++				      DRA7XX_CORE_IOPAD(0x3698, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
+ 				      >;
+ 		      };
+ 
+-pps1_timer16_pwm2_on: pps1_timer16_pwm2_on {
++pps1_timer14_pwm2_on: pps1_timer14_pwm2_on {
+ 			      pinctrl-single,pins = <
+-				      DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT | MUX_MODE7)
++				      DRA7XX_CORE_IOPAD(0x34ec, PIN_OUTPUT | MUX_MODE7)
+ 				      >;
+ 		      };
+ 
+-pps1_timer16_pwm2_off: pps1_timer16_pwm2_off {
++pps1_timer14_pwm2_off: pps1_timer14_pwm2_off {
+ 			       pinctrl-single,pins = <
+-				       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++				       DRA7XX_CORE_IOPAD(0x34ec, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
+ 				       >;
+ 		       };
+ 
+-pps1_timer15_latch_on: pps1_timer15_latch_on {
++pps1_timer2_latch_on: pps1_timer2_latch_on {
+ 			       pinctrl-single,pins = <
+-				       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE7)
++				       DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE10)
+ 				       >;
+ 		       };
+ 
+-pps1_timer15_latch_off: pps1_timer15_latch_off {
++pps1_timer2_latch_off: pps1_timer2_latch_off {
+ 				pinctrl-single,pins = <
+-					DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE15)
++					DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15)
+ 					>;
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/ti/am572x-idk-pps.dts b/arch/arm/boot/dts/ti/am572x-idk-pps.dts
+index 6f8e0e57d..dbae10440 100644
+--- a/arch/arm/boot/dts/ti/am572x-idk-pps.dts
++++ b/arch/arm/boot/dts/ti/am572x-idk-pps.dts
+@@ -13,23 +13,24 @@
+ &mac_sw {
+ 	pinctrl-names = "pwm_off", "pwm_on", "ref_off", "ref_on",
+ 		"latch_on", "latch_off";
+-	pinctrl-0 = <&pps1_timer16_pwm_off>;
+-	pinctrl-1 = <&pps1_timer16_pwm_on>;
+-	pinctrl-2 = <&pps1_timer16_pwm2_off>;
+-	pinctrl-3 = <&pps1_timer16_pwm2_on>;
+-	pinctrl-4 = <&pps1_timer15_latch_on>;
+-	pinctrl-5 = <&pps1_timer15_latch_off>;
++	pinctrl-0 = <&pps1_timer14_pwm_off>;
++	pinctrl-1 = <&pps1_timer14_pwm_on>;
++	pinctrl-2 = <&pps1_timer14_pwm2_off>;
++	pinctrl-3 = <&pps1_timer14_pwm2_on>;
++	pinctrl-4 = <&pps1_timer2_latch_on>;
++	pinctrl-5 = <&pps1_timer2_latch_off>;
+ 
+ 	pps-enable-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
+ 	ref-enable-gpios = <&gpio6 19 GPIO_ACTIVE_HIGH>;
+-	assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>, <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++	assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER14_CLKCTRL 24>, <&l4per_clkctrl DRA7_L4PER_TIMER2_CLKCTRL 24>;
+ 	assigned-clock-parents = <&abe_giclk_div>, <&abe_giclk_div>;
+ };
+ 
+ &cpts {
+ 	/* cptr pps1 generator and latch properties */
+-	pps_timer = <&timer16>;
+-	latch_timer = <&timer15>;
++	pps_timer = <&timer14>;
++	latch_timer = <&timer2>;
++	cpts_pps_hw_event_index = <1>;
+ };
+ 
+ &dpll_abe_ck {
+@@ -49,39 +50,39 @@
+ };
+ 
+ &dra7_pmx_core {
+-pps1_timer16_pwm_on: pps1_timer16_pwm_on {
++pps1_timer14_pwm_on: pps1_timer14_pwm_on {
+ 			     pinctrl-single,pins = <
+-				     DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT | MUX_MODE10)
++				     DRA7XX_CORE_IOPAD(0x3698, PIN_OUTPUT | MUX_MODE10)
+ 				     >;
+ 		     };
+ 
+-pps1_timer16_pwm_off: pps1_timer16_pwm_off {
++pps1_timer14_pwm_off: pps1_timer14_pwm_off {
+ 			      pinctrl-single,pins = <
+-				      DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++				      DRA7XX_CORE_IOPAD(0x3698, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
+ 				      >;
+ 		      };
+ 
+-pps1_timer16_pwm2_on: pps1_timer16_pwm2_on {
++pps1_timer14_pwm2_on: pps1_timer14_pwm2_on {
+ 			      pinctrl-single,pins = <
+-				      DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT | MUX_MODE7)
++				      DRA7XX_CORE_IOPAD(0x34ec, PIN_OUTPUT | MUX_MODE7)
+ 				      >;
+ 		      };
+ 
+-pps1_timer16_pwm2_off: pps1_timer16_pwm2_off {
++pps1_timer14_pwm2_off: pps1_timer14_pwm2_off {
+ 			       pinctrl-single,pins = <
+-				       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++				       DRA7XX_CORE_IOPAD(0x34ec, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
+ 				       >;
+ 		       };
+ 
+-pps1_timer15_latch_on: pps1_timer15_latch_on {
++pps1_timer2_latch_on: pps1_timer2_latch_on {
+ 			       pinctrl-single,pins = <
+-				       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE7)
++				       DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE10)
+ 				       >;
+ 		       };
+ 
+-pps1_timer15_latch_off: pps1_timer15_latch_off {
++pps1_timer2_latch_off: pps1_timer2_latch_off {
+ 				pinctrl-single,pins = <
+-					DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE15)
++					DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15)
+ 					>;
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/ti/am574x-idk-pps.dts b/arch/arm/boot/dts/ti/am574x-idk-pps.dts
+index 6f8e0e57d..dbae10440 100644
+--- a/arch/arm/boot/dts/ti/am574x-idk-pps.dts
++++ b/arch/arm/boot/dts/ti/am574x-idk-pps.dts
+@@ -13,23 +13,24 @@
+ &mac_sw {
+ 	pinctrl-names = "pwm_off", "pwm_on", "ref_off", "ref_on",
+ 		"latch_on", "latch_off";
+-	pinctrl-0 = <&pps1_timer16_pwm_off>;
+-	pinctrl-1 = <&pps1_timer16_pwm_on>;
+-	pinctrl-2 = <&pps1_timer16_pwm2_off>;
+-	pinctrl-3 = <&pps1_timer16_pwm2_on>;
+-	pinctrl-4 = <&pps1_timer15_latch_on>;
+-	pinctrl-5 = <&pps1_timer15_latch_off>;
++	pinctrl-0 = <&pps1_timer14_pwm_off>;
++	pinctrl-1 = <&pps1_timer14_pwm_on>;
++	pinctrl-2 = <&pps1_timer14_pwm2_off>;
++	pinctrl-3 = <&pps1_timer14_pwm2_on>;
++	pinctrl-4 = <&pps1_timer2_latch_on>;
++	pinctrl-5 = <&pps1_timer2_latch_off>;
+ 
+ 	pps-enable-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
+ 	ref-enable-gpios = <&gpio6 19 GPIO_ACTIVE_HIGH>;
+-	assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>, <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++	assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER14_CLKCTRL 24>, <&l4per_clkctrl DRA7_L4PER_TIMER2_CLKCTRL 24>;
+ 	assigned-clock-parents = <&abe_giclk_div>, <&abe_giclk_div>;
+ };
+ 
+ &cpts {
+ 	/* cptr pps1 generator and latch properties */
+-	pps_timer = <&timer16>;
+-	latch_timer = <&timer15>;
++	pps_timer = <&timer14>;
++	latch_timer = <&timer2>;
++	cpts_pps_hw_event_index = <1>;
+ };
+ 
+ &dpll_abe_ck {
+@@ -49,39 +50,39 @@
+ };
+ 
+ &dra7_pmx_core {
+-pps1_timer16_pwm_on: pps1_timer16_pwm_on {
++pps1_timer14_pwm_on: pps1_timer14_pwm_on {
+ 			     pinctrl-single,pins = <
+-				     DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT | MUX_MODE10)
++				     DRA7XX_CORE_IOPAD(0x3698, PIN_OUTPUT | MUX_MODE10)
+ 				     >;
+ 		     };
+ 
+-pps1_timer16_pwm_off: pps1_timer16_pwm_off {
++pps1_timer14_pwm_off: pps1_timer14_pwm_off {
+ 			      pinctrl-single,pins = <
+-				      DRA7XX_CORE_IOPAD(0x36a0, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++				      DRA7XX_CORE_IOPAD(0x3698, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
+ 				      >;
+ 		      };
+ 
+-pps1_timer16_pwm2_on: pps1_timer16_pwm2_on {
++pps1_timer14_pwm2_on: pps1_timer14_pwm2_on {
+ 			      pinctrl-single,pins = <
+-				      DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT | MUX_MODE7)
++				      DRA7XX_CORE_IOPAD(0x34ec, PIN_OUTPUT | MUX_MODE7)
+ 				      >;
+ 		      };
+ 
+-pps1_timer16_pwm2_off: pps1_timer16_pwm2_off {
++pps1_timer14_pwm2_off: pps1_timer14_pwm2_off {
+ 			       pinctrl-single,pins = <
+-				       DRA7XX_CORE_IOPAD(0x3680, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
++				       DRA7XX_CORE_IOPAD(0x34ec, PIN_OUTPUT_PULLDOWN | MUX_MODE15)
+ 				       >;
+ 		       };
+ 
+-pps1_timer15_latch_on: pps1_timer15_latch_on {
++pps1_timer2_latch_on: pps1_timer2_latch_on {
+ 			       pinctrl-single,pins = <
+-				       DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE7)
++				       DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE10)
+ 				       >;
+ 		       };
+ 
+-pps1_timer15_latch_off: pps1_timer15_latch_off {
++pps1_timer2_latch_off: pps1_timer2_latch_off {
+ 				pinctrl-single,pins = <
+-					DRA7XX_CORE_IOPAD(0x3684, PIN_INPUT | MUX_MODE15)
++					DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15)
+ 					>;
+ 			};
+ 
+-- 
+2.17.1
+
