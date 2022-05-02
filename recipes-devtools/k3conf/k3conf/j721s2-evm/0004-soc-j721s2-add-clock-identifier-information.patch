@@ -1,64 +1,51 @@
-From patchwork Tue Feb  1 20:37:30 2022
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Patchwork-Submitter: Bryan Brattlof <bb@ti.com>
-X-Patchwork-Id: 7529
+From 90895b341bd46db68a3c1d15930dcf9834a16183 Mon Sep 17 00:00:00 2001
 From: Bryan Brattlof <bb@ti.com>
-Subject: [k3conf PATCH 4/8] soc: j721s2: add clock identifier information
 Date: Tue, 1 Feb 2022 14:37:30 -0600
-Message-ID: <20220201203734.26355-5-bb@ti.com>
-In-Reply-To: <20220201203734.26355-1-bb@ti.com>
-References: <20220201203734.26355-1-bb@ti.com>
-Return-Path: nm@ti.com
-List-Post: <mailto:linux-patch-review@list.ti.com>
-MIME-Version: 1.0
-To: TI Linux Patch Review <linux-patch-review@list.ti.com>
-Cc: Dave Gerlach <d-gerlach@ti.com>, Nishanth Menon <nm@ti.com>, Bryan
- Brattlof <bb@ti.com>
-List-ID: <linux-patch-review@list.ti.com>
-List-Post: <mailto:linux-patch-review@list.ti.com>
+Subject: [PATCH 4/8] soc: j721s2: add clock identifier information
 
 This provides information on clock IDs that identify clocks incoming
 and outgoing from devices identified via device IDs in j721s2 SoC.
 
 Signed-off-by: Bryan Brattlof <bb@ti.com>
 ---
- Makefile                        |    3 +-
+ Makefile                        |    6 +-
  common/socinfo.c                |    3 +
  soc/j721s2/j721s2_clocks_info.c | 2035 +++++++++++++++++++++++++++++++
  soc/j721s2/j721s2_clocks_info.h |   42 +
- 4 files changed, 2082 insertions(+), 1 deletion(-)
+ 4 files changed, 2084 insertions(+), 2 deletions(-)
  create mode 100644 soc/j721s2/j721s2_clocks_info.c
  create mode 100644 soc/j721s2/j721s2_clocks_info.h
 
 diff --git a/Makefile b/Makefile
-index c4ead5543c46d..f352bbcefe8ad 100644
+index a33dfc6..ed3f247 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -112,7 +112,8 @@ AM64XSOURCES =\
+@@ -118,8 +118,10 @@ AM62XSOURCES =\
+ 	      soc/am62x/am62x_rm_info.c \
+ 	      soc/am62x/am62x_sec_proxy_info.c
  
- J721S2SOURCES =\
- 	       soc/j721s2/j721s2_devices_info.c \
+-J721S2SOURCES = soc/j721s2/j721s2_devices_info.c \
 -	       soc/j721s2/j721s2_host_info.c
++J721S2SOURCES =\
++	       soc/j721s2/j721s2_devices_info.c \
 +	       soc/j721s2/j721s2_host_info.c \
 +	       soc/j721s2/j721s2_clocks_info.c
  
  COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
  AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
 diff --git a/common/socinfo.c b/common/socinfo.c
-index c665e95667873..0acf0ad6f0ce1 100644
+index fc291d2..04f54bf 100644
 --- a/common/socinfo.c
 +++ b/common/socinfo.c
-@@ -69,6 +69,7 @@
- #include <soc/am64x/am64x_rm_info.h>
+@@ -75,6 +75,7 @@
+ #include <soc/am62x/am62x_sec_proxy_info.h>
  #include <soc/j721s2/j721s2_devices_info.h>
  #include <soc/j721s2/j721s2_host_info.h>
 +#include <soc/j721s2/j721s2_clocks_info.h>
  
  /* Assuming these addresses and definitions stay common across K3 devices */
  #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
-@@ -150,6 +151,8 @@ static void j721s2_init(void)
+@@ -156,6 +157,8 @@ static void j721s2_init(void)
  {
  	struct ti_sci_info *sci_info = &soc_info.sci_info;
  
@@ -69,7 +56,7 @@ index c665e95667873..0acf0ad6f0ce1 100644
  	sci_info->devices_info = j721s2_devices_info;
 diff --git a/soc/j721s2/j721s2_clocks_info.c b/soc/j721s2/j721s2_clocks_info.c
 new file mode 100644
-index 0000000000000..e453ddcd53762
+index 0000000..e453ddc
 --- /dev/null
 +++ b/soc/j721s2/j721s2_clocks_info.c
 @@ -0,0 +1,2035 @@
@@ -2110,7 +2097,7 @@ index 0000000000000..e453ddcd53762
 +};
 diff --git a/soc/j721s2/j721s2_clocks_info.h b/soc/j721s2/j721s2_clocks_info.h
 new file mode 100644
-index 0000000000000..3e6e4ec623644
+index 0000000..3e6e4ec
 --- /dev/null
 +++ b/soc/j721s2/j721s2_clocks_info.h
 @@ -0,0 +1,42 @@
@@ -2157,3 +2144,6 @@ index 0000000000000..3e6e4ec623644
 +
 +#endif /* __J721S2_CLOCKS_INFO_H */
 \ No newline at end of file
+-- 
+2.17.1
+

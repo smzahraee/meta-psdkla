@@ -1,23 +1,7 @@
-From patchwork Tue Feb  1 20:37:28 2022
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Patchwork-Submitter: Bryan Brattlof <bb@ti.com>
-X-Patchwork-Id: 7526
+From 0fa20f1e3b89d9c6539434197830e67f7af5cf10 Mon Sep 17 00:00:00 2001
 From: Bryan Brattlof <bb@ti.com>
-Subject: [k3conf PATCH 2/8] soc: j721s2: add device description information
 Date: Tue, 1 Feb 2022 14:37:28 -0600
-Message-ID: <20220201203734.26355-3-bb@ti.com>
-In-Reply-To: <20220201203734.26355-1-bb@ti.com>
-References: <20220201203734.26355-1-bb@ti.com>
-Return-Path: nm@ti.com
-List-Post: <mailto:linux-patch-review@list.ti.com>
-MIME-Version: 1.0
-To: TI Linux Patch Review <linux-patch-review@list.ti.com>
-Cc: Dave Gerlach <d-gerlach@ti.com>, Nishanth Menon <nm@ti.com>, Bryan
- Brattlof <bb@ti.com>
-List-ID: <linux-patch-review@list.ti.com>
-List-Post: <mailto:linux-patch-review@list.ti.com>
+Subject: [PATCH 2/8] soc: j721s2: add device description information
 
 This provides information on Device IDs that are permitted in the
 j721s2 SoC. The device IDs represent SoC subsystems that can be modified
@@ -27,21 +11,21 @@ allowing a user to specify management of a particular SoC subsystem.
 
 Signed-off-by: Bryan Brattlof <bb@ti.com>
 ---
- Makefile                         |   9 +-
+ Makefile                         |   7 +-
  common/socinfo.c                 |   5 +
  soc/j721s2/j721s2_devices_info.c | 404 +++++++++++++++++++++++++++++++
  soc/j721s2/j721s2_devices_info.h |  42 ++++
- 4 files changed, 458 insertions(+), 2 deletions(-)
+ 4 files changed, 456 insertions(+), 2 deletions(-)
  create mode 100644 soc/j721s2/j721s2_devices_info.c
  create mode 100644 soc/j721s2/j721s2_devices_info.h
 
 diff --git a/Makefile b/Makefile
-index dd9a67b4edf41..0a656e5c460f1 100644
+index d9d95c8..74654cc 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -110,14 +110,19 @@ AM64XSOURCES =\
- 	      soc/am64x/am64x_clocks_info.c \
- 	      soc/am64x/am64x_rm_info.c
+@@ -118,17 +118,20 @@ AM62XSOURCES =\
+ 	      soc/am62x/am62x_rm_info.c \
+ 	      soc/am62x/am62x_sec_proxy_info.c
  
 +J721S2SOURCES = soc/j721s2/j721s2_devices_info.c
 +
@@ -49,31 +33,32 @@ index dd9a67b4edf41..0a656e5c460f1 100644
  AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
  J721EOBJECTS=	$(J721ESOURCES:.c=.o)
  AM64XOBJECTS=	$(AM64XSOURCES:.c=.o)
+ AM62XOBJECTS=	$(AM62XSOURCES:.c=.o)
 +J721S2OBJECTS=	$(J721S2SOURCES:.c=.o)
  
--ALLSOURCES=	$(COMMONSOURCES) $(AM65XSOURCES) $(J721ESOURCES) $(AM64XSOURCES)
-+ALLSOURCES=	$(COMMONSOURCES) $(AM65XSOURCES) $(J721ESOURCES) \
-+		$(AM64XSOURCES) $(J721S2SOURCES)
+ ALLSOURCES=	$(COMMONSOURCES) $(AM65XSOURCES) $(J721ESOURCES) \
+-		$(AM64XSOURCES) $(AM62XSOURCES)
++		$(AM64XSOURCES) $(AM62XSOURCES) $(J721S2SOURCES)
  
--ALLOBJECTS=	$(COMMONOBJECTS) $(AM65XOBJECTS) $(J721EOBJECTS) $(AM64XOBJECTS)
-+ALLOBJECTS=	$(COMMONOBJECTS) $(AM65XOBJECTS) $(J721EOBJECTS) \
-+		$(AM64XOBJECTS) $(J721S2OBJECTS)
+ ALLOBJECTS=	$(COMMONOBJECTS) $(AM65XOBJECTS) $(J721EOBJECTS) \
+-		$(AM64XOBJECTS) $(AM62XOBJECTS)
++		$(AM64XOBJECTS) $(AM62XOBJECTS) $(J721S2OBJECTS)
  
  #
  # Pretty print
 diff --git a/common/socinfo.c b/common/socinfo.c
-index 7027e6516c7ac..c89036689cd29 100644
+index 4c0459b..5fb5c17 100644
 --- a/common/socinfo.c
 +++ b/common/socinfo.c
-@@ -67,6 +67,7 @@
- #include <soc/am64x/am64x_devices_info.h>
- #include <soc/am64x/am64x_clocks_info.h>
- #include <soc/am64x/am64x_rm_info.h>
+@@ -73,6 +73,7 @@
+ #include <soc/am62x/am62x_processors_info.h>
+ #include <soc/am62x/am62x_rm_info.h>
+ #include <soc/am62x/am62x_sec_proxy_info.h>
 +#include <soc/j721s2/j721s2_devices_info.h>
  
  /* Assuming these addresses and definitions stay common across K3 devices */
  #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
-@@ -146,6 +147,10 @@ static void am654_sr2_init(void)
+@@ -152,6 +153,10 @@ static void am654_sr2_init(void)
  
  static void j721s2_init(void)
  {
@@ -86,7 +71,7 @@ index 7027e6516c7ac..c89036689cd29 100644
  }
 diff --git a/soc/j721s2/j721s2_devices_info.c b/soc/j721s2/j721s2_devices_info.c
 new file mode 100644
-index 0000000000000..814fece4a0b9b
+index 0000000..814fece
 --- /dev/null
 +++ b/soc/j721s2/j721s2_devices_info.c
 @@ -0,0 +1,404 @@
@@ -496,7 +481,7 @@ index 0000000000000..814fece4a0b9b
 +};
 diff --git a/soc/j721s2/j721s2_devices_info.h b/soc/j721s2/j721s2_devices_info.h
 new file mode 100644
-index 0000000000000..3b29f540f04bf
+index 0000000..3b29f54
 --- /dev/null
 +++ b/soc/j721s2/j721s2_devices_info.h
 @@ -0,0 +1,42 @@
@@ -543,3 +528,6 @@ index 0000000000000..3b29f540f04bf
 +
 +#endif /* __J721S2_DEVICES_INFO_H */
 \ No newline at end of file
+-- 
+2.17.1
+

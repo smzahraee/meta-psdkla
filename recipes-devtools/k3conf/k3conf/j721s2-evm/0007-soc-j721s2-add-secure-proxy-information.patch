@@ -1,23 +1,7 @@
-From patchwork Tue Feb  1 20:37:33 2022
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Patchwork-Submitter: Bryan Brattlof <bb@ti.com>
-X-Patchwork-Id: 7530
+From 6c5c843fd45c3ae21a3a34d2dbece5110ceca0a0 Mon Sep 17 00:00:00 2001
 From: Bryan Brattlof <bb@ti.com>
-Subject: [k3conf PATCH 7/8] soc: j721s2: add secure proxy information
 Date: Tue, 1 Feb 2022 14:37:33 -0600
-Message-ID: <20220201203734.26355-8-bb@ti.com>
-In-Reply-To: <20220201203734.26355-1-bb@ti.com>
-References: <20220201203734.26355-1-bb@ti.com>
-Return-Path: nm@ti.com
-List-Post: <mailto:linux-patch-review@list.ti.com>
-MIME-Version: 1.0
-To: TI Linux Patch Review <linux-patch-review@list.ti.com>
-Cc: Dave Gerlach <d-gerlach@ti.com>, Nishanth Menon <nm@ti.com>, Bryan
- Brattlof <bb@ti.com>
-List-ID: <linux-patch-review@list.ti.com>
-List-Post: <mailto:linux-patch-review@list.ti.com>
+Subject: [PATCH 7/8] soc: j721s2: add secure proxy information
 
 This provides information of Secure Proxies and communication paths that
 are permitted in the j721s2 SoC. These host IDs represent processing
@@ -35,10 +19,10 @@ Signed-off-by: Bryan Brattlof <bb@ti.com>
  create mode 100644 soc/j721s2/j721s2_sec_proxy_info.h
 
 diff --git a/Makefile b/Makefile
-index 343074ba6ba1e..aa7bba9e10e1f 100644
+index fc58329..65cdd27 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -115,7 +115,8 @@ J721S2SOURCES =\
+@@ -123,7 +123,8 @@ J721S2SOURCES =\
  	       soc/j721s2/j721s2_host_info.c \
  	       soc/j721s2/j721s2_clocks_info.c \
  	       soc/j721s2/j721s2_processors_info.c \
@@ -49,10 +33,10 @@ index 343074ba6ba1e..aa7bba9e10e1f 100644
  COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
  AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
 diff --git a/common/socinfo.c b/common/socinfo.c
-index 59bc61375591e..39075f487ebaa 100644
+index b1fe3de..4bb7ffd 100644
 --- a/common/socinfo.c
 +++ b/common/socinfo.c
-@@ -72,6 +72,7 @@
+@@ -78,6 +78,7 @@
  #include <soc/j721s2/j721s2_clocks_info.h>
  #include <soc/j721s2/j721s2_processors_info.h>
  #include <soc/j721s2/j721s2_rm_info.h>
@@ -60,7 +44,7 @@ index 59bc61375591e..39075f487ebaa 100644
  
  /* Assuming these addresses and definitions stay common across K3 devices */
  #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
-@@ -153,6 +154,10 @@ static void j721s2_init(void)
+@@ -159,6 +160,10 @@ static void j721s2_init(void)
  {
  	struct ti_sci_info *sci_info = &soc_info.sci_info;
  
@@ -73,7 +57,7 @@ index 59bc61375591e..39075f487ebaa 100644
  	sci_info->processors_info = j721s2_processors_info;
 diff --git a/soc/j721s2/j721s2_sec_proxy_info.c b/soc/j721s2/j721s2_sec_proxy_info.c
 new file mode 100644
-index 0000000000000..964ae4145696d
+index 0000000..964ae41
 --- /dev/null
 +++ b/soc/j721s2/j721s2_sec_proxy_info.c
 @@ -0,0 +1,199 @@
@@ -278,7 +262,7 @@ index 0000000000000..964ae4145696d
 +};
 diff --git a/soc/j721s2/j721s2_sec_proxy_info.h b/soc/j721s2/j721s2_sec_proxy_info.h
 new file mode 100644
-index 0000000000000..e2e62e261fee7
+index 0000000..e2e62e2
 --- /dev/null
 +++ b/soc/j721s2/j721s2_sec_proxy_info.h
 @@ -0,0 +1,44 @@
@@ -327,3 +311,6 @@ index 0000000000000..e2e62e261fee7
 +
 +#endif /* __J721S2_SEC_PROXY_INFO_H */
 \ No newline at end of file
+-- 
+2.17.1
+

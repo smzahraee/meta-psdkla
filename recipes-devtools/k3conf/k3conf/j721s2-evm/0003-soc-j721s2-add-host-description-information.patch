@@ -1,23 +1,7 @@
-From patchwork Tue Feb  1 20:37:29 2022
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Patchwork-Submitter: Bryan Brattlof <bb@ti.com>
-X-Patchwork-Id: 7527
+From f9c9f5b62107ae12bc052e4f288921f03efdb413 Mon Sep 17 00:00:00 2001
 From: Bryan Brattlof <bb@ti.com>
-Subject: [k3conf PATCH 3/8] soc: j721s2: add host description information
 Date: Tue, 1 Feb 2022 14:37:29 -0600
-Message-ID: <20220201203734.26355-4-bb@ti.com>
-In-Reply-To: <20220201203734.26355-1-bb@ti.com>
-References: <20220201203734.26355-1-bb@ti.com>
-Return-Path: nm@ti.com
-List-Post: <mailto:linux-patch-review@list.ti.com>
-MIME-Version: 1.0
-To: TI Linux Patch Review <linux-patch-review@list.ti.com>
-Cc: Dave Gerlach <d-gerlach@ti.com>, Nishanth Menon <nm@ti.com>, Bryan
- Brattlof <bb@ti.com>
-List-ID: <linux-patch-review@list.ti.com>
-List-Post: <mailto:linux-patch-review@list.ti.com>
+Subject: [PATCH 3/8] soc: j721s2: add host description information
 
 This provides information of Host IDs that are permitted in the j721s2
 SoC. These host IDs represent processing entities (or PEs) which is
@@ -25,42 +9,41 @@ mandatory identification of a Host in a processor.
 
 Signed-off-by: Bryan Brattlof <bb@ti.com>
 ---
- Makefile                      |  4 +-
+ Makefile                      |  3 +-
  common/socinfo.c              |  3 ++
  soc/j721s2/j721s2_host_info.c | 66 +++++++++++++++++++++++++++++++++
  soc/j721s2/j721s2_host_info.h | 70 +++++++++++++++++++++++++++++++++++
- 4 files changed, 142 insertions(+), 1 deletion(-)
+ 4 files changed, 141 insertions(+), 1 deletion(-)
  create mode 100644 soc/j721s2/j721s2_host_info.c
  create mode 100644 soc/j721s2/j721s2_host_info.h
 
 diff --git a/Makefile b/Makefile
-index 0a656e5c460f1..c4ead5543c46d 100644
+index 74654cc..a33dfc6 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -110,7 +110,9 @@ AM64XSOURCES =\
- 	      soc/am64x/am64x_clocks_info.c \
- 	      soc/am64x/am64x_rm_info.c
+@@ -118,7 +118,8 @@ AM62XSOURCES =\
+ 	      soc/am62x/am62x_rm_info.c \
+ 	      soc/am62x/am62x_sec_proxy_info.c
  
 -J721S2SOURCES = soc/j721s2/j721s2_devices_info.c
-+J721S2SOURCES =\
-+	       soc/j721s2/j721s2_devices_info.c \
++J721S2SOURCES = soc/j721s2/j721s2_devices_info.c \
 +	       soc/j721s2/j721s2_host_info.c
  
  COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
  AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
 diff --git a/common/socinfo.c b/common/socinfo.c
-index c89036689cd29..c665e95667873 100644
+index 5fb5c17..fc291d2 100644
 --- a/common/socinfo.c
 +++ b/common/socinfo.c
-@@ -68,6 +68,7 @@
- #include <soc/am64x/am64x_clocks_info.h>
- #include <soc/am64x/am64x_rm_info.h>
+@@ -74,6 +74,7 @@
+ #include <soc/am62x/am62x_rm_info.h>
+ #include <soc/am62x/am62x_sec_proxy_info.h>
  #include <soc/j721s2/j721s2_devices_info.h>
 +#include <soc/j721s2/j721s2_host_info.h>
  
  /* Assuming these addresses and definitions stay common across K3 devices */
  #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
-@@ -149,6 +150,8 @@ static void j721s2_init(void)
+@@ -155,6 +156,8 @@ static void j721s2_init(void)
  {
  	struct ti_sci_info *sci_info = &soc_info.sci_info;
  
@@ -71,7 +54,7 @@ index c89036689cd29..c665e95667873 100644
  	soc_info.host_id = DEFAULT_HOST_ID;
 diff --git a/soc/j721s2/j721s2_host_info.c b/soc/j721s2/j721s2_host_info.c
 new file mode 100644
-index 0000000000000..1fd9c2d9c18d0
+index 0000000..1fd9c2d
 --- /dev/null
 +++ b/soc/j721s2/j721s2_host_info.c
 @@ -0,0 +1,66 @@
@@ -143,7 +126,7 @@ index 0000000000000..1fd9c2d9c18d0
 +};
 diff --git a/soc/j721s2/j721s2_host_info.h b/soc/j721s2/j721s2_host_info.h
 new file mode 100644
-index 0000000000000..180dd59d2f22e
+index 0000000..180dd59
 --- /dev/null
 +++ b/soc/j721s2/j721s2_host_info.h
 @@ -0,0 +1,70 @@
@@ -217,3 +200,6 @@ index 0000000000000..180dd59d2f22e
 +extern struct ti_sci_host_info	j721s2_host_info[];
 +
 +#endif /* __J721S2_HOST_INFO_H */
+-- 
+2.17.1
+

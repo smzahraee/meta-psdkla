@@ -1,23 +1,7 @@
-From patchwork Tue Feb  1 20:37:31 2022
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Patchwork-Submitter: Bryan Brattlof <bb@ti.com>
-X-Patchwork-Id: 7523
+From e14f06fc9aa81c8edd529b6af0ad092d5684abf0 Mon Sep 17 00:00:00 2001
 From: Bryan Brattlof <bb@ti.com>
-Subject: [k3conf PATCH 5/8] soc: j721s2: add processor description information
 Date: Tue, 1 Feb 2022 14:37:31 -0600
-Message-ID: <20220201203734.26355-6-bb@ti.com>
-In-Reply-To: <20220201203734.26355-1-bb@ti.com>
-References: <20220201203734.26355-1-bb@ti.com>
-Return-Path: nm@ti.com
-List-Post: <mailto:linux-patch-review@list.ti.com>
-MIME-Version: 1.0
-To: TI Linux Patch Review <linux-patch-review@list.ti.com>
-Cc: Dave Gerlach <d-gerlach@ti.com>, Nishanth Menon <nm@ti.com>, Bryan
- Brattlof <bb@ti.com>
-List-ID: <linux-patch-review@list.ti.com>
-List-Post: <mailto:linux-patch-review@list.ti.com>
+Subject: [PATCH 5/8] soc: j721s2: add processor description information
 
 This provides information of Processor and Host IDs that are permitted
 in the j721s2 SoC. These Processor IDs represent an actual physical
@@ -35,10 +19,10 @@ Signed-off-by: Bryan Brattlof <bb@ti.com>
  create mode 100644 soc/j721s2/j721s2_processors_info.h
 
 diff --git a/Makefile b/Makefile
-index f352bbcefe8ad..8f87478b5bf77 100644
+index ed3f247..e1e8137 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -113,7 +113,8 @@ AM64XSOURCES =\
+@@ -121,7 +121,8 @@ AM62XSOURCES =\
  J721S2SOURCES =\
  	       soc/j721s2/j721s2_devices_info.c \
  	       soc/j721s2/j721s2_host_info.c \
@@ -49,10 +33,10 @@ index f352bbcefe8ad..8f87478b5bf77 100644
  COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
  AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
 diff --git a/common/socinfo.c b/common/socinfo.c
-index 0acf0ad6f0ce1..3e657e5a23209 100644
+index 04f54bf..d2d2bd1 100644
 --- a/common/socinfo.c
 +++ b/common/socinfo.c
-@@ -70,6 +70,7 @@
+@@ -76,6 +76,7 @@
  #include <soc/j721s2/j721s2_devices_info.h>
  #include <soc/j721s2/j721s2_host_info.h>
  #include <soc/j721s2/j721s2_clocks_info.h>
@@ -60,7 +44,7 @@ index 0acf0ad6f0ce1..3e657e5a23209 100644
  
  /* Assuming these addresses and definitions stay common across K3 devices */
  #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
-@@ -151,6 +152,8 @@ static void j721s2_init(void)
+@@ -157,6 +158,8 @@ static void j721s2_init(void)
  {
  	struct ti_sci_info *sci_info = &soc_info.sci_info;
  
@@ -70,7 +54,7 @@ index 0acf0ad6f0ce1..3e657e5a23209 100644
  	sci_info->num_clocks = J721S2_MAX_CLOCKS;
  	sci_info->host_info = j721s2_host_info;
 diff --git a/include/tisci.h b/include/tisci.h
-index eabc2a72274cd..f1857715af4e9 100644
+index eabc2a7..f185771 100644
 --- a/include/tisci.h
 +++ b/include/tisci.h
 @@ -67,7 +67,7 @@ struct ti_sci_processors_info {
@@ -84,7 +68,7 @@ index eabc2a72274cd..f1857715af4e9 100644
  struct ti_sci_devices_info {
 diff --git a/soc/j721s2/j721s2_processors_info.c b/soc/j721s2/j721s2_processors_info.c
 new file mode 100644
-index 0000000000000..6a1ce7d8ee902
+index 0000000..6a1ce7d
 --- /dev/null
 +++ b/soc/j721s2/j721s2_processors_info.c
 @@ -0,0 +1,49 @@
@@ -139,7 +123,7 @@ index 0000000000000..6a1ce7d8ee902
 +};
 diff --git a/soc/j721s2/j721s2_processors_info.h b/soc/j721s2/j721s2_processors_info.h
 new file mode 100644
-index 0000000000000..c430a4d5ae30e
+index 0000000..c430a4d
 --- /dev/null
 +++ b/soc/j721s2/j721s2_processors_info.h
 @@ -0,0 +1,41 @@
@@ -185,3 +169,6 @@ index 0000000000000..c430a4d5ae30e
 +
 +#endif /* __J721S2_PROCESSOR_INFO_H */
 \ No newline at end of file
+-- 
+2.17.1
+
