@@ -60,4 +60,7 @@ fi
 
 sleep 1
 
+# get the IP address
+udhcpc -i wlp1s0
+
 fi
