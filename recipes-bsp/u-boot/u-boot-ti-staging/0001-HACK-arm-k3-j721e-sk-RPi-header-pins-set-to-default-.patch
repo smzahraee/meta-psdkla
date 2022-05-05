@@ -1,4 +1,4 @@
-From 39b861920a13947341604b2970a87f7950d6a635 Mon Sep 17 00:00:00 2001
+From b52141b23675f08394d30b98133130e4fd450d1c Mon Sep 17 00:00:00 2001
 From: Rahul T R <r-ravikumar@ti.com>
 Date: Thu, 17 Mar 2022 19:28:28 +0530
 Subject: [PATCH] HACK: arm: k3-j721e-sk: RPi header pins set to default output
@@ -163,14 +163,17 @@ index 1b1aeb0844..5215f95120 100644
 +	};
 +};
 diff --git a/configs/j721e_evm_a72_defconfig b/configs/j721e_evm_a72_defconfig
-index 24bfd5c561..278bdc724c 100644
+index bb7334ddd5..fd4a696e5b 100644
 --- a/configs/j721e_evm_a72_defconfig
 +++ b/configs/j721e_evm_a72_defconfig
-@@ -203,3 +203,4 @@ CONFIG_CADENCE_UFS=y
- CONFIG_TI_J721E_UFS=y
- CONFIG_OF_LIBFDT_OVERLAY=y
- CONFIG_MMC_SPEED_MODE_SET=y
+@@ -20,6 +20,7 @@ CONFIG_SPL_FS_FAT=y
+ CONFIG_SPL_LIBDISK_SUPPORT=y
+ CONFIG_SPL_SPI_FLASH_SUPPORT=y
+ CONFIG_SPL_SPI_SUPPORT=y
 +CONFIG_GPIO_HOG=y
+ # CONFIG_PSCI_RESET is not set
+ CONFIG_DEFAULT_DEVICE_TREE="k3-j721e-common-proc-board"
+ CONFIG_DISTRO_DEFAULTS=y
 -- 
 2.17.1
 
