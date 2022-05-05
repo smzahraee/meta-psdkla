@@ -1,0 +1,54 @@
+From 3280292e9447839163f85bbab09f05017837167c Mon Sep 17 00:00:00 2001
+From: root <root@bulbasaur.couthit.local>
+Date: Thu, 7 Apr 2022 17:04:56 +0530
+Subject: [PATCH] Set the Network Strom Prevention BIT Signed-off-by: Parvathi
+ <parvathi@couthit.com>
+
+---
+ drivers/net/ethernet/ti/icss_switch.h | 2 ++
+ drivers/net/ethernet/ti/prueth_qos.c  | 7 +++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/drivers/net/ethernet/ti/icss_switch.h b/drivers/net/ethernet/ti/icss_switch.h
+index f0c0bfa95..1e772fdf5 100644
+--- a/drivers/net/ethernet/ti/icss_switch.h
++++ b/drivers/net/ethernet/ti/icss_switch.h
+@@ -157,6 +157,8 @@
+ #define STORM_PREVENTION_OFFSET_UC	(STATISTICS_OFFSET + STAT_SIZE + 29)
+ /* 4 bytes ? */
+ #define STP_INVALID_STATE_OFFSET        (STATISTICS_OFFSET + STAT_SIZE + 33)
++/* 1 byte */
++#define ENABLE_STORM_PREV_FOR_HOST      (STATISTICS_OFFSET + STAT_SIZE + 57)
+ 
+ /* DRAM1 Offsets for Switch */
+ /* 4 queue descriptors for port 0 (host receive) */
+diff --git a/drivers/net/ethernet/ti/prueth_qos.c b/drivers/net/ethernet/ti/prueth_qos.c
+index 374171df7..e02bacb01 100644
+--- a/drivers/net/ethernet/ti/prueth_qos.c
++++ b/drivers/net/ethernet/ti/prueth_qos.c
+@@ -23,6 +23,8 @@ static void prueth_enable_nsp(struct prueth_emac *emac)
+ 	struct prueth *prueth = emac->prueth;
+ 	void __iomem *dram = prueth->mem[emac->dram].va;
+ 
++	writeb(1, dram + ENABLE_STORM_PREV_FOR_HOST);
++
+ 	if (emac->nsp_bc.cookie)
+ 		emac_nsp_enable(dram + STORM_PREVENTION_OFFSET_BC,
+ 				emac->nsp_bc.credit);
+@@ -202,8 +204,13 @@ int emac_ndo_setup_tc(struct net_device *dev, enum tc_setup_type type,
+ 		      void *type_data)
+ {
+ 	struct prueth_emac *emac = netdev_priv(dev);
++	struct flow_block_offload *f = type_data;
++	void __iomem *dram = emac->prueth->mem[emac->dram].va;
+ 
+ 	if (type == TC_SETUP_BLOCK) {
++		if (f->command == 1)
++			writeb(0, dram + ENABLE_STORM_PREV_FOR_HOST);
++
+ 		return flow_block_cb_setup_simple(type_data,
+ 						  &emac_block_cb_list,
+ 						  emac_setup_tc_block_cb,
+-- 
+2.17.1
+
