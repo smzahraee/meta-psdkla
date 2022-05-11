@@ -1,4 +1,4 @@
-PR_append = "_psdkla_2"
+PR_append = "_psdkla_3"
 
 MATRIX_COMMON_APPS_remove = " \
     matrix-gui-oprofile-demos \
@@ -11,6 +11,11 @@ MATRIX_APPS_remove_dra7xx = " \
 MATRIX_OPENCL_APPS_remove_dra7xx = " \
     matrix-video-analytics-opencv-opencl-opengl-demo \
     matrix-machinevision-demo-dlp3dscanner \
+"
+
+MATRIX_OPENCL_APPS_remove_am57xx-evm = " \
+    matrix-opencl-demo-floatcompute  \
+    matrix-opencl-demo-vecadd        \
 "
 
 MATRIX_GPU_DEMOS_remove_omap-a15 = " \
