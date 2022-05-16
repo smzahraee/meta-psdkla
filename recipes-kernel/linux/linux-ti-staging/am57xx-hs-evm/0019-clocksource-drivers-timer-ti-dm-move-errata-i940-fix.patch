@@ -1,0 +1,109 @@
+From 3ffb830d299caa438d1878820d74e74c4627662e Mon Sep 17 00:00:00 2001
+From: Drew Fustini <dfustini@baylibre.com>
+Date: Sat, 14 May 2022 03:02:01 +0000
+Subject: [PATCH] clocksource/drivers/timer-ti-dm: move errata i940 fix to
+ timer 2 and 14
+
+Revise the timer wrap errata i940 fix to instead use timer 2 and timer
+14 as local per-cpu timers. This resolves the conflict with PTP patches
+in meta-psdkla-internal which are using timer 15 and timer 16.
+
+This patch is against ti-linux-5.10.y and is not meant for upstream.
+
+It was tested on the am57xx-evm (AM5728) and no significant increase
+in latency was seen with cyclictest.
+
+Prior to this change where the per-cpu timers are timer 15 and 16:
+
+  # cyclictest --mlockall --smp --priority=80 --interval=200 --distance=0
+  policy: fifo: loadavg: 0.36 0.19 0.07
+
+  T: 0 ( 1711) P:80 I:200 C: 759599 Min:   0 Act:    6 Avg:   22 Max: 108
+  T: 1 ( 1712) P:80 I:200 C: 759539 Min:   0 Act:   19 Avg:   23 Max:  79
+
+After this change where the per-cpu timers are timer 2 and 14:
+
+  # cyclictest --mlockall --smp --priority=80 --interval=200 --distance=0
+  policy: fifo: loadavg: 0.00 0.05 0.03 1/131 1581
+
+  T: 0 ( 1580) P:80 I:200 C:1046950 Min:  0 Act:   14 Avg:   23 Max:   68
+  T: 1 ( 1581) P:80 I:200 C:1046891 Min:  0 Act:    9 Avg:   23 Max:   59
+
+Fixes: d78d15c1c679 ("clocksource/drivers/timer-ti-dm: fix regression from errata i940 fix")
+Signed-off-by: Drew Fustini <dfustini@baylibre.com>
+---
+ arch/arm/boot/dts/dra7-l4.dtsi             | 4 ++--
+ arch/arm/boot/dts/dra7.dtsi                | 8 ++++----
+ drivers/clocksource/timer-ti-dm-systimer.c | 4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm/boot/dts/dra7-l4.dtsi b/arch/arm/boot/dts/dra7-l4.dtsi
+index 9611c138d870..0ff55bf5848b 100644
+--- a/arch/arm/boot/dts/dra7-l4.dtsi
++++ b/arch/arm/boot/dts/dra7-l4.dtsi
+@@ -1141,7 +1141,7 @@ uart3: serial@0 {
+ 			};
+ 		};
+ 
+-		target-module@32000 {			/* 0x48032000, ap 5 3e.0 */
++		timer2_target: target-module@32000 {	/* 0x48032000, ap 5 3e.0 */
+ 			compatible = "ti,sysc-omap4-timer", "ti,sysc";
+ 			reg = <0x32000 0x4>,
+ 			      <0x32010 0x4>;
+@@ -3421,7 +3421,7 @@ timer13: timer@0 {
+ 			};
+ 		};
+ 
+-		target-module@2a000 {			/* 0x4882a000, ap 15 10.0 */
++		timer14_target: target-module@2a000 {	/* 0x4882a000, ap 15 10.0 */
+ 			compatible = "ti,sysc-omap4-timer", "ti,sysc";
+ 			reg = <0x2a000 0x4>,
+ 			      <0x2a010 0x4>;
+diff --git a/arch/arm/boot/dts/dra7.dtsi b/arch/arm/boot/dts/dra7.dtsi
+index f29de22ff85a..ae6dba79c4c8 100644
+--- a/arch/arm/boot/dts/dra7.dtsi
++++ b/arch/arm/boot/dts/dra7.dtsi
+@@ -1145,20 +1145,20 @@ timer@0 {
+ };
+ 
+ /* Local timers, see ARM architected timer wrap erratum i940 */
+-&timer15_target {
++&timer2_target {
+ 	ti,no-reset-on-init;
+ 	ti,no-idle;
+ 	timer@0 {
+-		assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER15_CLKCTRL 24>;
++		assigned-clocks = <&l4per_clkctrl DRA7_L4PER_TIMER2_CLKCTRL 24>;
+ 		assigned-clock-parents = <&timer_sys_clk_div>;
+ 	};
+ };
+ 
+-&timer16_target {
++&timer14_target {
+ 	ti,no-reset-on-init;
+ 	ti,no-idle;
+ 	timer@0 {
+-		assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER16_CLKCTRL 24>;
++		assigned-clocks = <&l4per3_clkctrl DRA7_L4PER3_TIMER14_CLKCTRL 24>;
+ 		assigned-clock-parents = <&timer_sys_clk_div>;
+ 	};
+ };
+diff --git a/drivers/clocksource/timer-ti-dm-systimer.c b/drivers/clocksource/timer-ti-dm-systimer.c
+index 570a77027396..af8406b3bfa5 100644
+--- a/drivers/clocksource/timer-ti-dm-systimer.c
++++ b/drivers/clocksource/timer-ti-dm-systimer.c
+@@ -747,9 +747,9 @@ static int __init dmtimer_percpu_quirk_init(struct device_node *np, u32 pa)
+ 		return 0;
+ 	}
+ 
+-	if (pa == 0x4882c000)           /* dra7 dmtimer15 */
++	if (pa == 0x48032000)           /* dra7 dmtimer2 */
+ 		return dmtimer_percpu_timer_init(np, 0);
+-	else if (pa == 0x4882e000)      /* dra7 dmtimer16 */
++	else if (pa == 0x4882a000)      /* dra7 dmtimer14 */
+ 		return dmtimer_percpu_timer_init(np, 1);
+ 
+ 	return 0;
+-- 
+2.25.1
+
