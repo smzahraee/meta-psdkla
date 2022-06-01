@@ -1,0 +1,39 @@
+From 7b66a97062fa836179d6cbe563736834f5d62a01 Mon Sep 17 00:00:00 2001
+From: Dharma B <dharma.b@ti.com>
+Date: Fri, 27 May 2022 20:25:37 +0530
+Subject: [PATCH] board: ti: am57xx: Fix operator precedence issue
+
+U-boot hangs for AM571x-idk because of wrong dtb
+that is being looked for,due to the operator precedence issue
+
+Failure Log:
+Failed to load '/boot/am571x-idk-lcd-osd101t2587.dtb'
+
+if jumper j51 is shorted, it should fetch the lcd dtb
+and if it is not shorted, it should fetch the default dtb
+
+Signed-off-by: Dharma B <dharma.b@ti.com>
+---
+ board/ti/am57xx/board.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/board/ti/am57xx/board.c b/board/ti/am57xx/board.c
+index 4fd452b050..c7231d183c 100644
+--- a/board/ti/am57xx/board.c
++++ b/board/ti/am57xx/board.c
+@@ -62,9 +62,9 @@ static int board_bootmode_has_emmc(void);
+ #define board_is_am571x_idk()	board_ti_is("AM571IDK")
+ #define board_is_bbai()		board_ti_is("BBONE-AI")
+ 
+-#define board_is_ti_idk()	board_is_am574x_idk() || \
+-				board_is_am572x_idk() || \
+-				board_is_am571x_idk()
++#define board_is_ti_idk()	(board_is_am574x_idk() || \
++				 board_is_am572x_idk() || \
++				 board_is_am571x_idk())
+ 
+ #ifdef CONFIG_DRIVER_TI_CPSW
+ #include <cpsw.h>
+-- 
+2.17.1
+
