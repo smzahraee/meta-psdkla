@@ -1,0 +1,53 @@
+From 5f6b4f9a8c6aadc45ea7fa910687e834765813fb Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Tue, 7 Jun 2022 15:55:21 +0530
+Subject: [PATCH] arm: dts: Fix for unable to load AM57x LCD DTB
+
+Issue: u-boot is unable to load the dtb because the DTB is
+missing in the boot partition with the LCD connected to the IDK
+board.
+
+Rootcause: While porting to 5.10 the LCD DTBs are converted to DTB
+overlay and missed to merge the overlays into single DTB
+
+Fix: Merge all the DTB overlays into single DTB for both AM571x and
+AM572x IDK.
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ arch/arm/boot/dts/Makefile         | 6 +++++-
+ arch/arm/boot/dts/ti/dtb-merge.cfg | 4 ++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index a818e3dc0..8253f9f6d 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -872,7 +872,11 @@ dtb-merge-$(CONFIG_SOC_DRA7XX) += \
+ 	dra71-evm-nand.dtb \
+ 	am571x-idk-pps.dtb \
+ 	am572x-idk-pps.dtb \
+-	am574x-idk-pps.dtb
++	am574x-idk-pps.dtb \
++	am571x-idk-lcd-osd101t2045.dtb \
++	am572x-idk-lcd-osd101t2045.dtb \
++	am571x-idk-lcd-osd101t2587.dtb \
++	am572x-idk-lcd-osd101t2587.dtb
+ dtb-$(CONFIG_ARCH_ORION5X) += \
+ 	orion5x-kuroboxpro.dtb \
+ 	orion5x-lacie-d2-network.dtb \
+diff --git a/arch/arm/boot/dts/ti/dtb-merge.cfg b/arch/arm/boot/dts/ti/dtb-merge.cfg
+index 6f5e48902..784972430 100644
+--- a/arch/arm/boot/dts/ti/dtb-merge.cfg
++++ b/arch/arm/boot/dts/ti/dtb-merge.cfg
+@@ -4,3 +4,7 @@ dra71-evm-nand: dra71-evm.dtb dra71-evm-nand.dtb
+ am571x-idk-pps: am571x-idk.dtb am571x-idk-pps.dtbo
+ am572x-idk-pps: am572x-idk.dtb am572x-idk-pps.dtbo
+ am574x-idk-pps: am574x-idk.dtb am574x-idk-pps.dtbo
++am571x-idk-lcd-osd101t2045: am571x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2045.dtbo am571x-idk-touchscreen.dtbo
++am572x-idk-lcd-osd101t2045: am572x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2045.dtbo am572x-idk-touchscreen.dtbo
++am571x-idk-lcd-osd101t2587: am571x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2587.dtbo am571x-idk-touchscreen.dtbo
++am572x-idk-lcd-osd101t2587: am572x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2587.dtbo am572x-idk-touchscreen.dtbo
+-- 
+2.17.1
+

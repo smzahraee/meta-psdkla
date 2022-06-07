@@ -18,7 +18,8 @@ file://0015-cpts-latch-disable-tmr-irq-while-latch-is-on.patch \
 file://0016-net-ethernet-ti-cpts-clean-timer-capture-status.patch \
 file://0017-HACK-v2-net-packet-Avoid-fragmented-SKB.patch \
 file://0018-ti_config_fragments-dra7_only-Enable-CLS_FLOWER.patch \
-file://0019-clocksource-drivers-timer-ti-dm-move-errata-i940-fix.patch "
+file://0019-clocksource-drivers-timer-ti-dm-move-errata-i940-fix.patch \
+file://0001-arm-dts-Fix-for-unable-to-load-AM57x-LCD-DTB.patch "
 
 PATCHTOOL = "git"
 
@@ -34,4 +35,4 @@ KERNEL_DEVICETREE_append_am57xx-hs-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_11"
+PR_append = "_psdkla_12"
