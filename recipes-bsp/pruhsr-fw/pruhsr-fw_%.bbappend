@@ -12,4 +12,4 @@ do_install() {
         done
 }
 
-PR_append = "_psdkla_5"
+PR_append = "_psdkla_6"

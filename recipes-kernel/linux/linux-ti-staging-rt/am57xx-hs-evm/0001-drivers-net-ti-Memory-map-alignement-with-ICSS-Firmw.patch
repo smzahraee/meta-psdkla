@@ -1,0 +1,71 @@
+From 1f1f87976dac5e08d7b350d7e65d519e0916ec40 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Tue, 14 Jun 2022 20:02:50 +0530
+Subject: [PATCH] drivers: net: ti: Memory map alignement with ICSS Firmware
+
+The ICSS firmware memory map has been updated with the following
+changes:
+1. QUEUE_2_PCP_MAP_OFFSET changed to 0x124.
+2. LRE_NODE_TABLE_LOOKUP_ERROR_A/B - both offsets are removed.
+3. DMEM_SIZE changed from 0x88 to 0x80.
+Correspondingly the changes are inherited into PRU driver to aligned
+with the ICSS Firmware memory map.
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ drivers/net/ethernet/ti/icss_lre_firmware.h | 4 ++--
+ drivers/net/ethernet/ti/prueth_lre.c        | 2 --
+ drivers/net/ethernet/ti/prueth_lre.h        | 2 --
+ 3 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/net/ethernet/ti/icss_lre_firmware.h b/drivers/net/ethernet/ti/icss_lre_firmware.h
+index fd2dc1b12cc9..17efcfd09aa5 100644
+--- a/drivers/net/ethernet/ti/icss_lre_firmware.h
++++ b/drivers/net/ethernet/ti/icss_lre_firmware.h
+@@ -46,7 +46,7 @@
+ 
+ #define ICSS_LRE_DUPLICATE_PORT_TABLE_DMEM_SIZE	0x0C00
+ #define ICSS_LRE_DUPLICATE_HOST_TABLE_DMEM_SIZE	0x1800
+-#define ICSS_LRE_STATS_DMEM_SIZE		0x0088
++#define ICSS_LRE_STATS_DMEM_SIZE		0x0080
+ #define ICSS_LRE_DEBUG_COUNTER_DMEM_SIZE	0x0050
+ 
+ #define ICSS_LRE_DUPLICATE_HOST_TABLE_SIZE_INIT	0x800004 /* N = 128, M = 4 */
+@@ -59,7 +59,7 @@
+ /* SHARED RAM */
+ 
+ /* 8 bytes of VLAN PCP to RX QUEUE MAPPING */
+-#define ICSS_LRE_QUEUE_2_PCP_MAP_OFFSET		0x120
++#define ICSS_LRE_QUEUE_2_PCP_MAP_OFFSET		0x124
+ #define ICSS_LRE_START				0x140
+ 
+ /* Number of frames successfully sent over port A/B that are HSR/PRP tagged */
+diff --git a/drivers/net/ethernet/ti/prueth_lre.c b/drivers/net/ethernet/ti/prueth_lre.c
+index bb23a72a64ad..40c030b9da56 100644
+--- a/drivers/net/ethernet/ti/prueth_lre.c
++++ b/drivers/net/ethernet/ti/prueth_lre.c
+@@ -1000,8 +1000,6 @@ static const struct {
+ 	{"lreDuplicateDiscard", PRUETH_LRE_STAT_OFS(duplicate_discard)},
+ 	{"lreTransRecept", PRUETH_LRE_STAT_OFS(transparent_reception)},
+ 
+-	{"lreNtLookupErrA", PRUETH_LRE_STAT_OFS(node_table_lookup_error_a)},
+-	{"lreNtLookupErrB", PRUETH_LRE_STAT_OFS(node_table_lookup_error_b)},
+ 	{"lreNodeTableFull", PRUETH_LRE_STAT_OFS(node_table_full)},
+ 	{"lreMulticastDropped", PRUETH_LRE_STAT_OFS(lre_multicast_dropped)},
+ 	{"lreVlanDropped", PRUETH_LRE_STAT_OFS(lre_vlan_dropped)},
+diff --git a/drivers/net/ethernet/ti/prueth_lre.h b/drivers/net/ethernet/ti/prueth_lre.h
+index 982298b77489..3ae2529ca79d 100644
+--- a/drivers/net/ethernet/ti/prueth_lre.h
++++ b/drivers/net/ethernet/ti/prueth_lre.h
+@@ -64,8 +64,6 @@ struct lre_statistics {
+ 	u32 duplicate_discard;
+ 	u32 transparent_reception;
+ 
+-	u32 node_table_lookup_error_a;
+-	u32 node_table_lookup_error_b;
+ 	u32 node_table_full;
+ 	u32 lre_multicast_dropped;
+ 	u32 lre_vlan_dropped;
+-- 
+2.36.1
+
