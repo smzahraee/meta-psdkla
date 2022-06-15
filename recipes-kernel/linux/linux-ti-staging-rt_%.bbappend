@@ -29,12 +29,22 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am571x-idk-pps.dtb \
         am572x-idk-pps.dtb \
         am574x-idk-pps.dtb \
+        am571x-idk-lcd-osd101t2587.dtb \
+        am572x-idk-lcd-osd101t2587.dtb \
+        am574x-idk-lcd-osd101t2587.dtb \
+        am571x-idk-lcd-osd101t2045.dtb \
+        am572x-idk-lcd-osd101t2045.dtb \
 "
 
 KERNEL_DEVICETREE_append_am57xx-hs-evm = " \
         am571x-idk-pps.dtb \
         am572x-idk-pps.dtb \
         am574x-idk-pps.dtb \
+        am571x-idk-lcd-osd101t2587.dtb \
+        am572x-idk-lcd-osd101t2587.dtb \
+        am574x-idk-lcd-osd101t2587.dtb \
+        am571x-idk-lcd-osd101t2045.dtb \
+        am572x-idk-lcd-osd101t2045.dtb \
 "
 
-PR_append = "_psdkla_14"
+PR_append = "_psdkla_15"
