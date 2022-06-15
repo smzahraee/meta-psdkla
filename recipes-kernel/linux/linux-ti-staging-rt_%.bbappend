@@ -20,7 +20,8 @@ file://0017-HACK-v2-net-packet-Avoid-fragmented-SKB.patch \
 file://0018-ti_config_fragments-dra7_only-Enable-CLS_FLOWER.patch \
 file://0019-clocksource-drivers-timer-ti-dm-move-errata-i940-fix.patch \
 file://0001-arm-dts-Fix-for-unable-to-load-AM57x-LCD-DTB.patch \
-file://0001-drivers-net-ti-Memory-map-alignement-with-ICSS-Firmw.patch "
+file://0001-drivers-net-ti-Memory-map-alignement-with-ICSS-Firmw.patch \
+file://0001-arm-dts-Add-LCD-DTB-support-for-AM574x-IDK.patch "
 
 PATCHTOOL = "git"
 
@@ -36,4 +37,4 @@ KERNEL_DEVICETREE_append_am57xx-hs-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_13"
+PR_append = "_psdkla_14"

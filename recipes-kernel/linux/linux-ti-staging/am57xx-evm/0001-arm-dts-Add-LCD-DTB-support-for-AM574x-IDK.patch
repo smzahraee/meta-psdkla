@@ -1,0 +1,41 @@
+From 3f80b48a8b90c7c4be3059802542ec47ae6900f0 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Wed, 15 Jun 2022 16:03:51 +0530
+Subject: [PATCH] arm: dts: Add LCD DTB support for AM574x IDK
+
+The AM574x IDK fails to boot when LCD is connected to it because the
+am574x-idk-lcd-osd101t2587.dtb is not available in the rootfs by default.
+Update makefile to add support for AM574x IDK to boot with LCD connected.
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ arch/arm/boot/dts/Makefile         | 3 ++-
+ arch/arm/boot/dts/ti/dtb-merge.cfg | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 8253f9f6d..59c9eba48 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -876,7 +876,8 @@ dtb-merge-$(CONFIG_SOC_DRA7XX) += \
+ 	am571x-idk-lcd-osd101t2045.dtb \
+ 	am572x-idk-lcd-osd101t2045.dtb \
+ 	am571x-idk-lcd-osd101t2587.dtb \
+-	am572x-idk-lcd-osd101t2587.dtb
++	am572x-idk-lcd-osd101t2587.dtb \
++	am574x-idk-lcd-osd101t2587.dtb
+ dtb-$(CONFIG_ARCH_ORION5X) += \
+ 	orion5x-kuroboxpro.dtb \
+ 	orion5x-lacie-d2-network.dtb \
+diff --git a/arch/arm/boot/dts/ti/dtb-merge.cfg b/arch/arm/boot/dts/ti/dtb-merge.cfg
+index 784972430..1f3eca6ad 100644
+--- a/arch/arm/boot/dts/ti/dtb-merge.cfg
++++ b/arch/arm/boot/dts/ti/dtb-merge.cfg
+@@ -8,3 +8,4 @@ am571x-idk-lcd-osd101t2045: am571x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-os
+ am572x-idk-lcd-osd101t2045: am572x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2045.dtbo am572x-idk-touchscreen.dtbo
+ am571x-idk-lcd-osd101t2587: am571x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2587.dtbo am571x-idk-touchscreen.dtbo
+ am572x-idk-lcd-osd101t2587: am572x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2587.dtbo am572x-idk-touchscreen.dtbo
++am574x-idk-lcd-osd101t2587: am574x-idk.dtb am57xx-idk-osd-lcd-common.dtbo lcd-osd101t2587.dtbo am572x-idk-touchscreen.dtbo
+-- 
+2.17.1
+
