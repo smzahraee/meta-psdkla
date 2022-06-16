@@ -35,4 +35,8 @@ RDEPENDS_${PN}_append_j721s2-evm = "\
         glsdk-util-scripts \
 "
 
-PR_append = "_psdkla_5"
+RDEPENDS_${PN}_append_j784s4-evm = "\
+        glsdk-util-scripts \
+"
+
+PR_append = "_psdkla_6"

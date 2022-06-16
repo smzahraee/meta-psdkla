@@ -1,4 +1,4 @@
-PR_append = "_psdkla_2"
+PR_append = "_psdkla_3"
 
 UTILS_append_j7-evm = " \
     pru-icss \
@@ -42,4 +42,21 @@ UTILS_append_j721s2-evm = " \
     python3-pybind11 \
     python3-wheel \
     protobuf \
+"
+
+UTILS_append_j784s4-evm = " \
+    pru-icss \
+    cmake \
+    yaml-cpp \
+    yaml-cpp-dev \
+    python3-pyyaml \
+    boost \
+    ninja \
+    meson \
+    opencv \
+    opencv-dev \
+    corkscrew \
+    python3-pycparser \
+    python3-plotly \
+    python3-cffi \
 "

@@ -33,3 +33,7 @@ KERNEL_DEVICETREE_append_j7-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1
 KERNEL_DEVICETREE_append_j721s2-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "", "\
     ti/k3-j721s2-vision-apps.dtbo \
 ", d)}"
+
+KERNEL_DEVICETREE_append_j784s4-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "", "\
+    ti/k3-j784s4-vision-apps.dtbo \
+", d)}"
