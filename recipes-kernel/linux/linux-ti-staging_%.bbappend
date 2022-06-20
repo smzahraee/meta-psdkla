@@ -13,9 +13,6 @@ SRC_URI_append_j7-evm = " \
     file://0001-vxe-vxd-decoder-Fix-input-buffer-size.patch \
     file://0001-vxe-vxd-encoder-Fix-for-alignment-of-resolution.patch \
     file://0001-vxe-vxd-decoder-remove-DMA_IMPORT-mode.patch \
-    file://0001-thermal-k3_j72xx_bandgap-Add-the-bandgap-driver-supp.patch \
-    file://0002-arm64-dts-ti-k3-j721e-Add-VTM-node-and.patch \
-    file://0001-FPD-Link-III-and-IMX390-support.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -23,7 +20,6 @@ SRC_URI_append_j721s2-evm = " \
     file://0001-HACK-dt-bindings-misc-Add-ti-dma_buf_phys-bindig-doc.patch \
     file://0002-HACK-misc-Add-dma-buf-to-physical-address-exporter.patch \
     file://0001-HACK-dma-buf-heaps-carveout-Add-support-for-cached-c.patch \
-    file://0001-HACK-arm64-dts-ti-k3-j721s2-common-proc-board-Set-DP.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -56,4 +52,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_50"
+PR_append = "_psdkla_51"
