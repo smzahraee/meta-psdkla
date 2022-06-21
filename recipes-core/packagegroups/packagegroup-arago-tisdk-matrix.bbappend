@@ -1,4 +1,4 @@
-PR_append = "_psdkla_3"
+PR_append = "_psdkla_4"
 
 MATRIX_COMMON_APPS_remove = " \
     matrix-gui-oprofile-demos \
@@ -28,6 +28,10 @@ MATRIX_APPS_remove_omap-a15 = " \
     matrix-multimedia-demo-ivahdh264enc \
 "
 
+MATRIX_QT_APPS_remove_omap-a15 = " \
+    matrix-analytics-pdm-anomaly-detection \
+"
+
 MATRIX_APPS_append_am57xx-evm = " \
     matrix-gui-apps-dual-camera \
     matrix-gui-apps-image-gallery \
@@ -35,4 +39,8 @@ MATRIX_APPS_append_am57xx-evm = " \
 MATRIX_APPS_append_am57xx-hs-evm = " \
     matrix-gui-apps-dual-camera \
     matrix-gui-apps-image-gallery \
+"
+MATRIX_OPENCV_OPENCL_APPS_remove_omap-a15 = " \
+     matrix-machinevision-demo-barcoderoi \
+     matrix-machinevision-demo-simplepeopletracking \
 "
