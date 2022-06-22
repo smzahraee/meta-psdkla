@@ -1,4 +1,4 @@
-From 7aab28f92316a25f4d83476084873677e2da342e Mon Sep 17 00:00:00 2001
+From f7349a8f8d6a285fd507a446597d352c72e6a1e0 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Fri, 17 Jun 2022 10:38:09 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
@@ -17,20 +17,20 @@ related peripherals from Linux so that it can be used by RTOS.
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index a0491f87b..63e760c77 100644
+index a2dbefbec558..508babd0542f 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -34,6 +34,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-common-proc-board.dtb
- dtb-$(CONFIG_ARCH_K3) += k3-j721s2-gesi-exp-board.dtbo
- 
+@@ -36,6 +36,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-gesi-exp-board.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm.dtb
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-skeleton.dtb
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm-reference.dtb
 +dtb-$(CONFIG_ARCH_K3) += k3-j784s4-vision-apps.dtbo
  
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm.dtb
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm-icssg1-dualemac.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000..22434d6c8
+index 000000000000..22434d6c806b
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 @@ -0,0 +1,334 @@
@@ -370,7 +370,7 @@ index 000000000..22434d6c8
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 new file mode 100644
-index 000000000..04f2c0280
+index 000000000000..04f2c0280294
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 @@ -0,0 +1,24 @@
