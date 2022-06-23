@@ -1,4 +1,4 @@
-From f7349a8f8d6a285fd507a446597d352c72e6a1e0 Mon Sep 17 00:00:00 2001
+From b3229c03edc44aaff7d8bde11e8ab090cbccc33d Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Fri, 17 Jun 2022 10:38:09 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
@@ -10,9 +10,9 @@ vision-apps.dtbo uses this and also disables capture and display
 related peripherals from Linux so that it can be used by RTOS.
 ---
  arch/arm64/boot/dts/ti/Makefile               |   1 +
- .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 334 ++++++++++++++++++
+ .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 344 ++++++++++++++++++
  .../boot/dts/ti/k3-j784s4-vision-apps.dts     |  24 ++
- 3 files changed, 359 insertions(+)
+ 3 files changed, 369 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 
@@ -30,10 +30,10 @@ index a2dbefbec558..508babd0542f 100644
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm-icssg1-dualemac.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000000..22434d6c806b
+index 000000000000..8400e40522a1
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-@@ -0,0 +1,334 @@
+@@ -0,0 +1,344 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -285,21 +285,31 @@ index 000000000000..22434d6c806b
 +	};
 +	vision_apps_rtos_ipc_memory_region: vision-apps-rtos-ipc-memory-region@b5000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xb5000000 0x00 0x02000000>;
++		reg = <0x00 0xb5000000 0x00 0x03000000>;
 +		no-map;
 +	};
-+	vision_apps_memory_region: vision-apps-dma-memory@b7000000 {
++	vision_apps_memory_region: vision-apps-dma-memory@b8000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xb7000000 0x00 0x06000000>;
++		reg = <0x00 0xb8000000 0x00 0x06000000>;
 +		no-map;
 +	};
 +	vision_apps_shared_region: vision_apps_shared-memories {
 +		compatible = "dma-heap-carveout";
-+		reg = <0x00 0xbd000000 0x00 0x20000000>;
++		reg = <0x00 0xbe000000 0x00 0x20000000>;
 +	};
-+	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@dd000000 {
++	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@de000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xdd000000 0x00 0x15000000>;
++		reg = <0x00 0xde000000 0x00 0x15000000>;
++		no-map;
++	};
++	vision_apps_main_r5fss0_core0_shared_memory_queue_region: vision-apps-r5f-virtual-eth-queues@f3000000 {
++		compatible = "shared-dma-pool";
++		reg = <0x00 0xf3000000 0x00 0x00800000>;
++		no-map;
++	};
++	vision_apps_main_r5fss0_core0_shared_memory_bufpool_region: vision-apps-r5f-virtual-eth-buffers@f3800000 {
++		compatible = "shared-dma-pool";
++		reg = <0x00 0xf3800000 0x00 0x01800000>;
 +		no-map;
 +	};
 +	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
