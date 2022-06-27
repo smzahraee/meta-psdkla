@@ -50,4 +50,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_52"
+PR_append = "_psdkla_53"
