@@ -42,6 +42,7 @@ SRC_URI_append_am57xx-evm = " \
     file://0039-Added-TX_IPG-configuration-to-prueth-driver.patch \
     file://0040-HSR-tag-fix-for-PTP-link-local-frames-with-without-V.patch \
     file://0041-Set-the-Network-Strom-Prevention-BIT.patch \
+    file://0042-Support-for-ethtool-statistics-to-track-Non-RCT-tagg.patch \
 "
 
 KERNEL_DEVICETREE_append_am57xx-evm = " \
@@ -50,4 +51,4 @@ KERNEL_DEVICETREE_append_am57xx-evm = " \
         am574x-idk-pps.dtb \
 "
 
-PR_append = "_psdkla_11"
+PR_append = "_psdkla_12"
