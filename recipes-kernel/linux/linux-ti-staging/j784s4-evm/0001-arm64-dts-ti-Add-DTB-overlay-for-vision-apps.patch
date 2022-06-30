@@ -1,4 +1,4 @@
-From 3804caf502bf51c46a34020eaf4dff13d3b47144 Mon Sep 17 00:00:00 2001
+From 2148beb114acea04f7f67836d3de6aca3af92b01 Mon Sep 17 00:00:00 2001
 From: lucas <lucas@jacinto-ubuntu-lt-1>
 Date: Wed, 29 Jun 2022 19:54:46 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
@@ -10,14 +10,14 @@ vision-apps.dtbo uses this and also disables capture and display
 related peripherals from Linux so that it can be used by RTOS.
 ---
  arch/arm64/boot/dts/ti/Makefile               |   1 +
- .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 344 ++++++++++++++++++
+ .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 338 ++++++++++++++++++
  .../boot/dts/ti/k3-j784s4-vision-apps.dts     |  24 ++
- 3 files changed, 369 insertions(+)
+ 3 files changed, 363 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 2787a85d5fce..d6a987198879 100644
+index 2787a85d5..d6a987198 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
 @@ -37,6 +37,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm.dtb
@@ -30,10 +30,10 @@ index 2787a85d5fce..d6a987198879 100644
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm-icssg1-dualemac.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000000..8400e40522a1
+index 000000000..114537818
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-@@ -0,0 +1,344 @@
+@@ -0,0 +1,338 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -156,6 +156,10 @@ index 000000000000..8400e40522a1
 +};
 +
 +&rtos_ipc_memory_region {
++	status = "disabled";
++};
++
++&eth_multicast_memory_region {
 +	status = "disabled";
 +};
 +
@@ -302,16 +306,6 @@ index 000000000000..8400e40522a1
 +		reg = <0x00 0xde000000 0x00 0x15000000>;
 +		no-map;
 +	};
-+	vision_apps_main_r5fss0_core0_shared_memory_queue_region: vision-apps-r5f-virtual-eth-queues@f3000000 {
-+		compatible = "shared-dma-pool";
-+		reg = <0x00 0xf3000000 0x00 0x00800000>;
-+		no-map;
-+	};
-+	vision_apps_main_r5fss0_core0_shared_memory_bufpool_region: vision-apps-r5f-virtual-eth-buffers@f3800000 {
-+		compatible = "shared-dma-pool";
-+		reg = <0x00 0xf3800000 0x00 0x01800000>;
-+		no-map;
-+	};
 +	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
 +		compatible = "shared-dma-pool";
 +		reg = <0x08 0x80000000 0x00 0x30000000>;
@@ -380,7 +374,7 @@ index 000000000000..8400e40522a1
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 new file mode 100644
-index 000000000000..04f2c0280294
+index 000000000..04f2c0280
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 @@ -0,0 +1,24 @@
