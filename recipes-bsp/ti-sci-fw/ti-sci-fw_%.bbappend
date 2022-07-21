@@ -40,7 +40,11 @@ do_deploy_append_j721s2-evm-k3r5() {
 	install -d ${DEPLOYDIR}
 
 	install -m 644 ${SYSFW_DM} ${DEPLOYDIR}/
+
+        # Installing all HS EVM ti-fs
+        install -m 644 ${SYSFW_HS_PATH} ${DEPLOYDIR}/
+        install -m 644 ${SYSFW_HS_INNER_CERT_PATH} ${DEPLOYDIR}/
 }
 
 
-PR_append = "_psdkla_5"
+PR_append = "_psdkla_6"
