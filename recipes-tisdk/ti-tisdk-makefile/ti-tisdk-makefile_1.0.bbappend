@@ -124,4 +124,12 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_6"
+do_install_append_j721s2-evm() {
+    cat >> ${D}/Rules.make << __EOF__
+
+export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
+
+__EOF__
+}
+
+PR_append = "_psdkla_7"

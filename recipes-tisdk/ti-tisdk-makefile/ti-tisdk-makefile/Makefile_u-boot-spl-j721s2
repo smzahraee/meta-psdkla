@@ -4,17 +4,27 @@ u-boot-spl-j721s2: u-boot
 u-boot-spl-j721s2_clean: u-boot_clean
 u-boot-spl-j721s2_install: u-boot_install
 
-UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/a72
-UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/r5
 
-UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin
-UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin
 UBOOT_SYSFW=$(TI_SDK_PATH)/board-support/prebuilt-images/sysfw.bin
-UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f
+
+ifeq ($(PLATFORM),j721s2-evm)
+	UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/a72
+	UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/r5
+	UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin
+	UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin
+	UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f
+	SYSFW_MAKEARGS = SYSFW_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-j721s2-gp.bin
+else
+	UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_hs_build/a72
+	UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_hs_build/r5
+	UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin.signed
+	UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin.signed
+	UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f.signed
+	SYSFW_MAKEARGS = HS=1 SW_REV=1 SYSFW_HS_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-j721s2-hs-enc.bin SYSFW_HS_INNER_CERT_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-j721s2-hs-cert.bin
+endif
+
 
 UBOOT_SOC=j721s2
-
-SYSFW_MAKEARGS = SYSFW_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-j721s2-gp.bin
 
 u-boot: u-boot-a72 u-boot-r5
 u-boot_clean: u-boot-a72_clean u-boot-r5_clean
