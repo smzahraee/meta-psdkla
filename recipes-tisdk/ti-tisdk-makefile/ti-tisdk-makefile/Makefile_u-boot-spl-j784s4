@@ -33,7 +33,7 @@ u-boot-a72:
 
 u-boot-a72_clean:
 	@echo ===================================
-	@echo    Cleaining U-boot for A72
+	@echo    Cleaning U-boot for A72
 	@echo ===================================
 	$(MAKE) -C $(TI_SDK_PATH)/board-support/u-boot-* CROSS_COMPILE=$(CROSS_COMPILE) \
 		O=$(UBOOT_A72_BUILD_DIR) distclean
@@ -52,11 +52,12 @@ u-boot-r5:
 
 u-boot-r5_clean:
 	@echo ===================================
-	@echo    Cleaining U-boot for R5
+	@echo    Cleaning U-boot for R5
 	@echo ===================================
 	$(MAKE) -C $(TI_SDK_PATH)/board-support/u-boot-* CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
 		O=$(UBOOT_R5_BUILD_DIR) distclean
-	$(MAKE) -j $(MAKE_JOBS) -C $(TI_SDK_PATH)/board-support/k3-image-gen-* clean SOC=$(UBOOT_SOC)
+	$(MAKE) -j $(MAKE_JOBS) -C $(TI_SDK_PATH)/board-support/k3-image-gen-* clean SOC=$(UBOOT_SOC) \
+		SBL=$(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
 	@rm -rf $(UBOOT_R5_BUILD_DIR)
 
 u-boot_install:
