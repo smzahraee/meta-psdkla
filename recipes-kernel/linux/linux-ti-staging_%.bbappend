@@ -11,6 +11,7 @@ SRC_URI_append_j7-evm = " \
     file://0001-arm64-dts-ti-k3-j721e-Add-PWM-nodes-to-SK-and-J721e-.patch \
     file://0002-arm64-dts-ti-k3-j721e-Enable-HW-PWM-channels-on-SK-p.patch \
     file://0001-HACK-Disabling-suspend-resume-feature.patch \
+    file://0001-net-ethernet-ti-davinci_mdio-Add-workaround-for-erra.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -27,6 +28,7 @@ SRC_URI_append_j721s2-evm = " \
 
 SRC_URI_append_j7200-evm = " \
     file://0001-HACK-Disabling-suspend-resume-feature.patch \
+    file://0001-net-ethernet-ti-davinci_mdio-Add-workaround-for-erra.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -59,4 +61,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_59"
+PR_append = "_psdkla_60"
