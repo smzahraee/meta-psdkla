@@ -10,6 +10,7 @@ SRC_URI_append_j7-evm = " \
     file://0001-arm64-dts-ti-k3-j721e-sk-Add-additional-DDR-carveout.patch \
     file://0001-arm64-dts-ti-k3-j721e-Add-PWM-nodes-to-SK-and-J721e-.patch \
     file://0002-arm64-dts-ti-k3-j721e-Enable-HW-PWM-channels-on-SK-p.patch \
+    file://0001-HACK-Disabling-suspend-resume-feature.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -21,6 +22,11 @@ SRC_URI_append_j721s2-evm = " \
     file://0001-drivers-staging-media-wave5-updating-to-patch-set-v9.patch \
     file://0001-arm64-dts-ti-rtos-memory-map-Add-reserved-memory-nod.patch \
     file://0002-drivers-staging-media-wave5-applying-patches-on-top-.patch \
+    file://0001-HACK-Disabling-suspend-resume-feature.patch \
+"
+
+SRC_URI_append_j7200-evm = " \
+    file://0001-HACK-Disabling-suspend-resume-feature.patch \
 "
 
 KERNEL_DEVICETREE_append_j7-evm = " \
@@ -53,4 +59,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_58"
+PR_append = "_psdkla_59"

@@ -1,0 +1,25 @@
+From ece89c6d2e67646c1a2f7f09e6be6a14b0e971d6 Mon Sep 17 00:00:00 2001
+From: Lucas Weaver <l-weaver@ti.com>
+Date: Wed, 10 Aug 2022 16:52:48 -0500
+Subject: [PATCH] HACK: Disabling suspend/resume feature
+
+---
+ drivers/mmc/host/sdhci_am654.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/mmc/host/sdhci_am654.c b/drivers/mmc/host/sdhci_am654.c
+index 017ac5f61..4d0acfae9 100644
+--- a/drivers/mmc/host/sdhci_am654.c
++++ b/drivers/mmc/host/sdhci_am654.c
+@@ -84,7 +84,7 @@
+ #define DRIVER_STRENGTH_40_OHM	0x4
+ 
+ #define CLOCK_TOO_SLOW_HZ	50000000
+-#define SDHCI_AM654_AUTOSUSPEND_DELAY	100
++#define SDHCI_AM654_AUTOSUSPEND_DELAY	-1
+ 
+ /* Command Queue Host Controller Interface Base address */
+ #define SDHCI_AM654_CQE_BASE_ADDR 0x200
+-- 
+2.17.1
+
