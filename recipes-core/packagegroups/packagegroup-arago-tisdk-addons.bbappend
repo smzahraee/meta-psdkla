@@ -1,4 +1,4 @@
-PR_append = "_psdkla_3"
+PR_append = "_psdkla_4"
 
 UTILS_append_j7-evm = " \
     pru-icss \
@@ -59,4 +59,9 @@ UTILS_append_j784s4-evm = " \
     python3-pycparser \
     python3-plotly \
     python3-cffi \
+    zlib \
+    python3-numpy \
+    python3-pybind11 \
+    python3-wheel \
+    protobuf \
 "
