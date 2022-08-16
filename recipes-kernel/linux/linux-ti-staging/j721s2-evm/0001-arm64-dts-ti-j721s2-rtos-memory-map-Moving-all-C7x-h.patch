@@ -1,0 +1,33 @@
+From d2662a25fecc6618510f1a89cc3fb065d7c11a8f Mon Sep 17 00:00:00 2001
+From: Aniket Limaye <a-limaye@ti.com>
+Date: Tue, 19 Jul 2022 18:47:43 +0530
+Subject: [PATCH] arm64: dts: ti: j721s2-rtos-memory-map: Moving all C7x heap
+ memory to upper 2 GB - Codec requires about 512MB of CMA preferably in the
+ lower 2GB. Reserving the same fails without this change.
+
+---
+ arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
+index fd81d387b..5a09982b5 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
+@@ -191,12 +191,12 @@
+ 	};
+ 	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@da000000 {
+ 		compatible = "shared-dma-pool";
+-		reg = <0x00 0xda000000 0x00 0x22000000>;
++		reg = <0x00 0xda000000 0x00 0x04000000>;
+ 		no-map;
+ 	};
+ 	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
+ 		compatible = "shared-dma-pool";
+-		reg = <0x08 0x80000000 0x00 0x10000000>;
++		reg = <0x08 0x80000000 0x00 0x2e000000>;
+ 		no-map;
+ 	};
+ };
+-- 
+2.17.1
+
