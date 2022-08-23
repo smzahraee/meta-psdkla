@@ -1,0 +1,44 @@
+From 4f8aa60c7159d302d5cb746b9e62589949b403b8 Mon Sep 17 00:00:00 2001
+From: Rahul T R <r-ravikumar@ti.com>
+Date: Tue, 23 Aug 2022 22:37:28 +0530
+Subject: [PATCH] arm64: dts: ti: k3-j721e-sk-rpi-cam-imx219: Set the pinmux in
+ cam nodes
+
+Move the pinmux settings for CSI lanes mux to cam nodes instead of
+gpio node. This is the correct place since the pinmux is required by the
+camera, not the gpio controller.
+
+Will be upstreamed to core-sdk in next release
+see: ADASVISION-5494
+
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-cam-imx219.dts | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-cam-imx219.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-cam-imx219.dts
+index 565910d0c..f43340afc 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-cam-imx219.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-cam-imx219.dts
+@@ -47,9 +47,6 @@ J721E_IOPAD(0x164, PIN_OUTPUT, 7) /* (V29) RGMII5_TD2 */
+ };
+ 
+ &main_gpio0 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&main_csi_mux_sel2_pins_default>;
+-
+ 	csi-mux-hog {
+ 		/* CSI_MUX_SEL_2 */
+ 		gpio-hog;
+@@ -85,7 +82,7 @@ imx219_0: imx219_0@10 {
+ 				clock-names = "xclk";
+ 
+ 				pinctrl-names = "default";
+-				pinctrl-0 = <&main_rpi_cam0_reset_pins_default>;
++				pinctrl-0 = <&main_rpi_cam0_reset_pins_default>, <&main_csi_mux_sel2_pins_default>;
+ 				reset-gpios = <&main_gpio0 116 GPIO_ACTIVE_HIGH>;
+ 
+ 				port {
+-- 
+2.37.2
+

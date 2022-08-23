@@ -14,6 +14,7 @@ SRC_URI_append_j7-evm = " \
     file://0001-net-ethernet-ti-davinci_mdio-Add-workaround-for-erra.patch \
     file://0001-arm64-dts-ti-j721e-rtos-memory-map-Moving-all-C7x-me.patch \
     file://0001-ti_config_fragments-audio_display-Decrease-CMA-to-40.patch \
+    file://0001-arm64-dts-ti-k3-j721e-sk-rpi-cam-imx219-Set-the-pinm.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -62,4 +63,4 @@ KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
 "
 
-PR_append = "_psdkla_62"
+PR_append = "_psdkla_63"
