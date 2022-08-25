@@ -24,6 +24,7 @@ RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
         oob-demo \
         wifi-oob \
         hostname-update \
+        pmic-fix \
 "
 
 RDEPENDS_${PN}_append_j7200-evm = "\
@@ -34,4 +35,4 @@ RDEPENDS_${PN}_append_j721s2-evm = "\
         glsdk-util-scripts \
 "
 
-PR_append = "_psdkla_4"
+PR_append = "_psdkla_5"
