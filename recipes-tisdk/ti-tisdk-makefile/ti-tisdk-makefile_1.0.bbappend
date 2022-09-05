@@ -114,9 +114,16 @@ MAKEFILES_remove_am65xx-evm = " \
     ti-sgx-ddk-km \
 "
 
-K3_UBOOT_MACHINE_R5_j7200-evm = "j7200_evm_r5_config"
 
 do_install_append_j7-evm() {
+    cat >> ${D}/Rules.make << __EOF__
+
+export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
+
+__EOF__
+}
+
+do_install_append_j7200-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -132,4 +139,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_7"
+PR_append = "_psdkla_8"

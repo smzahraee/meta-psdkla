@@ -4,15 +4,24 @@ u-boot-spl-j7200: u-boot
 u-boot-spl-j7200_clean: u-boot_clean
 u-boot-spl-j7200_install: u-boot_install
 
-UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/a72
-UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/r5
-
-UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin
-UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin
-UBOOT_SYSFW=$(TI_SDK_PATH)/board-support/prebuilt-images/sysfw.bin
-UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f
 
 UBOOT_SOC=j7200
+ifeq ($(PLATFORM),j7200-evm)
+	UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/a72
+	UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/r5
+	UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin
+	UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin
+	UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f
+	SYSFW_MAKEARGS = SYSFW_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-j7200-gp.bin
+else
+	UBOOT_SOC=j7200_sr2
+	UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_hs_build/a72
+	UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_hs_build/r5
+	UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin.signed
+	UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin.signed
+	UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f.signed
+	SYSFW_MAKEARGS = HS=1 SW_REV=1 SYSFW_HS_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-$(UBOOT_SOC)-hs-enc.bin SYSFW_HS_INNER_CERT_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/ti-fs-firmware-$(UBOOT_SOC)-hs-cert.bin
+endif
 
 u-boot: u-boot-a72 u-boot-r5
 u-boot_clean: u-boot-a72_clean u-boot-r5_clean
@@ -46,7 +55,7 @@ u-boot-r5:
 	$(MAKE) -j $(MAKE_JOBS) -C $(TI_SDK_PATH)/board-support/u-boot-* CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
 		O=$(UBOOT_R5_BUILD_DIR)
 	$(MAKE) -j $(MAKE_JOBS) -C $(TI_SDK_PATH)/board-support/k3-image-gen-*  CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
-		SOC=$(UBOOT_SOC) SBL=$(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
+		$(SYSFW_MAKEARGS) SOC=$(UBOOT_SOC) SBL=$(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
 
 u-boot-r5_clean:
 	@echo ===================================
