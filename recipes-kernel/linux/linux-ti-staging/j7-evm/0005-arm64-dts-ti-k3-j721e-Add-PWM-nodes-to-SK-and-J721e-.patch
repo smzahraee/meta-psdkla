@@ -1,7 +1,7 @@
-From 3a8679fef1d38163d080f8a55e8947b321b154df Mon Sep 17 00:00:00 2001
+From bcae4418ddda722c01296a15efcc134a385554db Mon Sep 17 00:00:00 2001
 From: Vijay Pothukuchi <vijayp@ti.com>
 Date: Fri, 4 Mar 2022 18:25:35 -0600
-Subject: [PATCH 1/2] arm64: dts: ti: k3-j721e: Add PWM nodes to SK and J721e
+Subject: [PATCH 5/8] arm64: dts: ti: k3-j721e: Add PWM nodes to SK and J721e
  EVM platforms
 
 The following has been done in this commit:
@@ -20,11 +20,11 @@ Signed-off-by: Vijay Pothukuchi <vijayp@ti.com>
  3 files changed, 109 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
-index b626e265289f..56d987db4bfc 100644
+index 1c723e1d23..d9fc06f398 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
-@@ -1183,3 +1183,27 @@
- &csi0_port4 {
+@@ -1208,3 +1208,27 @@
+ &mcu_spi2 {
  	status = "disabled";
  };
 +
@@ -52,10 +52,10 @@ index b626e265289f..56d987db4bfc 100644
 +	status = "disabled";
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
-index ba1e76d1bcbf..947e0d718c4b 100644
+index 37cec5ffe0..9d7d51028d 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
-@@ -65,7 +65,67 @@
+@@ -72,7 +72,67 @@
  			#mux-control-cells = <1>;
  			mux-reg-masks = <0x4000 0x8000000>, /* USB0 to SERDES0/3 mux */
  					<0x4010 0x8000000>; /* USB1 to SERDES1/2 mux */
@@ -125,10 +125,10 @@ index ba1e76d1bcbf..947e0d718c4b 100644
  
  	gic500: interrupt-controller@1800000 {
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
-index a95be5a5f3d6..0472d20cd329 100644
+index 5d48503982..8f3bdd3f35 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
-@@ -1282,3 +1282,27 @@
+@@ -1328,3 +1328,27 @@
  	memory-region = <&c71_0_dma_memory_region>,
  			<&c71_0_memory_region>;
  };

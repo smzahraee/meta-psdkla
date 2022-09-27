@@ -1,7 +1,7 @@
-From 0e6c3de67be0ef2950889d165e1b191b983888e6 Mon Sep 17 00:00:00 2001
+From ffd037604fac4a8696b895dc96043f136b5bc114 Mon Sep 17 00:00:00 2001
 From: Vijay Pothukuchi <vijayp@ti.com>
 Date: Fri, 4 Mar 2022 18:35:17 -0600
-Subject: [PATCH 2/2] arm64 dts ti k3 j721e: Enable HW PWM channels on SK
+Subject: [PATCH 6/8] arm64 dts ti k3 j721e: Enable HW PWM channels on SK
  platform
 
 The following has been done in this commit:
@@ -18,7 +18,7 @@ Signed-off-by: Vijay Pothukuchi <vijayp@ti.com>
  1 file changed, 32 insertions(+), 12 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-exp-header.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-exp-header.dts
-index 1536a33b07db..185310d65a1e 100644
+index 1536a33b07..185310d65a 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-exp-header.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-sk-rpi-exp-header.dts
 @@ -29,9 +29,6 @@

@@ -1,16 +1,16 @@
-From d2662a25fecc6618510f1a89cc3fb065d7c11a8f Mon Sep 17 00:00:00 2001
+From 2f86e4e33c925d59f7e78fc392aba8b55380c14a Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Tue, 19 Jul 2022 18:47:43 +0530
-Subject: [PATCH] arm64: dts: ti: j721s2-rtos-memory-map: Moving all C7x heap
- memory to upper 2 GB - Codec requires about 512MB of CMA preferably in the
- lower 2GB. Reserving the same fails without this change.
+Subject: [PATCH 3/3] arm64: dts: ti: j721s2-rtos-memory-map: Moving all C7x
+ heap memory to upper 2 GB - Codec requires about 512MB of CMA preferably in
+ the lower 2GB. Reserving the same fails without this change.
 
 ---
  arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
-index fd81d387b..5a09982b5 100644
+index fd81d387bf..5a09982b5f 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 @@ -191,12 +191,12 @@

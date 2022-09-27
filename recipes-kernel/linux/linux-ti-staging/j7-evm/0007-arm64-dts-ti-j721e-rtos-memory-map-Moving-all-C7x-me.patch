@@ -1,7 +1,7 @@
-From f88dcbadcb6d9a2a6a546e2ed98cc198c0d01ef4 Mon Sep 17 00:00:00 2001
+From 27d6167d7cdf57e88afdbe48f663e539b9a825e4 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Mon, 22 Aug 2022 12:16:17 +0530
-Subject: [PATCH 1/2] arm64: dts: ti: j721e-rtos-memory-map: Moving all C7x
+Subject: [PATCH 7/8] arm64: dts: ti: j721e-rtos-memory-map: Moving all C7x
  memory to upper 2 GB
 
 - Making space for kernel to reserve memory for CMA
@@ -13,7 +13,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
-index 3f5b7c4ca..0102dd951 100644
+index 3f5b7c4ca0..0102dd9518 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 @@ -217,22 +217,22 @@
