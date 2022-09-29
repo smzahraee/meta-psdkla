@@ -7,7 +7,7 @@ IMAGE_FSTYPES_remove = "wic.xz"
 KERNEL_DEVICETREE_append_j7-evm = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "", " \
     ti/k3-j721e-vision-apps.dtbo \
     ti/k3-j721e-edgeai-apps.dtbo \
-    ti/k3-j721e-sk-rpi-exp-header.dtbo \
+    ti/k3-j721e-sk-rpi-hdr-ehrpwm.dtbo \
     ti/k3-j721e-sk-csi2-ov5640.dtbo \
     ti/k3-j721e-sk-rpi-cam-imx219.dtbo \
     ti/k3-j721e-fpdlink-cpb-fusion.dtbo \
