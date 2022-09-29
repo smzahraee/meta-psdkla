@@ -1,7 +1,7 @@
-From 17ed6b04e624d15467767ff109edc26fa119d5ab Mon Sep 17 00:00:00 2001
+From 093864a0114d03cfda1b57f95a99d99110424d3a Mon Sep 17 00:00:00 2001
 From: Shyam Jagannathan <shyam.jagannathan@ti.com>
 Date: Wed, 9 Feb 2022 17:16:14 +0530
-Subject: [PATCH] [tiU21.01 PATCH] Optimal QoS Settings
+Subject: [PATCH] Optimal QoS Settings
 
 - In a multi-initiator use-case the defaults in the SoC to arbitrate system traffic is not sufficient
 - Systematic analysis of various traffic on the basis of type, route and priority is critical to reach device entitlement performance
@@ -14,16 +14,24 @@ At a high level, the below is required
 - Spread out the priority, give higher priority to RT and lower to NRT
 
 Signed-off-by: Shyam Jagannathan <shyam.jagannathan@ti.com>
+
+[v2] Extending QoS settings for j721e-hs
+
+- Also now applying the settings after sysfw loading for the same
+
+see: https://jira.itg.ti.com/browse/ADASVISION-5640
+
+Signed-off-by: Aniket Limaye <a-limaye@ti.com>
 ---
  arch/arm/mach-k3/include/mach/hardware.h      |   1 +
  .../mach-k3/include/mach/j721e_qos_params.h   | 221 ++++++++++++++
- arch/arm/mach-k3/j721e_init.c                 | 287 ++++++++++++++++++
+ arch/arm/mach-k3/j721e_init.c                 | 284 ++++++++++++++++++
  drivers/ram/k3-ddrss/k3-ddrss.c               |  21 ++
- 4 files changed, 530 insertions(+)
+ 4 files changed, 527 insertions(+)
  create mode 100644 arch/arm/mach-k3/include/mach/j721e_qos_params.h
 
 diff --git a/arch/arm/mach-k3/include/mach/hardware.h b/arch/arm/mach-k3/include/mach/hardware.h
-index 5c1265ffe9..d90e8268df 100644
+index 6cd14390ad..02007aa1b8 100644
 --- a/arch/arm/mach-k3/include/mach/hardware.h
 +++ b/arch/arm/mach-k3/include/mach/hardware.h
 @@ -12,6 +12,7 @@
@@ -263,14 +271,13 @@ index 0000000000..3f46a6bed5
 +#endif
 \ No newline at end of file
 diff --git a/arch/arm/mach-k3/j721e_init.c b/arch/arm/mach-k3/j721e_init.c
-index c62932f6ff..ac8bfdf103 100644
+index f3fb184c6f..398ba25418 100644
 --- a/arch/arm/mach-k3/j721e_init.c
 +++ b/arch/arm/mach-k3/j721e_init.c
-@@ -191,6 +191,280 @@ void do_dt_magic(void)
+@@ -191,6 +191,278 @@ void do_dt_magic(void)
  }
  #endif
  
-+#ifndef CONFIG_TI_SECURE_DEVICE
 +void setup_navss_nb(void)
 +{
 +        /* Map orderid 8-15 to VBUSM.C thread 2 (real-time traffic) */
@@ -542,17 +549,16 @@ index c62932f6ff..ac8bfdf103 100644
 +	}
 +
 +}
-+#endif
 +
  void board_init_f(ulong dummy)
  {
  #if defined(CONFIG_CPU_V7R) && defined(CONFIG_K3_AVS0)
-@@ -216,6 +490,19 @@ void board_init_f(ulong dummy)
- 	setup_k3_mpu_regions();
+@@ -328,6 +600,18 @@ void board_init_f(ulong dummy)
+ 	if (ret)
+ 		panic("DRAM init failed: %d\n", ret);
  #endif
- 
-+ 	if (soc_is_j721e()) {
-+#ifndef CONFIG_TI_SECURE_DEVICE
++
++	if (soc_is_j721e()) {
 +		setup_navss_nb();
 +		setup_c66_qos();
 +		setup_main_r5f_qos();
@@ -561,18 +567,17 @@ index c62932f6ff..ac8bfdf103 100644
 +		setup_dss_qos();
 +		setup_gpu_qos();
 +		setup_encoder_qos();
-+#endif
-+ 	}
++	}
 +
- 	/* Init DM early */
- 	spl_early_init();
+ 	spl_enable_dcache();
+ }
  
 diff --git a/drivers/ram/k3-ddrss/k3-ddrss.c b/drivers/ram/k3-ddrss/k3-ddrss.c
-index 10311a4680..4b1aa09a47 100644
+index 17683bbe73..f0bb5e9c2d 100644
 --- a/drivers/ram/k3-ddrss/k3-ddrss.c
 +++ b/drivers/ram/k3-ddrss/k3-ddrss.c
-@@ -519,6 +519,23 @@ void k3_lpddr4_start(struct k3_ddrss_desc *ddrss)
- 	}
+@@ -719,6 +719,23 @@ static void k3_ddrss_lpddr4_ecc_init(struct k3_ddrss_desc *ddrss)
+ 	writel(val, base + DDRSS_ECC_CTRL_REG);
  }
  
 +#ifdef CONFIG_K3_J721E_DDRSS
@@ -595,7 +600,7 @@ index 10311a4680..4b1aa09a47 100644
  #define AM64_DDRSS_SS_BASE  0x0F300000
  static int k3_ddrss_probe(struct udevice *dev)
  {
-@@ -551,6 +568,10 @@ static int k3_ddrss_probe(struct udevice *dev)
+@@ -751,6 +768,10 @@ static int k3_ddrss_probe(struct udevice *dev)
  	if (ret)
  		return ret;
  
@@ -605,7 +610,7 @@ index 10311a4680..4b1aa09a47 100644
 +
  	k3_lpddr4_start(ddrss);
  
- 	return ret;
+ 	if (ddrss->ti_ecc_enabled) {
 -- 
 2.17.1
 
