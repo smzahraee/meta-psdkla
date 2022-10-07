@@ -1,7 +1,7 @@
-From 27d6167d7cdf57e88afdbe48f663e539b9a825e4 Mon Sep 17 00:00:00 2001
+From bf596268dba42df1020d025bbe2d698fe71e93f4 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Mon, 22 Aug 2022 12:16:17 +0530
-Subject: [PATCH 7/8] arm64: dts: ti: j721e-rtos-memory-map: Moving all C7x
+Subject: [PATCH 4/5] arm64: dts: ti: j721e-rtos-memory-map: Moving all C7x
  memory to upper 2 GB
 
 - Making space for kernel to reserve memory for CMA

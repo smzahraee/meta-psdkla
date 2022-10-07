@@ -1,7 +1,7 @@
-From 4312217f67598a1e70b4545ede42207f5bf8558b Mon Sep 17 00:00:00 2001
+From fde02defbc94c076720f45b901cb69af9a047e14 Mon Sep 17 00:00:00 2001
 From: Siddharth Vadapalli <s-vadapalli@ti.com>
 Date: Thu, 17 Feb 2022 17:39:33 +0530
-Subject: [PATCH 4/8] arm64: dts: ti: k3-j721e-sk: Add additional DDR carveout
+Subject: [PATCH 3/5] arm64: dts: ti: k3-j721e-sk: Add additional DDR carveout
  memory nodes for R5Fs
 
 Reserve two additional shared memory regions for inter-core
@@ -15,7 +15,7 @@ Signed-off-by: Rahul T R <r-ravikumar@ti.com>
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
-index 3038723afb..5d48503982 100644
+index 6e254d55e0..523c9ae7c8 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
 @@ -150,6 +150,18 @@
@@ -37,7 +37,7 @@ index 3038723afb..5d48503982 100644
  	};
  
  	vusb_main: fixedregulator-vusb-main5v0 {
-@@ -1276,7 +1288,9 @@
+@@ -1319,7 +1331,9 @@
  &main_r5fss0_core0 {
  	mboxes = <&mailbox0_cluster1 &mbox_main_r5fss0_core0>;
  	memory-region = <&main_r5fss0_core0_dma_memory_region>,

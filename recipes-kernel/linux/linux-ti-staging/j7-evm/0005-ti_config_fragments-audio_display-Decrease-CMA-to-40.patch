@@ -1,7 +1,7 @@
-From 3a3a739dc0c66b59fc44553ad9cc9212926d9ee7 Mon Sep 17 00:00:00 2001
+From 55dd38646164fd950fe5111576becba6779658db Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Mon, 22 Aug 2022 12:39:26 +0530
-Subject: [PATCH 8/8] ti_config_fragments: audio_display: Decrease CMA to 400MB
+Subject: [PATCH 5/5] ti_config_fragments: audio_display: Decrease CMA to 400MB
 
 - Even with latest edited j721e-rtos-memory-map there is not enough room for 512MB of CMA
   Decreasing to 400MB for the same: https://jira.itg.ti.com/browse/ADASVISION-5035
