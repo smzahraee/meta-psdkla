@@ -1,7 +1,7 @@
-From db11d11e34dca4a26024c5ff91e8143b888a4c97 Mon Sep 17 00:00:00 2001
+From d9e426fd923aa70f05d16b2bae52dab4c3d278f2 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
-Date: Tue, 26 Oct 2021 15:48:33 -0500
-Subject: [PATCH 1/3] arm64: dts: ti: Add DTB overlay for vision apps
+Date: Tue, 18 Oct 2022 10:40:25 -0500
+Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
 
 Confine the memory map changes into a separate rtos-memory-map.dts
 which describes the common memory map for all RTOS remoteprocs.
@@ -11,26 +11,26 @@ related peripherals from Linux so that it can be used by RTOS.
 ---
  arch/arm64/boot/dts/ti/Makefile               |   1 +
  .../dts/ti/k3-j721s2-rtos-memory-map.dtsi     | 242 ++++++++++++++++++
- .../boot/dts/ti/k3-j721s2-vision-apps.dts     |  28 ++
- 3 files changed, 271 insertions(+)
+ .../boot/dts/ti/k3-j721s2-vision-apps.dts     |  36 +++
+ 3 files changed, 279 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 20dd384398..470648b382 100644
+index 574ab1298..e58151c51 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -39,6 +39,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-common-proc-board.dtb
+@@ -40,6 +40,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-common-proc-board.dtb
  dtb-$(CONFIG_ARCH_K3) += k3-j721s2-gesi-exp-board.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721s2-cpb-csi2-ov5640.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721s2-fpdlink-cpb-fusion.dtbo
 +dtb-$(CONFIG_ARCH_K3) += k3-j721s2-vision-apps.dtbo
  
  dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm.dtb
- 
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-quad-port-eth1-exp.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 new file mode 100644
-index 0000000000..fd81d387bf
+index 000000000..5a09982b5
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 @@ -0,0 +1,242 @@
@@ -278,10 +278,10 @@ index 0000000000..fd81d387bf
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 new file mode 100644
-index 0000000000..9578910ad4
+index 000000000..be2078fed
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,36 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * vision-apps: device-tree overlay
@@ -308,6 +308,14 @@ index 0000000000..9578910ad4
 +};
 +
 +&dss {
++    status = "disabled";
++};
++
++&ti_csi2rx0 {
++    status = "disabled";
++};
++
++&ti_csi2rx1 {
 +    status = "disabled";
 +};
 -- 
