@@ -1,7 +1,7 @@
-From d86125438547b2927550142c01cd5fe1618995fc Mon Sep 17 00:00:00 2001
-From: lucas <lucas@jacinto-ubuntu-lt-1>
-Date: Wed, 29 Jun 2022 19:54:46 -0500
-Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
+From 21c5a8959a47fd68223388d59b97a3fc8ab32fc3 Mon Sep 17 00:00:00 2001
+From: Lucas Weaver <l-weaver@ti.com>
+Date: Tue, 18 Oct 2022 09:23:02 -0500
+Subject: [PATCH] [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
 
 Confine the memory map changes into a separate rtos-memory-map.dts
 which describes the common memory map for all RTOS remoteprocs.
@@ -10,19 +10,19 @@ vision-apps.dtbo uses this and also disables capture and display
 related peripherals from Linux so that it can be used by RTOS.
 ---
  arch/arm64/boot/dts/ti/Makefile               |   1 +
- .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 348 ++++++++++++++++++
+ .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 340 ++++++++++++++++++
  .../boot/dts/ti/k3-j784s4-vision-apps.dts     |  32 ++
- 3 files changed, 381 insertions(+)
+ 3 files changed, 373 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 2787a85d5..d6a987198 100644
+index 574ab1298..0e213f59d 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -37,6 +37,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm.dtb
- dtb-$(CONFIG_ARCH_K3) += k3-j784s4-skeleton.dtb
- dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm-reference.dtb
+@@ -44,6 +44,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-fpdlink-cpb-fusion.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm.dtb
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-quad-port-eth1-exp.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j784s4-fpdlink-fusion.dtbo
 +dtb-$(CONFIG_ARCH_K3) += k3-j784s4-vision-apps.dtbo
  
@@ -30,10 +30,10 @@ index 2787a85d5..d6a987198 100644
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm-icssg1-dualemac.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000..627020d60
+index 000000000..caeecc1a0
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-@@ -0,0 +1,348 @@
+@@ -0,0 +1,340 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -152,14 +152,6 @@ index 000000000..627020d60
 +};
 +
 +&c71_3_memory_region {
-+	status = "disabled";
-+};
-+
-+&rtos_ipc_memory_region {
-+	status = "disabled";
-+};
-+
-+&eth_multicast_memory_region {
 +	status = "disabled";
 +};
 +
