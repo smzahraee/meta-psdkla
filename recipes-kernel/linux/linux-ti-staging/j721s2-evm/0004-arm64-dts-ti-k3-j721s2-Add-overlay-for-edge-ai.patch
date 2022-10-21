@@ -1,0 +1,44 @@
+From 18be252ae80b1fdcd313a62275aff49e26dc0615 Mon Sep 17 00:00:00 2001
+From: Rahul T R <r-ravikumar@ti.com>
+Date: Fri, 21 Oct 2022 16:34:05 +0530
+Subject: [PATCH] arm64: dts: ti: k3-j721s2: Add overlay for edge ai
+
+Add overlay for RTOS memory map for edge ai with
+DSS and other pheriperals enabled
+
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ arch/arm64/boot/dts/ti/Makefile                  | 1 +
+ arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts
+
+diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
+index 27fc93169..b74805c13 100644
+--- a/arch/arm64/boot/dts/ti/Makefile
++++ b/arch/arm64/boot/dts/ti/Makefile
+@@ -41,6 +41,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-gesi-exp-board.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-cpb-csi2-ov5640.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-fpdlink-cpb-fusion.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-vision-apps.dtbo
++dtb-$(CONFIG_ARCH_K3) += k3-j721s2-edgeai-apps.dtbo
+ 
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm.dtb
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-quad-port-eth1-exp.dtbo
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts b/arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts
+new file mode 100644
+index 000000000..5c2add991
+--- /dev/null
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts
+@@ -0,0 +1,8 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * vision-apps: device-tree overlay
++ *
++ * Copyright (C) 2019 - 2021 Texas Instruments Incorporated - http://www.ti.com/
++ */
++
++#include "k3-j721s2-rtos-memory-map.dtsi"
+-- 
+2.38.0
+

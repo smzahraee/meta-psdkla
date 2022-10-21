@@ -9,9 +9,11 @@ SRC_URI_append_j7-evm = " \
 
 SRC_URI_append_j721s2-evm = " \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-vision-apps.patch \
+    file://0004-arm64-dts-ti-k3-j721s2-Add-overlay-for-edge-ai.patch \
 "
 
 SRC_URI_append_j784s4-evm = " \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-vision-apps.patch \
+    file://0002-arm64-dts-ti-k3-j784s4-Add-overlay-for-edge-ai.patch \
 "
-PR_append = "_psdkla_87"
+PR_append = "_psdkla_88"
