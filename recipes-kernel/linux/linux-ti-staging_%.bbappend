@@ -19,4 +19,4 @@ SRC_URI_append_j784s4-evm = " \
     file://0001-drivers-staging-media-wave5-updating-to-patch-set-v9.patch \
     file://0001-arm64-dts-ti-Adding-workaround-for-existing-issue-in.patch \
 "
-PR_append = "_psdkla_82"
+PR_append = "_psdkla_83"
