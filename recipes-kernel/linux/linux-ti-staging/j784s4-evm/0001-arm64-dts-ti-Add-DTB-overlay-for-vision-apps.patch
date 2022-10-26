@@ -1,7 +1,7 @@
-From 21c5a8959a47fd68223388d59b97a3fc8ab32fc3 Mon Sep 17 00:00:00 2001
+From 87580a73a1004eec59c97c68ff489229d78b1609 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Tue, 18 Oct 2022 09:23:02 -0500
-Subject: [PATCH] [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
+Subject: [PATCH] arm64: dts: ti: Add DTB overlay for vision apps
 
 Confine the memory map changes into a separate rtos-memory-map.dts
 which describes the common memory map for all RTOS remoteprocs.
@@ -11,13 +11,13 @@ related peripherals from Linux so that it can be used by RTOS.
 ---
  arch/arm64/boot/dts/ti/Makefile               |   1 +
  .../dts/ti/k3-j784s4-rtos-memory-map.dtsi     | 340 ++++++++++++++++++
- .../boot/dts/ti/k3-j784s4-vision-apps.dts     |  32 ++
- 3 files changed, 373 insertions(+)
+ .../boot/dts/ti/k3-j784s4-vision-apps.dts     |  36 ++
+ 3 files changed, 377 insertions(+)
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 574ab1298..0e213f59d 100644
+index 457b5275b..381c2f725 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
 @@ -44,6 +44,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-fpdlink-cpb-fusion.dtbo
@@ -376,10 +376,10 @@ index 000000000..caeecc1a0
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
 new file mode 100644
-index 000000000..2d91ddccc
+index 000000000..efa2b49a9
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-vision-apps.dts
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,36 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * vision-apps: device-tree overlay
@@ -399,6 +399,10 @@ index 000000000..2d91ddccc
 +
 +&main_i2c5 {
 +	status = "disabled";
++};
++
++&dss {
++    status = "disabled";
 +};
 +
 +&serdes_wiz4 {
