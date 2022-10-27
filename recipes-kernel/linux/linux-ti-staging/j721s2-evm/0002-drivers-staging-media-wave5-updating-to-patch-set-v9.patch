@@ -1,4 +1,4 @@
-From 4f4cf7bc05d100aa7142fa005ff56178b9fec34e Mon Sep 17 00:00:00 2001
+From 6d603be19b046d39d1ad0b7e64e7f9944391993f Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Mon, 1 Aug 2022 23:42:12 +0530
 Subject: [PATCH 2/3] drivers: staging: media: wave5: updating to patch-set v9
@@ -17,7 +17,7 @@ To be upstreamed by 8.5
  9 files changed, 649 insertions(+), 468 deletions(-)
 
 diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
-index 070a1171b2..308954740e 100644
+index 070a1171b..308954740 100644
 --- a/drivers/staging/media/wave5/TODO
 +++ b/drivers/staging/media/wave5/TODO
 @@ -1,22 +1,18 @@
@@ -63,7 +63,7 @@ index 070a1171b2..308954740e 100644
 +PROFILE/LEVEL/MIN_QP/MAX_QP/LOOP_FILTER/HFLIP/VFIIP/ROTATE/
 +GOP_SIZE/RC_ENABLE/I_PERIOD/BITRATE.
 diff --git a/drivers/staging/media/wave5/wave5-hw.c b/drivers/staging/media/wave5/wave5-hw.c
-index dd070b1496..e82d423e03 100644
+index dd070b149..e82d423e0 100644
 --- a/drivers/staging/media/wave5/wave5-hw.c
 +++ b/drivers/staging/media/wave5/wave5-hw.c
 @@ -409,6 +409,7 @@ int wave5_vpu_build_up_dec_param(struct vpu_instance *vpu_inst,
@@ -166,7 +166,7 @@ index dd070b1496..e82d423e03 100644
  		return -EOPNOTSUPP;
  
 diff --git a/drivers/staging/media/wave5/wave5-vpu-dec.c b/drivers/staging/media/wave5/wave5-vpu-dec.c
-index f70c1ca9b2..ffcab83fea 100644
+index f70c1ca9b..ffcab83fe 100644
 --- a/drivers/staging/media/wave5/wave5-vpu-dec.c
 +++ b/drivers/staging/media/wave5/wave5-vpu-dec.c
 @@ -7,8 +7,8 @@
@@ -1081,7 +1081,7 @@ index f70c1ca9b2..ffcab83fea 100644
  
  	return 0;
 diff --git a/drivers/staging/media/wave5/wave5-vpu-enc.c b/drivers/staging/media/wave5/wave5-vpu-enc.c
-index acd2cb9020..84cfcfcc62 100644
+index acd2cb902..84cfcfcc6 100644
 --- a/drivers/staging/media/wave5/wave5-vpu-enc.c
 +++ b/drivers/staging/media/wave5/wave5-vpu-enc.c
 @@ -7,68 +7,68 @@
@@ -1619,7 +1619,7 @@ index acd2cb9020..84cfcfcc62 100644
  
  	return 0;
 diff --git a/drivers/staging/media/wave5/wave5-vpu.c b/drivers/staging/media/wave5/wave5-vpu.c
-index da3d00ef34..15098426a3 100644
+index da3d00ef3..15098426a 100644
 --- a/drivers/staging/media/wave5/wave5-vpu.c
 +++ b/drivers/staging/media/wave5/wave5-vpu.c
 @@ -9,7 +9,6 @@
@@ -1881,7 +1881,7 @@ index da3d00ef34..15098426a3 100644
  	ida_destroy(&dev->inst_ida);
  
 diff --git a/drivers/staging/media/wave5/wave5-vpuapi.c b/drivers/staging/media/wave5/wave5-vpuapi.c
-index f5bd284f52..fc6eb74e63 100644
+index f5bd284f5..fc6eb74e6 100644
 --- a/drivers/staging/media/wave5/wave5-vpuapi.c
 +++ b/drivers/staging/media/wave5/wave5-vpuapi.c
 @@ -76,11 +76,12 @@ int wave5_vpu_get_version_info(struct device *dev, uint32_t *version_info,
@@ -2122,7 +2122,7 @@ index f5bd284f52..fc6eb74e63 100644
  
  	kfree(inst->codec_info);
 diff --git a/drivers/staging/media/wave5/wave5-vpuapi.h b/drivers/staging/media/wave5/wave5-vpuapi.h
-index 5e6dd090d3..05f772c966 100644
+index 5e6dd090d..05f772c96 100644
 --- a/drivers/staging/media/wave5/wave5-vpuapi.h
 +++ b/drivers/staging/media/wave5/wave5-vpuapi.h
 @@ -36,8 +36,7 @@ enum vpu_instance_state {
@@ -2222,7 +2222,7 @@ index 5e6dd090d3..05f772c966 100644
  int wave5_vpu_enc_open(struct vpu_instance *vpu_inst, struct enc_open_param *enc_op_param);
  int wave5_vpu_enc_close(struct vpu_instance *inst, u32 *fail_res);
 diff --git a/drivers/staging/media/wave5/wave5-vpuerror.h b/drivers/staging/media/wave5/wave5-vpuerror.h
-index 0ece5bc517..bef04df1fe 100644
+index 0ece5bc51..bef04df1f 100644
 --- a/drivers/staging/media/wave5/wave5-vpuerror.h
 +++ b/drivers/staging/media/wave5/wave5-vpuerror.h
 @@ -393,7 +393,7 @@
@@ -2250,7 +2250,7 @@ index 0ece5bc517..bef04df1fe 100644
  // VP9
  #define VP9_PICWARN_COLOR_SPACE_MISMATCH_WITH_REF                      0x00001000
 diff --git a/drivers/staging/media/wave5/wave5.h b/drivers/staging/media/wave5/wave5.h
-index 7c17b746c2..52d3ac6de3 100644
+index 7c17b746c..52d3ac6de 100644
 --- a/drivers/staging/media/wave5/wave5.h
 +++ b/drivers/staging/media/wave5/wave5.h
 @@ -53,10 +53,14 @@ int wave5_vpu_dec_fini_seq(struct vpu_instance *vpu_inst, u32 *fail_res);

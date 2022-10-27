@@ -1,4 +1,4 @@
-From 2f86e4e33c925d59f7e78fc392aba8b55380c14a Mon Sep 17 00:00:00 2001
+From 13a70a403ea36c20cc08001edd4af887e63cbf93 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Tue, 19 Jul 2022 18:47:43 +0530
 Subject: [PATCH 3/3] arm64: dts: ti: j721s2-rtos-memory-map: Moving all C7x
@@ -10,7 +10,7 @@ Subject: [PATCH 3/3] arm64: dts: ti: j721s2-rtos-memory-map: Moving all C7x
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
-index fd81d387bf..5a09982b5f 100644
+index 9f162fb32..f07d609e1 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 @@ -191,12 +191,12 @@
