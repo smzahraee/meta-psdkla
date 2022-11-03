@@ -117,6 +117,13 @@ do_install_append_j7-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
+HS?=0
+ifeq (\$(HS),1)
+	PLATFORM=j7-hs-evm
+	UBOOT_MACHINE=j721e_hs_evm_a72_config
+	UBOOT_MACHINE_R5=j721e_hs_evm_r5_config
+endif
+
 __EOF__
 }
 
@@ -124,6 +131,13 @@ do_install_append_j7200-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
+
+HS?=0
+ifeq (\$(HS),1)
+	PLATFORM=j7200-hs-evm
+	UBOOT_MACHINE=j7200_hs_evm_a72_config
+	UBOOT_MACHINE_R5=j7200_hs_evm_r5_config
+endif
 
 __EOF__
 }
@@ -133,7 +147,14 @@ do_install_append_j721s2-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
+HS?=0
+ifeq (\$(HS),1)
+	PLATFORM=j721s2-hs-evm
+	UBOOT_MACHINE=j721s2_hs_evm_a72_config
+	UBOOT_MACHINE_R5=j721s2_hs_evm_r5_config
+endif
+
 __EOF__
 }
 
-PR_append = "_psdkla_10"
+PR_append = "_psdkla_11"
