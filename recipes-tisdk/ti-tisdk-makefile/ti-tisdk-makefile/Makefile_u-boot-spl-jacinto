@@ -1,24 +1,22 @@
 
-# u-boot build targets
-u-boot-spl-j7: u-boot
-u-boot-spl-j7_clean: u-boot_clean
-u-boot-spl-j7_install: u-boot_install
+u-boot-spl-jacinto: u-boot
+u-boot-spl-jacinto_clean: u-boot_clean
+u-boot-spl-jacinto_install: u-boot_install
 
-UBOOT_SYSFW=$(TI_SDK_PATH)/board-support/prebuilt-images/sysfw.bin
+UBOOT_BIN_SUFFIX_gp=
+UBOOT_BIN_SUFFIX_hs=.signed
+UBOOT_BIN_SUFFIX=$(UBOOT_BIN_SUFFIX_$(PLATFORM_TYPE))
 
-ifeq ($(PLATFORM),j7-evm)
-	UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/a72
-	UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_build/r5
-	UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin
-	UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin
-	UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f
-else
-	UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_hs_build/a72
-	UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/u-boot_hs_build/r5
-	UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin.signed
-	UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin.signed
-	UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f.signed
-endif
+UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin$(UBOOT_BIN_SUFFIX)
+UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin$(UBOOT_BIN_SUFFIX)
+UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f$(UBOOT_BIN_SUFFIX)
+
+UBOOT_BUILD_DIR_gp=u-boot_build
+UBOOT_BUILD_DIR_hs=u-boot_hs_build
+UBOOT_BUILD_DIR=$(UBOOT_BUILD_DIR_$(PLATFORM_TYPE))
+
+UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/a72
+UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/r5
 
 u-boot: u-boot-a72 u-boot-r5
 u-boot_clean: u-boot-a72_clean u-boot-r5_clean
@@ -34,6 +32,7 @@ u-boot-a72:
 		ATF=$(UBOOT_ATF) TEE=$(UBOOT_TEE) DM=$(UBOOT_DM) \
 		O=$(UBOOT_A72_BUILD_DIR)
 
+
 u-boot-a72_clean:
 	@echo ===================================
 	@echo    Cleaning U-boot for A72
@@ -41,7 +40,6 @@ u-boot-a72_clean:
 	$(MAKE) -C $(TI_SDK_PATH)/board-support/u-boot-* CROSS_COMPILE=$(CROSS_COMPILE) \
 		O=$(UBOOT_A72_BUILD_DIR) distclean
 	@rm -rf $(UBOOT_A72_BUILD_DIR)
-
 
 u-boot-r5:
 	@echo ===================================
@@ -51,6 +49,7 @@ u-boot-r5:
 		 $(UBOOT_MACHINE_R5) O=$(UBOOT_R5_BUILD_DIR)
 	$(MAKE) -j $(MAKE_JOBS) -C $(TI_SDK_PATH)/board-support/u-boot-* CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
 		O=$(UBOOT_R5_BUILD_DIR)
+	$(MAKE) sysfw-image
 
 u-boot-r5_clean:
 	@echo ===================================
@@ -58,6 +57,7 @@ u-boot-r5_clean:
 	@echo ===================================
 	$(MAKE) -C $(TI_SDK_PATH)/board-support/u-boot-* CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
 		O=$(UBOOT_R5_BUILD_DIR) distclean
+	$(MAKE) sysfw-image_clean
 	@rm -rf $(UBOOT_R5_BUILD_DIR)
 
 u-boot_install:
@@ -65,4 +65,6 @@ u-boot_install:
 	@echo    Installing U-boot
 	@echo ===================================
 	@echo "Nothing to do"
+
+
 
