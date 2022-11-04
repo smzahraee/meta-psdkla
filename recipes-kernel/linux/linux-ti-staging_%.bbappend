@@ -10,13 +10,11 @@ SRC_URI_append_j7-evm = " \
 
 SRC_URI_append_j721s2-evm = " \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-vision-apps.patch \
-    file://0002-drivers-staging-media-wave5-updating-to-patch-set-v9.patch \
     file://0003-arm64-dts-ti-j721s2-rtos-memory-map-Moving-all-C7x-h.patch \
 "
 
 SRC_URI_append_j784s4-evm = " \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-vision-apps.patch \
-    file://0001-drivers-staging-media-wave5-updating-to-patch-set-v9.patch \
     file://0001-arm64-dts-ti-Adding-workaround-for-existing-issue-in.patch \
 "
-PR_append = "_psdkla_84"
+PR_append = "_psdkla_85"
