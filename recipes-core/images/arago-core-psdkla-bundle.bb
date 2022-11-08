@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_4"
+PR_append = "_psdkla_5"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -56,6 +56,7 @@ DEPLOY_IMAGES_NAME_append_j721s2-evm = "\
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
 DEPLOY_IMAGES_NAME_append_j784s4-evm = "\
     ti-fs-firmware-j784s4-gp.bin \
+    ti-fs-firmware-j784s4-hs-cert.bin ti-fs-firmware-j784s4-hs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
 ARAGO_TISDK_IMAGE ?= "arago-core-psdkla-bundle"
