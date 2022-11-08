@@ -157,4 +157,19 @@ endif
 __EOF__
 }
 
-PR_append = "_psdkla_11"
+do_install_append_j784s4-evm() {
+    cat >> ${D}/Rules.make << __EOF__
+
+export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
+
+HS?=0
+ifeq (\$(HS),1)
+	PLATFORM=j784s4-hs-evm
+	UBOOT_MACHINE=j784s4_hs_evm_a72_config
+	UBOOT_MACHINE_R5=j784s4_hs_evm_r5_config
+endif
+
+__EOF__
+}
+
+PR_append = "_psdkla_12"

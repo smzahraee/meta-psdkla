@@ -9,6 +9,7 @@ PLATFORM_TYPE_am65xx-hs-evm = hs
 PLATFORM_TYPE_j7-hs-evm = hs
 PLATFORM_TYPE_j7200-hs-evm = hs
 PLATFORM_TYPE_j721s2-hs-evm = hs
+PLATFORM_TYPE_j784s4-hs-evm = hs
 PLATFORM_TYPE = $(PLATFORM_TYPE_$(PLATFORM))
 
 SYSFW_CONFIG = evm
@@ -26,6 +27,7 @@ SYSFW_SOC_j7200-hs-evm = j7200_sr2
 SYSFW_SOC_j721s2-evm = j721s2
 SYSFW_SOC_j721s2-hs-evm = j721s2
 SYSFW_SOC_j784s4-evm = j784s4
+SYSFW_SOC_j784s4-hs-evm = j784s4
 SYSFW_SOC = $(SYSFW_SOC_$(PLATFORM))
 
 SYSFW_PREFIX_$(SYSFW_SOC) = ti-sci-firmware
