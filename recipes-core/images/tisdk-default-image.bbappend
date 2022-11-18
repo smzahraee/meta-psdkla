@@ -30,4 +30,6 @@ IMAGE_INSTALL_append = " \
         packagegroup-python3-jupyter \
 "
 
+WKS_FILE = "edgeai-sdimage.wks"
+
 PR_append = "_psdkla_4"
