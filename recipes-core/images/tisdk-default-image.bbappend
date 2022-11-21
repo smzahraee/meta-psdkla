@@ -31,5 +31,6 @@ IMAGE_INSTALL_append = " \
 "
 
 WKS_FILE = "edgeai-sdimage.wks"
+WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
-PR_append = "_psdkla_4"
+PR_append = "_psdkla_5"
