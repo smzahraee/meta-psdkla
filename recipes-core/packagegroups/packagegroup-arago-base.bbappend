@@ -40,6 +40,7 @@ RDEPENDS_${PN}_append_j721s2-evm = "\
 RDEPENDS_${PN}_append_j784s4-evm = "\
         glsdk-util-scripts \
         oob-demo \
+        hostname-update \
 "
 
-PR_append = "_psdkla_8"
+PR_append = "_psdkla_9"
