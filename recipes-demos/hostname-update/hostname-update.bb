@@ -20,6 +20,7 @@ inherit systemd
 
 HOSTNAME_UPDATE = "${MACHINE}"
 HOSTNAME_UPDATE_j7-evm = "tda4vm-sk"
+HOSTNAME_UPDATE_j721s2-evm = "am68-sk"
 
 do_install() {
     install -d ${D}${sysconfdir}/systemd/system
@@ -32,4 +33,4 @@ do_install() {
     sed -i -e "s/__UPDATE__/${HOSTNAME_UPDATE}/" ${D}/${sysconfdir}/init.d/hostname-update
 }
 
-PR_append = "_psdkla_1"
+PR_append = "_psdkla_2"
