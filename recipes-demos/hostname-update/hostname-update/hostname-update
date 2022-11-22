@@ -7,9 +7,9 @@ done
 #Set Hostname to corresponding platform/board name based on
 #the proc/device-tree
 if grep -q sk <<< cat /proc/device-tree/compatible; then
-	HOSTNAME=tda4vm-sk
+	HOSTNAME=__UPDATE__
 else
-	HOSTNAME=j7-evm
+	HOSTNAME=__MACHINE__
 fi
 
 

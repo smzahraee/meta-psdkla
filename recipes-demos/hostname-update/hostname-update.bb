@@ -1,4 +1,4 @@
-SUMMARY = "Updating hostname for J7-SK as tda4vm-sk"
+SUMMARY = "Updating hostname based on device being used"
 
 LICENSE = "MIT"
 
@@ -18,12 +18,18 @@ SYSTEMD_SERVICE_${PN} = "hostname-update.service"
 
 inherit systemd
 
+HOSTNAME_UPDATE = "${MACHINE}"
+HOSTNAME_UPDATE_j7-evm = "tda4vm-sk"
+
 do_install() {
     install -d ${D}${sysconfdir}/systemd/system
     install -m 0644 ${WORKDIR}/hostname-update.service ${D}${sysconfdir}/systemd/system
 
     install -d ${D}/${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/hostname-update ${D}/${sysconfdir}/init.d
+
+    sed -i -e "s/__MACHINE__/${MACHINE}/" ${D}/${sysconfdir}/init.d/hostname-update
+    sed -i -e "s/__UPDATE__/${HOSTNAME_UPDATE}/" ${D}/${sysconfdir}/init.d/hostname-update
 }
 
-PR_append = "_psdkla_0"
+PR_append = "_psdkla_1"
