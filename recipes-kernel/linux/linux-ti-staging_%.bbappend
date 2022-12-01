@@ -16,4 +16,4 @@ SRC_URI_append_j784s4-evm = " \
     file://0001-arm64-dts-ti-Add-DTB-overlay-for-vision-apps.patch \
     file://0002-arm64-dts-ti-k3-j784s4-Add-overlay-for-edge-ai.patch \
 "
-PR_append = "_psdkla_89"
+PR_append = "_psdkla_90"
