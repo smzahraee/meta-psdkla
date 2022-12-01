@@ -1,0 +1,36 @@
+From ad45329947b2aaf658d6c5f38819bb89c1043269 Mon Sep 17 00:00:00 2001
+From: Aniket Limaye <a-limaye@ti.com>
+Date: Fri, 2 Dec 2022 02:35:56 +0530
+Subject: [PATCH 3/3] ti_config_fragments: v8_audio_display: Reduce CMA size
+ support Multimedia
+
+When applying dtbos that reserve additional memory for the
+remote cores, there is not enough space left for 512MB of
+CMA allocation.
+
+Reducing it to 360MB for codec to work with rtos-memory-map
+
+Upstreaming status:
+Upstreaming to CoreSDK targetted for 8.6: https://jira.itg.ti.com/browse/LCPD-29811
+
+Signed-off-by: Aniket Limaye <a-limaye@ti.com>
+---
+ ti_config_fragments/v8_audio_display.cfg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ti_config_fragments/v8_audio_display.cfg b/ti_config_fragments/v8_audio_display.cfg
+index 7df3e94b57..9898be9be8 100644
+--- a/ti_config_fragments/v8_audio_display.cfg
++++ b/ti_config_fragments/v8_audio_display.cfg
+@@ -4,7 +4,7 @@
+ 
+ CONFIG_CMA=y
+ CONFIG_DMA_CMA=y
+-CONFIG_CMA_SIZE_MBYTES=512
++CONFIG_CMA_SIZE_MBYTES=360
+ 
+ # backlight
+ 
+-- 
+2.17.1
+
