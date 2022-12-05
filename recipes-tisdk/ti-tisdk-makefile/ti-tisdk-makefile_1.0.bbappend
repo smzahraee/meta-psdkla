@@ -4,6 +4,7 @@ SRC_URI_append_j7 = "\
     file://Makefile_oob-demo \
     file://Makefile_u-boot-spl-jacinto \
     file://Makefile_sysfw-image-jacinto \
+    file://Makefile_linux-jacinto \
     file://Makefile_linux-dtbs-jacinto \
 "
 
@@ -12,6 +13,7 @@ SRC_URI_remove_j7 = "\
     file://Makefile_pru-icss \
     file://Makefile_u-boot-spl \
     file://Makefile_sysfw-image \
+    file://Makefile_linux \
     file://Makefile_linux-dtbs \
 "
 
@@ -23,9 +25,14 @@ MAKEFILES_remove_j7 = " \
     linux-dtbs \
 "
 
+MAKEFILES_COMMON_remove_j7 = " \
+    linux \
+"
+
 MAKEFILES_append_j7 = " \
     u-boot-spl-jacinto \
     sysfw-image-jacinto \
+    linux-jacinto \
     linux-dtbs-jacinto \
 "
 
