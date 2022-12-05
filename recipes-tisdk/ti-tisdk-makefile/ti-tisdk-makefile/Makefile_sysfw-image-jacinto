@@ -82,8 +82,18 @@ else
 	cp $(TI_SDK_PATH)/board-support/k3-image-gen-*/tiboot3.bin $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin
 endif
 
-sysfw-image_install:
+sysfw-image_install: sysfw-image_stage
 	@echo =============================
 	@echo   Installing SYSFW Image
 	@echo =============================
-	@echo "Nothing to do"
+	@if [ ! -d $(BOOTFS) ] ; then \
+		echo "The extracted boot filesystem directory doesn't exist."; \
+		echo "Please try again with BOOTFS=<boot-filesystem>"; \
+		exit 1; \
+	fi
+ifeq ($(SBL_PATH),)
+	cp $(TI_SDK_PATH)/board-support/built-images/sysfw.itb $(BOOTFS)
+else
+	cp $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin $(BOOTFS)
+endif
+	

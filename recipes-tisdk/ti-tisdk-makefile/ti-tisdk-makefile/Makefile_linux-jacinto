@@ -21,7 +21,7 @@ ifeq ($(PLATFORM_TYPE),hs)
 	mkimage -f fitImage.its -r fitImage
 endif
 
-linux_install: __DTB_DEPEND_INSTALL__
+linux_install: linux_stage __DTB_DEPEND_INSTALL__
 	@echo ===================================
 	@echo     Installing the Linux Kernel
 	@echo ===================================
@@ -31,7 +31,11 @@ linux_install: __DTB_DEPEND_INSTALL__
 		exit 1; \
 	fi
 	install -d $(DESTDIR)/boot
-	install $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/__KERNEL_IMAGE_TYPE__ $(DESTDIR)/boot
+ifeq ($(PLATFORM_TYPE),gp)
+	install $(TI_SDK_PATH)/board-support/built-images/__KERNEL_IMAGE_TYPE__ $(DESTDIR)/boot
+else ifeq ($(PLATFORM_TYPE),hs)
+	install $(TI_SDK_PATH)/board-support/built-images/fitImage $(DESTDIR)/boot
+endif
 	install $(LINUXKERNEL_INSTALL_DIR)/vmlinux $(DESTDIR)/boot
 	install $(LINUXKERNEL_INSTALL_DIR)/System.map $(DESTDIR)/boot
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=__KERNEL_ARCH__ CROSS_COMPILE=$(CROSS_COMPILE) INSTALL_MOD_PATH=$(DESTDIR) INSTALL_MOD_STRIP=$(INSTALL_MOD_STRIP) modules_install

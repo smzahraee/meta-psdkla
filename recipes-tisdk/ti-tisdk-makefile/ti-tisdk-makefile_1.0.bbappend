@@ -126,6 +126,12 @@ do_install_append_j7() {
     else
         sed -i -e "s/__DTB_DEPEND_STAGE__//" ${D}/Makefile
     fi
+
+    cat >> ${D}/Rules.make << __EOF__
+
+BOOTFS ?=__BOOTFS__
+
+__EOF__
 }
 
 do_install_append_j7-evm() {
@@ -186,4 +192,4 @@ endif
 __EOF__
 }
 
-PR_append = "_psdkla_13"
+PR_append = "_psdkla_14"

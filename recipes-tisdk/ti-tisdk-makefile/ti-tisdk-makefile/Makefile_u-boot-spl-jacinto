@@ -72,11 +72,18 @@ endif
 	cp $(UBOOT_R5_BUILD_DIR)/tiboot3.bin $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin
 	$(MAKE) sysfw-image_stage
 
-u-boot_install:
+u-boot_install: u-boot_stage
 	@echo ===================================
 	@echo    Installing U-boot
 	@echo ===================================
-	@echo "Nothing to do"
-
+	@if [ -z $(BOOTFS) ] || [ ! -d $(BOOTFS) ] ; then \
+		echo "The extracted boot filesystem directory doesn't exist."; \
+		echo "Please try again with BOOTFS=<boot-filesystem-dir>"; \
+		exit 1; \
+	fi
+	cp $(TI_SDK_PATH)/board-support/built-images/tispl.bin $(BOOTFS)
+	cp $(TI_SDK_PATH)/board-support/built-images/u-boot.img $(BOOTFS)
+	cp $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin $(BOOTFS)
+	$(MAKE) sysfw-image_install 
 
 

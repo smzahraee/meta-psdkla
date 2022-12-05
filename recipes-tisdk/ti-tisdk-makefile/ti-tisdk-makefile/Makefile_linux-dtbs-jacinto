@@ -23,7 +23,8 @@ ifeq ($(PLATFORM_TYPE),hs)
 	done
 endif
 
-linux-dtbs_install:
+linux-dtbs_install: linux-dtbs_stage
+ifeq ($(PLATFORM_TYPE),gp)
 	@echo =======================================
 	@echo     Installing the Linux Kernel DTBs
 	@echo =======================================
@@ -34,8 +35,9 @@ linux-dtbs_install:
 	fi
 	install -d $(DESTDIR)/boot
 	@for DTB in __KERNEL_DEVICETREE__; do \
-		install -m 0644 $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/dts/$$DTB $(DESTDIR)/boot/; \
+		install -m 0644 $(TI_SDK_PATH)/board-support/built-images/$$DTB $(DESTDIR)/boot/; \
 	done
+endif
 
 linux-dtbs_clean:
 	@echo =======================================
