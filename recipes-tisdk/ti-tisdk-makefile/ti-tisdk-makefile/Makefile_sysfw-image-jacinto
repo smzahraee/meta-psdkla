@@ -74,6 +74,14 @@ sysfw-image_clean:
 	$(MAKE) -j $(MAKE_JOBS) -C $(TI_SDK_PATH)/board-support/k3-image-gen-* \
 		$(SYSFW_MAKEARGS) clean
 
+sysfw-image_stage:
+	mkdir -p $(TI_SDK_PATH)/board-support/built-images
+ifeq ($(SBL_PATH),)
+	cp $(TI_SDK_PATH)/board-support/k3-image-gen-*/sysfw.itb $(TI_SDK_PATH)/board-support/built-images/sysfw.itb
+else
+	cp $(TI_SDK_PATH)/board-support/k3-image-gen-*/tiboot3.bin $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin
+endif
+
 sysfw-image_install:
 	@echo =============================
 	@echo   Installing SYSFW Image

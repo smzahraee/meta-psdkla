@@ -118,6 +118,15 @@ MAKEFILES_remove_am65xx-evm = " \
     ti-sgx-ddk-km \
 "
 
+do_install_append_j7() {
+    cat ${D}/Makefile | grep "__DTB_DEPEND_STAGE__" > /dev/null
+    if [ "$?" == "0" ]
+    then
+        sed -i -e "s/__DTB_DEPEND_STAGE__/linux-dtbs_stage/" ${D}/Makefile
+    else
+        sed -i -e "s/__DTB_DEPEND_STAGE__//" ${D}/Makefile
+    fi
+}
 
 do_install_append_j7-evm() {
     cat >> ${D}/Rules.make << __EOF__
@@ -177,4 +186,4 @@ endif
 __EOF__
 }
 
-PR_append = "_psdkla_12"
+PR_append = "_psdkla_13"

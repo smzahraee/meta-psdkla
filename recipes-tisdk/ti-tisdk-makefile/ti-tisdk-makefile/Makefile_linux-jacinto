@@ -11,6 +11,16 @@ linux: __DTB_DEPEND__
 	$(MAKE) -j $(MAKE_JOBS) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=__KERNEL_ARCH__ CROSS_COMPILE=$(CROSS_COMPILE) __KERNEL_BUILD_CMDS__
 	$(MAKE) -j $(MAKE_JOBS) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=__KERNEL_ARCH__ CROSS_COMPILE=$(CROSS_COMPILE) modules
 
+linux_stage: __DTB_DEPEND_STAGE__
+	mkdir -p $(TI_SDK_PATH)/board-support/built-images
+	cp $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/__KERNEL_IMAGE_TYPE__ $(TI_SDK_PATH)/board-support/built-images
+ifeq ($(PLATFORM_TYPE),hs)
+	$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh $(TI_SDK_PATH)/board-support/built-images/Image $(TI_SDK_PATH)/board-support/built-images/Image.sec
+	cp $(TI_SDK_PATH)/board-support/prebuilt-images/fitImage.its $(TI_SDK_PATH)/board-support/built-images
+	cd $(TI_SDK_PATH)/board-support/built-images; \
+	mkimage -f fitImage.its -r fitImage
+endif
+
 linux_install: __DTB_DEPEND_INSTALL__
 	@echo ===================================
 	@echo     Installing the Linux Kernel

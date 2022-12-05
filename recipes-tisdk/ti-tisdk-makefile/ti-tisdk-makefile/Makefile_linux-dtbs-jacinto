@@ -12,6 +12,17 @@ linux-dtbs:
 		$(MAKE) -j $(MAKE_JOBS) -C $(LINUXKERNEL_INSTALL_DIR) DTC_FLAGS=-@ ARCH=__KERNEL_ARCH__ CROSS_COMPILE=$(CROSS_COMPILE) $$DTB; \
 	done
 
+linux-dtbs_stage:
+	mkdir -p $(TI_SDK_PATH)/board-support/built-images
+	@for DTB in __KERNEL_DEVICETREE__; do \
+		cp $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/dts/$$DTB $(TI_SDK_PATH)/board-support/built-images; \
+	done
+ifeq ($(PLATFORM_TYPE),hs)
+	@for DTB in __KERNEL_DEVICETREE__; do \
+		$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh $(TI_SDK_PATH)/board-support/built-images/$$DTB $(TI_SDK_PATH)/board-support/built-images/$${DTB}.sec; \
+	done
+endif
+
 linux-dtbs_install:
 	@echo =======================================
 	@echo     Installing the Linux Kernel DTBs

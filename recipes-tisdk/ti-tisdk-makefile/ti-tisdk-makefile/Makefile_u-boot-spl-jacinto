@@ -60,6 +60,18 @@ u-boot-r5_clean:
 	$(MAKE) sysfw-image_clean
 	@rm -rf $(UBOOT_R5_BUILD_DIR)
 
+u-boot_stage:
+	mkdir -p $(TI_SDK_PATH)/board-support/built-images
+ifeq ($(PLATFORM_TYPE),gp)
+	cp $(UBOOT_A72_BUILD_DIR)/tispl.bin $(TI_SDK_PATH)/board-support/built-images/tispl.bin
+	cp $(UBOOT_A72_BUILD_DIR)/u-boot.img $(TI_SDK_PATH)/board-support/built-images/u-boot.img
+else ifeq ($(PLATFORM_TYPE),hs)
+	cp $(UBOOT_A72_BUILD_DIR)/tispl.bin_HS $(TI_SDK_PATH)/board-support/built-images/tispl.bin
+	cp $(UBOOT_A72_BUILD_DIR)/u-boot.img_HS $(TI_SDK_PATH)/board-support/built-images/u-boot.img
+endif
+	cp $(UBOOT_R5_BUILD_DIR)/tiboot3.bin $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin
+	$(MAKE) sysfw-image_stage
+
 u-boot_install:
 	@echo ===================================
 	@echo    Installing U-boot
