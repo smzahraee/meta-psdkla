@@ -3,27 +3,29 @@ u-boot-spl-jacinto: u-boot
 u-boot-spl-jacinto_clean: u-boot_clean
 u-boot-spl-jacinto_install: u-boot_install
 
-UBOOT_BIN_SUFFIX_gp=
-UBOOT_BIN_SUFFIX_hs=.signed
-UBOOT_BIN_SUFFIX=$(UBOOT_BIN_SUFFIX_$(PLATFORM_TYPE))
+ifeq ($(findstring hs,$(PLATFORM)),hs)
+UBOOT_BIN_SUFFIX=.signed
+UBOOT_IMAGE_SUFFIX=_HS
+UBOOT_BUILD_DIR=u-boot_hs_build
+else
+UBOOT_BIN_SUFFIX=
+UBOOT_IMAGE_SUFFIX=
+UBOOT_BUILD_DIR=u-boot_build
+endif
 
 UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/bl31.bin$(UBOOT_BIN_SUFFIX)
 UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/bl32.bin$(UBOOT_BIN_SUFFIX)
 UBOOT_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/ipc_echo_testb_mcu1_0_release_strip.xer5f$(UBOOT_BIN_SUFFIX)
 
-UBOOT_BUILD_DIR_gp=u-boot_build
-UBOOT_BUILD_DIR_hs=u-boot_hs_build
-UBOOT_BUILD_DIR=$(UBOOT_BUILD_DIR_$(PLATFORM_TYPE))
-
 UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/a72
 UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/r5
 
 u-boot: u-boot-a72 u-boot-r5
-ifeq ($(PLATFORM_TYPE),hs)
+ifeq ($(findstring hs,$(PLATFORM)),hs)
 	@echo "If using dorprocboot=1 in u-boot, the remote core firmwares will need to be signed for HS platforms."
 	@echo "Use following procedure to sign any binary"
 	@echo "$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh <input-file-name> <output-file-name>"
-	@echo "Install the signed firmware and appropriate softlinks with '-sec' suffix at /lib/firmware"
+	@echo "Install the signed firmware and appropriate softlinks at /lib/firmware"
 endif
 
 u-boot_clean: u-boot-a72_clean u-boot-r5_clean
@@ -69,13 +71,8 @@ u-boot-r5_clean:
 
 u-boot_stage:
 	mkdir -p $(TI_SDK_PATH)/board-support/built-images
-ifeq ($(PLATFORM_TYPE),gp)
-	cp $(UBOOT_A72_BUILD_DIR)/tispl.bin $(TI_SDK_PATH)/board-support/built-images/tispl.bin
-	cp $(UBOOT_A72_BUILD_DIR)/u-boot.img $(TI_SDK_PATH)/board-support/built-images/u-boot.img
-else ifeq ($(PLATFORM_TYPE),hs)
-	cp $(UBOOT_A72_BUILD_DIR)/tispl.bin_HS $(TI_SDK_PATH)/board-support/built-images/tispl.bin
-	cp $(UBOOT_A72_BUILD_DIR)/u-boot.img_HS $(TI_SDK_PATH)/board-support/built-images/u-boot.img
-endif
+	cp $(UBOOT_A72_BUILD_DIR)/tispl.bin$(UBOOT_IMAGE_SUFFIX) $(TI_SDK_PATH)/board-support/built-images/tispl.bin
+	cp $(UBOOT_A72_BUILD_DIR)/u-boot.img$(UBOOT_IMAGE_SUFFIX) $(TI_SDK_PATH)/board-support/built-images/u-boot.img
 	cp $(UBOOT_R5_BUILD_DIR)/tiboot3.bin $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin
 	$(MAKE) sysfw-image_stage
 

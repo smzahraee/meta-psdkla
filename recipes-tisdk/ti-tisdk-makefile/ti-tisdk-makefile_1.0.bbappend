@@ -129,8 +129,8 @@ do_install_append_j7() {
 
     cat >> ${D}/Rules.make << __EOF__
 
+# Root of the boot partition to install boot binaries
 BOOTFS ?=__BOOTFS__
-
 __EOF__
 }
 
@@ -192,4 +192,4 @@ endif
 __EOF__
 }
 
-PR_append = "_psdkla_14"
+PR_append = "_psdkla_15"
