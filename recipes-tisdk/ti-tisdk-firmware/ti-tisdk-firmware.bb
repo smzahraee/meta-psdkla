@@ -35,7 +35,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/licenses/TI-TFL;md5=a1b59cb7ba
                     file://${COREBASE}/meta/files/common-licenses/OpenSSL;md5=4eb1764f3e65fafa1a25057f9082f2ae \
                     "
 
-SRC_URI = "repo://git.ti.com/git/processor-sdk/psdk_repo_manifests.git;protocol=https;branch=REL.PSDK.JACINTO.08.05.00.05;manifest=vision_apps_yocto.xml"
+SRC_URI = "repo://git.ti.com/processor-sdk/psdk_repo_manifests.git;protocol=git;branch=7148c401b51285d0fac9bdb7797e8bfdc5d1ae1a;manifest=vision_apps_yocto.xml"
 
 FILES_${PN} += "/opt/*"
 FILES_${PN} += "${nonarch_base_libdir}/firmware"
