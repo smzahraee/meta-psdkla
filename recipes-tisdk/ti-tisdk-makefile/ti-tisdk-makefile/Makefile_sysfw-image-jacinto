@@ -76,7 +76,7 @@ sysfw-image_clean:
 
 sysfw-image_stage:
 	mkdir -p $(TI_SDK_PATH)/board-support/built-images
-ifeq ($(SBL_PATH),)
+ifeq ($(SBL_PATH),"")
 	cp $(TI_SDK_PATH)/board-support/k3-image-gen-*/sysfw.itb $(TI_SDK_PATH)/board-support/built-images/sysfw.itb
 else
 	cp $(TI_SDK_PATH)/board-support/k3-image-gen-*/tiboot3.bin $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin
@@ -91,7 +91,7 @@ sysfw-image_install: sysfw-image_stage
 		echo "Please try again with BOOTFS=<boot-filesystem>"; \
 		exit 1; \
 	fi
-ifeq ($(SBL_PATH),)
+ifeq ($(SBL_PATH),"")
 	cp $(TI_SDK_PATH)/board-support/built-images/sysfw.itb $(BOOTFS)
 else
 	cp $(TI_SDK_PATH)/board-support/built-images/tiboot3.bin $(BOOTFS)

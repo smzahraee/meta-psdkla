@@ -16,7 +16,7 @@ linux-dtbs_stage:
 	mkdir -p $(TI_SDK_PATH)/board-support/built-images
 ifeq ($(findstring hs,$(PLATFORM)),hs)
 	@for DTB in __KERNEL_DEVICETREE__; do \
-		$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/dts/$$DTB $(TI_SDK_PATH)/board-support/built-images/$${DTB}.sec; \
+		$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/dts/$$DTB $(TI_SDK_PATH)/board-support/built-images/$$(basename $$DTB).sec; \
 	done
 else
 	@for DTB in __KERNEL_DEVICETREE__; do \
@@ -36,7 +36,7 @@ ifeq ($(findstring hs,$(PLATFORM)),)
 	fi
 	install -d $(DESTDIR)/boot
 	@for DTB in __KERNEL_DEVICETREE__; do \
-		install -m 0644 $(TI_SDK_PATH)/board-support/built-images/$$DTB $(DESTDIR)/boot/; \
+		install -m 0644 $(TI_SDK_PATH)/board-support/built-images/$$(basename $$DTB) $(DESTDIR)/boot/; \
 	done
 endif
 
