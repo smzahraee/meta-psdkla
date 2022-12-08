@@ -95,14 +95,14 @@ ALTERNATIVE_${PN}_j7 = "\
                     j7-c66_0-fw \
                     j7-c66_1-fw \
                     j7-c71_0-fw\
+                    j7-mcu-r5f0_1-fw \
+                    j7-main-r5f1_0-fw \
+                    j7-main-r5f1_1-fw \
                     "
 
 # These commented out are not overwritten by this recipe at this time
 #ALTERNATIVE_${PN}_j7 += "\
 #                    j7-mcu-r5f0_0-fw \
-#                    j7-mcu-r5f0_1-fw \
-#                    j7-main-r5f1_0-fw \
-#                    j7-main-r5f1_1-fw \
 #                    "
 
 ALTERNATIVE_${PN}_j721s2-evm = "\
@@ -110,14 +110,14 @@ ALTERNATIVE_${PN}_j721s2-evm = "\
                     j721s2-main-r5f0_1-fw \
                     j721s2-c71_0-fw \
                     j721s2-c71_1-fw \
+                    j721s2-mcu-r5f0_1-fw \
+                    j721s2-main-r5f1_0-fw \
+                    j721s2-main-r5f1_1-fw \
                     "
 
 # These commented out are not overwritten by this recipe at this time
 #ALTERNATIVE_${PN}_j721s2-evm += "\
 #                    j721s2-mcu-r5f0_0-fw \
-#                    j721s2-mcu-r5f0_1-fw \
-#                    j721s2-main-r5f1_0-fw \
-#                    j721s2-main-r5f1_1-fw \
 #                    "
 
 ALTERNATIVE_${PN}_j721s2-hs-evm = "\
@@ -125,14 +125,14 @@ ALTERNATIVE_${PN}_j721s2-hs-evm = "\
                     j721s2-main-r5f0_1-fw \
                     j721s2-c71_0-fw \
                     j721s2-c71_1-fw \
+                    j721s2-mcu-r5f0_1-fw \
+                    j721s2-main-r5f1_0-fw \
+                    j721s2-main-r5f1_1-fw \
                     "
 
 # These commented out are not overwritten by this recipe at this time
 #ALTERNATIVE_${PN}_j721s2-hs-evm += "\
 #                    j721s2-mcu-r5f0_0-fw \
-#                    j721s2-mcu-r5f0_1-fw \
-#                    j721s2-main-r5f1_0-fw \
-#                    j721s2-main-r5f1_1-fw \
 #                    "
 
 ALTERNATIVE_${PN}_j784s4-evm = "\
@@ -146,12 +146,12 @@ ALTERNATIVE_${PN}_j784s4-evm = "\
                     j784s4-c71_1-fw \
                     j784s4-c71_2-fw \
                     j784s4-c71_3-fw \
+                    j784s4-mcu-r5f0_1-fw \
                     "
 
 # These commented out are not overwritten by this recipe at this time
 #ALTERNATIVE_${PN}_j784s4-evm += "\
 #                    j784s4-mcu-r5f0_0-fw \
-#                    j784s4-mcu-r5f0_1-fw \
 #                    "
 
 ALTERNATIVE_${PN}_am62axx-evm = "\
@@ -199,26 +199,26 @@ ALTERNATIVE_LINK_NAME[am62a-c71_0-fw] = "${base_libdir}/firmware/am62a-c71_0-fw"
 # Create the firmware alternatives
 
 ALTERNATIVE_TARGET[j7-mcu-r5f0_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_testb_mcu1_0_release_strip.xer5f"
-ALTERNATIVE_TARGET[j7-mcu-r5f0_1-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu1_1_release_strip.xer5f"
+ALTERNATIVE_TARGET[j7-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out"
 ALTERNATIVE_TARGET[j7-main-r5f0_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out"
 ALTERNATIVE_TARGET[j7-main-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out"
-ALTERNATIVE_TARGET[j7-main-r5f1_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu3_0_release_strip.xer5f"
-ALTERNATIVE_TARGET[j7-main-r5f1_1-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu3_1_release_strip.xer5f"
+ALTERNATIVE_TARGET[j7-main-r5f1_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out"
+ALTERNATIVE_TARGET[j7-main-r5f1_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_1.out"
 ALTERNATIVE_TARGET[j7-c66_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c6x_1.out"
 ALTERNATIVE_TARGET[j7-c66_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c6x_2.out"
 ALTERNATIVE_TARGET[j7-c71_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out"
 
 ALTERNATIVE_TARGET[j721s2-mcu-r5f0_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_testb_mcu1_0_release_strip.xer5f"
-ALTERNATIVE_TARGET[j721s2-mcu-r5f0_1-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu1_1_release_strip.xer5f"
+ALTERNATIVE_TARGET[j721s2-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu1_1.out"
 ALTERNATIVE_TARGET[j721s2-main-r5f0_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out"
 ALTERNATIVE_TARGET[j721s2-main-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out"
-ALTERNATIVE_TARGET[j721s2-main-r5f1_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu3_0_release_strip.xer5f"
-ALTERNATIVE_TARGET[j721s2-main-r5f1_1-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu3_1_release_strip.xer5f"
+ALTERNATIVE_TARGET[j721s2-main-r5f1_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out"
+ALTERNATIVE_TARGET[j721s2-main-r5f1_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_1.out"
 ALTERNATIVE_TARGET[j721s2-c71_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out"
 ALTERNATIVE_TARGET[j721s2-c71_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_2.out"
 
 ALTERNATIVE_TARGET[j784s4-mcu-r5f0_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_testb_mcu1_0_release_strip.xer5f"
-ALTERNATIVE_TARGET[j784s4-mcu-r5f0_1-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_test_mcu1_1_release_strip.xer5f"
+ALTERNATIVE_TARGET[j784s4-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu1_1.out"
 ALTERNATIVE_TARGET[j784s4-main-r5f0_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out"
 ALTERNATIVE_TARGET[j784s4-main-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out"
 ALTERNATIVE_TARGET[j784s4-main-r5f1_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out"
