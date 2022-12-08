@@ -1,7 +1,7 @@
 SUMMARY = "OpenVX Middleware library and compatible PSDK RTOS Firmware"
 DESCRIPTION = "Builds tivision_apps user space library and installs prebuilt PSDK RTOS Firmware"
 
-PR = "r2"
+PR = "r3"
 
 LICENSE = "TI-TFL & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT & Apache-2.0 & Apache-2.0-with-LLVM-exception & \
            Khronos & Hewlett-Packard & Patrick-Powell & FreeType & Zlib & CC0-1.0 & OpenSSL"
@@ -64,7 +64,28 @@ do_compile() {
     oe_runmake yocto_build
 }
 
+FW_SRC_DIR="${S}/repo/psdk_fw/${PLAT_SOC}"
 FW_DST_DIR="${D}${nonarch_base_libdir}/firmware"
+
+require recipes-ti/includes/ti-paths.inc
+
+DEPENDS_append = " ${@ '' if d.getVar('TI_SECURE_DEV_PKG_K3') else 'ti-k3-secdev-native' }"
+TI_SECURE_DEV_PKG = "${@ d.getVar('TI_SECURE_DEV_PKG_K3') or '${TI_K3_SECDEV_INSTALL_DIR}' }"
+export TI_SECURE_DEV_PKG
+
+sign_fw() {
+    suffix=.signed
+    files_list=$(find ${FW_BIN_DIR} -type f ! -name "*${suffix}")
+    for name in $(echo $files_list); do
+	    ${TI_SECURE_DEV_PKG}/scripts/secure-binary-image.sh $name $name$suffix
+    done
+}
+
+do_install_prepend() {
+    # Sign prebuilt firmware binaries for HS platforms
+    FW_BIN_DIR=${FW_SRC_DIR}/vision_apps_eaik sign_fw
+    FW_BIN_DIR=${FW_SRC_DIR}/vision_apps_evm sign_fw
+}
 
 do_install() {
     CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"
@@ -73,7 +94,7 @@ do_install() {
 
     # Copy prebuilt firmware from repo to filesystem
     install -d ${FW_DST_DIR}
-    cp ${CP_ARGS} ${S}/repo/psdk_fw/${PLAT_SOC}/* ${FW_DST_DIR}/.
+    cp ${CP_ARGS} ${FW_SRC_DIR}/* ${FW_DST_DIR}/.
 }
 
 # Set up names for the firmwares
@@ -86,6 +107,13 @@ ALTERNATIVE_${PN}_j7 = "\
                     j7-mcu-r5f0_1-fw \
                     j7-main-r5f1_0-fw \
                     j7-main-r5f1_1-fw \
+                    j7-main-r5f0_0-fw-sec \
+                    j7-main-r5f0_1-fw-sec \
+                    j7-main-r5f1_0-fw-sec \
+                    j7-main-r5f1_1-fw-sec \
+                    j7-c66_0-fw-sec \
+                    j7-c66_1-fw-sec \
+                    j7-c71_0-fw-sec \
                     "
 
 # These commented out are not overwritten by this recipe at this time
@@ -101,25 +129,16 @@ ALTERNATIVE_${PN}_j721s2-evm = "\
                     j721s2-mcu-r5f0_1-fw \
                     j721s2-main-r5f1_0-fw \
                     j721s2-main-r5f1_1-fw \
+                    j721s2-main-r5f0_0-fw-sec \
+                    j721s2-main-r5f0_1-fw-sec \
+                    j721s2-c71_0-fw-sec \
+                    j721s2-c71_1-fw-sec \
+                    j721s2-main-r5f1_0-fw-sec \
+                    j721s2-main-r5f1_1-fw-sec \
                     "
 
 # These commented out are not overwritten by this recipe at this time
 #ALTERNATIVE_${PN}_j721s2-evm += "\
-#                    j721s2-mcu-r5f0_0-fw \
-#                    "
-
-ALTERNATIVE_${PN}_j721s2-hs-evm = "\
-                    j721s2-main-r5f0_0-fw \
-                    j721s2-main-r5f0_1-fw \
-                    j721s2-c71_0-fw \
-                    j721s2-c71_1-fw \
-                    j721s2-mcu-r5f0_1-fw \
-                    j721s2-main-r5f1_0-fw \
-                    j721s2-main-r5f1_1-fw \
-                    "
-
-# These commented out are not overwritten by this recipe at this time
-#ALTERNATIVE_${PN}_j721s2-hs-evm += "\
 #                    j721s2-mcu-r5f0_0-fw \
 #                    "
 
@@ -135,6 +154,16 @@ ALTERNATIVE_${PN}_j784s4-evm = "\
                     j784s4-c71_2-fw \
                     j784s4-c71_3-fw \
                     j784s4-mcu-r5f0_1-fw \
+                    j784s4-main-r5f0_0-fw-sec \
+                    j784s4-main-r5f0_1-fw-sec \
+                    j784s4-main-r5f1_0-fw-sec \
+                    j784s4-main-r5f1_1-fw-sec \
+                    j784s4-main-r5f2_0-fw-sec \
+                    j784s4-main-r5f2_1-fw-sec \
+                    j784s4-c71_0-fw-sec \
+                    j784s4-c71_1-fw-sec \
+                    j784s4-c71_2-fw-sec \
+                    j784s4-c71_3-fw-sec \
                     "
 
 # These commented out are not overwritten by this recipe at this time
@@ -159,6 +188,14 @@ ALTERNATIVE_LINK_NAME[j7-c66_0-fw] = "${base_libdir}/firmware/j7-c66_0-fw"
 ALTERNATIVE_LINK_NAME[j7-c66_1-fw] = "${base_libdir}/firmware/j7-c66_1-fw"
 ALTERNATIVE_LINK_NAME[j7-c71_0-fw] = "${base_libdir}/firmware/j7-c71_0-fw"
 
+ALTERNATIVE_LINK_NAME[j7-main-r5f0_0-fw-sec] = "${base_libdir}/firmware/j7-main-r5f0_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j7-main-r5f0_1-fw-sec] = "${base_libdir}/firmware/j7-main-r5f0_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j7-main-r5f1_0-fw-sec] = "${base_libdir}/firmware/j7-main-r5f1_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j7-main-r5f1_1-fw-sec] = "${base_libdir}/firmware/j7-main-r5f1_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j7-c66_0-fw-sec] = "${base_libdir}/firmware/j7-c66_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j7-c66_1-fw-sec] = "${base_libdir}/firmware/j7-c66_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j7-c71_0-fw-sec] = "${base_libdir}/firmware/j7-c71_0-fw-sec"
+
 ALTERNATIVE_LINK_NAME[j721s2-mcu-r5f0_0-fw] = "${base_libdir}/firmware/j721s2-mcu-r5f0_0-fw"
 ALTERNATIVE_LINK_NAME[j721s2-mcu-r5f0_1-fw] = "${base_libdir}/firmware/j721s2-mcu-r5f0_1-fw"
 ALTERNATIVE_LINK_NAME[j721s2-main-r5f0_0-fw] = "${base_libdir}/firmware/j721s2-main-r5f0_0-fw"
@@ -167,6 +204,13 @@ ALTERNATIVE_LINK_NAME[j721s2-main-r5f1_0-fw] = "${base_libdir}/firmware/j721s2-m
 ALTERNATIVE_LINK_NAME[j721s2-main-r5f1_1-fw] = "${base_libdir}/firmware/j721s2-main-r5f1_1-fw"
 ALTERNATIVE_LINK_NAME[j721s2-c71_0-fw] = "${base_libdir}/firmware/j721s2-c71_0-fw"
 ALTERNATIVE_LINK_NAME[j721s2-c71_1-fw] = "${base_libdir}/firmware/j721s2-c71_1-fw"
+
+ALTERNATIVE_LINK_NAME[j721s2-main-r5f0_0-fw-sec] = "${base_libdir}/firmware/j721s2-main-r5f0_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j721s2-main-r5f0_1-fw-sec] = "${base_libdir}/firmware/j721s2-main-r5f0_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j721s2-main-r5f1_0-fw-sec] = "${base_libdir}/firmware/j721s2-main-r5f1_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j721s2-main-r5f1_1-fw-sec] = "${base_libdir}/firmware/j721s2-main-r5f1_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j721s2-c71_0-fw-sec] = "${base_libdir}/firmware/j721s2-c71_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j721s2-c71_1-fw-sec] = "${base_libdir}/firmware/j721s2-c71_1-fw-sec"
 
 ALTERNATIVE_LINK_NAME[j784s4-mcu-r5f0_0-fw] = "${base_libdir}/firmware/j784s4-mcu-r5f0_0-fw"
 ALTERNATIVE_LINK_NAME[j784s4-mcu-r5f0_1-fw] = "${base_libdir}/firmware/j784s4-mcu-r5f0_1-fw"
@@ -180,6 +224,17 @@ ALTERNATIVE_LINK_NAME[j784s4-c71_0-fw] = "${base_libdir}/firmware/j784s4-c71_0-f
 ALTERNATIVE_LINK_NAME[j784s4-c71_1-fw] = "${base_libdir}/firmware/j784s4-c71_1-fw"
 ALTERNATIVE_LINK_NAME[j784s4-c71_2-fw] = "${base_libdir}/firmware/j784s4-c71_2-fw"
 ALTERNATIVE_LINK_NAME[j784s4-c71_3-fw] = "${base_libdir}/firmware/j784s4-c71_3-fw"
+
+ALTERNATIVE_LINK_NAME[j784s4-main-r5f0_0-fw-sec] = "${base_libdir}/firmware/j784s4-main-r5f0_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-main-r5f0_1-fw-sec] = "${base_libdir}/firmware/j784s4-main-r5f0_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-main-r5f1_0-fw-sec] = "${base_libdir}/firmware/j784s4-main-r5f1_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-main-r5f1_1-fw-sec] = "${base_libdir}/firmware/j784s4-main-r5f1_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-main-r5f2_0-fw-sec] = "${base_libdir}/firmware/j784s4-main-r5f2_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-main-r5f2_1-fw-sec] = "${base_libdir}/firmware/j784s4-main-r5f2_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-c71_0-fw-sec] = "${base_libdir}/firmware/j784s4-c71_0-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-c71_1-fw-sec] = "${base_libdir}/firmware/j784s4-c71_1-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-c71_2-fw-sec] = "${base_libdir}/firmware/j784s4-c71_2-fw-sec"
+ALTERNATIVE_LINK_NAME[j784s4-c71_3-fw-sec] = "${base_libdir}/firmware/j784s4-c71_3-fw-sec"
 
 ALTERNATIVE_LINK_NAME[am62a-mcu-r5f0_0-fw] = "${base_libdir}/firmware/am62a-mcu-r5f0_0-fw"
 ALTERNATIVE_LINK_NAME[am62a-c71_0-fw] = "${base_libdir}/firmware/am62a-c71_0-fw"
@@ -196,6 +251,14 @@ ALTERNATIVE_TARGET[j7-c66_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_a
 ALTERNATIVE_TARGET[j7-c66_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c6x_2.out"
 ALTERNATIVE_TARGET[j7-c71_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out"
 
+ALTERNATIVE_TARGET[j7-main-r5f0_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out.signed"
+ALTERNATIVE_TARGET[j7-main-r5f0_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out.signed"
+ALTERNATIVE_TARGET[j7-main-r5f1_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out.signed"
+ALTERNATIVE_TARGET[j7-main-r5f1_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_1.out.signed"
+ALTERNATIVE_TARGET[j7-c66_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c6x_1.out.signed"
+ALTERNATIVE_TARGET[j7-c66_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c6x_2.out.signed"
+ALTERNATIVE_TARGET[j7-c71_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out.signed"
+
 ALTERNATIVE_TARGET[j721s2-mcu-r5f0_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_testb_mcu1_0_release_strip.xer5f"
 ALTERNATIVE_TARGET[j721s2-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu1_1.out"
 ALTERNATIVE_TARGET[j721s2-main-r5f0_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out"
@@ -204,6 +267,13 @@ ALTERNATIVE_TARGET[j721s2-main-r5f1_0-fw] = "${base_libdir}/firmware/vision_apps
 ALTERNATIVE_TARGET[j721s2-main-r5f1_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_1.out"
 ALTERNATIVE_TARGET[j721s2-c71_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out"
 ALTERNATIVE_TARGET[j721s2-c71_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_2.out"
+
+ALTERNATIVE_TARGET[j721s2-main-r5f0_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out.signed"
+ALTERNATIVE_TARGET[j721s2-main-r5f0_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out.signed"
+ALTERNATIVE_TARGET[j721s2-main-r5f1_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out.signed"
+ALTERNATIVE_TARGET[j721s2-main-r5f1_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_1.out.signed"
+ALTERNATIVE_TARGET[j721s2-c71_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out.signed"
+ALTERNATIVE_TARGET[j721s2-c71_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_2.out.signed"
 
 ALTERNATIVE_TARGET[j784s4-mcu-r5f0_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_testb_mcu1_0_release_strip.xer5f"
 ALTERNATIVE_TARGET[j784s4-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu1_1.out"
@@ -217,6 +287,17 @@ ALTERNATIVE_TARGET[j784s4-c71_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/
 ALTERNATIVE_TARGET[j784s4-c71_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_2.out"
 ALTERNATIVE_TARGET[j784s4-c71_2-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_3.out"
 ALTERNATIVE_TARGET[j784s4-c71_3-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_4.out"
+
+ALTERNATIVE_TARGET[j784s4-main-r5f0_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out.signed"
+ALTERNATIVE_TARGET[j784s4-main-r5f0_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out.signed"
+ALTERNATIVE_TARGET[j784s4-main-r5f1_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out.signed"
+ALTERNATIVE_TARGET[j784s4-main-r5f1_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_1.out.signed"
+ALTERNATIVE_TARGET[j784s4-main-r5f2_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu4_0.out.signed"
+ALTERNATIVE_TARGET[j784s4-main-r5f2_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu4_1.out.signed"
+ALTERNATIVE_TARGET[j784s4-c71_0-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out.signed"
+ALTERNATIVE_TARGET[j784s4-c71_1-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_2.out.signed"
+ALTERNATIVE_TARGET[j784s4-c71_2-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_3.out.signed"
+ALTERNATIVE_TARGET[j784s4-c71_3-fw-sec] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_4.out.signed"
 
 ALTERNATIVE_TARGET[am62a-mcu-r5f0_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu1_0.out"
 ALTERNATIVE_TARGET[am62a-c71_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_c7x_1.out"
