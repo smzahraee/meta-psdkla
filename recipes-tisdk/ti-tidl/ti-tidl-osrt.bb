@@ -11,14 +11,14 @@ LICENSE = "MIT"
 
 
 
-SRC_URI = "https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_04_00_00/psdkr/pywhl/dlr-1.10.0-py3-none-any.whl;name=dlr;subdir=${S}/dlr\
+SRC_URI = "https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_05_00_00/psdkr/pywhl/dlr-1.10.0-py3-none-any.whl;name=dlr;subdir=${S}/dlr\
            https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_04_00_00/psdkr/pywhl/tflite_runtime-2.8.2-cp38-cp38-linux_aarch64.whl;name=tflite;subdir=${S}/tflite\
            https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_04_00_00/psdkr/pywhl/onnxruntime_tidl-1.7.0-cp38-cp38-linux_aarch64.whl;name=ort;subdir=${S}/ort\
            https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_04_00_00/psdkr/tflite_2.8_aragoj7.tar.gz;name=tfl_lib;subdir=${S}/tfl_lib\
            https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_04_00_00/psdkr/onnx_1.7.0_aragoj7.tar.gz;name=ort_lib;subdir=${S}/ort_lib\
            https://software-dl.ti.com/jacinto7/esd/tidl-tools/08_04_00_00/psdkr/opencv_4.2.0_aragoj7.tar.gz;name=opencv;subdir=${S}/opencv\
 "
-SRC_URI[dlr.sha256sum] = "80c5984636659d27229c3c0abb8ef6de9db7f92ec7f74ff4be53b52d8342a7bd"
+SRC_URI[dlr.sha256sum] = "2d607bc1dffeeb0eb49b443955a32b839921dd95533466403d1e3594986c5cc5"
 SRC_URI[tflite.sha256sum] = "af70f3e51c11e0dbe458e36c6790f04b84db361b8a9b4916c94aa410989d1904"
 SRC_URI[ort.sha256sum] = "096bc4de623f5515e08b5c0840f50a371fadcb195c1e8dd3b2939d535f454828"
 SRC_URI[tfl_lib.sha256sum] = "c4831d0ba0366c2afcca135e1e4e81d34c5cf29977b3ab3b4ecb211f76546e0b"
