@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1f7721ee7d288457c5a70d0c8ff44b87"
 
 SRC_URI = "git://github.com/TexasInstruments/edgeai-gst-plugins.git;protocol=https;branch=develop"
-SRCREV = "d57d5817791d9fbb73d32f130801740b9eab0335"
+SRCREV = "0c43bb5648c10278ae33d0c875769f586adcacf4"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
@@ -18,7 +18,7 @@ PLAT_SOC_am62axx-evm = "am62a"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "edgeai-tiovx-modules gstreamer1.0-plugins-base"
+DEPENDS = "edgeai-tiovx-modules gstreamer1.0-plugins-base edgeai-dl-inferer ti-tidl-osrt"
 RDEPENDS_${PN} = "edgeai-tiovx-modules"
 RDEPENDS_${PN}-source = "bash edgeai-tiovx-modules-dev"
 
