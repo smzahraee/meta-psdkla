@@ -3,21 +3,8 @@ DESCRIPTION = "Builds tivision_apps user space library and installs prebuilt PSD
 
 PR = "r0"
 
-LICENSE = "TI-TFL & \
-           BSD-2-Clause & \
-           BSD-3-Clause & \
-           BSD-4-Clause & \
-           MIT & \
-           Apache-2.0 & \
-           Apache-2.0-with-LLVM-exception & \
-           Khronos & \
-           Hewlett-Packard & \
-           Patrick-Powell & \
-           FreeType & \
-           Zlib & \
-           CC0-1.0 & \
-           OpenSSL \
-           "
+LICENSE = "TI-TFL & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT & Apache-2.0 & Apache-2.0-with-LLVM-exception & \
+           Khronos & Hewlett-Packard & Patrick-Powell & FreeType & Zlib & CC0-1.0 & OpenSSL"
 
 LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/licenses/TI-TFL;md5=a1b59cb7ba626b9dbbcbf00f3fbc438a \
                     file://${COMMON_LICENSE_DIR}/BSD-2-Clause;md5=cb641bc04cda31daea161b1bc15da69f \
