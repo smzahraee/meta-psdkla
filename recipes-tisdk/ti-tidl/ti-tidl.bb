@@ -10,8 +10,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 LICENSE = "MIT"
 
 
-SRC_URI = "git://git@bitbucket.itg.ti.com/processor-sdk-vision/arm-tidl.git;tag=REL.TIDL.J7.08.05.00.14;nobranch=1;protocol=ssh;name=arm-tidl;destsuffix=${S}/arm-tidl \
-           git://git@bitbucket.itg.ti.com/processor-sdk-vision/concerto.git;branch=master;rev=dfadb00efc08224e31df5819042c1e5356570b0d;protocol=ssh;name=concerto;destsuffix=${S}/concerto \
+SRC_URI = "git://git.ti.com/processor-sdk-vision/arm-tidl.git;tag=REL.TIDL.J7.08.05.00.16;nobranch=1;protocol=git;name=arm-tidl;destsuffix=${S}/arm-tidl \
+           git://git.ti.com/processor-sdk/concerto.git;tag=REL.PSDK.JACINTO.08.05.00.08;nobranch=1;protocol=git;name=concerto;destsuffix=${S}/concerto \
            git://github.com/TexasInstruments/onnxruntime;branch=tidl-j7;rev=a2c52112dbd22e014bcf795b09e172aaa21afcea;protocol=https;name=onnxruntime;destsuffix=${S}/onnxruntime  \
            git://github.com/TexasInstruments/tensorflow;branch=tidl-j7-2.8;rev=233657497d2735cae9e840df9e650e268149070d;protocol=https;name=tensorflow;destsuffix=${S}/tensorflow  \
            https://github.com/protocolbuffers/protobuf/releases/download/v3.11.3/protobuf-cpp-3.11.3.tar.gz;name=protobuf;subdir=${S}/protobuf-3.11.3\
