@@ -1,6 +1,7 @@
 [Unit]
 Description=Edge AI Init
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/opt/edge_ai_apps/init_script.sh
