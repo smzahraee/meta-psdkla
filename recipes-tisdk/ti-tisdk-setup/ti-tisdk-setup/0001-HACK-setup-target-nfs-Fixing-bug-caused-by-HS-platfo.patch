@@ -1,0 +1,27 @@
+From 56b955da3cb736d1087cab1da616143bf0d893c7 Mon Sep 17 00:00:00 2001
+From: Aniket Limaye <a-limaye@ti.com>
+Date: Wed, 14 Dec 2022 18:40:07 +0530
+Subject: [PATCH] [HACK] setup-target-nfs: Fixing bug caused by HS platform
+ addition to Rules.make
+
+Signed-off-by: Aniket Limaye <a-limaye@ti.com>
+---
+ setup-targetfs-nfs.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup-targetfs-nfs.sh b/setup-targetfs-nfs.sh
+index 8f89f0d..67ac08f 100644
+--- a/setup-targetfs-nfs.sh
++++ b/setup-targetfs-nfs.sh
+@@ -133,7 +133,7 @@ echo $dst > $cwd/../.targetfs
+ echo "set sysroot $dst" > $cwd/../.gdbinit
+ echo "--------------------------------------------------------------------------------"
+ 
+-platform=`grep PLATFORM= $cwd/../Rules.make | cut -d= -f2`
++platform=`grep ^PLATFORM= $cwd/../Rules.make | cut -d= -f2`
+ echo
+ echo "--------------------------------------------------------------------------------"
+ echo "This step will set up the SDK to install binaries in to:"
+-- 
+2.17.1
+
