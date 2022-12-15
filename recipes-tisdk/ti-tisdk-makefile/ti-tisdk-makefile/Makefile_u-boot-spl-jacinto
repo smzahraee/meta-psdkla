@@ -22,10 +22,12 @@ UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/r5
 
 u-boot: u-boot-a72 u-boot-r5
 ifeq ($(findstring hs,$(PLATFORM)),hs)
+	@echo "===================== WARNING ======================"
 	@echo "If using dorprocboot=1 in u-boot, the remote core firmwares will need to be signed for HS platforms."
 	@echo "Use following procedure to sign any binary"
 	@echo "$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh <input-file-name> <output-file-name>"
 	@echo "Install the signed firmware and appropriate softlinks at /lib/firmware"
+	@echo "===================================================="
 endif
 
 u-boot_clean: u-boot-a72_clean u-boot-r5_clean
