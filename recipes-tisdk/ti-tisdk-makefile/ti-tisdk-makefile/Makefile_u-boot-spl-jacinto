@@ -26,7 +26,10 @@ ifeq ($(findstring hs,$(PLATFORM)),hs)
 	@echo "If using dorprocboot=1 in u-boot, the remote core firmwares will need to be signed for HS platforms."
 	@echo "Use following procedure to sign any binary"
 	@echo "$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh <input-file-name> <output-file-name>"
-	@echo "Install the signed firmware and appropriate softlinks at /lib/firmware"
+	@echo "Install the signed firmware and appropriate softlinks at /lib/firmware. For example:"
+	@echo "    cd <ROOTFS>/lib/firmware"
+	@echo "    $(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh pdk-ipc/ipc_echo_test_mcu1_1_release_strip.xer5f pdk-ipc/ipc_echo_test_mcu1_1_release_strip.xer5f.signed"
+	@echo "    ln -sfn /lib/firmware/pdk-ipc/ipc_echo_test_mcu1_1_release_strip.xer5f.signed j7-mcu-r5f0_1-fw-sec"
 	@echo "===================================================="
 endif
 
