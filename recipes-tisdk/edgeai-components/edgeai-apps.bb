@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1f7721ee7d288457c5a70d0c8ff44b87"
 
 SRC_URI = "git://git.ti.com/edgeai/edge_ai_apps.git;protocol=git;branch=develop"
-SRCREV = "a9790adcc11c5d33c7024d188b47c0c2dadbc04e"
+SRCREV = "211dca29d27a3ecd9841cb301e7561bd7aa58d8d"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"

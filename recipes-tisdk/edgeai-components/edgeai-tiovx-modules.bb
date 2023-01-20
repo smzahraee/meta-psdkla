@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1f7721ee7d288457c5a70d0c8ff44b87"
 
 SRC_URI = "git://github.com/TexasInstruments/edgeai-tiovx-modules.git;protocol=https;branch=develop"
-SRCREV = "1bcf0c0c09dabc1092645364919cd6aa19e39bd9"
+SRCREV = "4e0a3015b3ed3538a81d2c05b68b8469cbfd5ca7"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
