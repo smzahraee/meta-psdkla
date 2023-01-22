@@ -1,4 +1,4 @@
-From d379442930685559389a14fc08a5ad7a8cb2a091 Mon Sep 17 00:00:00 2001
+From db7d6866dd3c3b8747d42d1b7015d3891ae3e9af Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Mon, 12 Jul 2021 08:46:24 -0500
 Subject: [PATCH] arm64: dts: ti: Add DTB overlays for vision apps and
@@ -25,10 +25,10 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 457b5275b..407330f29 100644
+index 3f264b357..5412a79db 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -30,6 +30,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
+@@ -35,6 +35,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-csi2-ov5640.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-cam-imx219.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-hdr-ehrpwm.dtbo

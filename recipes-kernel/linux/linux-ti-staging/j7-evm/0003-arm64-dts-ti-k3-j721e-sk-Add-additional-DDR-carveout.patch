@@ -1,4 +1,4 @@
-From e3009a265c745420a3e5ddf7f526f914ec6543af Mon Sep 17 00:00:00 2001
+From a8c5ce29cb69f7547d71b0948c022f876abe9a3f Mon Sep 17 00:00:00 2001
 From: Siddharth Vadapalli <s-vadapalli@ti.com>
 Date: Thu, 17 Feb 2022 17:39:33 +0530
 Subject: [PATCH] arm64: dts: ti: k3-j721e-sk: Add additional DDR carveout
