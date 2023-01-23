@@ -14,7 +14,7 @@ DEPENDS = "ti-tidl-osrt yaml-cpp dlpack-headers opencv"
 RDEPENDS_${PN} += "ti-tidl-osrt-staticdev dlpack-headers"
 RDEPENDS_${PN}-source = "bash python3-core"
 
-COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|am62axx-evm"
+COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|j784s4-hs-evm|am62axx-evm"
 
 EXTRA_OECMAKE = "-DTARGET_FS=${WORKDIR}/recipe-sysroot -DCMAKE_SKIP_RPATH=TRUE"
 

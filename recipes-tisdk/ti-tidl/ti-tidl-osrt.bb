@@ -41,11 +41,12 @@ PLAT_SOC_j7-hs-evm = "j721e"
 PLAT_SOC_j721s2-evm = "j721s2"
 PLAT_SOC_j721s2-hs-evm = "j721s2"
 PLAT_SOC_j784s4-evm = "j784s4"
+PLAT_SOC_j784s4-hs-evm = "j784s4"
 PLAT_SOC_am62axx-evm = "am62a"
 
 DEPENDS += "python3-pip-native"
 
-COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|am62axx-evm"
+COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|j784s4-hs-evm|am62axx-evm"
 
 export SOC = "${PLAT_SOC}"
 export TARGET_FS = "${WORKDIR}/recipe-sysroot"

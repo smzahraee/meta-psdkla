@@ -10,7 +10,7 @@ SRCREV = "e723c44094d6719bf267a8815a00ad7cca775210"
 
 S = "${WORKDIR}/git"
 
-COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|am62axx-evm"
+COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|j784s4-hs-evm|am62axx-evm"
 
 inherit setuptools3
 
