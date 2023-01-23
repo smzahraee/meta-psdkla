@@ -58,9 +58,13 @@ IMAGE_INSTALL_append_j721s2-evm = " \
 	${EDGEAI_SDK} \
 "
 
+IMAGE_INSTALL_append_j784s4-evm = " \
+    ${EDGEAI_SDK} \
+"
+
 WKS_FILE = "edgeai-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
 IMAGE_FSTYPES_remove = "wic.bmap"
 
-PR_append = "_psdkla_11"
+PR_append = "_psdkla_12"
