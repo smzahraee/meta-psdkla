@@ -29,7 +29,7 @@ DTB_FILTER_j784s4-evm = "j784s4"
 
 # List of target side images to build for the SDK
 TARGET_IMAGES = "tisdk-default-image"
-
+TARGET_IMAGE_TYPES = "tar.xz"
 
 TISDK_TOOLCHAIN = "${@bb.utils.contains('MACHINE_FEATURES','gpu','meta-toolchain-arago-tisdk','meta-toolchain-arago-tisdk-server',d)}"
 TOOLCHAIN_SUFFIX = "${@bb.utils.contains('MACHINE_FEATURES','gpu','-tisdk','-tisdk-server',d)}"
