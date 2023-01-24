@@ -25,12 +25,11 @@ IMAGE_INSTALL_remove_j784s4-evm = "\
 "
 
 IMAGE_INSTALL_append = " \
-        docker \
         packagegroup-arago-gst-sdk-target \
         packagegroup-python3-jupyter \
 "
 
-IMAGE_INSTALL_append_j7-evm = " \
+EDGEAI_SDK = " \
         ti-tisdk-firmware-dev \
         ti-tidl-dev \
         ti-tidl-osrt-dev \
@@ -50,27 +49,17 @@ IMAGE_INSTALL_append_j7-evm = " \
         ti-gpio-py-source \
 "
 
+IMAGE_INSTALL_append_j7-evm = " \
+	${EDGEAI_SDK} \
+"
+
 IMAGE_INSTALL_append_j721s2-evm = " \
-        ti-tisdk-firmware-dev \
-        ti-tidl-dev \
-        ti-tidl-osrt-dev \
-        ti-tidl-osrt-staticdev \
-        edgeai-apps \
-        edgeai-init \
-        ti-gpio-cpp \
-        ti-gpio-py \
-        edgeai-tiovx-modules-dev \
-        edgeai-gst-plugins-dev \
-        edgeai-dl-inferer-staticdev \
-        edgeai-apps-source \
-        edgeai-gst-plugins-source \
-        edgeai-tiovx-modules-source \
-        edgeai-dl-inferer-source \
-        ti-gpio-cpp-source \
-        ti-gpio-py-source \
+	${EDGEAI_SDK} \
 "
 
 WKS_FILE = "edgeai-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
-PR_append = "_psdkla_7"
+IMAGE_FSTYPES_remove = "wic.bmap"
+
+PR_append = "_psdkla_9"
