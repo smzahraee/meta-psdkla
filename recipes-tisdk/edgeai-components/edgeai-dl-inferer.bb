@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4309553a9d3611cdf7a78bd169ec583c"
 
 SRC_URI = "git://git.ti.com/edgeai/edgeai-dl-inferer.git;protocol=git;branch=develop"
-SRCREV = "c0f76fcc224484e0593dc61611912a3c5715d8dd"
+SRCREV = "9980e520de5448082e3cb677be428b31c79ca744"
 
 S = "${WORKDIR}/git"
 
