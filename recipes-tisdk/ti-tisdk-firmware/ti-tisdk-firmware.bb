@@ -1,7 +1,7 @@
 SUMMARY = "OpenVX Middleware library and compatible PSDK RTOS Firmware"
 DESCRIPTION = "Builds tivision_apps user space library and installs prebuilt PSDK RTOS Firmware"
 
-PR = "r1"
+PR = "r2"
 
 LICENSE = "TI-TFL & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT & Apache-2.0 & Apache-2.0-with-LLVM-exception & \
            Khronos & Hewlett-Packard & Patrick-Powell & FreeType & Zlib & CC0-1.0 & OpenSSL"
@@ -187,7 +187,7 @@ ALTERNATIVE_LINK_NAME[am62a-c71_0-fw] = "${base_libdir}/firmware/am62a-c71_0-fw"
 # Create the firmware alternatives
 
 ALTERNATIVE_TARGET[j7-mcu-r5f0_0-fw] = "${base_libdir}/firmware/pdk-ipc/ipc_echo_testb_mcu1_0_release_strip.xer5f"
-ALTERNATIVE_TARGET[j7-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out"
+ALTERNATIVE_TARGET[j7-mcu-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu1_1.out"
 ALTERNATIVE_TARGET[j7-main-r5f0_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_0.out"
 ALTERNATIVE_TARGET[j7-main-r5f0_1-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu2_1.out"
 ALTERNATIVE_TARGET[j7-main-r5f1_0-fw] = "${base_libdir}/firmware/vision_apps_eaik/vx_app_rtos_linux_mcu3_0.out"
