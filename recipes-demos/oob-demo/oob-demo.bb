@@ -9,6 +9,10 @@ SRC_URI = " \
     file://j721e-evm-wallpaper.jpg \
     file://j7-evm-p0-wallpaper.jpg \
     file://j721e-sk-wallpaper.jpg \
+    file://j721s2-evm-wallpaper.jpg \
+    file://j721s2-sk-wallpaper.jpg \
+    file://j784s4-evm-wallpaper.jpg \
+    file://j784s4-sk-wallpaper.jpg \
     file://demo.service \
     file://weston-bg-update.service \
     file://weston-bg-update \
@@ -26,6 +30,8 @@ inherit systemd
 
 SOC="_soc_name_"
 SOC_j7-evm = "j721e"
+SOC_j721s2-evm = "j721s2"
+SOC_j784s4-evm = "j784s4"
 
 WALLPAPER_DEF = "${SOC}-evm-wallpaper.jpg"
 WALLPAPER_SK = "${SOC}-sk-wallpaper.jpg"
@@ -63,4 +69,4 @@ FILES_${PN} += " \
 	${datadir}/demo/* \
 "
 
-PR_append = "_psdkla_2"
+PR_append = "_psdkla_3"
