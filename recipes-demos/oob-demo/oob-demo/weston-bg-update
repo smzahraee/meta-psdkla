@@ -7,9 +7,9 @@ done
 # Point weston background-image to specific board based on the compatible string
 # from the device tree proc.
 if grep -q sk <<< cat /proc/device-tree/compatible; then
-	sed -i "/^background-image=/s/=.*/=\/usr\/share\/demo\/j7-sk-p0-wallpaper.jpg/" /etc/weston.ini
+	sed -i "/^background-image=/s/=.*/=\/usr\/share\/demo\/__WALLPAPER_SK__/" /etc/weston.ini
 else
-	sed -i "/^background-image=/s/=.*/=\/usr\/share\/demo\/j7-evm-oob-wallpaper.jpg/" /etc/weston.ini
+	sed -i "/^background-image=/s/=.*/=\/usr\/share\/demo\/__WALLPAPER_DEF__/" /etc/weston.ini
 fi
 
 exit 0
