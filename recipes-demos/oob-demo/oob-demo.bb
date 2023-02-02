@@ -7,7 +7,6 @@ FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 
 SRC_URI = " \
     file://j721e-evm-wallpaper.jpg \
-    file://j7-evm-p0-wallpaper.jpg \
     file://j721e-sk-wallpaper.jpg \
     file://j721s2-evm-wallpaper.jpg \
     file://j721s2-sk-wallpaper.jpg \
@@ -39,7 +38,6 @@ WALLPAPER_SK = "${SOC}-sk-wallpaper.jpg"
 do_install() {
 	install -d ${D}/${datadir}/demo
 	install -m 644 ${WORKDIR}/${WALLPAPER_DEF} ${D}${datadir}/demo/
-	install -m 644 ${WORKDIR}/j7-evm-p0-wallpaper.jpg ${D}${datadir}/demo/
 	install -m 644 ${WORKDIR}/${WALLPAPER_SK} ${D}${datadir}/demo/
 	install -m 0755 ${WORKDIR}/demo.sh ${D}${datadir}/demo/
 
@@ -69,4 +67,4 @@ FILES_${PN} += " \
 	${datadir}/demo/* \
 "
 
-PR_append = "_psdkla_3"
+PR_append = "_psdkla_4"

@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/${MACHINE}:"
 
 SRC_URI_append_j7 = "\
-    file://Makefile_oob-demo \
     file://Makefile_u-boot-spl-jacinto \
     file://Makefile_sysfw-image-jacinto \
     file://Makefile_linux-jacinto \
@@ -46,9 +45,6 @@ MAKEFILES_COMMON_remove_j7-evm = "\
     matrix-gui-browser \
 "
 
-
-MAKEFILES_append_j7-evm = " oob-demo \
-"
 
 SRC_URI_remove_j7200-evm = "\
     file://Makefile_matrix-gui \
@@ -192,4 +188,4 @@ endif
 __EOF__
 }
 
-PR_append = "_psdkla_16"
+PR_append = "_psdkla_17"
