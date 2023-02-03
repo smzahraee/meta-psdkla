@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1f7721ee7d288457c5a70d0c8ff44b87"
 
 SRC_URI = "git://git.ti.com/edgeai/edgeai-tiovx-modules.git;protocol=git;branch=develop"
-SRCREV = "ae7356bea055d5a269d9d68e6ba8ff41995749e5"
+SRCREV = "8bd4fbe2ebd9a10cb5152748de4ba3295f84bec2"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
@@ -24,7 +24,6 @@ DEPENDS = "ti-tisdk-firmware edgeai-tiovx-kernels"
 COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|j784s4-hs-evm|am62axx-evm"
 
 export SOC = "${PLAT_SOC}"
-export EDGEAI_DATA_PATH = "/opt/edgeai-apps-test-data"
 
 EXTRA_OECMAKE = "-DTARGET_FS=${WORKDIR}/recipe-sysroot -DINSTALL_SRC=on -DCMAKE_SKIP_RPATH=TRUE"
 
@@ -33,4 +32,4 @@ FILES_${PN}-source += "/opt/"
 
 inherit cmake
 
-PR = "r1"
+PR = "r2"
