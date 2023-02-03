@@ -34,7 +34,7 @@ EDGEAI_SDK = " \
         ti-tidl-dev \
         ti-tidl-osrt-dev \
         ti-tidl-osrt-staticdev \
-        edgeai-apps \
+        edgeai-gst-apps \
         edgeai-init \
         ti-gpio-cpp \
         ti-gpio-py \
@@ -42,7 +42,7 @@ EDGEAI_SDK = " \
         edgeai-tiovx-modules-dev \
         edgeai-gst-plugins-dev \
         edgeai-dl-inferer-staticdev \
-        edgeai-apps-source \
+        edgeai-gst-apps-source \
         edgeai-gst-plugins-source \
         edgeai-tiovx-modules-source \
         edgeai-dl-inferer-source \
@@ -63,4 +63,4 @@ WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
 IMAGE_FSTYPES_remove = "wic.bmap"
 
-PR_append = "_psdkla_10"
+PR_append = "_psdkla_11"

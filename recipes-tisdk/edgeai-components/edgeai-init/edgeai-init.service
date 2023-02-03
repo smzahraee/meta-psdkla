@@ -4,7 +4,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/opt/edge_ai_apps/init_script.sh
+ExecStart=/opt/edgeai-gst-apps/init_script.sh
 Type=idle
 TimeoutStopSec=20
 KillMode=process
