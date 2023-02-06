@@ -1,7 +1,7 @@
 From bf0270e413c661af9840dd45e6a20a17242a77b6 Mon Sep 17 00:00:00 2001
 From: Rahul T R <r-ravikumar@ti.com>
 Date: Fri, 21 Oct 2022 16:34:05 +0530
-Subject: [PATCH 2/2] arm64: dts: ti: k3-j721s2: Add overlay for edge ai
+Subject: [PATCH 2/3] arm64: dts: ti: k3-j721s2: Add overlay for edge ai
 
 Add overlay for RTOS memory map for edge ai with
 DSS and other pheriperals enabled

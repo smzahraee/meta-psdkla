@@ -1,9 +1,10 @@
-From bd0d181fafd0405894c72c8700ea883f38542525 Mon Sep 17 00:00:00 2001
+From 8cbdfc195c8dc8db024100bc1b235657fbc8ffe9 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Fri, 20 Jan 2023 18:54:35 +0530
 Subject: [PATCH 3/3] arm64: dts: ti: k3-j784s4-rtos-memory-map: CMA DT node
 
-- Adding in a DT node to reserve 512MB for CMA allocation in the upper space
+- Adding in a DT node to reserve 1280MB for CMA allocation in the upper space
+- Needed for 16 channel codec applications
 - Carrying until kernel command line based solution is feasible:
   https://jira.itg.ti.com/browse/LCPD-32468
 
@@ -13,7 +14,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-index 30c862dd37..d0f3ffa049 100644
+index 30c862dd37..e8de6d8d97 100644
 --- a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 @@ -277,6 +277,12 @@
@@ -23,7 +24,7 @@ index 30c862dd37..d0f3ffa049 100644
 +	linux_cma_region: linux-cma-buffers@8c0000000 {
 +		compatible = "shared-dma-pool";
 +		reusable;
-+		reg = <0x08 0xc0000000 0x00 0x20000000>;
++		reg = <0x08 0xc0000000 0x00 0x50000000>;
 +		linux,cma-default;
 +	};
  };
