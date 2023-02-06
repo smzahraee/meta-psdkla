@@ -1,7 +1,7 @@
-From df3c0ba9b722f764007d6107c8a5d5f3508a57b2 Mon Sep 17 00:00:00 2001
+From bd0d181fafd0405894c72c8700ea883f38542525 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Fri, 20 Jan 2023 18:54:35 +0530
-Subject: [PATCH] arm64: dts: ti: k3-j784s4-rtos-memory-map: CMA DT node
+Subject: [PATCH 3/3] arm64: dts: ti: k3-j784s4-rtos-memory-map: CMA DT node
 
 - Adding in a DT node to reserve 512MB for CMA allocation in the upper space
 - Carrying until kernel command line based solution is feasible:
@@ -13,7 +13,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-index 30c862dd3..d0f3ffa04 100644
+index 30c862dd37..d0f3ffa049 100644
 --- a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 @@ -277,6 +277,12 @@

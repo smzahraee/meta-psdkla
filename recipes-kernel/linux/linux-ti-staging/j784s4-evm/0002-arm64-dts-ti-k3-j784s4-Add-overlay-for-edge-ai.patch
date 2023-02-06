@@ -1,7 +1,7 @@
-From ea8bbcf21e4d78b7ea7cbc48a76a2680d3a9c24a Mon Sep 17 00:00:00 2001
+From 4456643a51554335774609f5fa0fd0178e416235 Mon Sep 17 00:00:00 2001
 From: Rahul T R <r-ravikumar@ti.com>
 Date: Fri, 21 Oct 2022 18:28:37 +0530
-Subject: [PATCH] arm64: dts: ti: k3-j784s4: Add overlay for edge ai
+Subject: [PATCH 2/3] arm64: dts: ti: k3-j784s4: Add overlay for edge ai
 
 Add overlay for RTOS memory map for edge ai with
 DSS and other pheriperals enabled
@@ -14,12 +14,12 @@ Signed-off-by: Rahul T R <r-ravikumar@ti.com>
  create mode 100644 arch/arm64/boot/dts/ti/k3-j784s4-edgeai-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index f645a6366..52fdc1329 100644
+index cd2ea1196d..52a2171c7e 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -54,6 +54,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-exp1-exp2-usxgmii.dtbo
- dtb-$(CONFIG_ARCH_K3) += k3-j784s4-fpdlink-fusion.dtbo
+@@ -65,6 +65,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-fpdlink-fusion.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm-csi2-ov5640.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j784s4-evm-uarts.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j784s4-vision-apps.dtbo
 +dtb-$(CONFIG_ARCH_K3) += k3-j784s4-edgeai-apps.dtbo
  
@@ -27,7 +27,7 @@ index f645a6366..52fdc1329 100644
  dtb-$(CONFIG_ARCH_K3) += k3-am642-evm-icssg1-dualemac.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-edgeai-apps.dts b/arch/arm64/boot/dts/ti/k3-j784s4-edgeai-apps.dts
 new file mode 100644
-index 000000000..c54a47279
+index 0000000000..c54a47279f
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-edgeai-apps.dts
 @@ -0,0 +1,8 @@

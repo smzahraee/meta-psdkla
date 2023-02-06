@@ -1,7 +1,7 @@
-From db7d6866dd3c3b8747d42d1b7015d3891ae3e9af Mon Sep 17 00:00:00 2001
+From 8f14339fb8c4dd7e8798e2f92df02d5cd52bb245 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Mon, 12 Jul 2021 08:46:24 -0500
-Subject: [PATCH] arm64: dts: ti: Add DTB overlays for vision apps and
+Subject: [PATCH 1/4] arm64: dts: ti: Add DTB overlays for vision apps and
  edgeai apps
 
 Confine the memory map changes into a separate rtos-memory-map.dts
@@ -25,10 +25,10 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 3f264b357..5412a79db 100644
+index 1407292c4a..d5e74b358c 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -35,6 +35,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
+@@ -37,6 +37,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-csi2-ov5640.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-cam-imx219.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-hdr-ehrpwm.dtbo
@@ -39,7 +39,7 @@ index 3f264b357..5412a79db 100644
  dtb-$(CONFIG_ARCH_K3) += k3-j7200-common-proc-board-sr1.dtbo
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
 new file mode 100644
-index 000000000..5defaca9c
+index 0000000000..5defaca9cc
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
 @@ -0,0 +1,9 @@
@@ -54,7 +54,7 @@ index 000000000..5defaca9c
 +
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 new file mode 100644
-index 000000000..76c1a65da
+index 0000000000..76c1a65da5
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 @@ -0,0 +1,287 @@
@@ -347,7 +347,7 @@ index 000000000..76c1a65da
 +
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 new file mode 100644
-index 000000000..a1860839a
+index 0000000000..a1860839a6
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 @@ -0,0 +1,36 @@
