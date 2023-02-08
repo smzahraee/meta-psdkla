@@ -14,6 +14,7 @@ EDGEAI_STACK = " \
         edgeai-init \
         ti-gpio-cpp \
         ti-gpio-py \
+        edgeai-studio-agent \
         edgeai-tiovx-kernels-dev \
         edgeai-tiovx-modules-dev \
         edgeai-gst-plugins-dev \
@@ -38,4 +39,4 @@ IMAGE_BOOT_FILES_append = " uEnv_edgeai-apps.txt;uEnv.txt "
 
 export IMAGE_BASENAME = "tisdk-analytics-image"
 
-PR_append = "_analytics0"
+PR_append = "_analytics1"
