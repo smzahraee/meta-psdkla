@@ -17,4 +17,4 @@ SRC_URI_append_j784s4-evm = " \
     file://0002-arm64-dts-ti-k3-j784s4-Add-overlay-for-edge-ai.patch \
     file://0003-arm64-dts-ti-k3-j784s4-rtos-memory-map-CMA-DT-node.patch \
 "
-PR_append = "_psdkla_93"
+PR_append = "_psdkla_94"

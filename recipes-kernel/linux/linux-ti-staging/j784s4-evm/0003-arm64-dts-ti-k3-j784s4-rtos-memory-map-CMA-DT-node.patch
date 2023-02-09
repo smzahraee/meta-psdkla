@@ -1,4 +1,4 @@
-From 8cbdfc195c8dc8db024100bc1b235657fbc8ffe9 Mon Sep 17 00:00:00 2001
+From 162646b03be6eb89bfe110c82dd3c7bdc0b468b5 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Fri, 20 Jan 2023 18:54:35 +0530
 Subject: [PATCH 3/3] arm64: dts: ti: k3-j784s4-rtos-memory-map: CMA DT node
@@ -14,17 +14,17 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-index 30c862dd37..e8de6d8d97 100644
+index ddbdb65213..dcb8fd6820 100644
 --- a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 @@ -277,6 +277,12 @@
- 		reg = <0x08 0x80000000 0x00 0x40000000>;
+ 		reg = <0x08 0xd0000000 0x00 0x40000000>;
  		no-map;
  	};
-+	linux_cma_region: linux-cma-buffers@8c0000000 {
++	linux_cma_region: linux-cma-buffers@880000000 {
 +		compatible = "shared-dma-pool";
 +		reusable;
-+		reg = <0x08 0xc0000000 0x00 0x50000000>;
++		reg = <0x08 0x80000000 0x00 0x50000000>;
 +		linux,cma-default;
 +	};
  };
