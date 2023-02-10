@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_7"
+PR_append = "_psdkla_8"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -28,10 +28,7 @@ DTB_FILTER_j721s2-evm = "j721s2"
 DTB_FILTER_j784s4-evm = "j784s4"
 
 # List of target side images to build for the SDK
-TARGET_IMAGES = "tisdk-tiny-image tisdk-default-image"
-TARGET_IMAGES_append_j7-evm = " tisdk-analytics-image"
-TARGET_IMAGES_append_j721s2-evm = " tisdk-analytics-image"
-TARGET_IMAGES_append_j784s4-evm = " tisdk-analytics-image"
+TARGET_IMAGES = "tisdk-default-image"
 TARGET_IMAGE_TYPES = "tar.xz"
 
 TISDK_TOOLCHAIN = "${@bb.utils.contains('MACHINE_FEATURES','gpu','meta-toolchain-arago-tisdk','meta-toolchain-arago-tisdk-server',d)}"
