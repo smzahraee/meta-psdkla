@@ -1,4 +1,4 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}/${MACHINE}:${THISDIR}/${PN}:"
 
-PR_append = "_psdkla3"
+PR_append = "_psdkla4"
 
