@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1f7721ee7d288457c5a70d0c8ff44b87"
 
 SRC_URI = "git://git.ti.com/edgeai/edgeai-tiovx-kernels.git;protocol=git;branch=develop"
-SRCREV = "0f986e4ad8fff3b79d32bcb33c06a48b5d980987"
+SRCREV = "5c5cb52962e9dc073cf260e7fe740d0c1f842b7d"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
