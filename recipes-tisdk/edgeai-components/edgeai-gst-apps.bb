@@ -6,7 +6,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=dc68ab0305d85e56491b9a9aed2309f2"
 
 SRC_URI = "git://github.com/TexasInstruments/edgeai-gst-apps.git;protocol=https;branch=develop"
-SRCREV = "e440d534e1d2f2bddbe64e6f7052d98c29e28c3e"
+SRCREV = "cc9d2c336aa84777dcde5c2d2cbea6bb4466d67b"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
@@ -57,4 +57,4 @@ do_install() {
 
 INSANE_SKIP_${PN}-source += "dev-deps"
 
-PR = "r3"
+PR = "r4"
