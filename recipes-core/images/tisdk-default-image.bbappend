@@ -1,3 +1,5 @@
-require tisdk-default-image.inc
+require tisdk-default-image-append.inc
 
-PR_append = "_psdkla_13"
+IMAGE_FSTYPES_remove = "wic.xz"
+
+PR_append = ".0"

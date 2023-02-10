@@ -29,41 +29,9 @@ IMAGE_INSTALL_append = " \
         packagegroup-python3-jupyter \
 "
 
-EDGEAI_SDK = " \
-        ti-tisdk-firmware-dev \
-        ti-tidl-dev \
-        ti-tidl-osrt-dev \
-        ti-tidl-osrt-staticdev \
-        edgeai-gst-apps \
-        edgeai-init \
-        ti-gpio-cpp \
-        ti-gpio-py \
-        edgeai-tiovx-kernels-dev \
-        edgeai-tiovx-modules-dev \
-        edgeai-gst-plugins-dev \
-        edgeai-dl-inferer-staticdev \
-        edgeai-gst-apps-source \
-        edgeai-gst-plugins-source \
-        edgeai-tiovx-kernels-source \
-        edgeai-tiovx-modules-source \
-        edgeai-dl-inferer-source \
-        ti-gpio-cpp-source \
-        ti-gpio-py-source \
-"
-
-IMAGE_INSTALL_append_j7-evm = " \
-	${EDGEAI_SDK} \
-"
-
-IMAGE_INSTALL_append_j721s2-evm = " \
-	${EDGEAI_SDK} \
-"
-
-IMAGE_INSTALL_append_j784s4-evm = " \
-    ${EDGEAI_SDK} \
-"
-
-WKS_FILE = "edgeai-sdimage.wks"
+WKS_FILE = "tisdk-default-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
 IMAGE_FSTYPES_remove = "wic.bmap"
+
+PR_append = "_psdkla_14"
