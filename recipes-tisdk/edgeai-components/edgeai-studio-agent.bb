@@ -5,8 +5,7 @@ HOMEPAGE = "https://github.com/TexasInstruments/edgeai-studio-agent"
 LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=3677661f72cd03c7b3c0a35e5fb23e8d"
 
-SRC_URI = "git://github.com/TexasInstruments/edgeai-studio-agent.git;protocol=https;branch=develop"
-SRCREV = "018c6b0c397d51b3c8bd228e92691875ee5e25c5"
+SRC_URI = "git://github.com/TexasInstruments/edgeai-studio-agent.git;tag=EDGEAI_APP_STACK_08_06_00_00;nobranch=1;protocol=https"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
