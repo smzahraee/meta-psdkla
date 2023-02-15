@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_8"
+PR_append = "_psdkla_9"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -24,8 +24,8 @@ DTB_FILTER = "unknown"
 DTB_FILTER_am65xx-evm = "am65"
 DTB_FILTER_j7-evm = "j721e"
 DTB_FILTER_j7200-evm = "j7200"
-DTB_FILTER_j721s2-evm = "j721s2"
-DTB_FILTER_j784s4-evm = "j784s4"
+DTB_FILTER_j721s2-evm = "j721s2\|am68"
+DTB_FILTER_j784s4-evm = "j784s4\|am69"
 
 # List of target side images to build for the SDK
 TARGET_IMAGES = "tisdk-default-image"
