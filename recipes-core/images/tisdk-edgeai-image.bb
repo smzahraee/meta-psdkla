@@ -1,4 +1,4 @@
-# Produces wic Image for Analytics demos
+# Produces wic Image for Edge AI demos
 
 require recipes-core/images/tisdk-default-image.bb
 require tisdk-default-image-append.inc
@@ -37,6 +37,6 @@ IMAGE_BOOT_FILES_remove = "uEnv.txt"
 IMAGE_BOOT_FILES_append = " uEnv_edgeai-apps.txt;uEnv.txt "
 
 
-export IMAGE_BASENAME = "tisdk-analytics-image"
+export IMAGE_BASENAME = "tisdk-edgeai-image"
 
-PR_append = "_analytics1"
+PR_append = "_edgeai0"
