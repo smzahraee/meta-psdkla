@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_10"
+PR_append = "_psdkla_11"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -54,19 +54,24 @@ DEPLOY_IMAGES_NAME_append_j7-evm = "\
     sysfw.itb ti-fs-firmware-j721e-gp.bin \
     ti-fs-firmware-j721e-hs-cert.bin ti-fs-firmware-j721e-hs-enc.bin \
     ti-fs-firmware-j721e_sr1_1-hs-cert.bin ti-fs-firmware-j721e_sr1_1-hs-enc.bin \
+    ti-fs-firmware-j721e_sr2-hs-cert.bin ti-fs-firmware-j721e_sr2-hs-enc.bin \
+    ti-fs-firmware-j721e_sr2-hs-fs-cert.bin ti-fs-firmware-j721e_sr2-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
 DEPLOY_IMAGES_NAME_append_j7200-evm = "\
     ti-fs-firmware-j7200-gp.bin \
     ti-fs-firmware-j7200-hs-cert.bin ti-fs-firmware-j7200-hs-enc.bin \
     ti-fs-firmware-j7200_sr2-hs-cert.bin ti-fs-firmware-j7200_sr2-hs-enc.bin \
+    ti-fs-firmware-j7200_sr2-hs-fs-cert.bin ti-fs-firmware-j7200_sr2-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
 DEPLOY_IMAGES_NAME_append_j721s2-evm = "\
     ti-fs-firmware-j721s2-gp.bin \
     ti-fs-firmware-j721s2-hs-cert.bin ti-fs-firmware-j721s2-hs-enc.bin \
+    ti-fs-firmware-j721s2-hs-fs-cert.bin ti-fs-firmware-j721s2-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
 DEPLOY_IMAGES_NAME_append_j784s4-evm = "\
     ti-fs-firmware-j784s4-gp.bin \
     ti-fs-firmware-j784s4-hs-cert.bin ti-fs-firmware-j784s4-hs-enc.bin \
+    ti-fs-firmware-j784s4-hs-fs-cert.bin ti-fs-firmware-j784s4-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
 ARAGO_TISDK_IMAGE ?= "arago-core-psdkla-bundle"
