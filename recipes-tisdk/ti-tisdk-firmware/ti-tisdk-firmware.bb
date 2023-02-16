@@ -1,7 +1,7 @@
 SUMMARY = "OpenVX Middleware library and compatible PSDK RTOS Firmware"
 DESCRIPTION = "Builds tivision_apps user space library and installs prebuilt PSDK RTOS Firmware"
 
-PR = "r4"
+PR = "r5"
 
 LICENSE = "TI-TFL & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT & Apache-2.0 & Apache-2.0-with-LLVM-exception & \
            Khronos & Hewlett-Packard & Patrick-Powell & FreeType & Zlib & CC0-1.0 & OpenSSL"
@@ -77,7 +77,11 @@ sign_fw() {
     suffix=.signed
     files_list=$(find ${FW_BIN_DIR} -type f ! -name "*${suffix}")
     for name in $(echo $files_list); do
-	    ${TI_SECURE_DEV_PKG}/scripts/secure-binary-image.sh $name $name$suffix
+        if [ -s $name ]; then
+            ${TI_SECURE_DEV_PKG}/scripts/secure-binary-image.sh $name $name$suffix        
+        else
+            touch $name$suffix
+        fi
     done
 }
 
