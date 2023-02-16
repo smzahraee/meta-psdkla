@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_11"
+PR_append = "_psdkla_12"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -47,6 +47,7 @@ IMAGE_INSTALL = "\
     ${@bb.utils.contains('MACHINE_FEATURES','gpu','packagegroup-arago-tisdk-qte-sdk-host','',d)} \
 "
 DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
+DEPLOY_SPL_NAME_append_j721s2-evm = " tiboot3-j721s2-gp-evm.bin tiboot3-j721s2-hs-fs-evm.bin"
 
 DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin u-boot.img Image"
 DEPLOY_IMAGES_NAME_append_am65xx-evm = " ti-sci-firmware-am65x_sr2-gp.bin"
