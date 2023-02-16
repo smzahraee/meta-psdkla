@@ -4,13 +4,11 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 
 COMPATIBLE_MACHINE = "j7-evm|j7-hs-evm|j721s2-evm|j721s2-hs-evm|j784s4-evm|j784s4-hs-evm|am62axx-evm"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}/${MACHINE}:"
-
 SRC_URI = "\
     file://uEnv_edgeai-apps.txt \
 "
 
-PR = "r0"
+PR = "r1"
 PV = "1.0"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
