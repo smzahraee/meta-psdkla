@@ -40,6 +40,10 @@ IMAGE_BOOT_FILES_append = " uEnv_edgeai-apps.txt;uEnv.txt "
 IMAGE_BOOT_FILES_remove_j721s2-evm = "tiboot3.bin"
 IMAGE_BOOT_FILES_append_j721s2-evm = " tiboot3-j721s2-gp-evm.bin tiboot3-j721s2-hs-fs-evm.bin tiboot3-j721s2-hs-fs-evm.bin;tiboot3.bin"
 
+# For AM69-SK, default tiboot3.bin should be HSFS
+IMAGE_BOOT_FILES_remove_j784s4-evm = "tiboot3.bin"
+IMAGE_BOOT_FILES_append_j784s4-evm = " tiboot3-j784s4-gp-evm.bin tiboot3-j784s4-hs-fs-evm.bin tiboot3-j784s4-hs-fs-evm.bin;tiboot3.bin"
+
 export IMAGE_BASENAME = "tisdk-edgeai-image"
 
-PR_append = "_edgeai1"
+PR_append = "_edgeai2"
