@@ -10,6 +10,9 @@ KERNEL_DEVICETREE_append_j7-evm = " \
 KERNEL_DEVICETREE_append_j721s2-evm = " \
     ti/k3-j721s2-vision-apps.dtbo \
     ti/k3-j721s2-edgeai-apps.dtbo \
+	ti/k3-am68-sk-reve1-base-board.dtb \
+	ti/k3-am68-sk-reve1-bb-csi2-ov5640.dtbo \
+	ti/k3-am68-sk-reve1-bb-rpi-cam-imx219.dtbo \
 "
 
 KERNEL_DEVICETREE_append_j784s4-evm = " \
