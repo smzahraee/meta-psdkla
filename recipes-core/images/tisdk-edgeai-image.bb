@@ -12,6 +12,7 @@ EDGEAI_STACK = " \
         ti-tidl-osrt-staticdev \
         edgeai-gst-apps \
         edgeai-init \
+        edgeai-gui-app \
         ti-gpio-cpp \
         ti-gpio-py \
         edgeai-studio-agent \
@@ -46,4 +47,4 @@ IMAGE_BOOT_FILES_append_j784s4-evm = " tiboot3-j784s4-gp-evm.bin tiboot3-j784s4-
 
 export IMAGE_BASENAME = "tisdk-edgeai-image"
 
-PR_append = "_edgeai2"
+PR_append = "_edgeai3"
