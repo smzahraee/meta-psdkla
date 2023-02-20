@@ -1,4 +1,4 @@
-From f15c52636c906dc539ed9bdddc160c135c44521b Mon Sep 17 00:00:00 2001
+From f907c1cc7cb386c98411e3915a2f56d683d9b05e Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Fri, 20 Jan 2023 18:54:35 +0530
 Subject: [PATCH 3/3] arm64: dts: ti: k3-j784s4-rtos-memory-map: CMA DT node
@@ -14,11 +14,11 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
-index 30c862dd37..d90715e2a1 100644
+index 62b0cd2890..34f975e653 100644
 --- a/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j784s4-rtos-memory-map.dtsi
 @@ -277,6 +277,12 @@
- 		reg = <0x08 0x80000000 0x00 0x40000000>;
+ 		reg = <0x08 0x80000000 0x00 0x80000000>;
  		no-map;
  	};
 +	linux_cma_region: linux-cma-buffers@900000000 {
