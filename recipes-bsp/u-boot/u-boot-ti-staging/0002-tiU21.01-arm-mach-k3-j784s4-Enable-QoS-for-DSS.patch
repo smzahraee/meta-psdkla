@@ -1,23 +1,25 @@
-From 6929232da8eabbc141d0656f55c3219a41f55d8d Mon Sep 17 00:00:00 2001
+From e5e217ad7a779b4f7b0058fd3699f72993968ca2 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
-Date: Fri, 17 Feb 2023 06:18:07 +0530
+Date: Wed, 22 Feb 2023 03:13:55 +0530
 Subject: [PATCH 2/2] [tiU21.01] arm: mach-k3: j784s4: Enable QoS for DSS
 
 Enable Quality of Service (QoS) blocks for Display SubSystem (DSS), by
-servicing the DSS - DDR traffic from the Real-Time (RT) queue. This is
-done by setting the DSS DMA orderID to 11. Also, ATYPE=3 is selected.
+servicing the DSS - DDR traffic from the Real-Time (RT) queue.
+This is done by setting the following
+DSS : orderID=15, ATYPE=3
+NB : Map OrderIDs 10-15 to Thread2 (RT)
 
 The j784s4 qos files are auto generated from the k3 resource partitioning
-tool.
+tool with NB settings added manually
 
 Signed-off-by: Aniket Limaye <a-limaye@ti.com>
 ---
  arch/arm/mach-k3/include/mach/hardware.h   |   4 +
- arch/arm/mach-k3/include/mach/j784s4_qos.h | 157 +++++++++++++++++++++
+ arch/arm/mach-k3/include/mach/j784s4_qos.h | 168 +++++++++++++++++++++
  arch/arm/mach-k3/j784s4/Makefile           |   1 +
- arch/arm/mach-k3/j784s4/j784s4_qos_data.c  | 122 ++++++++++++++++
+ arch/arm/mach-k3/j784s4/j784s4_qos_data.c  | 139 +++++++++++++++++
  arch/arm/mach-k3/j784s4_init.c             |  10 ++
- 5 files changed, 294 insertions(+)
+ 5 files changed, 322 insertions(+)
  create mode 100644 arch/arm/mach-k3/include/mach/j784s4_qos.h
  create mode 100644 arch/arm/mach-k3/j784s4/j784s4_qos_data.c
 
@@ -43,10 +45,10 @@ index 45db0c1951..06d4e4b5cc 100644
  #endif /* _ASM_ARCH_HARDWARE_H_ */
 diff --git a/arch/arm/mach-k3/include/mach/j784s4_qos.h b/arch/arm/mach-k3/include/mach/j784s4_qos.h
 new file mode 100644
-index 0000000000..60b63bb631
+index 0000000000..58c374817c
 --- /dev/null
 +++ b/arch/arm/mach-k3/include/mach/j784s4_qos.h
-@@ -0,0 +1,157 @@
+@@ -0,0 +1,168 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Keystone3 Quality of service endpoint definitions
@@ -129,6 +131,15 @@ index 0000000000..60b63bb631
 +#define ATYPE_2	(2 << 28)
 +#define ATYPE_3	(3 << 28)
 +
++#define NB_THREADMAP_0   ( 0 << 0 )
++#define NB_THREADMAP_1   ( 1 << 0 )
++#define NB_THREADMAP_2   ( 2 << 0 )
++#define NB_THREADMAP_3   ( 3 << 0 )
++#define NB_THREADMAP_4   ( 4 << 0 )
++#define NB_THREADMAP_5   ( 5 << 0 )
++#define NB_THREADMAP_6   ( 6 << 0 )
++#define NB_THREADMAP_7   ( 7 << 0 )
++
 +#define SMS_WKUP_0_TIFS_VBUSP_M	0x45D00000
 +#define SMS_WKUP_0_HSM_VBUSP_M	0x45D00400
 +#define PULSAR_SL_MCU_0_CPU0_RMST	0x45D10000
@@ -204,6 +215,8 @@ index 0000000000..60b63bb631
 +#define PULSAR_SL_MAIN_2_PBDG_WMST0	0x45DCB400
 +#define PULSAR_SL_MAIN_2_PBDG_RMST1	0x45DCB800
 +#define PULSAR_SL_MAIN_2_PBDG_WMST1	0x45DCBC00
++#define NAVSS0_NORTH_0_NBSS_NB0_CFG_MMRS    0x03702000
++#define NAVSS0_NORTH_1_NBSS_NB1_CFG_MMRS    0x03703000
 diff --git a/arch/arm/mach-k3/j784s4/Makefile b/arch/arm/mach-k3/j784s4/Makefile
 index d8bb3c7719..9df452407a 100644
 --- a/arch/arm/mach-k3/j784s4/Makefile
@@ -215,10 +228,10 @@ index d8bb3c7719..9df452407a 100644
 +obj-y += j784s4_qos_data.o
 diff --git a/arch/arm/mach-k3/j784s4/j784s4_qos_data.c b/arch/arm/mach-k3/j784s4/j784s4_qos_data.c
 new file mode 100644
-index 0000000000..3a42cfd784
+index 0000000000..1a6898fc2f
 --- /dev/null
 +++ b/arch/arm/mach-k3/j784s4/j784s4_qos_data.c
-@@ -0,0 +1,122 @@
+@@ -0,0 +1,139 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * j784s4 Quality of Service (QoS) Configuration Data
@@ -234,83 +247,83 @@ index 0000000000..3a42cfd784
 +	/* modules_qosConfig0 - 2 endpoints, 10 channels */
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 0,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 1,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 2,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 3,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 4,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 5,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 6,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 7,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 8,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_DMA + 0x100 + 0x4 * 9,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 0,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 1,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 2,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 3,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 4,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 5,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 6,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 7,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 8,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 0x100 + 0x4 * 9,
-+		.val = ATYPE_3 | ORDERID_11,
++		.val = ATYPE_3 | ORDERID_15,
 +	},
 +
 +
@@ -337,6 +350,23 @@ index 0000000000..3a42cfd784
 +	{
 +		.reg = K3_DSS_MAIN_0_DSS_INST0_VBUSM_FBDC + 4,
 +		.val = 0xfedcba98,
++	},
++
++	/* The following registers map the VBUSM source interfaces to 
++	 * VBUSM.C threads. Each bit is for each VBUSM source.
++	 * A bit of 0 maps to VBUSM.C Thread0 (NRT)
++	 * A bit of 1 maps to VBUSM.C Thread2 (RT)
++	 */
++
++	/* NAVSS0_NORTH_0_NBSS_NB0_CFG_MMRS VBUSM source to VBUSM.C thread mapping */
++	{
++		.reg = NAVSS0_NORTH_0_NBSS_NB0_CFG_MMRS + 0x10,
++		.val = NB_THREADMAP_2,
++	},
++	/* NAVSS0_NORTH_1_NBSS_NB1_CFG_MMRS VBUSM source to VBUSM.C thread mapping */
++	{
++		.reg = NAVSS0_NORTH_1_NBSS_NB1_CFG_MMRS + 0x10,
++		.val = NB_THREADMAP_4,
 +	},
 +};
 +

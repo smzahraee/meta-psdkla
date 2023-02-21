@@ -30,4 +30,4 @@ SRC_URI_append_j721s2-evm-k3r5-sr1-hs-fs = " \
     file://0002-configs-j721s2-update-config-to-select-the-right-dtb.patch \
 "
 
-PR_append = "_psdkla_16"
+PR_append = "_psdkla_17"
