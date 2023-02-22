@@ -1,4 +1,4 @@
-From 49afdc64d7eab243f2e4e3e7183f5aa8ec69853d Mon Sep 17 00:00:00 2001
+From b1f06c9015b72dea27a006a362ecbee6b7e97ecf Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Mon, 6 Feb 2023 17:06:41 +0530
 Subject: [PATCH 3/3] arm64: dts: ti: k3-j721s2-rtos-memory-map: CMA DT node
@@ -14,7 +14,7 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
-index ae0b9e92ea..2c6633907d 100644
+index 27c7393525..18f0ee0526 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 @@ -199,6 +199,12 @@

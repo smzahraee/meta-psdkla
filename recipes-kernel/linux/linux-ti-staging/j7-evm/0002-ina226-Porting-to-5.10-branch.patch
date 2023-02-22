@@ -1,4 +1,4 @@
-From 3baf816f68dce5acf847653dd26aebfecb0a8525 Mon Sep 17 00:00:00 2001
+From 35a6120a25e864e8299d346514a5fcc3ad4d75bb Mon Sep 17 00:00:00 2001
 From: Keerthy <j-keerthy@ti.com>
 Date: Thu, 17 Jun 2021 09:17:29 +0530
 Subject: [PATCH 2/4] ina226: Porting to 5.10 branch

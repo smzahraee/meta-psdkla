@@ -1,4 +1,4 @@
-From 8f14339fb8c4dd7e8798e2f92df02d5cd52bb245 Mon Sep 17 00:00:00 2001
+From 7bb3fa986a621624eb47da2a6eb803990d6648f5 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
 Date: Mon, 12 Jul 2021 08:46:24 -0500
 Subject: [PATCH 1/4] arm64: dts: ti: Add DTB overlays for vision apps and
@@ -25,10 +25,10 @@ Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
  create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 1407292c4a..d5e74b358c 100644
+index 7e03a906ff..8db8c20d47 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -37,6 +37,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
+@@ -38,6 +38,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-csi2-ov5640.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-cam-imx219.dtbo
  dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-hdr-ehrpwm.dtbo
@@ -54,7 +54,7 @@ index 0000000000..5defaca9cc
 +
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 new file mode 100644
-index 0000000000..76c1a65da5
+index 0000000000..75920c189d
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 @@ -0,0 +1,287 @@
@@ -77,7 +77,7 @@ index 0000000000..76c1a65da5
 +		__overlay__ {
 +
 +			dma_buf_phys {
-+				compatible = "ti,dma_buf_phys";
++				compatible = "ti,dma-buf-phys";
 +			};
 +		};
 +	};

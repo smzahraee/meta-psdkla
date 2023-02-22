@@ -1,4 +1,4 @@
-From 8925b7018ce367a43836d331259f7c2a92e959a6 Mon Sep 17 00:00:00 2001
+From 545ab9574d58851c6a378fa2b6f0544a85440621 Mon Sep 17 00:00:00 2001
 From: Sinthu Raja <sinthu.raja@ti.com>
 Date: Thu, 16 Feb 2023 13:22:00 +0530
 Subject: [PATCH] arch: arm64: dts: ti: Add E1 compatible DTB and DTBO for AM68
@@ -19,7 +19,7 @@ Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
  create mode 100644 arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-rpi-cam-imx219.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 7e03a906ff2e..9f558e142b64 100644
+index 7e03a906ff..9f558e142b 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
 @@ -24,6 +24,9 @@ dtb-$(CONFIG_ARCH_K3) += k3-am68-sk-base-board.dtb
@@ -34,7 +34,7 @@ index 7e03a906ff2e..9f558e142b64 100644
  
 diff --git a/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-base-board.dts b/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-base-board.dts
 new file mode 100644
-index 000000000000..05792cb3eabf
+index 0000000000..05792cb3ea
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-base-board.dts
 @@ -0,0 +1,830 @@
@@ -870,7 +870,7 @@ index 000000000000..05792cb3eabf
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-csi2-ov5640.dts b/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-csi2-ov5640.dts
 new file mode 100644
-index 000000000000..a09e9c1a93e4
+index 0000000000..a09e9c1a93
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-csi2-ov5640.dts
 @@ -0,0 +1,96 @@
@@ -972,7 +972,7 @@ index 000000000000..a09e9c1a93e4
 +};
 diff --git a/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-rpi-cam-imx219.dts b/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-rpi-cam-imx219.dts
 new file mode 100644
-index 000000000000..41f069cd6408
+index 0000000000..41f069cd64
 --- /dev/null
 +++ b/arch/arm64/boot/dts/ti/k3-am68-sk-reve1-bb-rpi-cam-imx219.dts
 @@ -0,0 +1,136 @@
@@ -1113,5 +1113,5 @@ index 000000000000..41f069cd6408
 +	};
 +};
 -- 
-2.36.1
+2.17.1
 

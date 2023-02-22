@@ -1,4 +1,4 @@
-From 90536ebd84633248f165d82b5117855a8d9024ca Mon Sep 17 00:00:00 2001
+From a1d7367d574e081ed4b2b8cdcb46134d096d8e92 Mon Sep 17 00:00:00 2001
 From: Rahul T R <r-ravikumar@ti.com>
 Date: Fri, 21 Oct 2022 18:28:37 +0530
 Subject: [PATCH 2/3] arm64: dts: ti: k3-j784s4: Add overlay for edge ai
