@@ -8,7 +8,8 @@ EDGEAI_WALLPAPER_UPDATE=/opt/edgeai-gst-apps/scripts/setup_wallpaper.sh
 
 start_gui() {
     local EDGEAI_GUI_APP_CMD="$EDGEAI_GUI_APP -platform linuxfb &"
-    eval $EDGEAI_GUI_APP_CMD > $PIDFILE
+    eval $EDGEAI_GUI_APP_CMD
+    echo $! > $PIDFILE
 }
 
 stop_gui() {
