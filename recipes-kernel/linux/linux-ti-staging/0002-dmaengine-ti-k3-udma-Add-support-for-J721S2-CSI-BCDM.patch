@@ -1,0 +1,68 @@
+From 0d8e8bd70ab61d2653af6377b5a22538b9eb3ed4 Mon Sep 17 00:00:00 2001
+From: Vaishnav Achath <vaishnav.a@ti.com>
+Date: Thu, 23 Feb 2023 17:46:27 +0530
+Subject: [tiL5.10 PATCH 2/4] dmaengine: ti: k3-udma: Add support for J721S2
+ CSI BCDMA instance
+
+J721S2 and J784S4 has dedicated BCDMA instance for CSI RX and TX,
+add support for the same.
+
+Signed-off-by: Vaishnav Achath <vaishnav.a@ti.com>
+---
+ drivers/dma/ti/k3-udma.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
+index 0d117c1c49fe..09844ee7fb4b 100644
+--- a/drivers/dma/ti/k3-udma.c
++++ b/drivers/dma/ti/k3-udma.c
+@@ -4308,6 +4308,15 @@ static struct udma_match_data j721e_mcu_data = {
+ 	},
+ };
+ 
++static struct udma_soc_data j721s2_bcdma_soc_data = {
++	.oes = {
++		.bcdma_tchan_data = 0x800,
++		.bcdma_tchan_ring = 0xa00,
++		.bcdma_rchan_data = 0xe00,
++		.bcdma_rchan_ring = 0x1000,
++	},
++};
++
+ static struct udma_soc_data am62a_dmss_csi_soc_data = {
+ 	.oes = {
+ 		.bcdma_rchan_data = 0xe00,
+@@ -4328,6 +4337,19 @@ static struct udma_match_data am62a_bcdma_csirx_data = {
+ 	.order_id = 8,
+ };
+ 
++static struct udma_match_data j721s2_bcdma_data = {
++	.type = DMA_TYPE_BCDMA,
++	.psil_base = 0x2000,
++	.enable_memcpy_support = false,
++	.burst_size = {
++		TI_SCI_RM_UDMAP_CHAN_BURST_SIZE_64_BYTES, /* Normal Channels */
++		0, /* No H Channels */
++		0, /* No UH Channels */
++	},
++	.soc_data = &j721s2_bcdma_soc_data,
++	.order_id = 15,
++};
++
+ static struct udma_match_data am64_bcdma_data = {
+ 	.type = DMA_TYPE_BCDMA,
+ 	.psil_base = 0x2000, /* for tchan and rchan, not applicable to bchan */
+@@ -4381,6 +4403,10 @@ static const struct of_device_id udma_of_match[] = {
+ 		.compatible = "ti,am62a-dmss-bcdma-csirx",
+ 		.data = &am62a_bcdma_csirx_data,
+ 	},
++	{
++		.compatible = "ti,j721s2-dmss-bcdma-csi",
++		.data = &j721s2_bcdma_data,
++	},	
+ 	{ /* Sentinel */ },
+ };
+ 
+-- 
+2.17.1
+
