@@ -40,6 +40,14 @@ case "$1" in
             echo "Starting edgeai-gui-app..."
             start_gui
         fi
+        # Wait for network to come up, Set time
+        for i in `seq 1 3`; do
+            timeout 10 ntpd -s
+            if [ $? -eq 0 ]; then
+                echo "ntpd successful"
+                break
+            fi
+        done
     ;;
     stop )
         if [ $ENABLE_GUI -eq 1 ]; then
@@ -48,11 +56,6 @@ case "$1" in
     ;;
     exit )
         source $EDGEAI_INIT_SCRIPT
-        #Set time, wait for network to come up
-        if ! ps -ef  | grep -v grep | grep -q ntpd
-        then
-            ntpd -s
-        fi
         echo "Applying wallpaper to linux frame buffer"
         $EDGEAI_WALLPAPER_UPDATE
     ;;

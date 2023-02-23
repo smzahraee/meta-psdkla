@@ -6,7 +6,7 @@ Wants=weston.service
 [Service]
 Type=forking
 Restart=no
-TimeoutSec=30
+TimeoutSec=60
 IgnoreSIGPIPE=no
 KillMode=process
 GuessMainPID=no
