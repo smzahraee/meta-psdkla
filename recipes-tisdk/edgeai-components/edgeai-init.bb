@@ -29,5 +29,5 @@ do_install() {
 
 FILES_${PN} += " /home/root/.profile"
 
-PR = "r3"
+PR = "r4"
 

@@ -48,13 +48,12 @@ case "$1" in
                 break
             fi
         done
+        killall ntpd || true
     ;;
     stop )
         if [ $ENABLE_GUI -eq 1 ]; then
             stop_gui
         fi
-    ;;
-    exit )
         source $EDGEAI_INIT_SCRIPT
         echo "Applying wallpaper to linux frame buffer"
         $EDGEAI_WALLPAPER_UPDATE
