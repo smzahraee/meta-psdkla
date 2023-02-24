@@ -5,13 +5,13 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 S = "${WORKDIR}/git"
-PR = "r4"
+PR = "r5"
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 LICENSE = "MIT"
 
 
-SRC_URI = "git://git.ti.com/processor-sdk-vision/arm-tidl.git;tag=REL.TIDL.J7.08.06.00.03;nobranch=1;protocol=git;name=arm-tidl;destsuffix=${S}/arm-tidl \
-           git://git.ti.com/processor-sdk/concerto.git;tag=REL.PSDK.JACINTO.08.06.00.04;nobranch=1;protocol=git;name=concerto;destsuffix=${S}/concerto \
+SRC_URI = "git://git.ti.com/processor-sdk-vision/arm-tidl.git;tag=REL.TIDL.J7.08.06.00.10;nobranch=1;protocol=git;name=arm-tidl;destsuffix=${S}/arm-tidl \
+           git://git.ti.com/processor-sdk/concerto.git;tag=REL.PSDK.JACINTO.08.06.00.06;nobranch=1;protocol=git;name=concerto;destsuffix=${S}/concerto \
            git://github.com/TexasInstruments/onnxruntime;branch=tidl-j7;rev=134edd824c834936690c23dde585c4eeaa74bdd4;protocol=https;name=onnxruntime;destsuffix=${S}/onnxruntime  \
            git://github.com/TexasInstruments/tensorflow;branch=tidl-j7-2.8;rev=233657497d2735cae9e840df9e650e268149070d;protocol=https;name=tensorflow;destsuffix=${S}/tensorflow  \
            https://github.com/protocolbuffers/protobuf/releases/download/v3.11.3/protobuf-cpp-3.11.3.tar.gz;name=protobuf;subdir=${S}/protobuf-3.11.3\
@@ -85,7 +85,7 @@ do_install() {
     cp ${S}/arm-tidl/rt/inc/itvm_rt.h ${INC_DST_DIR}/
 
     install -d ${OPT_DST_DIR}/tidl_test
-    cp ${S}/arm-tidl/rt/out/${TIDL_SOC_NAME}/A72/LINUX/release/TI_DEVICE_a72_test_dl_algo_host_rt.out ${OPT_DST_DIR}/tidl_test/
+    cp ${S}/arm-tidl/rt/out/${TIDL_SOC_NAME}/A72/LINUX/release/TI_DEVICE_armv8_test_dl_algo_host_rt.out ${OPT_DST_DIR}/tidl_test/
 
 }
 
