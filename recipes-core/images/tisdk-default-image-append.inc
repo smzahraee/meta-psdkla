@@ -32,6 +32,4 @@ IMAGE_INSTALL_append = " \
 WKS_FILE = "tisdk-default-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
-IMAGE_FSTYPES_remove = "wic.bmap"
-
-PR_append = "_psdkla_14"
+PR_append = "_psdkla_15"
