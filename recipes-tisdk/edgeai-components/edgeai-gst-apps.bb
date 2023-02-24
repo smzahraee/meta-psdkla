@@ -5,7 +5,8 @@ HOMEPAGE = "https://github.com/TexasInstruments/edgeai-gst-apps"
 LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=dc68ab0305d85e56491b9a9aed2309f2"
 
-SRC_URI = "git://github.com/TexasInstruments/edgeai-gst-apps.git;tag=EDGEAI_APP_STACK_08_06_00_01;nobranch=1;protocol=https"
+SRC_URI = "git://github.com/TexasInstruments/edgeai-gst-apps.git;protocol=https;branch=develop"
+SRCREV = "deef7296520bc2f918410a0b7cd3ffe39b574395"
 
 PLAT_SOC = ""
 PLAT_SOC_j7-evm = "j721e"
@@ -45,6 +46,7 @@ do_install() {
     mkdir -p ${D}/opt/model_zoo
     mkdir -p ${D}/opt/edgeai-test-data
     export EDGEAI_DATA_PATH=${WORKDIR}/edgeai-test-data
+    export EDGEAI_SDK_VERSION=08_06_00
 
     cd ${WORKDIR}/git/
     ./download_models.sh --recommended
