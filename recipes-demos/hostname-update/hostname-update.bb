@@ -20,8 +20,11 @@ inherit systemd
 
 HOSTNAME_UPDATE = "${MACHINE}"
 HOSTNAME_UPDATE_j7-evm = "tda4vm-sk"
+HOSTNAME_UPDATE_j7-hs-evm = "tda4vm-sk"
 HOSTNAME_UPDATE_j721s2-evm = "am68a-sk"
+HOSTNAME_UPDATE_j721s2-hs-evm = "am68a-sk"
 HOSTNAME_UPDATE_j784s4-evm = "am69a-sk"
+HOSTNAME_UPDATE_j784s4-hs-evm = "am69a-sk"
 
 do_install() {
     install -d ${D}${sysconfdir}/systemd/system

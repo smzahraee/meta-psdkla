@@ -1,25 +1,5 @@
 # disable matrix gui for PSDKLA
-IMAGE_INSTALL_remove_j7-evm = "\
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
-"
-
-IMAGE_INSTALL_remove_j7200-evm = "\
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
-"
-
-IMAGE_INSTALL_remove_am65xx-evm = "\
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
-"
-
-IMAGE_INSTALL_remove_j721s2-evm = "\
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
-"
-
-IMAGE_INSTALL_remove_j784s4-evm = "\
+IMAGE_INSTALL_remove = "\
     packagegroup-arago-tisdk-matrix \
     packagegroup-arago-tisdk-matrix-extra \
 "

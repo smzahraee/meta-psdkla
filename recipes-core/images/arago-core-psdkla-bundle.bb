@@ -23,15 +23,22 @@ IMAGE_INSTALL_remove += "chromium"
 DTB_FILTER = "unknown"
 DTB_FILTER_am65xx-evm = "am65"
 DTB_FILTER_j7-evm = "j721e"
+DTB_FILTER_j7-hs-evm = "j721e"
 DTB_FILTER_j7200-evm = "j7200"
+DTB_FILTER_j7200-hs-evm = "j7200"
 DTB_FILTER_j721s2-evm = "j721s2\|am68"
+DTB_FILTER_j721s2-hs-evm = "j721s2\|am68"
 DTB_FILTER_j784s4-evm = "j784s4\|am69"
+DTB_FILTER_j784s4-hs-evm = "j784s4\|am69"
 
 # List of target side images to build for the SDK
 TARGET_IMAGES = "tisdk-default-image"
 TARGET_IMAGES_append_j7-evm = " tisdk-edgeai-image"
+TARGET_IMAGES_append_j7-hs-evm = " tisdk-edgeai-image"
 TARGET_IMAGES_append_j721s2-evm = " tisdk-edgeai-image"
+TARGET_IMAGES_append_j721s2-hs-evm = " tisdk-edgeai-image"
 TARGET_IMAGES_append_j784s4-evm = " tisdk-edgeai-image"
+TARGET_IMAGES_append_j784s4-hs-evm = " tisdk-edgeai-image"
 
 TARGET_IMAGE_TYPES = "tar.xz"
 
