@@ -14,7 +14,7 @@ linux-dtbs:
 
 linux-dtbs_stage:
 	mkdir -p $(TI_SDK_PATH)/board-support/built-images
-ifeq ($(findstring hs,$(PLATFORM)),hs)
+ifneq ($(SOC_TYPE),gp)
 	@for DTB in __KERNEL_DEVICETREE__; do \
 		$(TI_SECURE_DEV_PKG)/scripts/secure-binary-image.sh $(LINUXKERNEL_INSTALL_DIR)/arch/__KERNEL_ARCH__/boot/dts/$$DTB $(TI_SDK_PATH)/board-support/built-images/$$(basename $$DTB).sec; \
 	done
@@ -25,7 +25,7 @@ else
 endif
 
 linux-dtbs_install: linux-dtbs_stage
-ifeq ($(findstring hs,$(PLATFORM)),)
+ifeq ($(SOC_TYPE),gp)
 	@echo =======================================
 	@echo     Installing the Linux Kernel DTBs
 	@echo =======================================

@@ -2,60 +2,19 @@ sysfw-image-jacinto: sysfw-image
 sysfw-image-jacinto_clean: sysfw-image_clean
 sysfw-image-jacinto_install: sysfw-image_install
 
-# Define the following to support multiple platforms
-PLATFORM_TYPE_$(PLATFORM) = gp
-PLATFORM_TYPE_am64xx-hs-evm = hs
-PLATFORM_TYPE_am65xx-hs-evm = hs
-PLATFORM_TYPE_j7-hs-evm = hs
-PLATFORM_TYPE_j7200-hs-evm = hs
-PLATFORM_TYPE_j721s2-hs-evm = hs
-PLATFORM_TYPE_j784s4-hs-evm = hs
-PLATFORM_TYPE = $(PLATFORM_TYPE_$(PLATFORM))
 
 SYSFW_CONFIG = evm
 
-SYSFW_SOC_$(PLATFORM) = NULL
-SYSFW_SOC_am65xx-evm = am65x
-SYSFW_SOC_am65xx-hs-evm = am65x
-SYSFW_SOC_am64xx-evm = am64x
-SYSFW_SOC_am64xx-hs-evm = am64x
-SYSFW_SOC_am62xx-evm = am62x
-SYSFW_SOC_j7-evm = j721e
-SYSFW_SOC_j7-hs-evm = j721e_sr1_1
-SYSFW_SOC_j7200-evm = j7200
-SYSFW_SOC_j7200-hs-evm = j7200_sr2
-SYSFW_SOC_j721s2-evm = j721s2
-SYSFW_SOC_j721s2-hs-evm = j721s2
-SYSFW_SOC_j784s4-evm = j784s4
-SYSFW_SOC_j784s4-hs-evm = j784s4
-SYSFW_SOC = $(SYSFW_SOC_$(PLATFORM))
+SYSFW_SOC ?= $(SOC)
 
-SYSFW_PREFIX_$(SYSFW_SOC) = ti-sci-firmware
-SYSFW_PREFIX_j721e = ti-fs-firmware
-SYSFW_PREFIX_j721e_sr1_1 = ti-fs-firmware
-SYSFW_PREFIX_j7200 = ti-fs-firmware
-SYSFW_PREFIX_j7200_sr2 = ti-fs-firmware
-SYSFW_PREFIX_j721s2 = ti-fs-firmware
-SYSFW_PREFIX_j784s4 = ti-fs-firmware
-SYSFW_PREFIX_am62x = ti-fs-firmware
-SYSFW_PREFIX = $(SYSFW_PREFIX_$(SYSFW_SOC))
+SYSFW_PREFIX_$(SOC) = "fs"
+SYSFW_PREFIX_am65x = "sci"
+SYSFW_PREFIX = $(SYSFW_PREFIX_$(SOC))
 
-SYSFW_BASE = $(SYSFW_PREFIX)-$(SYSFW_SOC)-$(PLATFORM_TYPE)
+SYSFW_MAKEARGS = SYSFW_DIR=$(TI_SDK_PATH)/board-support/prebuilt-images SCIFS=$(SYSFW_PREFIX) SOC=$(SYSFW_SOC) SOC_TYPE=$(SOC_TYPE) CONFIG=$(SYSFW_CONFIG)
 
-SYSFW_MAKEARGS_common = SYSFW_DL_URL="" SYSFW_HS_DL_URL="" SYSFW_HS_INNER_CERT_DL_URL="" \
-			SOC=$(SYSFW_SOC) CONFIG=$(SYSFW_CONFIG)
-
-SYSFW_MAKEARGS_gp = SYSFW_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/$(SYSFW_BASE).bin
-
-SYSFW_MAKEARGS_hs = HS=1  \
-		    SYSFW_HS_INNER_CERT_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/$(SYSFW_BASE)-cert.bin \
-		    SYSFW_PATH=$(TI_SDK_PATH)/board-support/prebuilt-images/$(SYSFW_BASE)-enc.bin
-
-SYSFW_MAKEARGS = $(SYSFW_MAKEARGS_common) $(SYSFW_MAKEARGS_$(PLATFORM_TYPE))
-
-SBL_PATH_$(SYSFW_SOC) = $(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
+SBL_PATH_$(SOC) = $(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
 SBL_PATH_j721e = ""
-SBL_PATH_j721e_sr1_1 = ""
 SBL_PATH_am65x = ""
 SBL_PATH = $(SBL_PATH_$(SYSFW_SOC))
 

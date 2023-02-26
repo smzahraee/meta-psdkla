@@ -114,6 +114,31 @@ MAKEFILES_remove_am65xx-evm = " \
     ti-sgx-ddk-km \
 "
 
+SOC = "unknown"
+SOC_j7-evm = "j721e"
+SOC_j7200-evm = "j7200"
+SOC_j721s2-evm = "j721s2"
+SOC_j784s4-evm = "j784s4"
+SOC_am65xx-evm = "am65x"
+SOC_j7-hs-evm = "j721e"
+SOC_j7200-hs-evm = "j7200"
+SOC_j721s2-hs-evm = "j721s2"
+SOC_j784s4-hs-evm = "j784s4"
+SOC_am65xx-hs-evm = "am65x"
+
+SOC_TYPE = "gp"
+SOC_TYPE_j7-hs-evm = "hs"
+SOC_TYPE_j7200-hs-evm = "hs"
+SOC_TYPE_j721s2-hs-evm = "hs"
+SOC_TYPE_j784s4-hs-evm = "hs"
+SOC_TYPE_am65xx-hs-evm = "hs"
+
+SYSFW_SOC_HS = "${SOC}"
+SYSFW_SOC_HS_j7-evm = "${SOC}_sr2"
+SYSFW_SOC_HS_j7-hs-evm = "${SOC}_sr2"
+SYSFW_SOC_HS_j7200-evm = "${SOC}_sr2"
+SYSFW_SOC_HS_j7200-hs-evm = "${SOC}_sr2"
+
 do_install_append_j7() {
     cat ${D}/Makefile | grep "__DTB_DEPEND_STAGE__" > /dev/null
     if [ "$?" == "0" ]
@@ -123,10 +148,12 @@ do_install_append_j7() {
         sed -i -e "s/__DTB_DEPEND_STAGE__//" ${D}/Makefile
     fi
 
+    sed -i -e "s/^PLATFORM=.*/SOC = ${SOC}\nSOC_TYPE ?= ${SOC_TYPE}\n/g" ${D}/Rules.make
+
     cat >> ${D}/Rules.make << __EOF__
 
 # Root of the boot partition to install boot binaries
-BOOTFS ?=__BOOTFS__
+BOOTFS ?= __BOOTFS__
 __EOF__
 }
 
@@ -135,11 +162,10 @@ do_install_append_j7-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-HS?=0
-ifeq (\$(HS),1)
-	PLATFORM=j7-hs-evm
-	UBOOT_MACHINE=j721e_hs_evm_a72_config
-	UBOOT_MACHINE_R5=j721e_hs_evm_r5_config
+ifneq ($(SOC_TYPE),gp)
+	UBOOT_MACHINE=${SOC}_hs_evm_a72_config
+	UBOOT_MACHINE_R5=${SOC}_hs_evm_r5_config
+    SYSFW_SOC ?= ${SYSFW_SOC_HS}
 endif
 
 __EOF__
@@ -150,11 +176,10 @@ do_install_append_j7200-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-HS?=0
-ifeq (\$(HS),1)
-	PLATFORM=j7200-hs-evm
-	UBOOT_MACHINE=j7200_hs_evm_a72_config
-	UBOOT_MACHINE_R5=j7200_hs_evm_r5_config
+ifneq ($(SOC_TYPE),gp)
+	UBOOT_MACHINE=${SOC}_hs_evm_a72_config
+	UBOOT_MACHINE_R5=${SOC}_hs_evm_r5_config
+    SYSFW_SOC ?= ${SYSFW_SOC_HS}
 endif
 
 __EOF__
@@ -165,11 +190,9 @@ do_install_append_j721s2-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-HS?=0
-ifeq (\$(HS),1)
-	PLATFORM=j721s2-hs-evm
-	UBOOT_MACHINE=j721s2_hs_evm_a72_config
-	UBOOT_MACHINE_R5=j721s2_hs_evm_r5_config
+ifneq ($(SOC_TYPE),gp)
+	UBOOT_MACHINE=${SOC}_hs_evm_a72_config
+	UBOOT_MACHINE_R5=${SOC}_hs_evm_r5_config
 endif
 
 __EOF__
@@ -180,12 +203,7 @@ do_install_append_j784s4-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-HS?=0
-ifeq (\$(HS),1)
-	PLATFORM=j784s4-hs-evm
-endif
-
 __EOF__
 }
 
-PR_append = "_psdkla_17"
+PR_append = "_psdkla_18"

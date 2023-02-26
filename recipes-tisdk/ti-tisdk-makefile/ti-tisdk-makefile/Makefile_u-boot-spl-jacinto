@@ -3,7 +3,7 @@ u-boot-spl-jacinto: u-boot
 u-boot-spl-jacinto_clean: u-boot_clean
 u-boot-spl-jacinto_install: u-boot_install
 
-ifeq ($(findstring hs,$(PLATFORM)),hs)
+ifneq ($(SOC_TYPE),gp)
 UBOOT_BIN_SUFFIX=.signed
 UBOOT_IMAGE_SUFFIX=_HS
 UBOOT_BUILD_DIR=u-boot_hs_build
@@ -21,7 +21,7 @@ UBOOT_A72_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/a72
 UBOOT_R5_BUILD_DIR=$(TI_SDK_PATH)/board-support/$(UBOOT_BUILD_DIR)/r5
 
 u-boot: u-boot-a72 u-boot-r5
-ifeq ($(findstring hs,$(PLATFORM)),hs)
+ifneq ($(SOC_TYPE),gp)
 	@echo "===================== WARNING ======================"
 	@echo "If using dorprocboot=1 in u-boot, the remote core firmwares will need to be signed for HS platforms."
 	@echo "Use following procedure to sign any binary"
