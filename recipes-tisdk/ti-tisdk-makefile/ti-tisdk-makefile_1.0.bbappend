@@ -114,8 +114,8 @@ SOC_TYPE_j784s4-hs-evm = "hs"
 SOC_TYPE_am65xx-hs-evm = "hs"
 
 SYSFW_SOC_HS = "${SOC}"
-SYSFW_SOC_HS_j7-evm = "${SOC}_sr2"
-SYSFW_SOC_HS_j7-hs-evm = "${SOC}_sr2"
+SYSFW_SOC_HS_j7-evm = "${SOC}_sr1_1"
+SYSFW_SOC_HS_j7-hs-evm = "${SOC}_sr1_1"
 SYSFW_SOC_HS_j7200-evm = "${SOC}_sr2"
 SYSFW_SOC_HS_j7200-hs-evm = "${SOC}_sr2"
 
@@ -236,4 +236,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_19"
+PR_append = "_psdkla_20"
