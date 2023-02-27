@@ -131,7 +131,7 @@ do_install_append_j7() {
         sed -i -e "s/__DTB_DEPEND_STAGE__//" ${D}/Makefile
     fi
 
-    sed -i -e "s/^PLATFORM=.*/SOC = ${SOC}\nSOC_TYPE ?= ${SOC_TYPE}\n/g" ${D}/Rules.make
+    sed -i -e "s/^PLATFORM=.*/SOC = ${SOC}\nSOC_TYPE ?= ${SOC_TYPE}/g" ${D}/Rules.make
 
     cat >> ${D}/Rules.make << __EOF__
 
@@ -145,10 +145,10 @@ do_install_append_j7-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-ifneq ($(SOC_TYPE),gp)
+ifneq (\$(SOC_TYPE),gp)
 	UBOOT_MACHINE=${SOC}_hs_evm_a72_config
 	UBOOT_MACHINE_R5=${SOC}_hs_evm_r5_config
-    SYSFW_SOC ?= ${SYSFW_SOC_HS}
+	SYSFW_SOC ?= ${SYSFW_SOC_HS}
 endif
 
 __EOF__
@@ -158,11 +158,11 @@ do_install_append_j7-hs-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-ifeq ($(SOC_TYPE),gp)
+ifeq (\$(SOC_TYPE),gp)
 	UBOOT_MACHINE=${SOC}_evm_a72_config
 	UBOOT_MACHINE_R5=${SOC}_evm_r5_config
 else
-    SYSFW_SOC ?= ${SYSFW_SOC_HS}
+	SYSFW_SOC ?= ${SYSFW_SOC_HS}
 endif
 
 __EOF__
@@ -173,10 +173,10 @@ do_install_append_j7200-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-ifneq ($(SOC_TYPE),gp)
+ifneq (\$(SOC_TYPE),gp)
 	UBOOT_MACHINE=${SOC}_hs_evm_a72_config
 	UBOOT_MACHINE_R5=${SOC}_hs_evm_r5_config
-    SYSFW_SOC ?= ${SYSFW_SOC_HS}
+	SYSFW_SOC ?= ${SYSFW_SOC_HS}
 endif
 
 __EOF__
@@ -186,11 +186,11 @@ do_install_append_j7200-hs-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-ifeq ($(SOC_TYPE),gp)
+ifeq (\$(SOC_TYPE),gp)
 	UBOOT_MACHINE=${SOC}_evm_a72_config
 	UBOOT_MACHINE_R5=${SOC}_evm_r5_config
 else
-    SYSFW_SOC ?= ${SYSFW_SOC_HS}
+	SYSFW_SOC ?= ${SYSFW_SOC_HS}
 endif
 
 __EOF__
@@ -201,7 +201,7 @@ do_install_append_j721s2-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-ifneq ($(SOC_TYPE),gp)
+ifneq (\$(SOC_TYPE),gp)
 	UBOOT_MACHINE=${SOC}_hs_evm_a72_config
 	UBOOT_MACHINE_R5=${SOC}_hs_evm_r5_config
 endif
@@ -213,7 +213,7 @@ do_install_append_j721s2-hs-evm() {
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
-ifeq ($(SOC_TYPE),gp)
+ifeq (\$(SOC_TYPE),gp)
 	UBOOT_MACHINE=${SOC}_evm_a72_config
 	UBOOT_MACHINE_R5=${SOC}_evm_r5_config
 endif
