@@ -131,7 +131,7 @@ do_install_append_j7() {
         sed -i -e "s/__DTB_DEPEND_STAGE__//" ${D}/Makefile
     fi
 
-    sed -i -e "s/^PLATFORM=.*/SOC = ${SOC}\nSOC_TYPE ?= ${SOC_TYPE}/g" ${D}/Rules.make
+    sed -i -e "s/^PLATFORM=.*/&\nSOC = ${SOC}\nSOC_TYPE ?= ${SOC_TYPE}/g" ${D}/Rules.make
 
     cat >> ${D}/Rules.make << __EOF__
 
