@@ -3,20 +3,22 @@ sysfw-image-jacinto_clean: sysfw-image_clean
 sysfw-image-jacinto_install: sysfw-image_install
 
 
-SYSFW_CONFIG = evm
-
 SYSFW_SOC ?= $(SOC)
+SOC_TYPE ?= gp
+SYSFW_CONFIG ?= evm
 
-SYSFW_PREFIX_$(SOC) = "fs"
-SYSFW_PREFIX_am65x = "sci"
-SYSFW_PREFIX = $(SYSFW_PREFIX_$(SOC))
+SYSFW_PREFIX = "fs"
+ifeq ($(SOC), $(filter $(SOC), am65x))
+SYSFW_PREFIX = "sci"
+endif
+
 
 SYSFW_MAKEARGS = SYSFW_DIR=$(TI_SDK_PATH)/board-support/prebuilt-images SCIFS=$(SYSFW_PREFIX) SOC=$(SYSFW_SOC) SOC_TYPE=$(SOC_TYPE) CONFIG=$(SYSFW_CONFIG)
 
-SBL_PATH_$(SOC) = $(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
-SBL_PATH_j721e = ""
-SBL_PATH_am65x = ""
-SBL_PATH = $(SBL_PATH_$(SYSFW_SOC))
+SBL_PATH ?= $(UBOOT_R5_BUILD_DIR)/spl/u-boot-spl.bin
+ifeq ($(SOC), $(filter $(SOC), j721e am65x))
+override SBL_PATH = ""
+endif
 
 # Depend on linux-dtbs for the dtc utility
 sysfw-image:
