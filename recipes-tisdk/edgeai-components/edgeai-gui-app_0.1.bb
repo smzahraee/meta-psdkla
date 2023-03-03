@@ -10,7 +10,7 @@ DEPENDS = "qtbase qtquick3d qtmultimedia"
 RDEPENDS_${PN} = "qtbase qtquick3d qtmultimedia"
 
 BRANCH = "master"
-SRCREV = "eaef94d8de30cca16b1f6ffdec85ad86b3d0127d"
+SRCREV = "ecad683119801529e79907cdc7506dd6195aaafe"
 
 SRC_URI = "git://git.ti.com/apps/edgeai-gui-app.git;protocol=git;branch=${BRANCH}"
 
@@ -27,4 +27,4 @@ do_install_append () {
 
 FILES_${PN} += "${bindir}/edgeai-gui-app"
 
-PR = "r4"
+PR = "r5"
