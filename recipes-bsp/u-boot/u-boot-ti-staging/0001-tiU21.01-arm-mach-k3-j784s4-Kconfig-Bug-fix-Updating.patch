@@ -1,0 +1,31 @@
+From 98a5f025ff8bdf58f4bf29b84a3127f91ec8a164 Mon Sep 17 00:00:00 2001
+From: Aniket Limaye <a-limaye@ti.com>
+Date: Mon, 13 Mar 2023 20:28:39 +0530
+Subject: [PATCH] [tiU21.01] arm: mach-k3: j784s4: Kconfig: Bug fix: Updating
+ mem map
+
+- With CONFIG_TI_I2C_BOARD_DETECT=y enabled for detecting the board (EVM vs SK),
+  The HS-SE J784S4X-EVM variant does not boot. Reading EEPROM from R5 SPL (tiboot3)
+  fails due to firewalls. This patch fixes the issue.
+
+Signed-off-by: Aniket Limaye <a-limaye@ti.com>
+---
+ arch/arm/mach-k3/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-k3/Kconfig b/arch/arm/mach-k3/Kconfig
+index 9c0572597f..aed0dc7b8a 100644
+--- a/arch/arm/mach-k3/Kconfig
++++ b/arch/arm/mach-k3/Kconfig
+@@ -62,7 +62,7 @@ config SYS_K3_MCU_SCRATCHPAD_BASE
+ 	default 0x40280000 if SOC_K3_AM6
+ 	default 0x40280000 if SOC_K3_J721E
+ 	default 0x40280000 if SOC_K3_J721S2
+-	default 0x40280000 if SOC_K3_J784S4
++	default 0x41cff9fc if SOC_K3_J784S4
+ 	help
+ 	  Describes the base address of MCU Scratchpad RAM.
+ 
+-- 
+2.34.1
+
