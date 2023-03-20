@@ -14,6 +14,5 @@ SRC_URI_append_j721s2-hs-evm = " \
     file://0001-arm64-dts-ti-k3-am68-sk-rpi-Override-main_gpio0-node.patch \
 "
 
-PR_append = "_psdkla_101"
+PR_append = "_psdkla_102"
 
-require rtos-mem-map.inc
