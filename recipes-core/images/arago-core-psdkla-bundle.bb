@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_14"
+PR_append = "_psdkla_15"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -32,12 +32,6 @@ DTB_FILTER_j784s4-hs-evm = "j784s4\|am69"
 
 # List of target side images to build for the SDK
 TARGET_IMAGES = "tisdk-default-image"
-TARGET_IMAGES_append_j7-evm = " tisdk-edgeai-image"
-TARGET_IMAGES_append_j7-hs-evm = " tisdk-edgeai-image"
-TARGET_IMAGES_append_j721s2-evm = " tisdk-edgeai-image"
-TARGET_IMAGES_append_j721s2-hs-evm = " tisdk-edgeai-image"
-TARGET_IMAGES_append_j784s4-evm = " tisdk-edgeai-image"
-TARGET_IMAGES_append_j784s4-hs-evm = " tisdk-edgeai-image"
 
 TARGET_IMAGE_TYPES = "tar.xz"
 
