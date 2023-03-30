@@ -1,4 +1,4 @@
-PR_append = "_psdkla_4"
+PR_append = "_psdkla_5"
 
 PSDK_UTILS = " \
     pru-icss \
@@ -9,8 +9,6 @@ PSDK_UTILS = " \
     meson \
     opencv \
     opencv-dev \
-    yaml-cpp \
-    yaml-cpp-dev \
     python3-pyyaml \
     python3-pycparser \
     python3-plotly \
