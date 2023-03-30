@@ -53,20 +53,4 @@ SRC_URI_append_j721s2-hs-evm-k3r5 = " \
     file://0002-configs-j721s2-update-config-to-select-the-right-dtb.patch \
 "
 
-SRC_URI_append_j784s4-evm = " \
-    file://0001-tiU21.01-arm-mach-k3-j784s4-Kconfig-Bug-fix-Updating.patch \
-"
-SRC_URI_append_j784s4-evm-k3r5-gp = " \
-    file://0001-tiU21.01-arm-mach-k3-j784s4-Kconfig-Bug-fix-Updating.patch \
-"
-SRC_URI_append_j784s4-evm-k3r5-sr1-hs-fs = " \
-    file://0001-tiU21.01-arm-mach-k3-j784s4-Kconfig-Bug-fix-Updating.patch \
-"
-SRC_URI_append_j784s4-hs-evm = " \
-    file://0001-tiU21.01-arm-mach-k3-j784s4-Kconfig-Bug-fix-Updating.patch \
-"
-SRC_URI_append_j784s4-hs-evm-k3r5 = " \
-    file://0001-tiU21.01-arm-mach-k3-j784s4-Kconfig-Bug-fix-Updating.patch \
-"
-
-PR_append = "_psdkla_20"
+PR_append = "_psdkla_21"
