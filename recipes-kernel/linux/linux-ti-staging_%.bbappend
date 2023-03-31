@@ -8,14 +8,12 @@ SRC_URI_append_j7-hs-evm = " \
 "
 
 SRC_URI_append_j721s2-evm = " \
-    file://0001-arch-arm64-dts-ti-Add-E1-compatible-DTB-and-DTBO-for.patch \
     file://0001-arm64-dts-ti-k3-am68-sk-rpi-Override-main_gpio0-node.patch \
 "
 SRC_URI_append_j721s2-hs-evm = " \
-    file://0001-arch-arm64-dts-ti-Add-E1-compatible-DTB-and-DTBO-for.patch \
     file://0001-arm64-dts-ti-k3-am68-sk-rpi-Override-main_gpio0-node.patch \
 "
 
-PR_append = "_psdkla_100"
+PR_append = "_psdkla_101"
 
 require rtos-mem-map.inc
