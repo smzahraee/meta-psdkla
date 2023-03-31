@@ -8,7 +8,7 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_13"
+PR_append = "_psdkla_14"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
@@ -21,7 +21,6 @@ IMAGE_INSTALL_remove += "chromium"
 # Set DTB filters for each machine.  Use "unknown" by default to avoid
 # picking up DTB files for devices with no DTB support.
 DTB_FILTER = "unknown"
-DTB_FILTER_am65xx-evm = "am65"
 DTB_FILTER_j7-evm = "j721e"
 DTB_FILTER_j7-hs-evm = "j721e"
 DTB_FILTER_j7200-evm = "j7200"
@@ -58,7 +57,6 @@ DEPLOY_SPL_NAME_append_j721s2-evm = " tiboot3-j721s2-gp-evm.bin tiboot3-j721s2-h
 DEPLOY_SPL_NAME_append_j784s4-evm = " tiboot3-j784s4-gp-evm.bin tiboot3-j784s4-hs-fs-evm.bin"
 
 DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin u-boot.img Image"
-DEPLOY_IMAGES_NAME_append_am65xx-evm = " ti-sci-firmware-am65x_sr2-gp.bin"
 DEPLOY_IMAGES_NAME_append_j7-evm = "\
     sysfw.itb ti-fs-firmware-j721e-gp.bin \
     ti-fs-firmware-j721e-hs-cert.bin ti-fs-firmware-j721e-hs-enc.bin \

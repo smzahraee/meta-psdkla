@@ -58,60 +58,21 @@ MAKEFILES_remove_j784s4-hs-evm = " \
 "
 
 
-SRC_URI_append_am65xx-evm = "\
-    file://Makefile_ti-sgx-ddk-km-am65xx \
-"
-
-SRC_URI_remove_am65xx-evm = "\
-    file://Makefile_matrix-gui \
-    file://Makefile_matrix-gui-browser \
-    file://Makefile_refresh-screen \
-    file://Makefile_qt-tstat \
-    file://Makefile_pru \
-    file://Makefile_pru-icss \
-    file://Makefile_barcode-roi \
-    file://Makefile_mmwavegesture-hmi \
-    file://Makefile_pdm-anomaly-detection \
-    file://Makefile_ti-ipc \
-    file://Makefile_ti-sgx-ddk-km \
-"
-MAKEFILES_append_am65xx-evm = " ti-sgx-ddk-km-am65xx \
-"
-
-MAKEFILES_COMMON_remove_am65xx-evm = "\
-    matrix-gui \
-    matrix-gui-browser \
-    refresh-screen \
-    qt-tstat \
-"
-MAKEFILES_remove_am65xx-evm = " \
-    pru \
-    pru-icss \
-    barcode-roi \
-    mmwavegesture-hmi \
-    pdm-anomaly-detection \
-    ti-ipc \
-    ti-sgx-ddk-km \
-"
-
 SOC = "unknown"
 SOC_j7-evm = "j721e"
 SOC_j7200-evm = "j7200"
 SOC_j721s2-evm = "j721s2"
 SOC_j784s4-evm = "j784s4"
-SOC_am65xx-evm = "am65x"
 SOC_j7-hs-evm = "j721e"
 SOC_j7200-hs-evm = "j7200"
 SOC_j721s2-hs-evm = "j721s2"
 SOC_j784s4-hs-evm = "j784s4"
-SOC_am65xx-hs-evm = "am65x"
 
 SOC_TYPE = "gp"
 SOC_TYPE_j7-hs-evm = "hs"
 SOC_TYPE_j7200-hs-evm = "hs"
 SOC_TYPE_j721s2-hs-evm = "hs"
 SOC_TYPE_j784s4-hs-evm = "hs"
-SOC_TYPE_am65xx-hs-evm = "hs"
 
 SYSFW_SOC_HS = "${SOC}"
 SYSFW_SOC_HS_j7-evm = "${SOC}_sr1_1"
@@ -236,4 +197,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_21"
+PR_append = "_psdkla_22"
