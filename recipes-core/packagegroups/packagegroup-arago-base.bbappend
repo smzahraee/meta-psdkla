@@ -3,18 +3,12 @@ RDEPENDS_${PN}_append = " \
         libion \
         libion-dev \
         websocketd \
-        statcol \
-        ti-rpmsg-char \
         ti-rpmsg-char-dev \
         libloki \
         boost \
         json-c \
         ocl-gl-headers \
         gdb \
-        python3-numpy \
-        python3-opencv \
-        python3-pip \
-        python3-pillow \
         dialog \
         udev \
 "

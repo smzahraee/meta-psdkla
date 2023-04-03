@@ -2,24 +2,25 @@ PR_append = "_psdkla_4"
 
 PSDK_UTILS = " \
     pru-icss \
+    corkscrew \
     cmake \
-    yaml-cpp \
-    yaml-cpp-dev \
-    python3-pyyaml \
     boost \
     ninja \
     meson \
     opencv \
     opencv-dev \
-    corkscrew \
+    yaml-cpp \
+    yaml-cpp-dev \
+    python3-pyyaml \
     python3-pycparser \
     python3-plotly \
     python3-cffi \
-    zlib \
     python3-numpy \
     python3-pybind11 \
     python3-wheel \
-    protobuf \
+    python3-opencv \
+    python3-pip \
+    python3-pillow \
 "
 
 UTILS_append_j7-evm = " \
