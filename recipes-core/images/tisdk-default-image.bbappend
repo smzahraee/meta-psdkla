@@ -1,3 +1,3 @@
 require tisdk-default-image-append.inc
 
-PR_append = ".1"
+PR:append = ".1"

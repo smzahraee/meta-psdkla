@@ -1,4 +1,4 @@
-RDEPENDS_${PN}_append = " \
+RDEPENDS:${PN}:append = " \
         libdrm-dev \
         libion \
         libion-dev \
@@ -13,14 +13,14 @@ RDEPENDS_${PN}_append = " \
         udev \
 "
 
-RDEPENDS_${PN}_append_j7-evm = "ti-img-rogue-umlibs-dev \
+RDEPENDS:${PN}:append:j721e-evm = "ti-img-rogue-umlibs-dev \
         glsdk-util-scripts \
         oob-demo \
         wifi-oob \
         hostname-update \
         pmic-fix \
 "
-RDEPENDS_${PN}_append_j7-hs-evm = "ti-img-rogue-umlibs-dev \
+RDEPENDS:${PN}:append:j721e-hs-evm = "ti-img-rogue-umlibs-dev \
         glsdk-util-scripts \
         oob-demo \
         wifi-oob \
@@ -28,33 +28,33 @@ RDEPENDS_${PN}_append_j7-hs-evm = "ti-img-rogue-umlibs-dev \
         pmic-fix \
 "
 
-RDEPENDS_${PN}_append_j7200-evm = "\
+RDEPENDS:${PN}:append:j7200-evm = "\
         glsdk-util-scripts \
 "
-RDEPENDS_${PN}_append_j7200-hs-evm = "\
+RDEPENDS:${PN}:append:j7200-hs-evm = "\
         glsdk-util-scripts \
 "
 
-RDEPENDS_${PN}_append_j721s2-evm = "\
+RDEPENDS:${PN}:append:j721s2-evm = "\
         glsdk-util-scripts \
         oob-demo \
         hostname-update \
 "
-RDEPENDS_${PN}_append_j721s2-hs-evm = "\
-        glsdk-util-scripts \
-        oob-demo \
-        hostname-update \
-"
-
-RDEPENDS_${PN}_append_j784s4-evm = "\
-        glsdk-util-scripts \
-        oob-demo \
-        hostname-update \
-"
-RDEPENDS_${PN}_append_j784s4-hs-evm = "\
+RDEPENDS:${PN}:append:j721s2-hs-evm = "\
         glsdk-util-scripts \
         oob-demo \
         hostname-update \
 "
 
-PR_append = "_psdkla_9"
+RDEPENDS:${PN}:append:j784s4-evm = "\
+        glsdk-util-scripts \
+        oob-demo \
+        hostname-update \
+"
+RDEPENDS:${PN}:append:j784s4-hs-evm = "\
+        glsdk-util-scripts \
+        oob-demo \
+        hostname-update \
+"
+
+PR:append = "_psdkla_9"

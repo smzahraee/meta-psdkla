@@ -8,27 +8,27 @@ IMAGE_NAME_SUFFIX = ""
 inherit tisdk-bundle
 
 COMPATIBLE_MACHINE = "k3"
-PR_append = "_psdkla_15"
+PR:append = "_psdkla_15"
 
 # List of packages to remove from the host package.  This is usually due to
 # licensing issues and unneeded dependencies.
 HOST_CLEANUP_PACKAGES = ""
 TOOLCHAIN_CLEANUP_PACKAGES = "libgnutls-dev libgnutls-extra26 libgnutls-openssl27 libtasn1-dev"
 
-IMAGE_INSTALL_remove += "chromium"
+IMAGE_INSTALL:remove += "chromium"
 
 
 # Set DTB filters for each machine.  Use "unknown" by default to avoid
 # picking up DTB files for devices with no DTB support.
 DTB_FILTER = "unknown"
-DTB_FILTER_j7-evm = "j721e"
-DTB_FILTER_j7-hs-evm = "j721e"
-DTB_FILTER_j7200-evm = "j7200"
-DTB_FILTER_j7200-hs-evm = "j7200"
-DTB_FILTER_j721s2-evm = "j721s2\|am68"
-DTB_FILTER_j721s2-hs-evm = "j721s2\|am68"
-DTB_FILTER_j784s4-evm = "j784s4\|am69"
-DTB_FILTER_j784s4-hs-evm = "j784s4\|am69"
+DTB_FILTER:j721e-evm = "j721e"
+DTB_FILTER:j721e-hs-evm = "j721e"
+DTB_FILTER:j7200-evm = "j7200"
+DTB_FILTER:j7200-hs-evm = "j7200"
+DTB_FILTER:j721s2-evm = "j721s2\|am68"
+DTB_FILTER:j721s2-hs-evm = "j721s2\|am68"
+DTB_FILTER:j784s4-evm = "j784s4\|am69"
+DTB_FILTER:j784s4-hs-evm = "j784s4\|am69"
 
 # List of target side images to build for the SDK
 TARGET_IMAGES = "tisdk-default-image"
@@ -47,29 +47,29 @@ IMAGE_INSTALL = "\
     ${@bb.utils.contains('MACHINE_FEATURES','gpu','packagegroup-arago-tisdk-qte-sdk-host','',d)} \
 "
 DEPLOY_SPL_NAME_k3 = "tispl.bin tiboot3.bin"
-DEPLOY_SPL_NAME_append_j721s2-evm = " tiboot3-j721s2-gp-evm.bin tiboot3-j721s2-hs-fs-evm.bin"
-DEPLOY_SPL_NAME_append_j784s4-evm = " tiboot3-j784s4-gp-evm.bin tiboot3-j784s4-hs-fs-evm.bin"
+DEPLOY_SPL_NAME:append:j721s2-evm = " tiboot3-j721s2-gp-evm.bin tiboot3-j721s2-hs-fs-evm.bin"
+DEPLOY_SPL_NAME:append:j784s4-evm = " tiboot3-j784s4-gp-evm.bin tiboot3-j784s4-hs-fs-evm.bin"
 
 DEPLOY_IMAGES_NAME_k3 = "bl31.bin bl32.bin u-boot.img Image"
-DEPLOY_IMAGES_NAME_append_j7-evm = "\
+DEPLOY_IMAGES_NAME:append:j721e-evm = "\
     sysfw.itb ti-fs-firmware-j721e-gp.bin \
     ti-fs-firmware-j721e-hs-cert.bin ti-fs-firmware-j721e-hs-enc.bin \
     ti-fs-firmware-j721e_sr1_1-hs-cert.bin ti-fs-firmware-j721e_sr1_1-hs-enc.bin \
     ti-fs-firmware-j721e_sr2-hs-cert.bin ti-fs-firmware-j721e_sr2-hs-enc.bin \
     ti-fs-firmware-j721e_sr2-hs-fs-cert.bin ti-fs-firmware-j721e_sr2-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
-DEPLOY_IMAGES_NAME_append_j7200-evm = "\
+DEPLOY_IMAGES_NAME:append:j7200-evm = "\
     ti-fs-firmware-j7200-gp.bin \
     ti-fs-firmware-j7200-hs-cert.bin ti-fs-firmware-j7200-hs-enc.bin \
     ti-fs-firmware-j7200_sr2-hs-cert.bin ti-fs-firmware-j7200_sr2-hs-enc.bin \
     ti-fs-firmware-j7200_sr2-hs-fs-cert.bin ti-fs-firmware-j7200_sr2-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
-DEPLOY_IMAGES_NAME_append_j721s2-evm = "\
+DEPLOY_IMAGES_NAME:append:j721s2-evm = "\
     ti-fs-firmware-j721s2-gp.bin \
     ti-fs-firmware-j721s2-hs-cert.bin ti-fs-firmware-j721s2-hs-enc.bin \
     ti-fs-firmware-j721s2-hs-fs-cert.bin ti-fs-firmware-j721s2-hs-fs-enc.bin \
     ipc_echo_testb_mcu1_0_release_strip.xer5f"
-DEPLOY_IMAGES_NAME_append_j784s4-evm = "\
+DEPLOY_IMAGES_NAME:append:j784s4-evm = "\
     ti-fs-firmware-j784s4-gp.bin \
     ti-fs-firmware-j784s4-hs-cert.bin ti-fs-firmware-j784s4-hs-enc.bin \
     ti-fs-firmware-j784s4-hs-fs-cert.bin ti-fs-firmware-j784s4-hs-fs-enc.bin \

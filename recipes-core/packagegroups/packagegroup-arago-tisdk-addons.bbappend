@@ -1,4 +1,4 @@
-PR_append = "_psdkla_5"
+PR:append = "_psdkla_5"
 
 PSDK_UTILS = " \
     pru-icss \
@@ -21,23 +21,23 @@ PSDK_UTILS = " \
     python3-pillow \
 "
 
-UTILS_append_j7-evm = " \
+UTILS:append:j721e-evm = " \
     ${PSDK_UTILS} \
 "
-UTILS_append_j7-hs-evm = " \
-    ${PSDK_UTILS} \
-"
-
-UTILS_append_j721s2-evm = " \
-    ${PSDK_UTILS} \
-"
-UTILS_append_j721s2-hs-evm = " \
+UTILS:append:j721e-hs-evm = " \
     ${PSDK_UTILS} \
 "
 
-UTILS_append_j784s4-evm = " \
+UTILS:append:j721s2-evm = " \
     ${PSDK_UTILS} \
 "
-UTILS_append_j784s4-hs-evm = " \
+UTILS:append:j721s2-hs-evm = " \
+    ${PSDK_UTILS} \
+"
+
+UTILS:append:j784s4-evm = " \
+    ${PSDK_UTILS} \
+"
+UTILS:append:j784s4-hs-evm = " \
     ${PSDK_UTILS} \
 "

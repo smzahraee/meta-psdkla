@@ -1,10 +1,10 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append_k3 = " \
+SRC_URI:append:k3 = " \
     file://0001-tiU21.01-arm-mach-k3-common-don-t-reconfigure-.patch \
 "
-SRC_URI_append_k3r5 = " \
+SRC_URI:append:k3r5 = " \
     file://0001-tiU21.01-arm-mach-k3-common-don-t-reconfigure-.patch \
 "
 
-PR_append = "_psdkla_24"
+PR:append = "_psdkla_25"

@@ -1,13 +1,13 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/${MACHINE}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/${MACHINE}:"
 
-SRC_URI_append_j7 = "\
+SRC_URI:append:j7 = "\
     file://Makefile_u-boot-spl-jacinto \
     file://Makefile_sysfw-image-jacinto \
     file://Makefile_linux-jacinto \
     file://Makefile_linux-dtbs-jacinto \
 "
 
-SRC_URI_remove_j7 = "\
+SRC_URI:remove:j7 = "\
     file://Makefile_ti-ipc \
     file://Makefile_pru-icss \
     file://Makefile_u-boot-spl \
@@ -16,7 +16,7 @@ SRC_URI_remove_j7 = "\
     file://Makefile_linux-dtbs \
 "
 
-MAKEFILES_remove_j7 = " \
+MAKEFILES:remove:j7 = " \
     ti-ipc \
     pru-icss \
     u-boot-spl \
@@ -24,66 +24,66 @@ MAKEFILES_remove_j7 = " \
     linux-dtbs \
 "
 
-MAKEFILES_COMMON_remove_j7 = " \
+MAKEFILES_COMMON:remove:j7 = " \
     linux \
     matrix-gui \
 "
 
-MAKEFILES_append_j7 = " \
+MAKEFILES:append:j7 = " \
     u-boot-spl-jacinto \
     sysfw-image-jacinto \
     linux-jacinto \
     linux-dtbs-jacinto \
 "
 
-MAKEFILES_remove_j7200-evm = " \
+MAKEFILES:remove:j7200-evm = " \
     ti-img-rogue-driver \
 "
-MAKEFILES_remove_j7200-hs-evm = " \
-    ti-img-rogue-driver \
-"
-
-MAKEFILES_remove_j721s2-evm = " \
-    ti-img-rogue-driver \
-"
-MAKEFILES_remove_j721s2-hs-evm = " \
+MAKEFILES:remove:j7200-hs-evm = " \
     ti-img-rogue-driver \
 "
 
-MAKEFILES_remove_j784s4-evm = " \
+MAKEFILES:remove:j721s2-evm = " \
     ti-img-rogue-driver \
 "
-MAKEFILES_remove_j784s4-hs-evm = " \
+MAKEFILES:remove:j721s2-hs-evm = " \
+    ti-img-rogue-driver \
+"
+
+MAKEFILES:remove:j784s4-evm = " \
+    ti-img-rogue-driver \
+"
+MAKEFILES:remove:j784s4-hs-evm = " \
     ti-img-rogue-driver \
 "
 
 
 SOC = "unknown"
-SOC_j7-evm = "j721e"
-SOC_j7200-evm = "j7200"
-SOC_j721s2-evm = "j721s2"
-SOC_j784s4-evm = "j784s4"
-SOC_j7-hs-evm = "j721e"
-SOC_j7200-hs-evm = "j7200"
-SOC_j721s2-hs-evm = "j721s2"
-SOC_j784s4-hs-evm = "j784s4"
+SOC:j721e-evm = "j721e"
+SOC:j7200-evm = "j7200"
+SOC:j721s2-evm = "j721s2"
+SOC:j784s4-evm = "j784s4"
+SOC:j721e-hs-evm = "j721e"
+SOC:j7200-hs-evm = "j7200"
+SOC:j721s2-hs-evm = "j721s2"
+SOC:j784s4-hs-evm = "j784s4"
 
 SOC_TYPE = "gp"
-SOC_TYPE_j7-hs-evm = "hs"
-SOC_TYPE_j7200-hs-evm = "hs"
-SOC_TYPE_j721s2-hs-evm = "hs"
-SOC_TYPE_j784s4-hs-evm = "hs"
+SOC_TYPE:j721e-hs-evm = "hs"
+SOC_TYPE:j7200-hs-evm = "hs"
+SOC_TYPE:j721s2-hs-evm = "hs"
+SOC_TYPE:j784s4-hs-evm = "hs"
 
 SYSFW_SOC_HS = "${SOC}"
-SYSFW_SOC_HS_j7-evm = "${SOC}_sr1_1"
-SYSFW_SOC_HS_j7-hs-evm = "${SOC}_sr1_1"
-SYSFW_SOC_HS_j7200-evm = "${SOC}_sr2"
-SYSFW_SOC_HS_j7200-hs-evm = "${SOC}_sr2"
+SYSFW_SOC_HS:j721e-evm = "${SOC}_sr1_1"
+SYSFW_SOC_HS:j721e-hs-evm = "${SOC}_sr1_1"
+SYSFW_SOC_HS:j7200-evm = "${SOC}_sr2"
+SYSFW_SOC_HS:j7200-hs-evm = "${SOC}_sr2"
 
-K3_UBOOT_MACHINE_R5_j7200-hs-evm = "j7200_hs_evm_r5_config"
-K3_UBOOT_MACHINE_R5_j721s2-hs-evm = "j721s2_hs_evm_r5_config"
+K3_UBOOT_MACHINE_R5:j7200-hs-evm = "j7200_hs_evm_r5_config"
+K3_UBOOT_MACHINE_R5:j721s2-hs-evm = "j721s2_hs_evm_r5_config"
 
-do_install_append_j7() {
+do_install:append:j7() {
     cat ${D}/Makefile | grep "__DTB_DEPEND_STAGE__" > /dev/null
     if [ "$?" == "0" ]
     then
@@ -101,7 +101,7 @@ BOOTFS ?= __BOOTFS__
 __EOF__
 }
 
-do_install_append_j7-evm() {
+do_install:append:j721e-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -114,7 +114,7 @@ endif
 
 __EOF__
 }
-do_install_append_j7-hs-evm() {
+do_install:append:j721e-hs-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -129,7 +129,7 @@ endif
 __EOF__
 }
 
-do_install_append_j7200-evm() {
+do_install:append:j7200-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -142,7 +142,7 @@ endif
 
 __EOF__
 }
-do_install_append_j7200-hs-evm() {
+do_install:append:j7200-hs-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -157,7 +157,7 @@ endif
 __EOF__
 }
 
-do_install_append_j721s2-evm() {
+do_install:append:j721s2-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -169,7 +169,7 @@ endif
 
 __EOF__
 }
-do_install_append_j721s2-hs-evm() {
+do_install:append:j721s2-hs-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -182,14 +182,14 @@ endif
 __EOF__
 }
 
-do_install_append_j784s4-evm() {
+do_install:append:j784s4-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 
 __EOF__
 }
-do_install_append_j784s4-hs-evm() {
+do_install:append:j784s4-hs-evm() {
     cat >> ${D}/Rules.make << __EOF__
 
 export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
@@ -197,4 +197,4 @@ export TI_SECURE_DEV_PKG=\$(TI_SDK_PATH)/board-support/core-secdev-k3
 __EOF__
 }
 
-PR_append = "_psdkla_22"
+PR:append = "_psdkla_22"

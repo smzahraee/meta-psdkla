@@ -1,3 +1,3 @@
-UTILS_remove_j7200-evm = " \
+UTILS:remove:j7200-evm = " \
     pru-icss-src \
 "

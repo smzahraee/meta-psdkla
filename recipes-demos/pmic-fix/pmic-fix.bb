@@ -5,16 +5,16 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI= " \
     file://pmic-fix \
     file://pmic-fix.service \
 "
 
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"
 
-SYSTEMD_SERVICE_${PN} = "pmic-fix.service"
+SYSTEMD_SERVICE:${PN} = "pmic-fix.service"
 
 inherit systemd
 
@@ -26,4 +26,4 @@ do_install() {
     install -m 0755 ${WORKDIR}/pmic-fix ${D}/${sysconfdir}/init.d
 }
 
-PR_append = "_psdkla_0"
+PR:append = "_psdkla_0"

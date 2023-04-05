@@ -11,4 +11,4 @@ S = "${WORKDIR}/git"
 
 inherit autotools
 
-PR_append = "_psdkla"
+PR:append = "_psdkla"

@@ -1,10 +1,10 @@
 # disable matrix gui for PSDKLA
-IMAGE_INSTALL_remove = "\
+IMAGE_INSTALL:remove = "\
     packagegroup-arago-tisdk-matrix \
     packagegroup-arago-tisdk-matrix-extra \
 "
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
         packagegroup-arago-gst-sdk-target \
         packagegroup-python3-jupyter \
 "
@@ -12,4 +12,4 @@ IMAGE_INSTALL_append = " \
 WKS_FILE = "tisdk-default-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
-PR_append = "_psdkla_15"
+PR:append = "_psdkla_15"

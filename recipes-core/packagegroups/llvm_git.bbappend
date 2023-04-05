@@ -1,4 +1,4 @@
-do_install_append_class-native() {
+do_install:append_class-native() {
 	install -d ${D}${libdir}/${LLVM_DIR}
 	cp -r ${B}/lib/*.a ${D}${libdir}/${LLVM_DIR}
 
@@ -10,4 +10,4 @@ do_install_append_class-native() {
 	cp -r ${B}/include/llvm/Config/*.def ${D}${includedir}/${LLVM_DIR}/llvm/Config/
 }
 
-PR_append = "_psdkla"
+PR:append = "_psdkla"

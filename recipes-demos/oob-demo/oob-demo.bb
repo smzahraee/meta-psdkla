@@ -3,7 +3,7 @@ SUMMARY = "Out of box demo application"
 LICENSE = "TI-TSPA"
 LIC_FILES_CHKSUM = "file://demo.service;md5=b78cbb644828e0586785d162ec1728c8"
 
-FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
+FILESEXTRAPATHS:append := ":${THISDIR}/${PN}"
 
 SRC_URI = " \
     file://demo.service \
@@ -11,8 +11,8 @@ SRC_URI = " \
     file://demo.sh \
 "
 
-RDEPENDS_${PN} += "bash"
-SYSTEMD_SERVICE_${PN} = "demo.service"
+RDEPENDS:${PN} += "bash"
+SYSTEMD_SERVICE:${PN} = "demo.service"
 
 S = "${WORKDIR}"
 
@@ -30,8 +30,8 @@ do_install() {
 	install -m 0755 ${WORKDIR}/autolaunch-demo ${D}${sysconfdir}/init.d
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
 	${datadir}/demo/* \
 "
 
-PR_append = "_psdkla_5"
+PR:append = "_psdkla_5"

@@ -1,5 +1,5 @@
 # These dev packages are needed to build PTK apps against PSDKLA filesystem.
-RDEPENDS_${PN}_append = "\
+RDEPENDS:${PN}:append = "\
     ${PREFERRED_PROVIDER_virtual/egl}-dev \
     wayland-dev \
     weston-dev \
@@ -9,4 +9,4 @@ RDEPENDS_${PN}_append = "\
     img-pvr-sdk \
 "
 
-PR_append = "_psdkla"
+PR:append = "_psdkla"

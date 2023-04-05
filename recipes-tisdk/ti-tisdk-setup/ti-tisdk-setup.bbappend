@@ -1,7 +1,7 @@
-FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
+FILESEXTRAPATHS:append := ":${THISDIR}/${PN}"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
 	file://0001-TFTP-Fixing-tftp-setup-script.patch \
 "
 
-PR_append = "_psdkla_4"
+PR:append = "_psdkla_4"

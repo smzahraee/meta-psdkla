@@ -4,18 +4,18 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-PR_append = "_psdkla_1"
+PR:append = "_psdkla_1"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/wifi-oob:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/wifi-oob:"
 
-FILES_${PN} += "${datadir}/intel9260/"
+FILES:${PN} += "${datadir}/intel9260/"
 
 COMPATIBLE_MACHINE = "j7"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SYSTEMD_SERVICE_${PN} = "startwlanap.service startwlansta.service"
+SYSTEMD_SERVICE:${PN} = "startwlanap.service startwlansta.service"
 
 inherit systemd
 
