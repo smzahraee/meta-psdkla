@@ -1,4 +1,4 @@
-PR:append = "_psdkla_7"
+PR:append = "_psdkla_8"
 
 PSDK_UTILS = " \
     corkscrew \
@@ -10,7 +10,6 @@ PSDK_UTILS = " \
     opencv-dev \
     python3-pyyaml \
     python3-pycparser \
-    python3-plotly \
     python3-cffi \
     python3-numpy \
     python3-pybind11 \

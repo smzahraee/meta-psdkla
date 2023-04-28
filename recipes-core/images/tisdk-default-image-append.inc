@@ -6,10 +6,9 @@ IMAGE_INSTALL:remove = "\
 
 IMAGE_INSTALL:append = " \
         packagegroup-arago-gst-sdk-target \
-        packagegroup-python3-jupyter \
 "
 
 WKS_FILE = "tisdk-default-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
-PR:append = "_psdkla_15"
+PR:append = "_psdkla_16"
