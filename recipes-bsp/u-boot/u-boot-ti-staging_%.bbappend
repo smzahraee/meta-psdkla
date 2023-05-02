@@ -3,6 +3,12 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRC_URI_append_k3 = " \
     file://0001-tiU21.01-arm-mach-k3-j721s2-Enable-QoS-for-DSS.patch \
     file://0002-tiU21.01-arm-mach-k3-j784s4-Enable-QoS-for-DSS.patch \
+    file://0001-tiU21.01-arm-mach-k3-common-don-t-reconfigure-.patch \
+"
+SRC_URI_append_k3r5 = " \
+    file://0001-tiU21.01-arm-mach-k3-j721s2-Enable-QoS-for-DSS.patch \
+    file://0002-tiU21.01-arm-mach-k3-j784s4-Enable-QoS-for-DSS.patch \
+    file://0001-tiU21.01-arm-mach-k3-common-don-t-reconfigure-.patch \
 "
 
 SRC_URI_append_j7-evm = " \
@@ -63,4 +69,4 @@ SRC_URI_append_j784s4-hs-evm-k3r5 = " \
     file://0001-tiU21.01-arm-mach-k3-j784s4-Kconfig-Bug-fix-Updating.patch \
 "
 
-PR_append = "_psdkla_18"
+PR_append = "_psdkla_20"
