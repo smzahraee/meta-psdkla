@@ -1,7 +1,6 @@
-PR:append = "_psdkla_5"
+PR:append = "_psdkla_7"
 
 PSDK_UTILS = " \
-    pru-icss \
     corkscrew \
     cmake \
     boost \
@@ -23,9 +22,11 @@ PSDK_UTILS = " \
 
 UTILS:append:j721e-evm = " \
     ${PSDK_UTILS} \
+    pru-icss \
 "
 UTILS:append:j721e-hs-evm = " \
     ${PSDK_UTILS} \
+    pru-icss \
 "
 
 UTILS:append:j721s2-evm = " \
