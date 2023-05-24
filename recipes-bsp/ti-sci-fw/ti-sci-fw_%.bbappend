@@ -1,8 +1,5 @@
 FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 
-TI_LINUX_FW_SRCREV = "760434de173d1957823042b3c2daf0f45e1191cd"
-K3_IMAGE_GEN_SRCREV = "184ab513e6acb161c5f77a593ef976f3a4d93cda"
-
 DM_FILTER_j7-evm-k3r5 = "j721e"
 DM_FILTER_j7-hs-evm-k3r5 = "j721e"
 DM_FILTER_j7200-evm-k3r5 = "j7200"
@@ -74,4 +71,4 @@ do_deploy_append_j784s4-hs-evm-k3r5() {
 	install -m 644 ${SYSFW_DM} ${DEPLOYDIR}/
 }
 
-PR_append = "_psdkla_14"
+PR_append = "_psdkla_15"
