@@ -1,7 +1,7 @@
-From 35a6120a25e864e8299d346514a5fcc3ad4d75bb Mon Sep 17 00:00:00 2001
+From 687ce264fcb43c897fe060a1c589840ab0bac75c Mon Sep 17 00:00:00 2001
 From: Keerthy <j-keerthy@ti.com>
 Date: Thu, 17 Jun 2021 09:17:29 +0530
-Subject: [PATCH 2/4] ina226: Porting to 5.10 branch
+Subject: [PATCH 1/4] arm64: dts: ti: j721e: ina226: Porting to 5.10 branch
 
 Signed-off-by: Keerthy <j-keerthy@ti.com>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Keerthy <j-keerthy@ti.com>
  1 file changed, 117 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
-index 77d6f18f86..72f37f447f 100644
+index 77d6f18f8..72f37f447 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
-@@ -288,6 +288,13 @@
+@@ -288,6 +288,13 @@ J721E_IOPAD(0x22c, PIN_INPUT_PULLUP, 0) /* (AA6) I2C1_SDA */
  		>;
  	};
  
@@ -26,7 +26,7 @@ index 77d6f18f86..72f37f447f 100644
  	main_i2c3_pins_default: main-i2c3-pins-default {
  		pinctrl-single,pins = <
  			J721E_IOPAD(0x270, PIN_INPUT_PULLUP, 4) /* (T26) MMC2_CLK.I2C3_SCL */
-@@ -606,6 +613,14 @@
+@@ -606,6 +613,14 @@ exp2: gpio@22 {
  		gpio-controller;
  		#gpio-cells = <2>;
  
@@ -41,7 +41,7 @@ index 77d6f18f86..72f37f447f 100644
  		p09-hog {
  			/* P11 - MCASP/TRACE_MUX_S0 */
  			gpio-hog;
-@@ -643,6 +658,108 @@
+@@ -643,6 +658,108 @@ exp4: gpio@20 {
  	};
  };
  
@@ -151,5 +151,5 @@ index 77d6f18f86..72f37f447f 100644
  	/* Confiure AUDIO_EXT_REFCLK2 pin as output */
  	pinctrl-names = "default";
 -- 
-2.17.1
+2.34.1
 

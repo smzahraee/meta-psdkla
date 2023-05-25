@@ -1,7 +1,7 @@
-From 186a07357e2df974d3e960a01a6d4d69eb43d103 Mon Sep 17 00:00:00 2001
+From bf1f583d94d1eae159d611a4f76574fb5e707c21 Mon Sep 17 00:00:00 2001
 From: Siddharth Vadapalli <s-vadapalli@ti.com>
 Date: Thu, 17 Feb 2022 17:39:33 +0530
-Subject: [PATCH 3/4] arm64: dts: ti: k3-j721e-sk: Add additional DDR carveout
+Subject: [PATCH 2/4] arm64: dts: ti: k3-j721e-sk: Add additional DDR carveout
  memory nodes for R5Fs
 
 Reserve two additional shared memory regions for inter-core
@@ -15,10 +15,10 @@ Signed-off-by: Rahul T R <r-ravikumar@ti.com>
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
-index 6e254d55e0..523c9ae7c8 100644
+index 6e254d55e..523c9ae7c 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
-@@ -150,6 +150,18 @@
+@@ -150,6 +150,18 @@ rtos_ipc_memory_region: ipc-memories@aa000000 {
  			alignment = <0x1000>;
  			no-map;
  		};
@@ -37,7 +37,7 @@ index 6e254d55e0..523c9ae7c8 100644
  	};
  
  	vusb_main: fixedregulator-vusb-main5v0 {
-@@ -1319,7 +1331,9 @@
+@@ -1319,7 +1331,9 @@ &mcu_r5fss0_core1 {
  &main_r5fss0_core0 {
  	mboxes = <&mailbox0_cluster1 &mbox_main_r5fss0_core0>;
  	memory-region = <&main_r5fss0_core0_dma_memory_region>,
@@ -49,5 +49,5 @@ index 6e254d55e0..523c9ae7c8 100644
  
  &main_r5fss0_core1 {
 -- 
-2.17.1
+2.34.1
 

@@ -1,10 +1,10 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/${MACHINE}:"
 
 SRC_URI_append_j7-evm = " \
-    file://0002-ina226-Porting-to-5.10-branch.patch \
+    file://0001-arm64-dts-ti-j721e-ina226-Porting-to-5.10-branch.patch \
 "
 SRC_URI_append_j7-hs-evm = " \
-    file://0002-ina226-Porting-to-5.10-branch.patch \
+    file://0001-arm64-dts-ti-j721e-ina226-Porting-to-5.10-branch.patch \
 "
 
 SRC_URI_append_j721s2-evm = " \
@@ -35,6 +35,6 @@ SRC_URI_append_j784s4-hs-evm = " \
     file://0004-arm64-dts-ti-k3-j784s4-main-Enable-BCDMA-instance-fo.patch \
 "
 
-PR_append = "_psdkla_97"
+PR_append = "_psdkla_98"
 
 require rtos-mem-map.inc

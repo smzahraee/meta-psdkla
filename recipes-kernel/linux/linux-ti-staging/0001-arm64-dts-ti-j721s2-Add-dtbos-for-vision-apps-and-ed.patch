@@ -1,7 +1,7 @@
-From 7bb3fa986a621624eb47da2a6eb803990d6648f5 Mon Sep 17 00:00:00 2001
+From e7fe05afd415653f5fe16af2dfdf38003e3632b0 Mon Sep 17 00:00:00 2001
 From: Lucas Weaver <l-weaver@ti.com>
-Date: Mon, 12 Jul 2021 08:46:24 -0500
-Subject: [PATCH 1/4] arm64: dts: ti: Add DTB overlays for vision apps and
+Date: Tue, 18 Oct 2022 10:40:25 -0500
+Subject: [PATCH 1/2] arm64: dts: ti: j721s2: Add dtbos for vision apps and
  edgeai apps
 
 Confine the memory map changes into a separate rtos-memory-map.dts
@@ -13,51 +13,50 @@ related peripherals from Linux so that it can be used by RTOS.
 edgeai-apps.dtbo expects these devices to be owned by linux, so
 it uses the rtos-memory-map customization only.
 
-Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
 ---
  arch/arm64/boot/dts/ti/Makefile               |   2 +
- .../boot/dts/ti/k3-j721e-edgeai-apps.dts      |   9 +
- .../boot/dts/ti/k3-j721e-rtos-memory-map.dtsi | 287 ++++++++++++++++++
- .../boot/dts/ti/k3-j721e-vision-apps.dts      |  36 +++
- 4 files changed, 334 insertions(+)
- create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
- create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
- create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
+ .../boot/dts/ti/k3-j721s2-edgeai-apps.dts     |   8 +
+ .../dts/ti/k3-j721s2-rtos-memory-map.dtsi     | 242 ++++++++++++++++++
+ .../boot/dts/ti/k3-j721s2-vision-apps.dts     |  36 +++
+ 4 files changed, 288 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
+ create mode 100644 arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 
 diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index 7e03a906ff..8db8c20d47 100644
+index 9f558e142..de32c2c38 100644
 --- a/arch/arm64/boot/dts/ti/Makefile
 +++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -38,6 +38,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk.dtb
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-csi2-ov5640.dtbo
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-cam-imx219.dtbo
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-sk-rpi-hdr-ehrpwm.dtbo
-+dtb-$(CONFIG_ARCH_K3) += k3-j721e-edgeai-apps.dtbo
-+dtb-$(CONFIG_ARCH_K3) += k3-j721e-vision-apps.dtbo
+@@ -53,6 +53,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-gesi-exp-board.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-cpb-csi2-ov5640.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-fpdlink-cpb-fusion.dtbo
+ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-common-proc-board-uarts.dtbo
++dtb-$(CONFIG_ARCH_K3) += k3-j721s2-vision-apps.dtbo
++dtb-$(CONFIG_ARCH_K3) += k3-j721s2-edgeai-apps.dtbo
  
- dtb-$(CONFIG_ARCH_K3) += k3-j7200-common-proc-board.dtb
- dtb-$(CONFIG_ARCH_K3) += k3-j7200-common-proc-board-sr1.dtbo
-diff --git a/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
+ dtb-$(CONFIG_ARCH_K3) += k3-am69-sk.dtb
+ dtb-$(CONFIG_ARCH_K3) += k3-am69-sk-csi2-ov5640.dtbo
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts b/arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts
 new file mode 100644
-index 0000000000..5defaca9cc
+index 000000000..5c2add991
 --- /dev/null
-+++ b/arch/arm64/boot/dts/ti/k3-j721e-edgeai-apps.dts
-@@ -0,0 +1,9 @@
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-edgeai-apps.dts
+@@ -0,0 +1,8 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * edgeai-apps: device-tree overlay
++ * vision-apps: device-tree overlay
 + *
 + * Copyright (C) 2019 - 2021 Texas Instruments Incorporated - http://www.ti.com/
 + */
 +
-+#include "k3-j721e-rtos-memory-map.dtsi"
-+
-diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
++#include "k3-j721s2-rtos-memory-map.dtsi"
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
 new file mode 100644
-index 0000000000..75920c189d
+index 000000000..27c739352
 --- /dev/null
-+++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
-@@ -0,0 +1,287 @@
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-rtos-memory-map.dtsi
+@@ -0,0 +1,242 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Vision-apps: device-tree overlay
@@ -131,22 +130,6 @@ index 0000000000..75920c189d
 +	status = "disabled";
 +};
 +
-+&c66_0_dma_memory_region {
-+	status = "disabled";
-+};
-+
-+&c66_0_memory_region {
-+	status = "disabled";
-+};
-+
-+&c66_1_dma_memory_region {
-+	status = "disabled";
-+};
-+
-+&c66_1_memory_region {
-+	status = "disabled";
-+};
-+
 +&c71_0_dma_memory_region {
 +	status = "disabled";
 +};
@@ -155,15 +138,15 @@ index 0000000000..75920c189d
 +	status = "disabled";
 +};
 +
++&c71_1_dma_memory_region {
++	status = "disabled";
++};
++
++&c71_1_memory_region {
++	status = "disabled";
++};
++
 +&rtos_ipc_memory_region {
-+	status = "disabled";
-+};
-+
-+&main_r5fss0_core0_shared_memory_queue_region {
-+	status = "disabled";
-+};
-+
-+&main_r5fss0_core0_shared_memory_bufpool_region {
 +	status = "disabled";
 +};
 +
@@ -231,44 +214,34 @@ index 0000000000..75920c189d
 +		reg = <0x00 0xa7100000 0x00 0x00f00000>;
 +		no-map;
 +	};
-+	vision_apps_c66_1_dma_memory_region: vision-apps-c66-dma-memory@a8000000 {
++	vision_apps_rtos_ipc_memory_region: vision-apps-rtos-ipc-memory-region@a8000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xa8000000 0x00 0x00100000>;
++		reg = <0x00 0xa8000000 0x00 0x02000000>;
 +		no-map;
 +	};
-+	vision_apps_c66_0_memory_region: vision-apps-c66-memory@a8100000 {
++	vision_apps_memory_region: vision-apps-dma-memory@aa000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xa8100000 0x00 0x00f00000>;
++		reg = <0x00 0xaa000000 0x00 0x06000000>;
 +		no-map;
 +	};
-+	vision_apps_c66_0_dma_memory_region: vision-apps-c66-dma-memory@a9000000 {
++	vision_apps_c71_0_dma_memory_region: vision-apps-c71-dma-memory@b0000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xa9000000 0x00 0x00100000>;
++		reg = <0x00 0xb0000000 0x00 0x00100000>;
 +		no-map;
 +	};
-+	vision_apps_c66_1_memory_region: vision-apps-c66-memory@a9100000 {
++	vision_apps_c71_0_memory_region: vision-apps-c71_0-memory@b0100000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xa9100000 0x00 0x00f00000>;
++		reg = <0x00 0xb0100000 0x00 0x05f00000>;
 +		no-map;
 +	};
-+	vision_apps_rtos_ipc_memory_region: vision-apps-rtos-ipc-memory-region {
-+		reg = <0x00 0xaa000000 0x00 0x02000000>;
-+		alignment = <0x1000>;
++	vision_apps_c71_1_dma_memory_region: vision-apps-c71_1-dma-memory@b6000000 {
++		compatible = "shared-dma-pool";
++		reg = <0x00 0xb6000000 0x00 0x00100000>;
 +		no-map;
 +	};
-+	vision_apps_memory_region: vision-apps-dma-memory@ac000000 {
++	vision_apps_c71_1_memory_region: vision-apps-c71_1-memory@b6100000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xac000000 0x00 0x06000000>;
-+		no-map;
-+	};
-+	vision_apps_c71_0_dma_memory_region: vision-apps-c71-dma-memory@b2000000 {
-+		compatible = "shared-dma-pool";
-+		reg = <0x00 0xb2000000 0x00 0x00100000>;
-+		no-map;
-+	};
-+	vision_apps_c71_0_memory_region: vision-apps-c71-memory@b2100000 {
-+		compatible = "shared-dma-pool";
-+		reg = <0x00 0xb2100000 0x00 0x05f00000>;
++		reg = <0x00 0xb6100000 0x00 0x01f00000>;
 +		no-map;
 +	};
 +	vision_apps_shared_region: vision_apps_shared-memories {
@@ -277,22 +250,12 @@ index 0000000000..75920c189d
 +	};
 +	vision_apps_core_heaps_lo: vision-apps-core-heap-memory-lo@d8000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x00 0xd8000000 0x00 0x0c000000>;
-+		no-map;
-+	};
-+	vision_apps_main_r5fss0_core0_shared_memory_queue_region: vision-apps-r5f-virtual-eth-queues@e4000000 {
-+		compatible = "shared-dma-pool";
-+		reg = <0x00 0xe4000000 0x00 0x00800000>;
-+		no-map;
-+	};
-+	vision_apps_main_r5fss0_core0_shared_memory_bufpool_region: vision-apps-r5f-virtual-eth-buffers@e4800000 {
-+		compatible = "shared-dma-pool";
-+		reg = <0x00 0xe4800000 0x00 0x01800000>;
++		reg = <0x00 0xd8000000 0x00 0x04000000>;
 +		no-map;
 +	};
 +	vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
 +		compatible = "shared-dma-pool";
-+		reg = <0x08 0x80000000 0x00 0x27000000>;
++		reg = <0x08 0x80000000 0x00 0x2c000000>;
 +		no-map;
 +	};
 +};
@@ -309,9 +272,7 @@ index 0000000000..75920c189d
 +
 +&main_r5fss0_core0 {
 +	memory-region = <&vision_apps_main_r5fss0_core0_dma_memory_region>,
-+			<&vision_apps_main_r5fss0_core0_memory_region>,
-+			<&vision_apps_main_r5fss0_core0_shared_memory_queue_region>,
-+			<&vision_apps_main_r5fss0_core0_shared_memory_bufpool_region>;
++			<&vision_apps_main_r5fss0_core0_memory_region>;
 +};
 +
 +&main_r5fss0_core1 {
@@ -329,27 +290,20 @@ index 0000000000..75920c189d
 +			<&vision_apps_main_r5fss1_core1_memory_region>;
 +};
 +
-+&c66_0 {
-+	memory-region = <&vision_apps_c66_0_dma_memory_region>,
-+			<&vision_apps_c66_0_memory_region>;
-+};
-+
-+&c66_1 {
-+	memory-region = <&vision_apps_c66_1_dma_memory_region>,
-+			<&vision_apps_c66_1_memory_region>;
-+};
-+
 +&c71_0 {
 +	memory-region = <&vision_apps_c71_0_dma_memory_region>,
 +			<&vision_apps_c71_0_memory_region>;
 +};
 +
-+
-diff --git a/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
++&c71_1 {
++	memory-region = <&vision_apps_c71_1_dma_memory_region>,
++			<&vision_apps_c71_1_memory_region>;
++};
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts b/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 new file mode 100644
-index 0000000000..a1860839a6
+index 000000000..be2078fed
 --- /dev/null
-+++ b/arch/arm64/boot/dts/ti/k3-j721e-vision-apps.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-vision-apps.dts
 @@ -0,0 +1,36 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
@@ -358,35 +312,35 @@ index 0000000000..a1860839a6
 + * Copyright (C) 2019 - 2021 Texas Instruments Incorporated - http://www.ti.com/
 + */
 +
-+#include "k3-j721e-rtos-memory-map.dtsi"
++#include "k3-j721s2-rtos-memory-map.dtsi"
 +
-+&main_i2c6 {
++&main_i2c1 {
++    status = "disabled";
++};
++
++&main_i2c4 {
 +	status = "disabled";
 +};
 +
-+&serdes_wiz4 {
++&main_i2c5 {
 +	status = "disabled";
 +};
 +
-+&mhdp {
-+	status = "disabled";
++&serdes_wiz0 {
++    status = "disabled";
 +};
 +
 +&dss {
-+	status = "disabled";
-+};
-+
-+&main_i2c1 {
-+	status = "disabled";
++    status = "disabled";
 +};
 +
 +&ti_csi2rx0 {
-+	status = "disabled";
++    status = "disabled";
 +};
 +
 +&ti_csi2rx1 {
-+	status = "disabled";
++    status = "disabled";
 +};
 -- 
-2.17.1
+2.34.1
 

@@ -1,4 +1,4 @@
-From ce6239b44e6f0972deaaa085e89a94641f0bd48b Mon Sep 17 00:00:00 2001
+From b80579109f4ac32e44c0c263c5c64fe7924089f1 Mon Sep 17 00:00:00 2001
 From: Aniket Limaye <a-limaye@ti.com>
 Date: Sun, 22 Jan 2023 20:45:14 +0530
 Subject: [PATCH 4/4] arm64: dts: ti: k3-j721e-rtos-memory-map: CMA DT node
@@ -13,10 +13,10 @@ Signed-off-by: Aniket Limaye <a-limaye@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
-index 75920c189d..42daeb3bef 100644
+index 75920c189..42daeb3be 100644
 --- a/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
 +++ b/arch/arm64/boot/dts/ti/k3-j721e-rtos-memory-map.dtsi
-@@ -235,6 +235,12 @@
+@@ -235,6 +235,12 @@ vision_apps_core_heaps_hi: vision-apps-core-heap-memory-hi@880000000 {
  		reg = <0x08 0x80000000 0x00 0x27000000>;
  		no-map;
  	};
@@ -30,5 +30,5 @@ index 75920c189d..42daeb3bef 100644
  
  &mcu_r5fss0_core0 {
 -- 
-2.17.1
+2.34.1
 
