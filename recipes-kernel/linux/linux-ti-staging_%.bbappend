@@ -13,6 +13,7 @@ SRC_URI_append_j721s2-evm = " \
     file://0002-dmaengine-ti-k3-udma-Add-support-for-J721S2-CSI-BCDM.patch \
     file://0003-arm64-dts-ti-k3-j721s2-main-Enable-BCDMA-instance-fo.patch \
     file://0004-arm64-dts-ti-k3-j784s4-main-Enable-BCDMA-instance-fo.patch \
+    file://0001-arm64-dts-ti-k3-am68-sk-rpi-Override-main_gpio0-node.patch \
 "
 SRC_URI_append_j721s2-hs-evm = " \
     file://0001-arch-arm64-dts-ti-Add-E1-compatible-DTB-and-DTBO-for.patch \
@@ -20,6 +21,7 @@ SRC_URI_append_j721s2-hs-evm = " \
     file://0002-dmaengine-ti-k3-udma-Add-support-for-J721S2-CSI-BCDM.patch \
     file://0003-arm64-dts-ti-k3-j721s2-main-Enable-BCDMA-instance-fo.patch \
     file://0004-arm64-dts-ti-k3-j784s4-main-Enable-BCDMA-instance-fo.patch \
+    file://0001-arm64-dts-ti-k3-am68-sk-rpi-Override-main_gpio0-node.patch \
 "
 
 SRC_URI_append_j784s4-evm = " \
@@ -35,6 +37,6 @@ SRC_URI_append_j784s4-hs-evm = " \
     file://0004-arm64-dts-ti-k3-j784s4-main-Enable-BCDMA-instance-fo.patch \
 "
 
-PR_append = "_psdkla_98"
+PR_append = "_psdkla_99"
 
 require rtos-mem-map.inc
