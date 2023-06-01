@@ -8,14 +8,7 @@ RDEPENDS:${PN}:append = " \
         udev \
 "
 
-RDEPENDS:${PN}:append:j721e-evm = "\
-        glsdk-util-scripts \
-        oob-demo \
-        wifi-oob \
-        hostname-update \
-        pmic-fix \
-"
-RDEPENDS:${PN}:append:j721e-hs-evm = "\
+RDEPENDS:${PN}:append:j721e = "\
         glsdk-util-scripts \
         oob-demo \
         wifi-oob \
@@ -23,30 +16,17 @@ RDEPENDS:${PN}:append:j721e-hs-evm = "\
         pmic-fix \
 "
 
-RDEPENDS:${PN}:append:j7200-evm = "\
-        glsdk-util-scripts \
-"
-RDEPENDS:${PN}:append:j7200-hs-evm = "\
+RDEPENDS:${PN}:append:j7200 = "\
         glsdk-util-scripts \
 "
 
-RDEPENDS:${PN}:append:j721s2-evm = "\
-        glsdk-util-scripts \
-        oob-demo \
-        hostname-update \
-"
-RDEPENDS:${PN}:append:j721s2-hs-evm = "\
+RDEPENDS:${PN}:append:j721s2 = "\
         glsdk-util-scripts \
         oob-demo \
         hostname-update \
 "
 
-RDEPENDS:${PN}:append:j784s4-evm = "\
-        glsdk-util-scripts \
-        oob-demo \
-        hostname-update \
-"
-RDEPENDS:${PN}:append:j784s4-hs-evm = "\
+RDEPENDS:${PN}:append:j784s4 = "\
         glsdk-util-scripts \
         oob-demo \
         hostname-update \

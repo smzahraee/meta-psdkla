@@ -19,12 +19,9 @@ SYSTEMD_SERVICE:${PN} = "hostname-update.service"
 inherit systemd
 
 HOSTNAME_UPDATE = "${MACHINE}"
-HOSTNAME_UPDATE:j721e-evm = "tda4vm-sk"
-HOSTNAME_UPDATE:j721e-hs-evm = "tda4vm-sk"
-HOSTNAME_UPDATE:j721s2-evm = "am68a-sk"
-HOSTNAME_UPDATE:j721s2-hs-evm = "am68a-sk"
-HOSTNAME_UPDATE:j784s4-evm = "am69a-sk"
-HOSTNAME_UPDATE:j784s4-hs-evm = "am69a-sk"
+HOSTNAME_UPDATE:j721e = "tda4vm-sk"
+HOSTNAME_UPDATE:j721s2 = "am68a-sk"
+HOSTNAME_UPDATE:j784s4 = "am69a-sk"
 
 do_install() {
     install -d ${D}${sysconfdir}/systemd/system
