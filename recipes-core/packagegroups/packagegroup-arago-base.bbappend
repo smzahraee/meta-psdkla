@@ -6,6 +6,7 @@ RDEPENDS:${PN}:append = " \
         json-c \
         gdb \
         udev \
+        resize-rootfs \
 "
 
 RDEPENDS:${PN}:append:j721e = "\
@@ -32,4 +33,4 @@ RDEPENDS:${PN}:append:j784s4 = "\
         hostname-update \
 "
 
-PR:append = "_psdkla_11"
+PR:append = "_psdkla_12"
