@@ -1,26 +1,21 @@
 RDEPENDS:${PN}:append = " \
         libdrm-dev \
-        libion \
-        libion-dev \
         websocketd \
-        ti-rpmsg-char-dev \
         libloki \
         boost \
         json-c \
-        ocl-gl-headers \
         gdb \
-        dialog \
         udev \
 "
 
-RDEPENDS:${PN}:append:j721e-evm = "ti-img-rogue-umlibs-dev \
+RDEPENDS:${PN}:append:j721e-evm = "\
         glsdk-util-scripts \
         oob-demo \
         wifi-oob \
         hostname-update \
         pmic-fix \
 "
-RDEPENDS:${PN}:append:j721e-hs-evm = "ti-img-rogue-umlibs-dev \
+RDEPENDS:${PN}:append:j721e-hs-evm = "\
         glsdk-util-scripts \
         oob-demo \
         wifi-oob \
@@ -57,4 +52,4 @@ RDEPENDS:${PN}:append:j784s4-hs-evm = "\
         hostname-update \
 "
 
-PR:append = "_psdkla_9"
+PR:append = "_psdkla_11"

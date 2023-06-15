@@ -6,7 +6,6 @@ RDEPENDS:${PN}:append = "\
     glm-dev \
     devil-dev \
     libpng-dev \
-    img-pvr-sdk \
 "
 
-PR:append = "_psdkla"
+PR:append = "_psdkla1"
