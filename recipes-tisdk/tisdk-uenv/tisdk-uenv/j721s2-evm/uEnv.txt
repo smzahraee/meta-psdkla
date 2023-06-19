@@ -9,4 +9,4 @@
 #       it is not evaluated until the bootcmd is run.
 
 # The SK requires an additional dtbo to boot. Prepend it to name_overlays depending on board_name
-uenvcmd=if test "$board_name" = "am68-sk"; then ; setenv name_overlays k3-am68-sk-som-ddr_mem_carveout.dtbo $name_overlays ; fi
+uenvcmd=if test "$board_name" = "am68-sk"; then ; setenv name_overlays k3-am68-sk-som-ddr-mem-carveout.dtbo $name_overlays ; fi
