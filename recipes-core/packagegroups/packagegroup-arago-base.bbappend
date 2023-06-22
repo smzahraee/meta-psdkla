@@ -25,12 +25,14 @@ RDEPENDS:${PN}:append:j721s2 = "\
         glsdk-util-scripts \
         oob-demo \
         hostname-update \
+        wifi-oob \
 "
 
 RDEPENDS:${PN}:append:j784s4 = "\
         glsdk-util-scripts \
         oob-demo \
         hostname-update \
+        wifi-oob \
 "
 
-PR:append = "_psdkla_12"
+PR:append = "_psdkla_13"
