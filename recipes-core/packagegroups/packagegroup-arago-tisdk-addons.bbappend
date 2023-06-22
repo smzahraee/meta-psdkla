@@ -1,4 +1,4 @@
-PR:append = "_psdkla_8"
+PR:append = "_psdkla_9"
 
 PSDK_UTILS = " \
     corkscrew \
@@ -30,4 +30,8 @@ UTILS:append:j721s2 = " \
 
 UTILS:append:j784s4 = " \
     ${PSDK_UTILS} \
+"
+
+UTILS:append:j7200 = " \
+    ti-eth-fw \
 "
