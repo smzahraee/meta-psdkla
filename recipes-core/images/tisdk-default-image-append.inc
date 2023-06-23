@@ -5,10 +5,9 @@ IMAGE_INSTALL:remove = "\
 "
 
 IMAGE_INSTALL:append = " \
-        packagegroup-arago-gst-sdk-target \
+    packagegroup-arago-gst-sdk-target \
 "
 
-WKS_FILE = "tisdk-default-sdimage.wks"
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
 PR:append = "_psdkla_16"
