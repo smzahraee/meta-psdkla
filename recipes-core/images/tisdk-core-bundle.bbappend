@@ -25,4 +25,11 @@ tisdk_image_build:append() {
     then
         cp -r ${DEPLOY_DIR_IMAGE}/ti-dm ${prebuilt_dir}/
     fi
+
+    # Copy the licenses directory in the $DEPLOY_DIR to capture all
+    # the licenses that were used in the build.
+    if [ -d ${DEPLOY_DIR}/licenses ]
+    then
+        cp -rf ${DEPLOY_DIR}/licenses ${IMAGE_ROOTFS}/
+    fi
 }
