@@ -17,6 +17,8 @@ SYSFW_PREFIX:j784s4-evm = "fs"
 SYSFW_PREFIX:j784s4-evm-k3r5 = "fs"
 SYSFW_PREFIX:j784s4-hs-evm = "fs"
 SYSFW_PREFIX:j784s4-hs-evm-k3r5 = "fs"
+SYSFW_PREFIX:am62axx-evm = "fs"
+SYSFW_PREFIX:am62axx-evm-k3r5 = "fs"
 
 SYSFW_SOC ?= "unknown"
 
