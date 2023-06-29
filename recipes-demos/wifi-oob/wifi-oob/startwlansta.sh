@@ -17,7 +17,7 @@ print (config.get('$section','$param'));
 filename=/usr/share/intel9260/wificfg
 defapname=J7SK-AP
 
-interfaceState=$(ip a s | grep -nr "wlp1s0")
+interfaceState=$(ip a s | grep -nr "w*p1s0")
 
 if [ -z "$interfaceState" ]; then
  exit
@@ -46,6 +46,14 @@ if [ -z "$WIFINAME" ] ; then
 fi
 
 sleep 5
+
+### add WLAN interface, if not present
+if [ ! -d /sys/class/net/$WLAN ]
+then
+  echo "adding $WLAN interface"
+  iw phy `ls /sys/class/ieee80211/` interface add $WLAN type managed
+fi
+
 ifconfig wlp1s0 up
 
 sleep 1

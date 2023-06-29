@@ -17,7 +17,7 @@ print (config.get('$section','$param'));
 filename=/usr/share/intel9260/wificfg
 defapname=J7SK-AP
 
-interfaceState=$(ip a s | grep -nr "wlp1s0")
+interfaceState=$(ip a s | grep -nr "w*p1s0")
 
 if [ -z "$interfaceState" ]; then
  exit
@@ -35,11 +35,11 @@ cd /usr/share/intel9260
 ./load_wlcore.sh
 sleep 1
 
-a3=$(iw wlp1s0 info | grep "addr" | awk '{split($0,a,":"); print a[3]}')
+a3=$(iw w*p1s0 info | grep "addr" | awk '{split($0,a,":"); print a[3]}')
 
-a4=$(iw wlp1s0 info | grep "addr" | awk '{split($0,a,":"); print a[4]}')
+a4=$(iw w*p1s0 info | grep "addr" | awk '{split($0,a,":"); print a[4]}')
 
-a5=$(iw wlp1s0 info | grep "addr" | awk '{split($0,a,":"); print a[5]}')
+a5=$(iw w*p1s0 info | grep "addr" | awk '{split($0,a,":"); print a[5]}')
 
 apname="${defapname}_${a3}${a4}${a5}"
 
