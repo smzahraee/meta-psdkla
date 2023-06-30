@@ -12,3 +12,7 @@ IMAGE_BOOT_FILES:j784s4 = "tispl.bin u-boot.img uEnv.txt tiboot3-j784s4-hs-fs-ev
 RDEPENDS:${KERNEL_PACKAGE_NAME}-base:remove:j721s2 = "ti-eth-fw"
 RDEPENDS:${KERNEL_PACKAGE_NAME}-base:remove:j784s4 = "ti-eth-fw"
 
+# Update defaults in prebuilt-images in bundle
+SYSFW_SUFFIX:pn-tisdk-core-bundle:j721s2 = "hs-fs"
+SYSFW_SUFFIX:pn-tisdk-core-bundle:j784s4 = "hs-fs"
+
