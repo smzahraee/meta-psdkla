@@ -31,29 +31,10 @@ SYSFW_SOC:am62axx = "am62ax"
 SYSFW_SUFFIX ?= "gp"
 SYSFW_SUFFIX:am62axx = "hs-fs"
 
-SW_MANIFEST_FILE = "${IMAGE_ROOTFS}/manifest/software_manifest.htm"
-SW_MANIFEST_TEXT = "${IMAGE_ROOTFS}/manifest/software_manifest.txt"
 PREBUILT_DIR = "${IMAGE_ROOTFS}/board-support/prebuilt-images"
 
-tisdk_image_build:prepend() {
-    if [ ! -d ${IMAGE_ROOTFS}/manifest ]
-    then
-        mkdir -p ${IMAGE_ROOTFS}/manifest
-    fi
-    if [ ! -d ${PREBUILT_DIR} ]
-    then
-        mkdir -p ${PREBUILT_DIR}
-    fi
-}
 
 tisdk_image_build:append() {
-    # Copy the licenses directory in the $DEPLOY_DIR to capture all
-    # the licenses that were used in the build.
-    if [ -d ${DEPLOY_DIR}/licenses ]
-    then
-        cp -rf ${DEPLOY_DIR}/licenses ${IMAGE_ROOTFS}/
-    fi
-
     # Add ti-sysfw, ti-dm needed by binman builds for u-boot
     if [ -d "${DEPLOY_DIR_IMAGE}/ti-sysfw" ]
     then
