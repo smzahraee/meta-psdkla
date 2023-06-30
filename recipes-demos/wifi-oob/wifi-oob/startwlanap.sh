@@ -35,11 +35,13 @@ cd /usr/share/intel9260
 ./load_wlcore.sh
 sleep 1
 
-a3=$(iw w*p1s0 info | grep "addr" | awk '{split($0,a,":"); print a[3]}')
+WLAN=$(ifconfig -a | grep -i "wlP" | awk -F '[: ]' '{print $1}')
 
-a4=$(iw w*p1s0 info | grep "addr" | awk '{split($0,a,":"); print a[4]}')
+a3=$(iw $WLAN info | grep "addr" | awk '{split($0,a,":"); print a[3]}')
 
-a5=$(iw w*p1s0 info | grep "addr" | awk '{split($0,a,":"); print a[5]}')
+a4=$(iw $WLAN info | grep "addr" | awk '{split($0,a,":"); print a[4]}')
+
+a5=$(iw $WLAN info | grep "addr" | awk '{split($0,a,":"); print a[5]}')
 
 apname="${defapname}_${a3}${a4}${a5}"
 
