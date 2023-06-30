@@ -48,6 +48,7 @@ fi
 sleep 5
 
 ### add WLAN interface, if not present
+WLAN=wlp1s0
 if [ ! -d /sys/class/net/$WLAN ]
 then
   echo "adding $WLAN interface"
