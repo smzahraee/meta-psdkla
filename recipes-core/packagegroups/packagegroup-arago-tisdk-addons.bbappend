@@ -32,6 +32,3 @@ UTILS:append:j784s4 = " \
     ${PSDK_UTILS} \
 "
 
-UTILS:append:j7200 = " \
-    ti-eth-fw \
-"
