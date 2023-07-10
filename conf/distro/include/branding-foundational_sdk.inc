@@ -16,3 +16,7 @@ RDEPENDS:${KERNEL_PACKAGE_NAME}-base:remove:j784s4 = "ti-eth-fw"
 SYSFW_SUFFIX:pn-tisdk-core-bundle:j721s2 = "hs-fs"
 SYSFW_SUFFIX:pn-tisdk-core-bundle:j784s4 = "hs-fs"
 
+# Add demos relevant to foundational SDK for am68-sk, am69-sk to tisdk-default-image
+IMAGE_INSTALL:append:pn-tisdk-default-image:j721s2 = " ti-apps-launcher"
+IMAGE_INSTALL:append:pn-tisdk-default-image:j784s4 = " ti-apps-launcher"
+
