@@ -1,7 +1,8 @@
-PR:append = "_psdkla_21"
+PR:append = "_psdkla_22"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = "tisdk-bootstrap-image"
+TARGET_IMAGE_TYPES = "tar.xz"
 
 DEPLOY_IMAGES_NAME:append = " Image fitImage fitImage-its-${MACHINE}"
 
