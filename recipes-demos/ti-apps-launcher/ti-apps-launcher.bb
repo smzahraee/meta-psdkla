@@ -14,7 +14,7 @@ DEPENDS = "qtbase qtquick3d qtmultimedia"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash"
 
 BRANCH = "master"
-SRCREV = "46dbb3aae18728c630752301499c7309be326cfd"
+SRCREV = "a9064a2513ffe0c6536c38c5feb059c6113490ca"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -50,7 +50,7 @@ do_install:append() {
     install -m 0755 ti-apps-launcher ${D}${bindir}/ti-apps-launcher
 
     install -d ${D}/opt
-    install -m 0755 ${S}/scripts/setup_cameras.sh ${D}/opt/ti-apps-launcher/
+    install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
 
     install -d ${D}${sysconfdir}/systemd/system
     install -m 0755 ${WORKDIR}/ti-apps-launcher.service ${D}${sysconfdir}/systemd/system/ti-apps-launcher.service
