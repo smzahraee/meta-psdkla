@@ -15,7 +15,7 @@ Environment=XDG_RUNTIME_DIR=/run/user/1000
 Environment=QT_QPA_PLATFORM=wayland
 Environment=WAYLAND_DISPLAY=/run/wayland-0
 EnvironmentFile=/etc/environment
-ExecStart=/bin/sh -c '. /opt/edgeai-gst-apps/init_script.sh ; /usr/bin/ti-apps-launcher'
+ExecStart=/bin/sh -c '/usr/bin/ti-apps-launcher'
 
 # The user to run Weston as.
 User=root
