@@ -2,7 +2,7 @@
 Description=startwlanap
 
 [Service]
-Type=oneshot
+Type=idle
 Restart=no
 TimeoutSec=5min
 IgnoreSIGPIPE=no
