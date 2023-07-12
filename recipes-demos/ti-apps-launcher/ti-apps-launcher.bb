@@ -1,4 +1,4 @@
-PR = "r6"
+PR = "r7"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -11,7 +11,7 @@ LICENSE = "TI-TSPA"
 LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TSPA;md5=bb6bc27cd44417c389a180bd62f552a0"
 
 DEPENDS = "qtbase qtquick3d qtmultimedia"
-RDEPENDS:${PN} = "qtquick3d qtmultimedia bash"
+RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-browser seva-launcher"
 
 BRANCH = "master"
 SRCREV = "a9064a2513ffe0c6536c38c5feb059c6113490ca"

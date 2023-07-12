@@ -4,7 +4,7 @@ SUMMARY = "Seva Launcher Golang Binary"
 LICENSE = "TI-TSPA"
 LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TSPA;md5=bb6bc27cd44417c389a180bd62f552a0"
 
-COMPATIBLE_MACHINE = "am62xx"
+COMPATIBLE_MACHINE = "k3"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 PV = "v1.0.1"
