@@ -31,6 +31,8 @@ SYSFW_SOC:am62axx = "am62ax"
 
 SYSFW_SUFFIX ?= "gp"
 SYSFW_SUFFIX:am62axx = "hs-fs"
+SYSFW_SUFFIX:j721s2:sk = "hs-fs"
+SYSFW_SUFFIX:j784s4:sk = "hs-fs"
 
 PREBUILT_DIR = "${IMAGE_ROOTFS}/board-support/prebuilt-images"
 
