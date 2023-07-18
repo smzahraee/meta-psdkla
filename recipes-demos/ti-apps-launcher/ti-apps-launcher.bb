@@ -14,7 +14,7 @@ DEPENDS = "qtbase qtquick3d qtmultimedia"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-browser seva-launcher"
 
 BRANCH = "master"
-SRCREV = "abcac3d726896fd493f8902c06a725a69ecb85fa"
+SRCREV = "ba8d376ec5d78062754a0fde339f3660fec56388"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
