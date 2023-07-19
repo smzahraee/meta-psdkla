@@ -1,4 +1,7 @@
-PR:append = "_psdkla_22"
+PR:append = "_psdkla_23"
+
+# Fix for sw_manifest generation logic:
+require tisdk-manifest-update.inc
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = "tisdk-bootstrap-image"
