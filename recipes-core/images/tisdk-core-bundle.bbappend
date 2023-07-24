@@ -5,7 +5,7 @@ require tisdk-manifest-update.inc
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = "tisdk-bootstrap-image"
-TARGET_IMAGE_TYPES = "tar.xz"
+TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap"
 
 DEPLOY_IMAGES_NAME:append = " Image fitImage fitImage-its-${MACHINE}"
 
