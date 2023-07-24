@@ -1,4 +1,4 @@
-PR = "r7"
+PR = "r8"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -19,6 +19,7 @@ SRCREV = "486a5bda1a15c482372ddd1433d51691b1d6b200"
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
     file://ti-apps-launcher.service \
+    file://am6x_oob_demo_home_image.png \
 "
 
 S = "${WORKDIR}/git"
@@ -49,8 +50,9 @@ do_install:append() {
     install -d ${D}${bindir}
     install -m 0755 ti-apps-launcher ${D}${bindir}/ti-apps-launcher
 
-    install -d ${D}/opt
+    install -d ${D}/opt/ti-apps-launcher
     install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
+    install -m 0644 ${WORKDIR}/am6x_oob_demo_home_image.png ${D}/opt/ti-apps-launcher/
 
     install -d ${D}${sysconfdir}/systemd/system
     install -m 0755 ${WORKDIR}/ti-apps-launcher.service ${D}${sysconfdir}/systemd/system/ti-apps-launcher.service
