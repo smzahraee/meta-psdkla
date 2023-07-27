@@ -1,6 +1,6 @@
 DESCRIPTION = "Task to install sources for the BSP, out of tree drivers, and additional utilities/demos for SDKs"
 LICENSE = "MIT"
-PR = "r0"
+PR = "r1"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -32,4 +32,6 @@ RDEPENDS:${PN} = "\
      ${GRAPHICS_RDEPENDS} \
      ${CRYPTO_RDEPENDS} \
      ${UTILS} \
+     optee-os-src \
+     trusted-firmware-a-src \
 "

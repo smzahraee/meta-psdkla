@@ -75,3 +75,13 @@ SRCIPK_PRESERVE_GIT:pn-cryptodev-module ?= "true"
 CREATE_SRCIPK:pn-ti-img-rogue-driver ?= "1"
 SRCIPK_INSTALL_DIR:pn-ti-img-rogue-driver ?= "board-support/extra-drivers/${PN}-${PV}"
 SRCIPK_PRESERVE_GIT:pn-ti-img-rogue-driver ?= "true"
+
+
+CREATE_SRCIPK:pn-optee-os ?= "1"
+SRCIPK_INSTALL_DIR:pn-optee-os ?= "board-support/${PN}-${PV}"
+SRCIPK_PRESERVE_GIT:pn-optee-os ?= "true"
+
+CREATE_SRCIPK:pn-trusted-firmware-a ?= "1"
+SRCIPK_INSTALL_DIR:pn-trusted-firmware-a ?= "board-support/${PN}-${PV}"
+SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
+
