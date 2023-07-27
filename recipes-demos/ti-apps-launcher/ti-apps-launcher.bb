@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TSPA;m
 DEPENDS = "qtbase qtquick3d qtmultimedia"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-browser seva-launcher"
 
-BRANCH = "master"
+BRANCH = "master_jacinto"
 SRCREV = "486a5bda1a15c482372ddd1433d51691b1d6b200"
 
 SRC_URI = " \
